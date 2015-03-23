@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>SGPA</title>
+    <!-- Le styles -->
+    <link href="/media/bootstrap/css/bootstrap.css" rel="stylesheet">
+     <link href="/media/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="/media/js/jquery.js"></script>
+    <script src="/media/js/jquery.form.min.js"></script>
+    <script src="/media/js/SGPA.js"></script>
+    <script src="/media/bootstrap/js/bootstrap.js"></script>
+    <style type="text/css">
+      body {
+	background-color: #330099;
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <script type="text/javascript">
+        $(document).on('ready',function(){
+              $.ajax({
+                  type:"GET",
+                  contentType:"application/json; charset=utf-8",
+                  dateType:"json",
+                  url:"/ws/productos/",
+                  success:function(response){
+                          var i = (response.length-1)-2;
+                          for(i;i<=(response.length-1);i++){
+                              $('#ProductosNuevos').append("<li>"+response[i].fields.nombre+"</li>");
+                          }    
+                  }
+              });
+        });
+    </script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+	<p class="navbar-text pull-left">
+        <div class="container-fluid">
+          <strong><a class="brand" href= '/'><span style="color:#FFFFFF">Inicio </a></strong>
+             {% if user.is_authenticated %}
+		      <p class="navbar-text pull-right">
+		        <strong>Usted ha ingresado como, "{{ user.username }}" |
+		        <a href='/logout'><span style="color:#FFFFFF">Logout</a> | </strong>
+			
+		      </p>
+		     {% else %}
+	              <p class="navbar-text pull-right">
+		      <strong><a href='/login'><span style="color:#FFFFFF">Login</a></strong>
+		      </p>
+		     {% endif %}        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span9">
+          <div class="hero-unit">
+            {% block content %}
+            {% endblock%}
+          </div>
+        </div><!--/span-->
+        {% if user.is_authenticated %}
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              {%if user.is_authenticated %}
+		<li class="nav-header">Perfil del Usuario</li>
+                <p align="center">
+                <p>Bienvenido Usuario<strong>"{{ user }}"</strong></p>
+                <img src="{{get_image_profile}}" width="50px" heigth="50px"/>	
+              {% endif %}
+              </p>
+            </ul>
+          </div><!--/.well -->
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header"></li>
+              <br><p align="justify">
+              </p>
+            </ul>
+          </div><!--/.well -->
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list" id="ProductosNuevos">
+              <li class="nav-header"></li>
+              
+            </ul>
+          </div><!--/.well -->
+           <!--/<img src="/media/images/django.gif"/>-->
+	{% endif %}
+        </div><!--/span-->
+
+      </div><!--/row-->
+      <hr>
+      <footer><span style="color:#FFFFFF">
+        <strong><P ALIGN=right>&copy; SGPA - 2015. Versión Django: {{django_version}}</P></strong> 
+      </footer>
+    </div><!--/.fluid-container-->
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
+</html>

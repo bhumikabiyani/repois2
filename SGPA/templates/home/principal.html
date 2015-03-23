@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<center><font face="Comic Sans MS"><strong><h2>S.G.P.A</h2></strong></font></center>
+<center><font face="Comic Sans MS"><strong><h3> INICIO DE SESIÓN</h3></strong></font></center><br>
+<center><form action="." method="POST">
+	{% csrf_token %}
+	{{ mensaje }}
+	{{ form.as_p }}
+		<input type="hidden" value="/" name="next">
+	        <button class="btn btn-primary" type="submit"><strong> Entrar </strong></button>
+	        <br><br><h5>¿Olvidaste tu contraseña?<br><a href="/registro/"> Ingresa Aqui</a></h5>
+</form></center>
+{% endblock %}
