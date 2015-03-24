@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'SGPA.apps.home',
+    'SGPA.apps.usuario',
 )
 
 MIDDLEWARE_CLASSES = (
