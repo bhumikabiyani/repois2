@@ -42,18 +42,18 @@
       <div class="navbar-inner">
 	<p class="navbar-text pull-left">
         <div class="container-fluid">
-          <strong><a class="brand" href= '/'><span style="color:#FFFFFF"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Inicio </a></strong>
+          <strong><a class="brand" href= '/'><span style="color:#FFFFFF"></span> Inicio </a></strong>
              {% if user.is_authenticated %}
 		      <p class="navbar-text pull-right">
 		        <strong>Usted ha ingresado como, "{{ user.username }}" |
-		        <a href='/logout'><span style="color:#FFFFFF">Logout</a> | </strong>
+		        <a href='/logout'><span style="color:#FFFFFF">Cerrar</a> | </strong>
 		      </p>
                      <ul class="nav">
-                     <li><a href='/'>Administración de Usuarios</a></li>
-                     <li><a href='/'>Administracion de Roles</a></li>
+                     <li><a href='usuario/adminU'>Administración de Usuarios</a></li>
+                     <li><a href='/roles/admin'>Administracion de Roles</a></li>
 		     {% else %}          
 	              <p class="navbar-text pull-right">
-		      <strong><a href='/login'><span style="color:#FFFFFF">Login</a></strong>
+		      <strong><a href='/login'><span style="color:#FFFFFF">Iniciar</a></strong>
 		      </p>
 		     {% endif %}        </div>
       </div>
