@@ -42,14 +42,16 @@
       <div class="navbar-inner">
 	<p class="navbar-text pull-left">
         <div class="container-fluid">
-          <strong><a class="brand" href= '/'><span style="color:#FFFFFF">Inicio </a></strong>
+          <strong><a class="brand" href= '/'><span style="color:#FFFFFF"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Inicio </a></strong>
              {% if user.is_authenticated %}
 		      <p class="navbar-text pull-right">
 		        <strong>Usted ha ingresado como, "{{ user.username }}" |
 		        <a href='/logout'><span style="color:#FFFFFF">Logout</a> | </strong>
-			
 		      </p>
-		     {% else %}
+                     <ul class="nav">
+                     <li><a href='/'>Administración de Usuarios</a></li>
+                     <li><a href='/'>Administracion de Roles</a></li>
+		     {% else %}          
 	              <p class="navbar-text pull-right">
 		      <strong><a href='/login'><span style="color:#FFFFFF">Login</a></strong>
 		      </p>
@@ -65,11 +67,10 @@
             {% endblock%}
           </div>
         </div><!--/span-->
-        {% if user.is_authenticated %}
+	{%if user.is_authenticated %}
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              {%if user.is_authenticated %}
 		<li class="nav-header">Perfil del Usuario</li>
                 <p align="center">
                 <p>Bienvenido Usuario<strong>"{{ user }}"</strong></p>
@@ -78,27 +79,12 @@
               </p>
             </ul>
           </div><!--/.well -->
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header"></li>
-              <br><p align="justify">
-              </p>
-            </ul>
-          </div><!--/.well -->
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list" id="ProductosNuevos">
-              <li class="nav-header"></li>
-              
-            </ul>
-          </div><!--/.well -->
-           <!--/<img src="/media/images/django.gif"/>-->
-	{% endif %}
         </div><!--/span-->
 
       </div><!--/row-->
       <hr>
       <footer><span style="color:#FFFFFF">
-        <strong><P ALIGN=right>&copy; SGPA - 201555. Versión Django: {{django_version}}</P></strong>
+        <strong><P ALIGN=right>&copy; SGPA - 2015. Versión Django: {{django_version}}</P></strong>
       </footer>
     </div><!--/.fluid-container-->
     <!-- Le javascript

@@ -41,8 +41,3 @@ def login_view(request):
 def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect('/')
-
-#def principal_view(request):
-#	logout(request)
-#	return render_to_response('home/principal.html')
-
