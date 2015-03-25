@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models import Q
+from SGPA.apps.usuario.models import *
+from SGPA.apps.usuario.helper import *
+import datetime
 
 class UsuariosForm(forms.Form):
 	username = forms.CharField(label="USUARIO",widget=forms.TextInput())
@@ -33,3 +37,14 @@ class UsuariosForm(forms.Form):
 			pass
 		else:
 			raise forms.ValidationError('Contraseñas no coinciden')
+
+class FilterForm(forms.Form):
+    filtro = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
+    paginas = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
+
+class FilterForm2(forms.Form):
+    filtro1 = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
+    paginas1 = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
+    filtro2 = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
+    paginas2 = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
+

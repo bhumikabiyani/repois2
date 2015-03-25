@@ -49,7 +49,7 @@
 		        <a href='/logout'><span style="color:#FFFFFF">Cerrar</a> | </strong>
 		      </p>
                      <ul class="nav">
-                     <li><a href='usuario/adminU'>Administración de Usuarios</a></li>
+                     <li><a href='/admin'>Administración de Usuarios</a></li>
                      <li><a href='/roles/admin'>Administracion de Roles</a></li>
 		     {% else %}          
 	              <p class="navbar-text pull-right">
@@ -58,29 +58,15 @@
 		     {% endif %}        </div>
       </div>
     </div>
-
+    
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span9">
+        <div class="span13">
           <div class="hero-unit">
             {% block content %}
             {% endblock%}
           </div>
         </div><!--/span-->
-	{%if user.is_authenticated %}
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-		<li class="nav-header">Perfil del Usuario</li>
-                <p align="center">
-                <p>Bienvenido Usuario<strong>"{{ user }}"</strong></p>
-                <img src="{{get_image_profile}}" width="50px" heigth="50px"/>	
-              {% endif %}
-              </p>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-
       </div><!--/row-->
       <hr>
       <footer><span style="color:#FFFFFF">

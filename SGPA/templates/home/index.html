@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block title %} Inicio - Bienvenidos {% endblock %}
-{% block content %} 
+{% block content %}
+<center>
+{%if user.is_authenticated %}
+	<font face="Comic Sans MS"><p>Bienvenido Usuario<strong>"{{ user }}"</strong></p></font><br>
+        <img src="{{get_image_profile}}" width="50px" heigth="50px"/>
+{% endif %}
+</center>
 <img src="/media/images/SGPA.jpg"width="300px" heigth="300px"/>
 <font face="Comic Sans MS"><strong>SISTEMA GERENCIADOR DE PROYECTOS AGILES</strong></font>
+<img src="/media/images/SGPA.jpg"width="300px" heigth="300px"/>
 {% endblock %}
