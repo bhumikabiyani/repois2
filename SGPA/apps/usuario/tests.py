@@ -1,19 +1,15 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.conf import settings
+import SGPA
 
+if not settings.configured:
+    settings.configure(SGPA.apps, DEBUG=True)
 
-import unittest
+class UserTestCase(TestCase):
+    def setUp(self):
+        User.objects.create(username="Jose")
 
-class SimplisticTest(unittest.TestCase):
-    def test(self):
-        self.assertTrue(True)
-
-if __name__ == '__main__':
-    unittest.main()
-
-class UseraddTest(unittest.TestCase):
-    def test(self):
-        u = User()
-        name = 'Jose'
-        u.username = 'Jose'
-        u.save
+    def test_user_add(self):
+        user = User.objects.get(name="Jose")
+        self.assertEqual(user.get_username,'Jose')

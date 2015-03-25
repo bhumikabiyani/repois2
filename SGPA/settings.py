@@ -63,10 +63,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'SGPA_db',
-	'USER': 'udesarrollo',
-	'PASSWORD': '12345',
-	'HOST': 'localhost',
-	'PORT': '5432',
+	    'USER': 'udesarrollo',
+	    'PASSWORD': '12345',
+	    'HOST': 'localhost',
+	    'PORT': '5432',
     }
 }
 
