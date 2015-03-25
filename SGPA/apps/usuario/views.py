@@ -32,7 +32,7 @@ def crearUsuario_view(request):
 			email = form.cleaned_data['email']
 			password_one = form.cleaned_data['password_one']
 			password_two = form.cleaned_data['password_two']
-			u = User.objects.create_user(username=username,email=email,password=password_one)
+			u = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email,password=password_one)
 			u.save() # Guardar el objeto
 			return HttpResponseRedirect("/admin")
 			#return render_to_response('usuario/usuarios.html',context_instance=RequestContext(request))
