@@ -97,3 +97,44 @@ def admin_usuarios(request):
                                                                'lista':lista,
                                                                'user':user})
 
+@login_required
+def mod_user(request, usuario_id):
+    """Modifica los datos de un usuario."""
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos----------------------------------------------
+
+    #--------------------------------------------------------------------
+    usuario = get_object_or_404(User, id=usuario_id)
+    if request.method == 'POST':
+        form = ModUsuariosForm(request.POST)
+        if form.is_valid():
+            usuario.first_name = form.cleaned_data['first_name']
+            usuario.last_name = form.cleaned_data['last_name']
+            usuario.email = form.cleaned_data['email']
+            usuario.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = ModUsuariosForm(initial={'first_name':usuario.first_name, 'last_name': usuario.last_name,'email':usuario.email})
+    return render_to_response('usuario/mod_usuario.html',{'form':form, 
+                                                                 'user':user, 
+                                                                 'usuario':usuario, 
+                                                                 'mod_usuario': 'Modificar usuario'
+							})
+
+@login_required
+def borrar_usuario(request, usuario_id):
+    """Borra un usuario, comprobando las dependencias primero"""
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos----------------------------------------------
+    usuario = get_object_or_404(User, id=usuario_id)
+    #comprobar si el usuario esta asociado a algun proyecto como lider
+    if request.method == 'POST':
+        usuario.delete()
+        return HttpResponseRedirect("/")
+    else:
+        if usuario.id == 1:
+            error = "No se puede borrar al superusuario."
+            return render_to_response("usuario/user_confirm_delete.html", {'mensaje': error,'usuario':usuario, 'user': user})
+    return render_to_response("usuario/user_confirm_delete.html", {'usuario':usuario, 
+                                                                          'user':user})
+

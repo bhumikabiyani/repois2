@@ -48,3 +48,8 @@ class FilterForm2(forms.Form):
     filtro2 = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
     paginas2 = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
 
+class ModUsuariosForm(forms.Form):
+	first_name = forms.CharField(label="NOMBRE",widget=forms.TextInput())
+	last_name = forms.CharField(label="APELLIDO",widget=forms.TextInput())
+	email = forms.EmailField(label="CORREO ELECTRONICO",widget=forms.TextInput())
+
