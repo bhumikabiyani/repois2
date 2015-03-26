@@ -7,3 +7,5 @@ class LoginForm(forms.Form):
 	Contrasena = forms.CharField(widget=forms.PasswordInput(render_value=False))
 
 
+class RecuperarContrasenaForm(forms.Form):
+    Correo = forms.CharField(widget=forms.TextInput())
