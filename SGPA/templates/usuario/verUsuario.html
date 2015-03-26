@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Usuario{% endblock %}
+{%block content %}
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL USUARIO "{{ usuario.username }}" </h3></font></strong></center><br>
+<table class="table table-bordered">
+	      <thead>
+	        <tr>
+		     <th class="titulo"><b><strong>USUARIO</strong></b></th>
+	             <th class="titulo"><b><strong>NOMBRE</strong></b></th>
+	             <th class="titulo"><b><strong>APELLIDO</strong></b></th>
+		     <th class="titulo"><b><strong>EMAIL</strong></b></th>
+	             <th class="titulo"><b><strong>ACCIONES</strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+		 <tr>
+		      
+                          <td><strong>{{usuario.username}}</strong></td>
+                          <td><strong>{{usuario.first_name}}</strong></td>
+		          <td><strong>{{usuario.last_name}}</strong></td>
+			  <td><strong>{{usuario.email}}</strong></td>
+		       {% ifequal usuario.id 1 %}
+		          <td><strong>SUPERUSUARIO</strong></td>
+		       {% else %}
+		          {% ifnotequal usuario.username user.username %}
+		             <td>
+                                <a class="btn btn-primary" href="/"><strong>ELIMINAR</strong></a>
+				<a class="btn btn-primary" href="/modificar/mod&id={{usuario.id}}/"><strong>MODIFICAR</strong></a>  
+                             </td>
+		          {% endifnotequal %}
+		       {% endifequal %}
+	           </tr>
+		</tbody>
+	  </table>
+   </form>
+
+   <div class="footer">
+           <div class="volver">
+                <a class="btn btn-primary" href="/admin"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+          
+           </div>
+     </div>
+{% endblock %}

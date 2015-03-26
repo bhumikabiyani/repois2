@@ -112,7 +112,7 @@ def mod_user(request, usuario_id):
             usuario.last_name = form.cleaned_data['last_name']
             usuario.email = form.cleaned_data['email']
             usuario.save()
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/visualizar/ver&id=" + str(usuario_id))
     else:
         form = ModUsuariosForm(initial={'first_name':usuario.first_name, 'last_name': usuario.last_name,'email':usuario.email})
     return render_to_response('usuario/mod_usuario.html',{'form':form, 
@@ -150,3 +150,8 @@ def cambiar_password(request):
     else:
         form = CambiarPasswordForm()
     return render_to_response('usuario/cambiar_password.html', {'form': form, 'user': user})
+
+def visualizar_usuario(request, usuario_id):
+	usuario = User.objects.get(id=usuario_id)
+	ctx = {'usuario':usuario}
+	return render_to_response('usuario/verUsuario.html',ctx,context_instance=RequestContext(request))
