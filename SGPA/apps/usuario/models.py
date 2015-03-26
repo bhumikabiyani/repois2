@@ -30,15 +30,13 @@ STATUS_CHOICES = (
 LB_CHOICES = ( ('1','Abierta'), ('2','CERRADA'),)
 FASE_ESTADO = (('1','Abierta'),('2','CERRADA'),)
 class Permiso(models.Model):
-    nombre = models.CharField(unique=True, max_length = 50)
-    categoria = models.IntegerField(max_length=1, choices=CATEGORY_CHOICES)
+    descripcion = models.TextField(null=True, blank=True)
     
     def __unicode__(self):
         return self.nombre
 
 class Rol(models.Model):
     nombre = models.CharField(unique=True, max_length=50)
-    categoria = models.IntegerField(max_length=1, choices=CATEGORY_CHOICES)
     descripcion = models.TextField(null=True, blank=True)
     fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
     usuario_creador = models.ForeignKey(User, null=True)
@@ -46,6 +44,32 @@ class Rol(models.Model):
     
     def __unicode__(self):
         return self.nombre
+
+class RolPermiso(models.Model):
+    rol = models.ForeignKey(Rol)
+    permiso = models.ForeignKey(Permiso)
+    #fase = models.ForeignKey(Fase, null = True)
+
+
+class Proyecto(models.Model):
+    """Clase que representa un proyecto."""
+    nombre = models.CharField(unique=True, max_length=50)
+    # usuario_lider = models.ForeignKey(User)
+    # #fase = models.ForeignKey(Fase)
+    # descripcion = models.TextField(null=True, blank=True)
+    # fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    # fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    # cronograma = models.FileField(upload_to='cronogramas', null=True, blank=True)
+    # cantidad = models.IntegerField()
+    # cant_actual = models.IntegerField(null=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+class RolUsuarioProyecto(models.Model):
+    rol = models.ForeignKey(Rol)
+    user = models.ForeignKey(User)
+    proyecto = models.ForeignKey(Proyecto)
 
 #class Fase(models.Model):
  #   """Esta clase representa la fase del proyecto."""
@@ -60,20 +84,6 @@ class Rol(models.Model):
   #  permiso = models.ForeignKey(Permiso)
   #  fase = models.ForeignKey(Fase, null = True)
 
-class Proyecto(models.Model):
-    """Clase que representa un proyecto."""
-    nombre = models.CharField(unique=True, max_length=50)
-    usuario_lider = models.ForeignKey(User)
-    #fase = models.ForeignKey(Fase)
-    descripcion = models.TextField(null=True, blank=True)
-    fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    cronograma = models.FileField(upload_to='cronogramas', null=True, blank=True)
-    cantidad = models.IntegerField()
-    cant_actual = models.IntegerField(null=True)
-    
-    def __unicode__(self):
-        return self.nombre
     
 #class Fase(models.Model):
  #   """Esta clase representa la fase del proyecto."""
@@ -85,11 +95,6 @@ class Proyecto(models.Model):
     #estado = models.CharField(max_length=50)
     #def __unicode__(self):
      #   return self.nombre
-
-class RolPermiso(models.Model):
-    rol = models.ForeignKey(Rol)
-    permiso = models.ForeignKey(Permiso)
-    #fase = models.ForeignKey(Fase, null = True)
 
 class TipoItem(models.Model):
     """"Esta clase representa a que tipo pertenece un item."""
