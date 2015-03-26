@@ -137,4 +137,16 @@ def borrar_usuario(request, usuario_id):
             return render_to_response("usuario/user_confirm_delete.html", {'mensaje': error,'usuario':usuario, 'user': user})
     return render_to_response("usuario/user_confirm_delete.html", {'usuario':usuario, 
                                                                           'user':user})
-
+@login_required
+def cambiar_password(request):
+    """Cambia la contrasena del usuario logueado"""
+    user = User.objects.get(username=request.user.username)
+    if request.method == 'POST':
+        form = CambiarPasswordForm(request.POST)
+        if form.is_valid():
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = CambiarPasswordForm()
+    return render_to_response('usuario/cambiar_password.html', {'form': form, 'user': user})
