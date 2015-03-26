@@ -15,13 +15,14 @@
 		<table class="table table-bordered">
 	      <thead>
 	        <tr>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">LISTA DE USUARIOS</font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>LISTA DE USUARIOS</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 	      {%for i in pag.object_list%}
 		   <tr>
-                          <td><a href="/"><strong><span style="color:#6666FF">*</span>&nbsp;&nbsp;<span style="color:#111111">{{i.username}}</span></strong></td>
+                          <td><strong><span style="color:#111111">{{i.username}}</span></strong></td>
+		          <td><a class="btn btn-primary" href="/visualizar/ver&id={{i.id}}/"><strong> VER </strong></a>
 	           </tr>
 	    {% endfor %}
             </tbody>
@@ -29,7 +30,7 @@
    </form>
 
 <a colspan="3">
-                    <br><strong><span style="color:#111111"><h4>Página {{ pag.number }} de {{ pag.paginator.num_pages }}</h4><strong><br>
+                    <strong><span style="color:#111111"><h4>Página {{ pag.number }} de {{ pag.paginator.num_pages }}</h4><strong><br>
                     {% if pag.has_previous %}
                        <a class="btn btn-primary" href="?page={{ pag.previous_page_number }}"><strong>&nbsp;&nbsp;ANTERIOR </strong></a>
                     {% endif %}
