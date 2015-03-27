@@ -11,7 +11,8 @@
 		     <th class="titulo"><b><strong><span style="color:#330099">USUARIO</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">APELLIDO</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">EMAIL</strong></b></th>
+		         <th class="titulo"><b><strong><span style="color:#330099">EMAIL</strong></b></th>
+                 <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th>
 	        </tr>
 	      </thead>
@@ -22,18 +23,23 @@
                           <td><strong>{{usuario.first_name}}</strong></td>
 		          <td><strong>{{usuario.last_name}}</strong></td>
 			  <td><strong>{{usuario.email}}</strong></td>
+                <td><strong>{{usuario.is_active}}</strong></td>
 		       {% ifequal usuario.id 1 %}
 		          <td><strong>SUPERUSUARIO</strong></td>
 		       {% else %}
 		          {% ifnotequal usuario.username user.username %}
 		             <td>
+                         {% ifequal usuario.is_active True %}
 				{% if eliminar_usuario %}
                                 <a class="btn btn-primary" href="/"><strong>ELIMINAR</strong></a>
 				{% endif %}				
 				{% if mod_usuario %}
-				<a class="btn btn-primary" href="/modificar/mod&id={{usuario.id}}/"><strong>MODIFICAR</strong></a>  
-                            	{% endif %} 
-			    </td>
+				<a class="btn btn-primary" href="/modificar/mod&id={{usuario.id}}/"><strong>MODIFICAR</strong></a>
+                         {% endif %}
+                         {% else %}
+                         <a class="btn btn-primary" href="/activar/act&id={{usuario.id}}"><strong>ACTIVAR</strong></a>
+			        {% endifequal %}
+                     </td>
 		          {% endifnotequal %}
 		       {% endifequal %}
 	           </tr>

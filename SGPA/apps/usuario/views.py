@@ -20,6 +20,7 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.usuario.forms import *
 from SGPA.apps.usuario.models import *
 from SGPA.apps.usuario.helper import *
+from django.contrib import messages
 
 @login_required
 def crearUsuario_view(request):
@@ -143,6 +144,32 @@ def mod_user(request, usuario_id):
                                                           'usuario':usuario, 
                                                           'mod_usuario': 'Modificar usuario'
 							})
+
+@login_required
+def eliminar_usuario(request, usuario_id):
+    """
+    vista utilizada para dar de baja un usuario, baja logica
+    """
+    user = User.objects.get(id=usuario_id)
+    user.is_active = False
+    nombre = user.username
+    user.save()
+    messages.error(request, 'El usuario "' + nombre + '" ha sido eliminado')
+    return HttpResponseRedirect("/visualizar/ver&id=" + str(usuario_id))
+
+@login_required
+def activar_usuario(request, usuario_id):
+    """
+    vista utilizada para dar de baja un usuario, baja logica
+    """
+    user = User.objects.get(id=usuario_id)
+    user.is_active = True
+    nombre = user.username
+    user.save()
+    messages.error(request, 'El usuario "' + nombre + '" ha sido restablecido')
+    return HttpResponseRedirect("/visualizar/ver&id=" + str(usuario_id))
+
+
 
 @login_required
 def cambiar_password(request):
