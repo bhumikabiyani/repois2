@@ -2,7 +2,8 @@
 {% block title %}Usuarios{% endblock %}
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USUARIOS</h3></font></strong></center><br>
-   <form action="." method="POST">
+{% if ver_usuarios or crear_usuario %}   
+<form action="." method="POST">
          {% csrf_token %}
 
                     <p colspan="3">
@@ -22,7 +23,9 @@
 	      {%for i in pag.object_list%}
 		   <tr>
                           <td><strong><span style="color:#111111">{{i.username}}</span></strong></td>
+			  {% if ver_usuarios %}
 		          <td><a class="btn btn-primary" href="/visualizar/ver&id={{i.id}}/"><strong> VER </strong></a>
+			  {% endif %}
 	           </tr>
 	    {% endfor %}
             </tbody>
@@ -42,7 +45,12 @@
       <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/"><strong> VOLVER A LA PÁGINA PRINCIPAL</strong> </a>&nbsp;&nbsp;
-                <a class="btn btn-primary" href="/crear"><strong>CREAR NUEVO USUARIO </strong></a>
-           </div>
+		{% if crear_usuario %}                
+		<a class="btn btn-primary" href="/crear"><strong>CREAR NUEVO USUARIO </strong></a>
+        	{% endif %}   
+	</div>
      </div>
+{% else %}
+	<center><p><strong>NO TIENE PERMISO</strong></p></center>
+   {% endif %}
 {% endblock %}

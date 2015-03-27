@@ -21,25 +21,39 @@ from SGPA.apps.usuario.forms import *
 from SGPA.apps.usuario.models import *
 from SGPA.apps.usuario.helper import *
 
+@login_required
 def crearUsuario_view(request):
+	user = User.objects.get(username=request.user.username)
+	
+	roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    	permisos_obj = []
+    	for i in roles:
+        	permisos_obj.extend(i.rol.permisos.all())
+    	permisos = []
+    	for i in permisos_obj:
+        	permisos.append(i.nombre)
+	
 	form = UsuariosForm()
 	if request.method == "POST":
 		form = UsuariosForm(request.POST)
 		if form.is_valid():
 			username = form.cleaned_data['username']
-			first_name = form.cleaned_data['first_name']
-                        last_name = form.cleaned_data['last_name']
-			email = form.cleaned_data['email']
-			password_one = form.cleaned_data['password_one']
+            		first_name = form.cleaned_data['first_name']
+            		last_name = form.cleaned_data['last_name']
+            		email = form.cleaned_data['email']
+            		password_one = form.cleaned_data['password_one']
 			password_two = form.cleaned_data['password_two']
 			u = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email,password=password_one)
-			u.save() # Guardar el objeto
+			u.save()
 			return HttpResponseRedirect("/admin")
-			#return render_to_response('usuario/usuarios.html',context_instance=RequestContext(request))
 		else:
-			ctx = {'form':form}
+			ctx = {'form':form,
+                               'user':user,
+                               'crear_usuario': 'crear usuario' in permisos}
 			return 	render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
-	ctx = {'form':form}
+	ctx = {'form':form,
+               'user':user,
+               'crear_usuario': 'crear usuario' in permisos}
 	return render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
 
 def lista(request, tipo):
@@ -56,7 +70,7 @@ def admin_usuarios(request):
     """Administracion general de usuarios"""
     '''Ya esta la validacion de permisos en este'''
     user = User.objects.get(username=request.user.username)
-
+    permisos = get_permisos_sistema(user)
     lista = User.objects.all().order_by("id")
     if request.method == 'POST':
         form = FilterForm(request.POST)
@@ -77,7 +91,8 @@ def admin_usuarios(request):
             return render_to_response('usuario/usuarios.html',{'pag': pag,
                                                                'form': form,
                                                                'lista':lista,
-                                                               'user':user})
+                                                               'user':user,
+							       'ver_usuarios': 'ver usuarios' in permisos})
     else:
         try:
             page = int(request.GET.get('page', '1'))
@@ -95,15 +110,23 @@ def admin_usuarios(request):
     return render_to_response('usuario/usuarios.html',{ 'pag':pag,
                                                                'form': form,
                                                                'lista':lista,
-                                                               'user':user})
+                                                               'user':user,
+							       'ver_usuarios': 'ver usuarios' in permisos,
+							       'crear_usuario': 'crear usuario' in permisos,})
 
 @login_required
 def mod_user(request, usuario_id):
     """Modifica los datos de un usuario."""
     user = User.objects.get(username=request.user.username)
-    #Validacion de permisos----------------------------------------------
-
-    #--------------------------------------------------------------------
+    
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)  
+    
     usuario = get_object_or_404(User, id=usuario_id)
     if request.method == 'POST':
         form = ModUsuariosForm(request.POST)
@@ -116,27 +139,11 @@ def mod_user(request, usuario_id):
     else:
         form = ModUsuariosForm(initial={'first_name':usuario.first_name, 'last_name': usuario.last_name,'email':usuario.email})
     return render_to_response('usuario/mod_usuario.html',{'form':form, 
-                                                                 'user':user, 
-                                                                 'usuario':usuario, 
-                                                                 'mod_usuario': 'Modificar usuario'
+                                                          'user':user, 
+                                                          'usuario':usuario, 
+                                                          'mod_usuario': 'Modificar usuario'
 							})
 
-@login_required
-def borrar_usuario(request, usuario_id):
-    """Borra un usuario, comprobando las dependencias primero"""
-    user = User.objects.get(username=request.user.username)
-    #Validacion de permisos----------------------------------------------
-    usuario = get_object_or_404(User, id=usuario_id)
-    #comprobar si el usuario esta asociado a algun proyecto como lider
-    if request.method == 'POST':
-        usuario.delete()
-        return HttpResponseRedirect("/")
-    else:
-        if usuario.id == 1:
-            error = "No se puede borrar al superusuario."
-            return render_to_response("usuario/user_confirm_delete.html", {'mensaje': error,'usuario':usuario, 'user': user})
-    return render_to_response("usuario/user_confirm_delete.html", {'usuario':usuario, 
-                                                                          'user':user})
 @login_required
 def cambiar_password(request):
     """Cambia la contrasena del usuario logueado"""
@@ -153,5 +160,10 @@ def cambiar_password(request):
 
 def visualizar_usuario(request, usuario_id):
 	usuario = User.objects.get(id=usuario_id)
-	ctx = {'usuario':usuario}
+	permisos = get_permisos_sistema(usuario)
+	ctx = {'usuario':usuario,
+               'mod_usuario': 'modificar usuario' in permisos,
+               'eliminar_usuario': 'eliminar usuario' in permisos,
+               'asignar_roles': 'asignar rol' in permisos
+              }
 	return render_to_response('usuario/verUsuario.html',ctx,context_instance=RequestContext(request))

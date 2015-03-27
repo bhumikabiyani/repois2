@@ -2,6 +2,7 @@
 {% block title %} Modificar Usuario{% endblock %}
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> MODIFICAR USUARIO </h3></font></strong></center><br>
+{% if mod_usuario %}
 <form action="." method="POST">
 	{% csrf_token %}
 	<center><table>
@@ -10,4 +11,7 @@
 	<button class="btn btn-primary" type="submit"> GUARDAR </button>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/visualizar/ver&id={{usuario.id}}/' "/></center>
 </form>
+{% else %}
+	<center><p><strong><h4>NO POSEE PERMISOS</h4></strong></p><center>
+{% endif %}
 {% endblock%}

@@ -2,14 +2,17 @@
 {% block title %} Usuario{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL USUARIO "{{ usuario.username }}" </h3></font></strong></center><br>
+{% if mod_usuario or eliminar_usuario or asignar_roles%}
+<form action="." method="POST">
+         {% csrf_token %}
 <table class="table table-bordered">
 	      <thead>
 	        <tr>
-		     <th class="titulo"><b><strong>USUARIO</strong></b></th>
-	             <th class="titulo"><b><strong>NOMBRE</strong></b></th>
-	             <th class="titulo"><b><strong>APELLIDO</strong></b></th>
-		     <th class="titulo"><b><strong>EMAIL</strong></b></th>
-	             <th class="titulo"><b><strong>ACCIONES</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">USUARIO</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">APELLIDO</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">EMAIL</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
@@ -24,9 +27,13 @@
 		       {% else %}
 		          {% ifnotequal usuario.username user.username %}
 		             <td>
+				{% if eliminar_usuario %}
                                 <a class="btn btn-primary" href="/"><strong>ELIMINAR</strong></a>
+				{% endif %}				
+				{% if mod_usuario %}
 				<a class="btn btn-primary" href="/modificar/mod&id={{usuario.id}}/"><strong>MODIFICAR</strong></a>  
-                             </td>
+                            	{% endif %} 
+			    </td>
 		          {% endifnotequal %}
 		       {% endifequal %}
 	           </tr>
@@ -37,7 +44,9 @@
    <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/admin"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-          
            </div>
      </div>
+   {% else %}
+	<center><p><strong>NO TIENE PERMISO</strong></p></center>
+   {% endif %}
 {% endblock %}
