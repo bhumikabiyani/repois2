@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} Roles {% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE ROLES</h3></font></strong></center><br>
+   <div class="alert alert-info">
+     <ul><h3>
+            <center><button type="button"  class="btn btn-default" onClick ="location.href='/rolesSist'"><strong>ADMINISTRACIÓN DE ROLES DE SISTEMA</strong></button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button"  class="btn btn-default" onClick ="location.href='/rolesProy'"><strong>ADMINISTRACIÓN DE ROLES DE PROYECTO</strong></button>
+    </center> </ul></h3>
+   </div><br><br><br>
+   <div class="footer">
+        <div class="volver">
+                <a class="btn btn-primary" href="/"><strong> VOLVER A LA PÁGINA PRINCIPAL</strong> </a>&nbsp;&nbsp;
+                
+                   <a class="btn btn-primary" href="/crearRol"><strong>CREAR NUEVO ROL </strong></a>
+                
+        </div>
+   </div>
+
+{% endblock %}

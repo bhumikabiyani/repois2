@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Roles{% endblock %}
+{% block content %}
+{% ifequal rol.categoria 1 %}
+<center><strong><h2> ESTABLECIMIENTO DE PERMISOS A LOS ROLES DEL SISTEMA</h2></strong></center>
+{% else %}
+<center><strong> ESTABLECIMIENTO DE PERMISOS A LOS ROLES DE PROYECTO</strong></center>
+{% endifequal %}
+   {% ifequal rol.categoria 1 %}
+      <center>
+         <table class="abm">
+	    <form id="form_id" action="" method="POST">
+                  {% csrf_token %}
+                  {{ form.as_table }}
+	          <tr>
+                      <td class="buttonlist" colspan="2">
+                          <br><center>
+                                  <input type="submit" class= "btn btn-primary" value="ACEPTAR" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/rolesSist' "/>
+	                  </center>
+                      </td>
+	          </tr>
+	     </form>
+        </table>
+      </center>
+    {% else %}
+	<center>
+	<table class="abm">
+	    <form id="form_id" action="" method="POST">
+                  {% csrf_token %}
+                  {{ form.as_table }}
+	          <tr>
+                      <td class="buttonlist" colspan="2">
+                          <br><center>
+                                  <input type="submit" class= "btn btn-primary" value="ACEPTAR" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                  <input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/rolesProy' "/>
+	                  </center>
+                      </td>
+	          </tr>
+	     </form>
+        </table>
+	</center>     
+    {% endifequal %}
+{% endblock %}
+
