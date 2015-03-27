@@ -16,6 +16,8 @@ urlpatterns = patterns('SGPA.apps.usuario.views',
 	url(r'^crear/$','crearUsuario_view',name='vista_crearUsuario'),
 	url(r'^lista/(?P<tipo>\w+)/$', 'lista', name='vista_lista'),
 	url(r'^modificar/mod&id=(?P<usuario_id>\d+)/$','mod_user',name='vista_modUsuario'),
+    url(r'^eliminar/eli&id=(?P<usuario_id>\d+)/$','eliminar_usuario',name='vista_eliUsuario'),
+    url(r'^activar/act&id=(?P<usuario_id>\d+)/$','activar_usuario',name='vista_actUsuario'),
 	url(r'^borrar/del&id=(?P<usuario_id>\d+)/$','borrar_usuario',name='vista_delUsuario'),
 	url(r'^cambiarcontrasena/$','cambiar_password',name='vista_cambiarContrasena'),
 )
