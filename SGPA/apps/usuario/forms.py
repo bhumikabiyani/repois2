@@ -11,7 +11,7 @@ class UsuariosForm(forms.Form):
 	first_name = forms.CharField(label="NOMBRE",widget=forms.TextInput())
 	last_name = forms.CharField(label="APELLIDO",widget=forms.TextInput())
 	email    = forms.EmailField(label="CORREO ELECTRONICO",widget=forms.TextInput())
-	password_one = forms.CharField(label="CANTRASEÑA",widget=forms.PasswordInput(render_value=False))
+	password_one = forms.CharField(label="CONTRASEÑA",widget=forms.PasswordInput(render_value=False))
 	password_two = forms.CharField(label="CONFIRMAR CONTRASEÑA",widget=forms.PasswordInput(render_value=False))
 
 	def clean_username(self):

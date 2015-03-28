@@ -3,6 +3,7 @@ import base64
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Context
+from SGPA.apps.roles.forms import AsignarRolesForm
 from SGPA.apps.usuario.forms import UsuariosForm
 from django.core.mail import EmailMultiAlternatives # Enviamos HTML
 from django.contrib.auth.models import User
@@ -200,3 +201,40 @@ def visualizar_usuario(request, usuario_id):
 
 	
 	return render_to_response('usuario/verUsuario.html',ctx,context_instance=RequestContext(request))
+
+
+@login_required
+def asignar_roles_sistema(request, usuario_id):
+    """Asigna roles de sistema a un usuario"""
+    user = User.objects.get(username=request.user.username)
+    permisos = get_permisos_sistema(user)
+    usuario = get_object_or_404(User, id=usuario_id)
+    lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
+    print lista_roles
+    if request.method == 'POST':
+        form = AsignarRolesForm(1, request.POST)
+        if form.is_valid():
+            lista_nueva = form.cleaned_data['roles']
+            for i in lista_roles:
+                i.delete()
+            for i in lista_nueva:
+                nuevo = UsuarioRolSistema()
+                nuevo.usuario = usuario
+                nuevo.rol = i
+                nuevo.save()
+            return HttpResponseRedirect("/visualizar/ver&id=" + str(usuario_id))
+    else:
+        if usuario.id == 1:
+            error = "No se puede editar roles sobre el superusuario."
+            return render_to_response("usuario/asignar_roles.html", {'mensaje': error,
+                                                                            'usuario':usuario,
+                                                                            'user': user,
+                                                                            'asignar_rol': 'asignar rol' in permisos
+							          })
+        dict = {}
+        for i in lista_roles:
+            print i.rol
+            dict[i.rol.id] = True
+        form = AsignarRolesForm(1,initial = {'roles': dict})
+    return render_to_response("usuario/asignar_roles.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
+})

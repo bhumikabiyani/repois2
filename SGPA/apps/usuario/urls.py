@@ -20,5 +20,6 @@ urlpatterns = patterns('SGPA.apps.usuario.views',
     url(r'^activar/act&id=(?P<usuario_id>\d+)/$','activar_usuario',name='vista_actUsuario'),
 	url(r'^borrar/del&id=(?P<usuario_id>\d+)/$','borrar_usuario',name='vista_delUsuario'),
 	url(r'^cambiarcontrasena/$','cambiar_password',name='vista_cambiarContrasena'),
+    url(r'^asignarRol/rol&id=(?P<usuario_id>\d+)/$','asignar_roles_sistema',name='vista_asignarRol')
 )
 
