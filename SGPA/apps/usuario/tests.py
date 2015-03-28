@@ -4,8 +4,8 @@ from django.test import RequestFactory
 from SGPA.apps.usuario.views import *
 from django.contrib.messages.storage.fallback import FallbackStorage
 import unittest
-# import django
-# django.setup()
+import django
+django.setup()
 
 class UserTestCase(TestCase):
     def setUp(self):
