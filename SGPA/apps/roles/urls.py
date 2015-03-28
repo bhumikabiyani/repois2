@@ -17,6 +17,7 @@ urlpatterns = patterns('SGPA.apps.roles.views',
 	url(r'^verRol/ver&id=(?P<rol_id>\d+)/$', 'visualizar_roles', name='vista_roles'),
 	url(r'^crearRol/$','crear_rol',name='vista_crearRol'),
 	url(r'^modificarRol/mod&id=(?P<rol_id>\d+)/$','mod_rol',name='vista_modRol'),
+	url(r'^eliminarRol/del&id=(?P<rol_id>\d+)/$','borrar_rol',name='vista_delRol'),
 	url(r'^roles/permisos&id=(?P<rol_id>\d+)/$','admin_permisos',name='vista_permisos')
 )
 

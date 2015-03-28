@@ -2,9 +2,10 @@
 {% block title %} Usuario{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL USUARIO "{{ usuario.username }}" </h3></font></strong></center><br>
-{% if mod_usuario or eliminar_usuario or asignar_roles%}
+{% if ver_usuarios or crear_usuario or mod_usuario or eliminar_usuario or asignar_rol%}
 <form action="." method="POST">
          {% csrf_token %}
+
 <table class="table table-bordered">
 	      <thead>
 	        <tr>
@@ -31,10 +32,10 @@
 		             <td>
                          {% ifequal usuario.is_active True %}
 				{% if eliminar_usuario %}
-                                <a class="btn btn-primary" href="/"><strong>ELIMINAR</strong></a>
+                                <a class="btn btn-primary" href="/eliminar/eli&id={{usuario.id}}"><strong>ELIMINAR</strong></a>
 				{% endif %}				
 				{% if mod_usuario %}
-				<a class="btn btn-primary" href="/modificar/mod&id={{usuario.id}}/"><strong>MODIFICAR</strong></a>
+				<a class="btn btn-primary" href="/modificar/mod&id={{usuario.id}}"><strong>MODIFICAR</strong></a>
                          {% endif %}
                          {% else %}
                          <a class="btn btn-primary" href="/activar/act&id={{usuario.id}}"><strong>ACTIVAR</strong></a>
@@ -52,7 +53,7 @@
                 <a class="btn btn-primary" href="/admin"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
            </div>
      </div>
-   {% else %}
-	<center><p><strong>NO TIENE PERMISO</strong></p></center>
-   {% endif %}
-{% endblock %}
+{% else %}
+	<br><center><p><strong>NO POSEE PERMISOS</strong></p><center>
+{% endif %}
+{% endblock%}

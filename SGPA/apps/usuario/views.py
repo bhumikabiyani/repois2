@@ -25,7 +25,6 @@ from django.contrib import messages
 @login_required
 def crearUsuario_view(request):
 	user = User.objects.get(username=request.user.username)
-	
 	roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
     	permisos_obj = []
     	for i in roles:
@@ -93,7 +92,8 @@ def admin_usuarios(request):
                                                                'form': form,
                                                                'lista':lista,
                                                                'user':user,
-							       'ver_usuarios': 'ver usuarios' in permisos})
+							       'ver_usuarios': 'ver usuarios' in permisos,
+							       'crear_usuario': 'crear usuario' in permisos,})
     else:
         try:
             page = int(request.GET.get('page', '1'))
@@ -187,10 +187,16 @@ def cambiar_password(request):
 
 def visualizar_usuario(request, usuario_id):
 	usuario = User.objects.get(id=usuario_id)
-	permisos = get_permisos_sistema(usuario)
-	ctx = {'usuario':usuario,
+        user=  User.objects.get(username=request.user.username)
+        permisos = get_permisos_sistema(user)
+        lista = User.objects.all().order_by("id")
+        ctx = {'lista':lista,
+               'usuario':usuario, 
+               'ver_usuarios': 'ver usuarios' in permisos,
+               'crear_usuario': 'crear usuario' in permisos,
                'mod_usuario': 'modificar usuario' in permisos,
                'eliminar_usuario': 'eliminar usuario' in permisos,
-               'asignar_roles': 'asignar rol' in permisos
-              }
+	       'asignar_rol': 'asignar rol' in permisos}
+
+	
 	return render_to_response('usuario/verUsuario.html',ctx,context_instance=RequestContext(request))

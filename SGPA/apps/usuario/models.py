@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 CATEGORY_CHOICES = (
 			('1', 'Rol de Sistema'),
-			('2', 'Rol de Proyecto'),
+			#('2', 'Rol de Proyecto'),
 		   )
 
 COMPLEXITY_CHOICES = (

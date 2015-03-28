@@ -2,6 +2,7 @@
 {% block title %} Crea Usuario {% endblock %}
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> CREAR NUEVO USUARIO </h3></font></strong></center><br>
+{% if crear_usuario %}
 <form action="." method="POST">
 	{% csrf_token %}
 	<center><table>
@@ -10,4 +11,7 @@
 	<button class="btn btn-primary" type="submit"> CREAR </button>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/admin' "/></center>
 </form>
+{% else %}
+	<br><center><p><strong>NO POSEE PERMISOS</strong></p><center>
+{% endif %}
 {% endblock%}

@@ -2,7 +2,7 @@
 {% block title %}Usuarios{% endblock %}
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USUARIOS</h3></font></strong></center><br>
-{% if ver_usuarios or crear_usuario %}   
+ {% if ver_usuarios or crear_usuario %}
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -51,6 +51,6 @@
 	</div>
      </div>
 {% else %}
-	<center><p><strong>NO TIENE PERMISO</strong></p></center>
-   {% endif %}
-{% endblock %}
+	<br><center><p><strong>NO POSEE PERMISOS</strong></p><center>
+{% endif %}
+{% endblock%}

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %} Detalles Rol{% endblock %}
 {%block content %}
-{%ifequal usuariorol.categoria 1 %}
-<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL ROL DEL SISTEMA "{{ rol.nombre }}" </h3></font></strong></center><br>
+{%ifequal roles.categoria 1 %}
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL ROL DEL SISTEMA "{{ roles.nombre }}" </h3></font></strong></center><br>
 {% else %}
-<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL ROL DE PROYECTO "{{ rol.nombre }}" </h3></font></strong></center><br>
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL ROL DE PROYECTO "{{ roles.nombre }}" </h3></font></strong></center><br>
 {% endifequal %}
-
+{% if ver_rol or crear_rol or mod_rol or eliminar_rol or asignar_rol%}
 <form action="." method="POST">
          {% csrf_token %}
 <table class="table table-bordered">
@@ -22,16 +22,20 @@
               <tbody>
 		 <tr>
 		      
-                          <td><strong>{{rol.nombre}}</strong></td>
-                          <td><strong>{{rol.descripcion}}</strong></td>
-		          <td><strong>{{rol.fecHor_creacion}}</strong></td>
-			  <td><strong>{{rol.usuario_creador}}</strong></td>
+                          <td><strong>{{roles.nombre}}</strong></td>
+                          <td><strong>{{roles.descripcion}}</strong></td>
+		          <td><strong>{{roles.fecHor_creacion}}</strong></td>
+			  <td><strong>{{roles.usuario_creador}}</strong></td>
 		          <td>
-			
-                                <a class="btn btn-primary" href="/"><strong>ELIMINAR</strong></a>
-				<a class="btn btn-primary" href="/modificarRol/mod&id={{rol.id}}/"><strong>MODIFICAR</strong></a>
-				<a class="btn btn-primary" href="/roles/permisos&id={{rol.id}}/"><strong>ASIGNAR PERMISOS</strong></a>   
-                            	
+			{% if eliminar_rol %}
+                      <a class="btn btn-primary" href="/eliminarRol/del&id={{roles.id}}/"><strong>ELIMINAR</strong></a>
+			{% endif %}			
+			{% if mod_rol %}
+				<a class="btn btn-primary" href="/modificarRol/mod&id={{roles.id}}/"><strong>MODIFICAR</strong></a>
+			{% endif %}
+			{% if asignar_rol%}				
+			<a class="btn btn-primary" href="/roles/permisos&id={{roles.id}}/"><strong>ASIGNAR PERMISOS</strong></a>   
+			{% endif %}                            	
 			   </td>
 		        
 	           </tr>
@@ -41,7 +45,14 @@
 
    <div class="footer">
            <div class="volver">
-                <a class="btn btn-primary" href="/roles"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+		{%ifequal roles.categoria 1 %}
+                <a class="btn btn-primary" href="/rolesSist"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+		{%else %}
+		<a class="btn btn-primary" href="/rolesProy"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+		{%endifequal %}
            </div>
      </div>
+{% else %}
+	<center><p><strong>NO TINES PERMISOS</strong></p></center>
+{% endif %}
 {% endblock %}
