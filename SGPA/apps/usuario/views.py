@@ -25,6 +25,9 @@ from django.contrib import messages
 
 @login_required
 def crearUsuario_view(request):
+	"""
+	Metodo para crear un nuevo usuario
+	"""
 	user = User.objects.get(username=request.user.username)
 	roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
     	permisos_obj = []
@@ -58,7 +61,7 @@ def crearUsuario_view(request):
 	return render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
 
 def lista(request, tipo):
-    """Metodo de prueba para listar"""
+    """Metodo para Listar"""
     user = User.objects.get(username=request.user.username)
     if tipo == 'usuarios':
         lista = User.objects.all()
@@ -161,7 +164,7 @@ def eliminar_usuario(request, usuario_id):
 @login_required
 def activar_usuario(request, usuario_id):
     """
-    vista utilizada para dar de baja un usuario, baja logica
+    vista utilizada para activar un usuario que fue dado de baja
     """
     user = User.objects.get(id=usuario_id)
     user.is_active = True
@@ -192,7 +195,7 @@ def visualizar_usuario(request, usuario_id):
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
-               'usuario':usuario, 
+               'usuario':usuario,
                'ver_usuarios': 'ver usuarios' in permisos,
                'crear_usuario': 'crear usuario' in permisos,
                'mod_usuario': 'modificar usuario' in permisos,

@@ -27,6 +27,7 @@ STATUS_CHOICES = (
 		)
 
 class Permiso(models.Model):
+	"""Modelo Permiso"""
 	nombre = models.CharField(unique=True, max_length=50)
 	categoria = models.IntegerField(max_length=1, choices=CATEGORY_CHOICES)
 
@@ -45,10 +46,12 @@ class Rol(models.Model):
 		return self.nombre
 
 class RolPermiso(models.Model):
+	"""Modelo Rol Permiso"""
 	rol = models.ForeignKey(Rol)
 	permiso = models.ForeignKey(Permiso)
 
 class UsuarioRolSistema (models.Model):
+	"""Modelo Usuario Rol Sistema"""
 	usuario = models.ForeignKey(User)
 	rol = models.ForeignKey(Rol)
 
