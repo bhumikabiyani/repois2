@@ -21,10 +21,12 @@ from django.core.mail import EmailMessage
 
 # Create your views here.
 def index_view(request):
+    """Muestra la Página de Inicio del Sistema"""
     return render_to_response('home/index.html', context_instance=RequestContext(request))
 
 
 def login_view(request):
+    """Vista de Inicio de Sesión"""
     mensaje = ""
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')
@@ -48,11 +50,13 @@ def login_view(request):
 
 
 def logout_view(request):
+    """Vista de logout"""
     logout(request)
     return HttpResponseRedirect('/')
 
 
 def recuperarcontrasena_view(request):
+    """Vista para recuperar contraseña"""
     if request.method == 'POST':
         form = RecuperarContrasenaForm(request.POST)
         if form.is_valid():
