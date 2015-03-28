@@ -135,7 +135,7 @@ def crear_rol(request):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
+
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = RolesForm(request.POST)
@@ -182,7 +182,7 @@ def mod_rol(request, rol_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
+
     #-------------------------------------------------------------------
     actual = get_object_or_404(Rol, id=rol_id)
     if request.method == 'POST':
@@ -205,41 +205,41 @@ def mod_rol(request, rol_id):
                                                            'mod_rol':'modificar rol' in permisos
 						     })
 
-@login_required
-def asignar_roles_sistema(request, usuario_id):
-    """Asigna roles de sistema a un usuario"""
-    user = User.objects.get(username=request.user.username)
-    permisos = get_permisos_sistema(user)
-    usuario = get_object_or_404(User, id=usuario_id)
-    lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
-    print lista_roles
-    if request.method == 'POST':
-        form = AsignarRolesForm(1, request.POST)
-        if form.is_valid():
-            lista_nueva = form.cleaned_data['roles']
-            for i in lista_roles:
-                i.delete()
-            for i in lista_nueva:
-                nuevo = UsuarioRolSistema()
-                nuevo.usuario = usuario
-                nuevo.rol = i
-                nuevo.save()
-            return HttpResponseRedirect("/verRol/ver&id=" + str(rol_id))
-    else:
-        if usuario.id == 1:
-            error = "No se puede editar roles sobre el superusuario."
-            return render_to_response("roles/asignar_roles.html", {'mensaje': error,
-                                                                            'usuario':usuario, 
-                                                                            'user': user, 
-                                                                            'asignar_rol': 'asignar rol' in permisos
-							          })
-        dict = {}
-        for i in lista_roles:
-            print i.rol
-            dict[i.rol.id] = True
-        form = AsignarRolesForm(1,initial = {'roles': dict})
-    return render_to_response("roles/asignar_roles.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
-})
+# @login_required
+# def asignar_roles_sistema(request, usuario_id):
+#     """Asigna roles de sistema a un usuario"""
+#     user = User.objects.get(username=request.user.username)
+#     permisos = get_permisos_sistema(user)
+#     usuario = get_object_or_404(User, id=usuario_id)
+#     lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
+#     print lista_roles
+#     if request.method == 'POST':
+#         form = AsignarRolesForm(1, request.POST)
+#         if form.is_valid():
+#             lista_nueva = form.cleaned_data['roles']
+#             for i in lista_roles:
+#                 i.delete()
+#             for i in lista_nueva:
+#                 nuevo = UsuarioRolSistema()
+#                 nuevo.usuario = usuario
+#                 nuevo.rol = i
+#                 nuevo.save()
+#             return HttpResponseRedirect("visualizar/ver&id=" + str(usuario_id))
+#     else:
+#         if usuario.id == 1:
+#             error = "No se puede editar roles sobre el superusuario."
+#             return render_to_response("usuario/asignar_roles.html", {'mensaje': error,
+#                                                                             'usuario':usuario,
+#                                                                             'user': user,
+#                                                                             'asignar_rol': 'asignar rol' in permisos
+# 							          })
+#         dict = {}
+#         for i in lista_roles:
+#             print i.rol
+#             dict[i.rol.id] = True
+#         form = AsignarRolesForm(1,initial = {'roles': dict})
+#     return render_to_response("roles/asignar_roles.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
+# })
 
 @login_required
 def admin_permisos(request, rol_id):
@@ -336,7 +336,8 @@ def borrar_rol(request, rol_id):
     if actual.categoria == 1:
         relacionados = UsuarioRolSistema.objects.filter(rol = actual).count()
     elif actual.categoria == 2:
-        relacionados = UsuarioRolProyecto.objects.filter(rol = actual).count()
+        pass
+        #relacionados = UsuarioRolProyecto.objects.filter(rol = actual).count()
     if request.method == 'POST':
         actual.delete()
         if actual.categoria == 1:
@@ -350,13 +351,13 @@ def borrar_rol(request, rol_id):
                                                                               'user':user,
                                                                               'eliminar_rol':'eliminar rol' in permisos
 									})
-        if relacionados > 0:
-            error = "El rol se esta utilizando."
-            return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error, 
-                                                                              'rol':actual, 
-                                                                              'user':user,
-                                                                              'eliminar_rol':'eliminar rol' in permisos
-									})
+        # if relacionados > 0:
+        #     error = "El rol se esta utilizando."
+        #     return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,
+        #                                                                       'rol':actual,
+        #                                                                       'user':user,
+        #                                                                       'eliminar_rol':'eliminar rol' in permisos
+			# 						})
     return render_to_response("roles/rol_confirm_delete.html", {'rol':actual, 
                                                                       'user':user, 
                                                                       'eliminar_rol':'eliminar rol' in permisos
