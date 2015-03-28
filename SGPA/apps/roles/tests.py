@@ -3,12 +3,13 @@ from django.test import RequestFactory
 from SGPA.apps.roles.views import *
 from django.contrib.messages.storage.fallback import FallbackStorage
 import unittest
-import django
-django.setup()
+# import django
+# django.setup()
 
 class UserTestCase(TestCase):
+
     # def setUp(self):
-    #     self.u1 = Rol.objects.create(nombre="admin")
+    #     self.u1 = Rol.objects.create(nombre="cgonza")
 
     def testCreateRol_View(self):
         request = RequestFactory().get('/roles')
@@ -37,20 +38,20 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
-    def testViewRoles_View(self):
-        request = RequestFactory().get('/usuario')
-        user = User.objects.get(username="cgonza")
-        setattr(request, 'session', 'session')
-        messages = FallbackStorage(request)
-        setattr(request, '_messages', messages)
-        request.user = user
-        response = visualizar_roles(request,"1")
-        # Check.
-        self.assertEqual(response.status_code, 302)
+    # def testViewRoles_View(self):
+    #     request = RequestFactory().get('/usuario')
+    #     user = User.objects.get(username="admin")
+    #     setattr(request, 'session', 'session')
+    #     messages = FallbackStorage(request)
+    #     setattr(request, '_messages', messages)
+    #     request.user = user
+    #     response = visualizar_roles(request,"1")
+    #     # Check.
+    #     self.assertEqual(response.status_code, 302)
 
     def testModRol_View(self):
         request = RequestFactory().get('/usuario')
-        user = User.objects.get(username="cgonza")
+        user = User.objects.get(username="admin")
         setattr(request, 'session', 'session')
         messages = FallbackStorage(request)
         setattr(request, '_messages', messages)
@@ -78,6 +79,3 @@ class UserTestCase(TestCase):
         response = borrar_rol(request)
         # Check.
         self.assertEqual(response.status_code, 200)
-
-if __name__ == "__main__":
-    unittest.main()

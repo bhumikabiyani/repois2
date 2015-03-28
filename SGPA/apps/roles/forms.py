@@ -5,6 +5,8 @@ from django.db.models import Q
 from SGPA.apps.usuario.models import *
 from SGPA.apps.usuario.helper import *
 import datetime
+import django
+django.setup()
 
 class FilterForm(forms.Form):
     filtro = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
