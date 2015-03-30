@@ -2,9 +2,9 @@
 {% block title %} Modificar Roles{% endblock %}
 {% block content %}
 {% ifequal rol.categoria 1 %}
-<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DEL SISTEMA </h3></font></strong></center><br>
+<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DEL SISTEMA "{{ rol.nombre }}"</h3></font></strong></center><br>
 {% else %}
-<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DE PROYECTO </h3></font></strong></center><br>
+<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DE PROYECTO "{{ rol.nombre }}"</h3></font></strong></center><br>
 {% endifequal %}
 {% if mod_rol %}
 <form action="." method="POST">

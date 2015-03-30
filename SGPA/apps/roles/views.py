@@ -147,9 +147,10 @@ def crear_rol(request):
             r.usuario_creador = user
             r.categoria = form.cleaned_data['categoria']
             r.save()
-            if r.categoria == "1":
-               return HttpResponseRedirect("/rolesSist")
-            return HttpResponseRedirect("/rolesProy")
+	    if r.categoria == 1:
+            	return HttpResponseRedirect("/rolesSist")
+	    else:
+		return HttpResponseRedirect("/rolesProy")
     else:
         form = RolesForm()
     return render_to_response('roles/crear_rol.html',{'form':form, 

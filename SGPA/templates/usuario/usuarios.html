@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Usuarios{% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USUARIOS</h3></font></strong></center><br>
- {% if ver_usuarios or crear_usuario %}
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USUARIOS</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE USUARIOS</h3></font></strong></center> 
+{% if ver_usuarios or crear_usuario %}
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -11,18 +12,21 @@
 		    
                         {{form.paginas.label}}: {{form.paginas}}
                         <input type="submit" name="Buscar" class= "btn btn-primary" value="ACEPTAR"/>
-                    </p>
-              
+                    </p>              
 		<table class="table table-bordered">
 	      <thead>
 	        <tr>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>LISTA DE USUARIOS</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>USUARIO</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>APELLIDO</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 	      {%for i in pag.object_list%}
 		   <tr>
                           <td><strong><span style="color:#111111">{{i.username}}</span></strong></td>
+			  <td><strong><span style="color:#111111">{{i.first_name}}</strong></td>
+		          <td><strong><span style="color:#111111">{{i.last_name}}</strong></td>
 			  {% if ver_usuarios %}
 		          <td><a class="btn btn-primary" href="/visualizar/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}

@@ -17,7 +17,7 @@ class UserTestCase(TestCase):
         request.user = self.u1
         response = login_view(request)
         # Check.
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     # def testLogout_View(self):
     #     request = RequestFactory().get('/usuario')

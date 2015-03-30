@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Usuarios{% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE ROLES DEL SISTEMA</h3></font></strong></center><br> 
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE ROLES DEL SISTEMA</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE ROLES DEL SISTEMA</h3></font></strong></center><br> 
 {% if ver_rol %}  
 <form action="." method="POST">
          {% csrf_token %}
@@ -16,7 +17,7 @@
 		<table class="table table-bordered">
 	      <thead>
 	        <tr>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>LISTA DE ROLES DEL SISTEMA </center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 CATEGORY_CHOICES = (
 			('1', 'Rol de Sistema'),
-			#('2', 'Rol de Proyecto'),
+			('2', 'Rol de Proyecto'),
 		   )
 
 COMPLEXITY_CHOICES = (
@@ -57,5 +57,28 @@ class UsuarioRolSistema (models.Model):
 
 	class Meta:
 		unique_together = [("usuario", "rol")]
+
+class Proyecto(models.Model):
+    """Clase que representa un proyecto."""
+    nombrelargo = models.CharField(unique=True, max_length=50)
+    usuario_lider = models.ForeignKey(User)
+    #fase = models.ForeignKey(Fase)
+    descripcion = models.TextField(null=True, blank=True)
+    fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    cronograma = models.FileField(upload_to='cronogramas', null=True, blank=True)
+    cantidad = models.IntegerField()
+    cant_actual = models.IntegerField(null=True)
+    
+    def __unicode__(self):
+        return self.nombre
+
+class UsuarioRolProyecto(models.Model):   
+    usuario = models.ForeignKey(User)
+    rol = models.ForeignKey(Rol, null=True)
+    proyecto = models.ForeignKey(Proyecto)
+
+    class Meta:
+        unique_together = [("usuario", "rol", "proyecto")]
 
 

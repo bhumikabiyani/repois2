@@ -12,21 +12,28 @@
 		     <th class="titulo"><b><strong><span style="color:#330099">USUARIO</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">APELLIDO</strong></b></th>
-		         <th class="titulo"><b><strong><span style="color:#330099">EMAIL</strong></b></th>
-                 <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">EMAIL</strong></b></th>
+                     <th class="titulo"><b><strong><span style="color:#330099">FECHA DE CREACION</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">FECHA DE ULTIMO LOGIN</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 		 <tr>
-		      
                           <td><strong>{{usuario.username}}</strong></td>
                           <td><strong>{{usuario.first_name}}</strong></td>
 		          <td><strong>{{usuario.last_name}}</strong></td>
 			  <td><strong>{{usuario.email}}</strong></td>
-                <td><strong>{{usuario.is_active}}</strong></td>
-		       {% ifequal usuario.id 1 %}
-		          <td><strong>SUPERUSUARIO</strong></td>
+			  <td><strong>{{usuario.date_joined}}</strong></td>
+			  <td><strong>{{usuario.last_login}}</strong></td>
+                          <td><strong>{{usuario.is_active}}</strong></td>
+	           </tr>
+		</tbody>
+	  </table>
+   </form>
+<th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
+{% ifequal usuario.id 1 %}
+		          <td><strong>Usuario con todos los permisos</strong></td>
 		       {% else %}
 		          {% ifnotequal usuario.username user.username %}
 		             <td>
@@ -44,14 +51,9 @@
                      </td>
 		          {% endifnotequal %}
 		       {% endifequal %}
-	           </tr>
-		</tbody>
-	  </table>
-   </form>
-
    <div class="footer">
            <div class="volver">
-                <a class="btn btn-primary" href="/admin"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+                <br><a class="btn btn-primary" href="/admin"><strong> VOLVER A LA PAGINA ANTERIOR</strong> </a>&nbsp;&nbsp;
            </div>
      </div>
 {% else %}

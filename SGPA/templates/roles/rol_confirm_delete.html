@@ -2,9 +2,9 @@
 {% block title %}Eliminar Roles{% endblock %}
 {% block content %}
 {% ifequal rol.categoria 1 %}
-<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ROL DEL SISTEMA</h3></font></strong></center><br>
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ROL DEL SISTEMA "{{ rol.nombre }}"</h3></font></strong></center><br>
 {% else %}
-<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ROL DE PROYECTO</h3></font></strong></center><br>
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ROL DE PROYECTO "{{ rol.nombre }}"</h3></font></strong></center><br>
 {% endifequal %}
 {% if eliminar_rol %}
    {% if mensaje %}
@@ -28,10 +28,10 @@
 	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verRol/ver&id={{rol.id}}/'"/>
                        </span>
                        {% else %}
-                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL ROL DE PROYECTO: "{{rol}}"?</strong><br>
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL ROL DE PROYECTO: "{{rol}}"?</strong><br><br>
                        <span class="optionbuttons">
-                          <input type="submit" class= "btn btn-default" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
-	                  <input type="button" class= "btn btn-default" value="NO" onClick = "location.href='/verRol/ver&id={{rol.id}}/'"/>
+                          <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verRol/ver&id={{rol.id}}/'"/>
                        </span>
                        {% endifequal %}
                     </p>
