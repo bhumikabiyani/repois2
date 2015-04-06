@@ -81,4 +81,14 @@ class UsuarioRolProyecto(models.Model):
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
 
+class Flujo(models.Model):
+    """Esta clase representa el flujo para proyecto"""
+    nombre = models.CharField(unique=True, max_length=50)
+    descripcion = models.TextField(null=True, blank=True)
+    fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
+    usuario_creador = models.ForeignKey(User, null=True)      
+    #proyecto= models.IntegerField()
+
+    def __unicode__(self):
+        return self.nombre
 

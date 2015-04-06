@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %} Detalles Flujo{% endblock %}
+{%block content %}
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL FLUJO "{{ flujos.nombre }}" </h3></font></strong></center><br>
+{% if ver_flujo or mod_flujo or eliminar_flujo %}
+<form action="." method="POST">
+         {% csrf_token %}
+<table class="table table-bordered">
+	      <thead>
+	        <tr>
+	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">FECHA Y HORA DE CREACION</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">RESPONSABLE</strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+		 <tr>
+		      
+                          <td><strong>{{flujos.nombre}}</strong></td>
+                          <td><strong>{{flujos.descripcion}}</strong></td>
+		          <td><strong>{{flujos.fecHor_creacion}}</strong></td>
+			  <td><strong>{{flujos.usuario_creador}}</strong></td>
+	           </tr>
+		</tbody>
+	  </table>
+   </form>
+
+   <div class="footer">
+           <div class="volver">
+		<th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
+		<td>
+			{% if eliminar_flujo %}
+                      <a class="btn btn-primary" href="/eliminarFlujo/del&id={{flujos.id}}/"><strong>ELIMINAR</strong></a>
+			{% endif %}
+			{% if mod_flujo %}
+				<a class="btn btn-primary" href="/modificarFlujo/mod&id={{flujos.id}}/"><strong>MODIFICAR</strong></a>
+					{% endif %}		
+			   
+			                            	
+			   </td><br><br>
+		<a class="btn btn-primary" href="/flujos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+		
+           </div>
+     </div>
+{% else %}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center><br>
+{% endif %}
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE ROLES DEL SISTEMA</h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE ROLES DEL SISTEMA</h3></font></strong></center><br> 
-{% if ver_rol %}  
+{% if crear_rol or ver_rol %}  
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -46,7 +46,9 @@
       <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/roles"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-		  
+		{% if crear_rol %}    
+                   <a class="btn btn-primary" href="/crearRolS"><strong>CREAR NUEVO ROL </strong></a>
+                {% endif %}
 	</div>
      </div>
 {% else %}
