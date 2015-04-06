@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Roles{% endblock %}
+{% block content %}
+{% ifequal rol.categoria 1 %}
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ROL DEL SISTEMA "{{ rol.nombre }}"</h3></font></strong></center><br>
+{% else %}
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ROL DE PROYECTO "{{ rol.nombre }}"</h3></font></strong></center><br>
+{% endifequal %}
+{% if eliminar_rol %}
+   {% if mensaje %}
+      {% autoescape off %}
+         <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
+         </center><br><br>
+      {% endautoescape %}
+	{% ifequal rol.categoria 1 %}
+	    <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verRol/ver&id={{rol.id}}/' "/></center>
+         {% else %}
+            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verRol/ver&id={{rol.id}}/' "/></center>
+         {% endifequal %}
+	{% else %}
+      <form id="form_id" action="" method="post">
+         {% csrf_token %}
+            <center><p>
+                       {% ifequal rol.categoria 1 %}
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL ROL DE SISTEMA: "{{rol}}"?</strong><br><br>
+                       <span class="optionbuttons">
+                          <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verRol/ver&id={{rol.id}}/'"/>
+                       </span>
+                       {% else %}
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL ROL DE PROYECTO: "{{rol}}"?</strong><br><br>
+                       <span class="optionbuttons">
+                          <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verRol/ver&id={{rol.id}}/'"/>
+                       </span>
+                       {% endifequal %}
+                    </p>
+            </center>
+      </form>{% endif %}
+{% else %}
+   <center><p><strong>NO TIENES PERMISOS</p></center>
+{% endif %}
+{% endblock%}

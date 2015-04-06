@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} Modificar Roles{% endblock %}
+{% block content %}
+{% ifequal rol.categoria 1 %}
+<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DEL SISTEMA "{{ rol.nombre }}"</h3></font></strong></center><br>
+{% else %}
+<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DE PROYECTO "{{ rol.nombre }}"</h3></font></strong></center><br>
+{% endifequal %}
+{% if mod_rol %}
+<form action="." method="POST">
+	{% csrf_token %}
+	<center><table>
+	{{ form.as_table }}
+	</table><br><br>
+	<button class="btn btn-primary" type="submit"> GUARDAR </button>
+	{% ifequal rol.categoria 1 %}
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verRol/ver&id={{rol.id}}/' "/></center>
+	{% else %}
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verRol/ver&id={{rol.id}}/' "/></center>
+	{% endifequal %}
+</form>
+{% else %}
+   <center><p><strong>NO TIENES PERMISOS</strong></p></center>
+{% endif %}
+{% endblock%}
+

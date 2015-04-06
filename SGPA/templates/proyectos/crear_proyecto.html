@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Crear Proyecto {% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> CREAR NUEVO PROYECTO </h3></font></strong></center><br>
+{% if crear_proyecto %}
+<form action="." method="POST">
+	{% csrf_token %}
+	<center><table>
+	{{ form.as_table }}
+	</table><br><br>
+	<button class="btn btn-primary" type="submit"> CREAR </button>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/proyectos' "/></center>
+</form>
+{% else %}
+   <center><p><strong>NO TIENES PERMISOS</strong></p></center>
+{% endif %}
+{% endblock%}

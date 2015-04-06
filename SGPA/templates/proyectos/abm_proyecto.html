@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} ABM Rol{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> MODIFICAR ROL DEL SISTEMA </h3></font></strong></center><br>
+{% if mensaje %}
+      {% autoescape off %}
+         <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
+         </center><br><br>
+      {% endautoescape %}
+         {% ifequal rol.categoria 1 %}
+	    <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verRol/ver&id={{rol.id}}/' "/></center>
+         {% else %}
+            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verRol/ver&id={{rol.id}}/' "/></center>
+         {% endifequal %}
+      {% endif %}
+{% endblock%}
