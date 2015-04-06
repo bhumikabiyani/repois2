@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Crea Usuario {% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> CREAR NUEVO ROL </h3></font></strong></center><br>
+{% if crear_rol %}
+<form action="." method="POST">
+	{% csrf_token %}
+	<center><table>
+	{{ form.as_table }}
+	</table><br><br>
+	<button class="btn btn-primary" type="submit"> CREAR </button>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/rolesProy' "/></center>
+</form>
+{% else %}
+   <center><p><strong>NO TIENES PERMISOS</strong></p></center>
+{% endif %}
+{% endblock%}

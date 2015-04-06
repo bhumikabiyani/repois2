@@ -26,9 +26,7 @@ def admin_roles(request):
     """Administracion general de roles"""
     user = User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
-    return render_to_response('roles/roles.html',{'user':user,
-                                                  'crear_rol': 'crear rol' in permisos}
-                                                  )
+    return render_to_response('roles/roles.html',{'user':user})
 
 @login_required
 def admin_roles_sist(request):
@@ -56,6 +54,7 @@ def admin_roles_sist(request):
                                                         'user':user,
                                                         'pag': pag,
                                                         'ver_rol':'ver rol' in permisos,
+							'crear_rol':'crear rol' in permisos
                                                         })
     else:
         try:
@@ -75,7 +74,8 @@ def admin_roles_sist(request):
                                                             'user':user,
 							    'pag': pag,
                                                             'ver_rol':'ver rol' in permisos,
-    							  })
+							    'crear_rol':'crear rol' in permisos    							         })
+
 @login_required
 def admin_roles_proy(request):
     """Administracion de roles de proyecto"""
@@ -102,6 +102,7 @@ def admin_roles_proy(request):
                                                         'user':user,
 						        'pag': pag,
                                                         'ver_rol':'ver rol' in permisos,
+							'crear_rol':'crear rol' in permisos
 								 })
     else:
         try:
@@ -121,11 +122,12 @@ def admin_roles_proy(request):
                                                         'user':user,
 						        'pag': pag,
                                                         'ver_rol':'ver rol' in permisos,
+							'crear_rol':'crear rol' in permisos
                                                            })
 
 @login_required
-def crear_rol(request):
-    """Agrega un nuevo rol"""
+def crear_rolS(request):
+    """Agrega un nuevo rol de sistema"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -138,7 +140,7 @@ def crear_rol(request):
 
     #-------------------------------------------------------------------
     if request.method == 'POST':
-        form = RolesForm(request.POST)
+        form = RolesSForm(request.POST)  
         if form.is_valid():
             r = Rol()
             r.nombre = form.cleaned_data['nombre']
@@ -147,13 +149,43 @@ def crear_rol(request):
             r.usuario_creador = user
             r.categoria = form.cleaned_data['categoria']
             r.save()
-	    if r.categoria == 1:
-            	return HttpResponseRedirect("/rolesSist")
-	    else:
-		return HttpResponseRedirect("/rolesProy")
+            return HttpResponseRedirect("/rolesSist")
+	    
     else:
-        form = RolesForm()
-    return render_to_response('roles/crear_rol.html',{'form':form, 
+        form = RolesSForm()
+    return render_to_response('roles/crear_rolS.html',{'form':form, 
+                                                            'user':user,
+                                                            'crear_rol': 'crear rol' in permisos
+			      })
+
+@login_required
+def crear_rolP(request):
+    """Agrega un nuevo rol de proyecto"""
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    if request.method == 'POST':
+        form = RolesPForm(request.POST)  
+        if form.is_valid():
+            r = Rol()
+            r.nombre = form.cleaned_data['nombre']
+            r.descripcion = form.cleaned_data['descripcion']
+            r.fecHor_creacion = datetime.datetime.now()
+            r.usuario_creador = user
+            r.categoria = form.cleaned_data['categoria']
+            r.save()
+	    return HttpResponseRedirect("/rolesProy")
+    else:
+        form = RolesPForm()
+    return render_to_response('roles/crear_rolP.html',{'form':form, 
                                                             'user':user,
                                                             'crear_rol': 'crear rol' in permisos
 			      })
@@ -206,41 +238,6 @@ def mod_rol(request, rol_id):
                                                            'mod_rol':'modificar rol' in permisos
 						     })
 
-# @login_required
-# def asignar_roles_sistema(request, usuario_id):
-#     """Asigna roles de sistema a un usuario"""
-#     user = User.objects.get(username=request.user.username)
-#     permisos = get_permisos_sistema(user)
-#     usuario = get_object_or_404(User, id=usuario_id)
-#     lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
-#     print lista_roles
-#     if request.method == 'POST':
-#         form = AsignarRolesForm(1, request.POST)
-#         if form.is_valid():
-#             lista_nueva = form.cleaned_data['roles']
-#             for i in lista_roles:
-#                 i.delete()
-#             for i in lista_nueva:
-#                 nuevo = UsuarioRolSistema()
-#                 nuevo.usuario = usuario
-#                 nuevo.rol = i
-#                 nuevo.save()
-#             return HttpResponseRedirect("visualizar/ver&id=" + str(usuario_id))
-#     else:
-#         if usuario.id == 1:
-#             error = "No se puede editar roles sobre el superusuario."
-#             return render_to_response("usuario/asignar_roles.html", {'mensaje': error,
-#                                                                             'usuario':usuario,
-#                                                                             'user': user,
-#                                                                             'asignar_rol': 'asignar rol' in permisos
-# 							          })
-#         dict = {}
-#         for i in lista_roles:
-#             print i.rol
-#             dict[i.rol.id] = True
-#         form = AsignarRolesForm(1,initial = {'roles': dict})
-#     return render_to_response("roles/asignar_roles.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
-# })
 
 @login_required
 def admin_permisos(request, rol_id):
@@ -257,41 +254,26 @@ def admin_permisos(request, rol_id):
     #-------------------------------------------------------------------
     actual = get_object_or_404(Rol, id=rol_id)
     if request.method == 'POST':
-        if actual.categoria == 1:
+	if actual.categoria == 1:
             form = PermisosForm(request.POST)
-        else:
-            form = PermisosProyectoForm(request.POST)
-        if form.is_valid():
+            if form.is_valid():
                actual.permisos.clear()
-               if actual.categoria == 1:
-                  lista = form.cleaned_data['permisos']
-                  for i in lista:
-                    nuevo = RolPermiso()
-                    nuevo.rol = actual
-                    nuevo.permiso = i
-                    nuevo.save()
-               else:
-                    lista_req = form.cleaned_data['permisos1']
-                    lista_dis = form.cleaned_data['permisos2']
-                    lista_impl = form.cleaned_data['permisos3']
-                    for i in lista_req:
-                      nuevo = RolPermiso()
-                      nuevo.rol = actual
-                      nuevo.permiso = i
-                    #nuevo.fase = Fase.objects.get(pk=1)
-                      nuevo.save()
-                    for i in lista_dis:
-                      nuevo = RolPermiso()
-                      nuevo.rol = actual
-                      nuevo.permiso = i
-                    #nuevo.fase = Fase.objects.get(pk=2)
-                      nuevo.save()
-                    for i in lista_impl:
-                      nuevo = RolPermiso()
-                      nuevo.rol = actual
-                      nuevo.permiso = i
-                    #nuevo.fase = Fase.objects.get(pk=3)
-                      nuevo.save()
+               lista = form.cleaned_data['permisos']
+               for i in lista:
+			nuevo = RolPermiso()
+                    	nuevo.rol = actual
+                    	nuevo.permiso = i
+                    	nuevo.save()
+	else:
+		form = PermisosProyectoForm(request.POST)
+		if form.is_valid():
+               		actual.permisos.clear()
+               		lista = form.cleaned_data['permisos']
+               		for i in lista:
+				nuevo = RolPermiso()
+                    		nuevo.rol = actual
+                    		nuevo.permiso = i
+                    		nuevo.save()
         return HttpResponseRedirect("/verRol/ver&id=" + str(rol_id))
     else:
         if actual.categoria == 1:
@@ -301,18 +283,11 @@ def admin_permisos(request, rol_id):
                 dict[i.id] = True
             form = PermisosForm(initial={'permisos': dict})
         else:
-	 
-            dict1 = {}
+	    dict = {}
+         
             for i in actual.permisos.all():
-                dict1[i.id] = True
-
-            dict2 = {}
-            for i in actual.permisos.filter():
-                dict2[i.id] = True
-            dict3 = {}
-            for i in actual.permisos.filter():
-                dict3[i.id] = True
-            form = PermisosProyectoForm(initial={'permisos1': dict1, 'permisos2': dict2, 'permisos3': dict3})
+                dict[i.id] = True
+            form = PermisosProyectoForm(initial={'permisos': dict})
     return render_to_response("roles/admin_permisos.html", {'form': form, 
                                                                   'roles': actual, 
                                                                   'user':user,

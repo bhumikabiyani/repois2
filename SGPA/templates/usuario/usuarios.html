@@ -16,17 +16,19 @@
 		<table class="table table-bordered">
 	      <thead>
 	        <tr>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>USUARIO</center></font></strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>APELLIDO</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><font face="Comic Sans MS"><center>USUARIO</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><font face="Comic Sans MS"><center>APELLIDO</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><font face="Comic Sans MS"><center>EMAIL</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 	      {%for i in pag.object_list%}
 		   <tr>
                           <td><strong><span style="color:#111111">{{i.username}}</span></strong></td>
-			  <td><strong><span style="color:#111111">{{i.first_name}}</strong></td>
-		          <td><strong><span style="color:#111111">{{i.last_name}}</strong></td>
+			  <td><strong><span style="color:#111111">{{i.first_name}}</span></strong></td>
+		          <td><strong><span style="color:#111111">{{i.last_name}}</span></strong></td>
+			  <td><strong><span style="color:#111111">{{i.email}}</span></strong></td>
 			  {% if ver_usuarios %}
 		          <td><a class="btn btn-primary" href="/visualizar/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}
