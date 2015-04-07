@@ -66,7 +66,7 @@ class Proyecto(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    cronograma = models.FileField(upload_to='cronogramas', null=True, blank=True)
+    # cronograma = models.FileField(upload_to='cronogramas', null=True, blank=True)
     cantidad = models.IntegerField()
     cant_actual = models.IntegerField(null=True)
     

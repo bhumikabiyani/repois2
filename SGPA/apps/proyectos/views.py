@@ -56,7 +56,7 @@ def admin_proyectos(request):
                                                         'form': form,
                                                         'lista':lista,
                                                         'user':user,
-                                                        'ver_proyecto':'ver proyecto' in permisos,
+                                                        'ver_proyectos':'ver proyectos' in permisos,
                                                         'crear_proyecto': 'crear proyecto' in permisos,
                                                         })
     else:
@@ -150,9 +150,11 @@ def crear_proyecto(request):
             proy.descripcion = form.cleaned_data['descripcion']
             # proy.fecHor_creacion = datetime.datetime.now()
             # proy.usuario_creador = user
-            proy.usuario_lider = form.cleaned_data['usuario_lider']
+            userLider = User.objects.get(id=form.cleaned_data['usuario_lider'])
+            proy.usuario_lider = userLider
             proy.fecha_inicio = form.cleaned_data['fecha_inicio']
             proy.fecha_fin = form.cleaned_data['fecha_fin']
+            proy.cantidad = form.cleaned_data['cantidad']
             proy.save()
         return HttpResponseRedirect("/proyectos")
     else:
@@ -162,22 +164,22 @@ def crear_proyecto(request):
                                                             'crear_proyecto': 'crear proyecto' in permisos
                                                             })
 
-def visualizar_roles(request, rol_id):
-        roles = get_object_or_404(Rol, id=rol_id)
+def visualizar_proyectos(request, proyecto_id):
+        proyecto = get_object_or_404(Proyecto, id=proyecto_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
-               'roles':roles, 
-               'ver_rol': 'ver rol' in permisos,
-               'crear_rol': 'crear rol' in permisos,
-               'mod_rol': 'modificar rol' in permisos,
-               'eliminar_rol': 'eliminar rol' in permisos,
-	       'asignar_rol' : 'asignar rol' in permisos 
+               'proyecto': proyecto,
+               'ver_proyectos': 'ver proyectos' in permisos,
+               'crear_proyecto': 'crear proyecto' in permisos,
+               'mod_proyecto': 'modificar proyecto' in permisos,
+               'eliminar_proyecto': 'eliminar proyecto' in permisos,
+	       'asignar_miembros' : 'asignar proyectos' in permisos
 	       }
-	return render_to_response('roles/verRol.html',ctx,context_instance=RequestContext(request))
+	return render_to_response('proyectos/verProyecto.html',ctx,context_instance=RequestContext(request))
 
-def mod_rol(request, rol_id):
+def mod_proyecto(request, proyecto_id):
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -189,25 +191,20 @@ def mod_rol(request, rol_id):
         permisos.append(i.nombre)
 
     #-------------------------------------------------------------------
-    actual = get_object_or_404(Rol, id=rol_id)
+    actual = get_object_or_404(Proyecto, id=proyecto_id)
     if request.method == 'POST':
-        form = ModRolesForm(request.POST)
+        form = ModProyectoForm(request.POST)
         if form.is_valid():
             actual.descripcion = form.cleaned_data['descripcion']
             actual.save()
-            if actual.categoria == 1:
-               return HttpResponseRedirect("/verRol/ver&id=" + str(rol_id))
-            return HttpResponseRedirect("/verRol/ver&id=" + str(rol_id))
+            return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
-        if actual.id == 1:
-            error = "No se puede modificar el rol de superusuario"
-            return render_to_response("roles/abm_rol.html", {'mensaje': error, 'rol':actual, 'user':user})
-        form = ModRolesForm()
+        form = ModProyectoForm()
         form.fields['descripcion'].initial = actual.descripcion
-    return render_to_response("roles/mod_rol.html", {'user':user, 
+    return render_to_response("proyectos/mod_proyecto.html", {'user':user,
                                                            'form':form,
-							   'rol': actual,
-                                                           'mod_rol':'modificar rol' in permisos
+                                                           'proyecto': actual,
+                                                           'mod_proyecto':'modificar proyecto' in permisos
 						     })
 
 # @login_required

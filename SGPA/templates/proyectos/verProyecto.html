@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
-{% block title %} Detalles Rol{% endblock %}
+{% block title %} Detalles Proyecto{% endblock %}
 {%block content %}
-{%ifequal roles.categoria 1 %}
-<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL ROL DEL SISTEMA "{{ roles.nombre }}" </h3></font></strong></center><br>
-{% else %}
-<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL ROL DE PROYECTO "{{ roles.nombre }}" </h3></font></strong></center><br>
-{% endifequal %}
-{% if ver_rol or crear_rol or mod_rol or eliminar_rol or asignar_rol%}
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL PROYECTO "{{ proyecto.nombrelargo }}" </h3></font></strong></center><br>
+{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_proyectos%}
 <form action="." method="POST">
          {% csrf_token %}
 <table class="table table-bordered">
@@ -14,17 +10,21 @@
 	        <tr>
 	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">FECHA Y HORA DE CREACION</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">FECHA INICIO</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">FECHA FIN</strong></b></th>
 		     <th class="titulo"><b><strong><span style="color:#330099">RESPONSABLE</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">HORAS</strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 		 <tr>
 		      
-                          <td><strong>{{roles.nombre}}</strong></td>
-                          <td><strong>{{roles.descripcion}}</strong></td>
-		          <td><strong>{{roles.fecHor_creacion}}</strong></td>
-			  <td><strong>{{roles.usuario_creador}}</strong></td>
+                          <td><strong>{{proyecto.nombrelargo}}</strong></td>
+                          <td><strong>{{proyecto.descripcion}}</strong></td>
+		          <td><strong>{{proyecto.fecha_inicio}}</strong></td>
+			  <td><strong>{{proyecto.fecha_fin}}</strong></td>
+			  <td><strong>{{proyecto.usuario_lider}}</strong></td>
+			  <td><strong>{{proyecto.cantidad}}</strong></td>
 	           </tr>
 		</tbody>
 	  </table>
@@ -34,21 +34,17 @@
            <div class="volver">
 		<th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
 		<td>
-			{% if eliminar_rol %}
-                      <a class="btn btn-primary" href="/eliminarRol/del&id={{roles.id}}/"><strong>ELIMINAR</strong></a>
+			{% if eliminar_proyecto %}
+                      <a class="btn btn-primary" href="/eliminarproyecto/del&id={{proyecto.id}}/"><strong>ELIMINAR</strong></a>
 			{% endif %}			
-			{% if mod_rol %}
-				<a class="btn btn-primary" href="/modificarRol/mod&id={{roles.id}}/"><strong>MODIFICAR</strong></a>
+			{% if mod_proyecto %}
+				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
-			{% if asignar_rol%}				
-			<a class="btn btn-primary" href="/roles/permisos&id={{roles.id}}/"><strong>ASIGNAR PERMISOS</strong></a>   
+			{% if asignar_miembros%}
+			<a class="btn btn-primary" href="/proyectos/miembros&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>
 			{% endif %}                            	
 			   </td><br><br>
-		{%ifequal roles.categoria 1 %}
-                <a class="btn btn-primary" href="/rolesSist"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-		{%else %}
-		<a class="btn btn-primary" href="/rolesProy"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-		{%endifequal %}
+               <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
            </div>
      </div>
 {% else %}

@@ -23,7 +23,8 @@ class ProyectosForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
     fecha_inicio = forms.DateField(label='INICIO')
     fecha_fin = forms.DateField(label='FIN')
-    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all()))
+    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    cantidad = forms.IntegerField(label='HORAS')
     #permisos = forms.ModelMultipleChoiceField(queryset = None, widget=forms.CheckboxSelectMultiple, required = False)
 
     def clean_nombrelargo(self):
@@ -35,9 +36,13 @@ class ProyectosForm(forms.Form):
 					raise forms.ValidationError('Ya existe ese nombre de proyecto. Elija otro')
 			return nombrelargo
 
-# class ModRolesForm(forms.Form):
-# 	descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
-#
+class ModProyectosForm(forms.Form):
+    descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    fecha_inicio = forms.DateField(label='INICIO')
+    fecha_fin = forms.DateField(label='FIN')
+    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    cantidad = forms.IntegerField(label='HORAS')
+
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
 #
