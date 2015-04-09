@@ -36,12 +36,16 @@ class ProyectosForm(forms.Form):
 					raise forms.ValidationError('Ya existe ese nombre de proyecto. Elija otro')
 			return nombrelargo
 
-class ModProyectosForm(forms.Form):
+class ModProyectoForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
     fecha_inicio = forms.DateField(label='INICIO')
     fecha_fin = forms.DateField(label='FIN')
-    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     cantidad = forms.IntegerField(label='HORAS')
+    estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
+
+class NuevoMiembroForm(forms.Form):
+    usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
 
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)

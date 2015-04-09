@@ -2,10 +2,10 @@
 {% block title %} Detalles Proyecto{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL PROYECTO "{{ proyecto.nombrelargo }}" </h3></font></strong></center><br>
-{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_proyectos%}
+{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_miembros%}
 <form action="." method="POST">
          {% csrf_token %}
-<table class="table table-bordered">
+    <table class="table table-bordered">
 	      <thead>
 	        <tr>
 	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
@@ -14,6 +14,7 @@
 		     <th class="titulo"><b><strong><span style="color:#330099">FECHA FIN</strong></b></th>
 		     <th class="titulo"><b><strong><span style="color:#330099">RESPONSABLE</strong></b></th>
 		     <th class="titulo"><b><strong><span style="color:#330099">HORAS</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
@@ -25,10 +26,30 @@
 			  <td><strong>{{proyecto.fecha_fin}}</strong></td>
 			  <td><strong>{{proyecto.usuario_lider}}</strong></td>
 			  <td><strong>{{proyecto.cantidad}}</strong></td>
+			  <td><strong>{{status}}</strong></td>
 	           </tr>
 		</tbody>
 	  </table>
+
    </form>
+    <table class="table table-bordered">
+	      <thead>
+	        <tr>
+	             <th class="titulo"><b><strong><span style="color:#330099">USUARIO</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">ROL</strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+         {%for miembro in miembros%}
+             <tr>
+
+                 <td><strong>{{miembro.usuario}}</strong></td>
+                 <td><strong>{{miembro.rol}}</strong></td>
+                 <td><a class="btn btn-primary" href="/mod_miembro/mod&id={{proyecto.id}}"><strong> MODIFICAR </strong></a>
+             </tr>
+         {% endfor %}
+		</tbody>
+	  </table>
 
    <div class="footer">
            <div class="volver">
@@ -41,7 +62,7 @@
 				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
 			{% if asignar_miembros%}
-			<a class="btn btn-primary" href="/proyectos/miembros&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>
+			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>
 			{% endif %}                            	
 			   </td><br><br>
                <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

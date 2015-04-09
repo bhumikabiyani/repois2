@@ -26,6 +26,13 @@ STATUS_CHOICES = (
 			('3', 'Revisado'),
 		)
 
+PROJECT_STATUS_CHOICES = (
+			('1', 'Pendiente'),
+			('2', 'Iniciado'),
+			('3', 'Terminado'),
+			('4', 'Anulado'),
+		)
+
 class Permiso(models.Model):
 	"""Modelo Permiso"""
 	nombre = models.CharField(unique=True, max_length=50)
@@ -69,7 +76,8 @@ class Proyecto(models.Model):
     # cronograma = models.FileField(upload_to='cronogramas', null=True, blank=True)
     cantidad = models.IntegerField()
     cant_actual = models.IntegerField(null=True)
-    
+    estado = models.IntegerField(max_length=1, choices=PROJECT_STATUS_CHOICES)
+
     def __unicode__(self):
         return self.nombre
 

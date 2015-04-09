@@ -79,54 +79,6 @@ def admin_proyectos(request):
                                                             'ver_proyectos':'ver proyectos' in permisos,
                                                             'crear_proyecto': 'crear proyecto' in permisos,
     							  })
-@login_required
-def admin_roles_proy(request):
-    """Administracion de roles de proyecto"""
-    user = User.objects.get(username=request.user.username)
-    permisos = get_permisos_sistema(user)
-    lista = Rol.objects.filter(categoria=2).order_by('id')
-    if request.method == 'POST':
-        form = FilterForm(request.POST)
-        if form.is_valid():
-            palabra = form.cleaned_data['filtro']
-            lista = Rol.objects.filter(Q(categoria = 2), Q(nombre__icontains = palabra) | Q(descripcion__icontains = palabra) | Q(usuario_creador__username__icontains = palabra)).order_by('id')
-            paginas = form.cleaned_data['paginas']
-            request.session['nro_items'] = paginas
-            paginator = Paginator(lista, int(paginas))
-            try:
-                page = int(request.GET.get('page', '1'))
-            except ValueError:
-                page = 1
-            try:
-                pag = paginator.page(page)
-            except (EmptyPage, InvalidPage):
-                pag = paginator.page(paginator.num_pages)
-            return render_to_response('roles/roles_sistema.html',{'lista':lista,'form':form,
-                                                        'user':user,
-						        'pag': pag,
-                                                        'ver_rol':'ver rol' in permisos,
-                                                        'crear_proyecto': 'crear proyecto' in permisos,
-								 })
-    else:
-        try:
-            page = int(request.GET.get('page', '1'))
-        except ValueError:
-            page = 1
-        if not 'nro_items' in request.session:
-            request.session['nro_items'] = 5
-        paginas = request.session['nro_items']
-        paginator = Paginator(lista, int(paginas))
-        try:
-            pag = paginator.page(page)
-        except (EmptyPage, InvalidPage):
-            pag = paginator.page(paginator.num_pages)
-        form = FilterForm(initial={'paginas': paginas})
-    return render_to_response('roles/roles_proyecto.html',{'lista':lista,'form':form,
-                                                        'user':user,
-						        'pag': pag,
-                                                        'ver_rol':'ver rol' in permisos,
-                                                        'crear_proyecto': 'crear proyecto' in permisos,
-                                                           })
 
 @login_required
 def crear_proyecto(request):
@@ -155,6 +107,7 @@ def crear_proyecto(request):
             proy.fecha_inicio = form.cleaned_data['fecha_inicio']
             proy.fecha_fin = form.cleaned_data['fecha_fin']
             proy.cantidad = form.cleaned_data['cantidad']
+            proy.estado = 1
             proy.save()
         return HttpResponseRedirect("/proyectos")
     else:
@@ -166,16 +119,36 @@ def crear_proyecto(request):
 
 def visualizar_proyectos(request, proyecto_id):
         proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+        status = ""
+        if proyecto.estado == 1:
+            status = "Pendiente"
+        elif proyecto.estado == 2:
+            status = "Iniciado"
+        elif proyecto.estado == 3:
+            status = "Terminado"
+        else:
+            status = "Anulado"
         user=  User.objects.get(username=request.user.username)
-        permisos = get_permisos_sistema(user)
+        userRolProy = UsuarioRolProyecto.objects.filter(proyecto = proyecto_id)
+        permisosSys = get_permisos_sistema(user)
+        roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto_id).only('rol')
+        permisos_obj = []
+        for i in roles:
+            permisos_obj.extend(i.rol.permisos.all())
+        permisosProy = []
+        for i in permisos_obj:
+            permisosProy.append(i.nombre)
+        print permisosProy
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'proyecto': proyecto,
-               'ver_proyectos': 'ver proyectos' in permisos,
-               'crear_proyecto': 'crear proyecto' in permisos,
-               'mod_proyecto': 'modificar proyecto' in permisos,
-               'eliminar_proyecto': 'eliminar proyecto' in permisos,
-	       'asignar_miembros' : 'asignar proyectos' in permisos
+               'status': status,
+               'miembros': userRolProy,
+               'ver_proyectos': 'ver proyectos' in permisosSys,
+               'crear_proyecto': 'crear proyecto' in permisosSys,
+               'mod_proyecto': 'modificar proyecto' in permisosProy,
+               'eliminar_proyecto': 'eliminar proyecto' in permisosProy,
+	            'asignar_miembros' : 'asignar miembros' in permisosProy
 	       }
 	return render_to_response('proyectos/verProyecto.html',ctx,context_instance=RequestContext(request))
 
@@ -196,11 +169,19 @@ def mod_proyecto(request, proyecto_id):
         form = ModProyectoForm(request.POST)
         if form.is_valid():
             actual.descripcion = form.cleaned_data['descripcion']
+            actual.fecha_inicio = form.cleaned_data['fecha_inicio']
+            actual.fecha_fin = form.cleaned_data['fecha_fin']
+            actual.estado = form.cleaned_data['estado']
+            actual.cantidad = form.cleaned_data['cantidad']
             actual.save()
             return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
         form = ModProyectoForm()
         form.fields['descripcion'].initial = actual.descripcion
+        form.fields['fecha_inicio'].initial = actual.fecha_inicio
+        form.fields['fecha_fin'].initial = actual.fecha_fin
+        form.fields['estado'].initial = actual.estado
+        form.fields['cantidad'].initial = actual.cantidad
     return render_to_response("proyectos/mod_proyecto.html", {'user':user,
                                                            'form':form,
                                                            'proyecto': actual,
@@ -244,10 +225,11 @@ def mod_proyecto(request, proyecto_id):
 # })
 
 @login_required
-def admin_permisos(request, rol_id):
+def asignar_miembro(request, proyecto_id):
     user = User.objects.get(username=request.user.username)
+    proyecto = Proyecto.objects.get(id=proyecto_id)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto_id).only('rol')
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -256,68 +238,24 @@ def admin_permisos(request, rol_id):
         permisos.append(i.nombre)
     print permisos
     #-------------------------------------------------------------------
-    actual = get_object_or_404(Rol, id=rol_id)
     if request.method == 'POST':
-        if actual.categoria == 1:
-            form = PermisosForm(request.POST)
-        else:
-            form = PermisosProyectoForm(request.POST)
+        form = NuevoMiembroForm(request.POST)
         if form.is_valid():
-               actual.permisos.clear()
-               if actual.categoria == 1:
-                  lista = form.cleaned_data['permisos']
-                  for i in lista:
-                    nuevo = RolPermiso()
-                    nuevo.rol = actual
-                    nuevo.permiso = i
-                    nuevo.save()
-               else:
-                    lista_req = form.cleaned_data['permisos1']
-                    lista_dis = form.cleaned_data['permisos2']
-                    lista_impl = form.cleaned_data['permisos3']
-                    for i in lista_req:
-                      nuevo = RolPermiso()
-                      nuevo.rol = actual
-                      nuevo.permiso = i
-                    #nuevo.fase = Fase.objects.get(pk=1)
-                      nuevo.save()
-                    for i in lista_dis:
-                      nuevo = RolPermiso()
-                      nuevo.rol = actual
-                      nuevo.permiso = i
-                    #nuevo.fase = Fase.objects.get(pk=2)
-                      nuevo.save()
-                    for i in lista_impl:
-                      nuevo = RolPermiso()
-                      nuevo.rol = actual
-                      nuevo.permiso = i
-                    #nuevo.fase = Fase.objects.get(pk=3)
-                      nuevo.save()
-        return HttpResponseRedirect("/verRol/ver&id=" + str(rol_id))
+            urp = UsuarioRolProyecto()
+            miembro = User.objects.get(id=form.cleaned_data['usuario'])
+            rol = Rol.objects.get(id=form.cleaned_data['rol'])
+            urp.usuario = miembro
+            urp.proyecto = proyecto
+            urp.rol = rol
+            urp.save()
+        return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
-        if actual.categoria == 1:
-            dict = {}
-         
-            for i in actual.permisos.all():
-                dict[i.id] = True
-            form = PermisosForm(initial={'permisos': dict})
-        else:
-	 
-            dict1 = {}
-            for i in actual.permisos.all():
-                dict1[i.id] = True
-
-            dict2 = {}
-            for i in actual.permisos.filter():
-                dict2[i.id] = True
-            dict3 = {}
-            for i in actual.permisos.filter():
-                dict3[i.id] = True
-            form = PermisosProyectoForm(initial={'permisos1': dict1, 'permisos2': dict2, 'permisos3': dict3})
-    return render_to_response("roles/admin_permisos.html", {'form': form, 
-                                                                  'roles': actual, 
-                                                                  'user':user,
-                                                                  })
+        form = NuevoMiembroForm()
+    return render_to_response('proyectos/asignar_miembro.html', {'form': form,
+                                                            'user': user,
+                                                            'proyecto': proyecto,
+                                                            'asignar_miembros': 'asignar miembros' in permisos
+                                                            })
 
 @login_required 
 def borrar_rol(request, rol_id):
