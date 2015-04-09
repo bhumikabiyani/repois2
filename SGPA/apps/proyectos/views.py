@@ -109,6 +109,12 @@ def crear_proyecto(request):
             proy.cantidad = form.cleaned_data['cantidad']
             proy.estado = 1
             proy.save()
+            urp = UsuarioRolProyecto()
+            urp.usuario = userLider
+            rol = Rol.objects.get(id=2)
+            urp.rol = rol
+            urp.proyecto = proy
+            urp.save()
         return HttpResponseRedirect("/proyectos")
     else:
         form = ProyectosForm()
