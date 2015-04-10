@@ -1,11 +1,11 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.test import RequestFactory
 from SGPA.apps.usuario.views import *
 from django.contrib.messages.storage.fallback import FallbackStorage
 import unittest
-import django
-django.setup()
+# import django
+# django.setup()
 
 class UserTestCase(TestCase):
     def setUp(self):
@@ -28,7 +28,7 @@ class UserTestCase(TestCase):
         request = RequestFactory().get('/usuario')
         user = User.objects.get(username="cgonza")
         request.user = user
-        response = mod_user(request,"2")
+        response = mod_user(request,"1")
         # Check.
         self.assertEqual(response.status_code, 200)
 
@@ -73,7 +73,6 @@ class UserTestCase(TestCase):
         response = cambiar_password(request)
         # Check.
         self.assertEqual(response.status_code, 200)
-
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Usuarios{% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE ROLES DE PROYECTO</h3></font></strong></center><br>
-<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE ROLES DE PROYECTO</h3></font></strong></center><br>  
- {% if crear_rol or ver_rol %}
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE PROYECTOS</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE PROYECTOS</h3></font></strong></center><br>
+{% if ver_proyectos %}
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -17,15 +17,15 @@
 		<table class="table table-bordered">
 	      <thead>
 	        <tr>
-		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>PROYECTO</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 	      {%for i in pag.object_list%}
 		   <tr>
-                          <td><strong><span style="color:#111111">{{i.nombre}}</span></strong></td>
-			  {% if ver_rol %}
-		          <td><a class="btn btn-primary" href="/verRol/ver&id={{i.id}}/"><strong> VER </strong></a>
+                          <td><strong><span style="color:#111111">{{i.nombrelargo}}</span></strong></td>
+			  {% if ver_proyectos %}
+		          <td><a class="btn btn-primary" href="/verProyecto/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}
 	           </tr>
 	    {% endfor %}
@@ -45,10 +45,12 @@
   
       <div class="footer">
            <div class="volver">
-                <a class="btn btn-primary" href="/roles"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-		{% if crear_rol %}    
-                   <a class="btn btn-primary" href="/crearRolP"><strong>CREAR NUEVO ROL </strong></a>
-                {% endif %}
+                <a class="btn btn-primary" href="/"><strong> VOLVER A LA PAGINA PRINCIPAL </strong> </a>&nbsp;&nbsp;
+               {% if crear_proyecto %}
+		            <a class="btn btn-primary" href="/crearProyecto"><strong>CREAR NUEVO PROYECTO </strong></a>
+        	   {% endif %}
+
+
 	</div>
      </div>
 {% else %}
