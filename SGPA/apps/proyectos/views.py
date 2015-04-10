@@ -21,15 +21,6 @@ from SGPA.apps.proyectos.forms import *
 from SGPA.apps.proyectos.models import *
 from SGPA.apps.proyectos.helper import *
 
-# @login_required
-# def admin_proyectos(request):
-#     """Administracion general de proyectos"""
-#     user = User.objects.get(username=request.user.username)
-#     permisos = get_permisos_sistema(user)
-#     return render_to_response('proyectos/proyectos.html',{'user':user,
-#                                                   'crear_proyecto': 'crear proyecto' in permisos}
-#                                                   )
-
 @login_required
 def admin_proyectos(request):
     """Administracion de Proyectos"""
@@ -40,7 +31,7 @@ def admin_proyectos(request):
         form = FilterForm(request.POST)
         if form.is_valid():
             palabra = form.cleaned_data['filtro']
-            lista = Proyecto.objects.filter(Q(nombrelargo__icontains = palabra) | Q(descripcion__icontains = palabra) | Q(usuario_lider__icontains = palabra)).order_by('id')
+            lista = Proyecto.objects.filter(Q(nombrelargo__icontains = palabra) | Q(descripcion__icontains = palabra)).order_by('id')
             paginas = form.cleaned_data['paginas']
             request.session['nro_items'] = paginas
             paginator = Paginator(lista, int(paginas))
@@ -193,42 +184,6 @@ def mod_proyecto(request, proyecto_id):
                                                            'proyecto': actual,
                                                            'mod_proyecto':'modificar proyecto' in permisos
 						     })
-
-# @login_required
-# def asignar_roles_sistema(request, usuario_id):
-#     """Asigna roles de sistema a un usuario"""
-#     user = User.objects.get(username=request.user.username)
-#     permisos = get_permisos_sistema(user)
-#     usuario = get_object_or_404(User, id=usuario_id)
-#     lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
-#     print lista_roles
-#     if request.method == 'POST':
-#         form = AsignarRolesForm(1, request.POST)
-#         if form.is_valid():
-#             lista_nueva = form.cleaned_data['roles']
-#             for i in lista_roles:
-#                 i.delete()
-#             for i in lista_nueva:
-#                 nuevo = UsuarioRolSistema()
-#                 nuevo.usuario = usuario
-#                 nuevo.rol = i
-#                 nuevo.save()
-#             return HttpResponseRedirect("visualizar/ver&id=" + str(usuario_id))
-#     else:
-#         if usuario.id == 1:
-#             error = "No se puede editar roles sobre el superusuario."
-#             return render_to_response("usuario/asignar_roles.html", {'mensaje': error,
-#                                                                             'usuario':usuario,
-#                                                                             'user': user,
-#                                                                             'asignar_rol': 'asignar rol' in permisos
-# 							          })
-#         dict = {}
-#         for i in lista_roles:
-#             print i.rol
-#             dict[i.rol.id] = True
-#         form = AsignarRolesForm(1,initial = {'roles': dict})
-#     return render_to_response("roles/asignar_roles.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
-# })
 
 @login_required
 def asignar_miembro(request, proyecto_id):
