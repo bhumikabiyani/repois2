@@ -182,9 +182,10 @@ def cambiar_password(request):
     if request.method == 'POST':
         form = CambiarPasswordForm(request.POST)
         if form.is_valid():
-            user.set_password(form.cleaned_data['password1'])
-            user.save()
-            return HttpResponseRedirect("/")
+            if user.check_password(form.cleaned_data['passwordactual'])==True:
+                user.set_password(form.cleaned_data['password1'])
+                user.save()
+                return HttpResponseRedirect("/")
     else:
         form = CambiarPasswordForm()
     return render_to_response('usuario/cambiar_password.html', {'form': form, 'user': user})
