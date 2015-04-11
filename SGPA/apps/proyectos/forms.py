@@ -18,16 +18,16 @@ class FilterForm2(forms.Form):
     filtro2 = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
     paginas2 = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
 
-class ProyectosForm(forms.Form):
-	nombrelargo = forms.CharField(max_length=50, label='NOMBRE')
-    	descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
-    	fecha_inicio = forms.DateField(label='INICIO')
-    	fecha_fin = forms.DateField(label='FIN')
-    	usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
-    	cantidad = forms.IntegerField(label='HORAS')
-    	#permisos = forms.ModelMultipleChoiceField(queryset = None, widget=forms.CheckboxSelectMultiple, required = False)
+class ProyectoForm(forms.Form):
+    nombrelargo = forms.CharField(max_length=50, label='NOMBRE')
+    descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    fecha_inicio = forms.DateField(label='INICIO')
+    fecha_fin = forms.DateField(label='FIN')
+    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    cantidad = forms.IntegerField(label='HORAS')
+    #permisos = forms.ModelMultipleChoiceField(queryset = None, widget=forms.CheckboxSelectMultiple, required = False)
 
-    	def clean_nombrelargo(self):
+    def clean_nombrelargo(self):
 		if 'nombrelargo' in self.cleaned_data:
 			proyectos = Proyecto.objects.all()
 			nombrelargo = self.cleaned_data['nombrelargo']
@@ -44,11 +44,31 @@ class ModProyectoForm(forms.Form):
     estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
 
 class NuevoMiembroForm(forms.Form):
-    usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')), label = 'USUARIO')
-    rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','nombre')), label = 'ROL')
+    usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
+    proyecto = Proyecto()
 
-class AsignarFlujoForm(forms.Form):
-	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
+    def __init__(self, proyecto, *args, **kwargs):
+        super(NuevoMiembroForm, self).__init__(*args, **kwargs)
+        self.proyecto = proyecto
+
+    def clean_rol(self):
+        if 'rol' in self.cleaned_data:
+            userRolProy = UsuarioRolProyecto.objects.all()
+            usuario = User.objects.get(id = self.cleaned_data['usuario'])
+            rol = Rol.objects.get(id = self.cleaned_data['rol'])
+            proy = Proyecto.objects.get(nombrelargo = self.proyecto)
+            for i in userRolProy:
+                if usuario == i.usuario and rol == i.rol and proy == i.proyecto:
+                    raise forms.ValidationError('El usuario ' + usuario.username + ' ya tiene este rol')
+            return self.cleaned_data['rol']
+
+# class AsignarRolesForm(forms.Form):
+# 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
+#
+# 	def __init__(self, cat, *args, **kwargs):
+# 		super(AsignarRolesForm, self).__init__(*args, **kwargs)
+# 		self.fields['roles'].queryset = Rol.objects.filter(categoria = cat)
 #
 # class PermisosForm(forms.Form):
 # 	permisos = forms.ModelMultipleChoiceField(queryset = Permiso.objects.filter(categoria = 1), widget = forms.CheckboxSelectMultiple, required = False)

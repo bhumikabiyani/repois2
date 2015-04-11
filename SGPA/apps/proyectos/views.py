@@ -89,7 +89,7 @@ def crear_proyecto(request):
 
     #-------------------------------------------------------------------
     if request.method == 'POST':
-        form = ProyectosForm(request.POST)
+        form = ProyectoForm(request.POST)
         if form.is_valid():
             proy = Proyecto()
             proy.nombrelargo = form.cleaned_data['nombrelargo']
@@ -111,7 +111,7 @@ def crear_proyecto(request):
             urp.save()
         return HttpResponseRedirect("/proyectos")
     else:
-        form = ProyectosForm()
+        form = ProyectoForm()
     return render_to_response('proyectos/crear_proyecto.html', {'form': form,
                                                                 'user': user,
                                                                 'crear_proyecto': 'crear proyecto' in permisos
@@ -209,7 +209,7 @@ def asignar_miembro(request, proyecto_id):
     print permisos
     #-------------------------------------------------------------------
     if request.method == 'POST':
-        form = NuevoMiembroForm(request.POST)
+        form = NuevoMiembroForm(proyecto,request.POST)
         if form.is_valid():
             urp = UsuarioRolProyecto()
             miembro = User.objects.get(id=form.cleaned_data['usuario'])
@@ -218,9 +218,9 @@ def asignar_miembro(request, proyecto_id):
             urp.proyecto = proyecto
             urp.rol = rol
             urp.save()
-        return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
+            return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
-        form = NuevoMiembroForm()
+        form = NuevoMiembroForm(proyecto)
     return render_to_response('proyectos/asignar_miembro.html', {'form': form,
                                                                  'user': user,
                                                                  'proyecto': proyecto,
