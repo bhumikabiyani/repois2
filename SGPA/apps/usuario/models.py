@@ -65,6 +65,18 @@ class UsuarioRolSistema (models.Model):
 	class Meta:
 		unique_together = [("usuario", "rol")]
 
+class Flujo(models.Model):
+    """Esta clase representa el flujo para proyecto"""
+    nombre = models.CharField(unique=True, max_length=50)
+    descripcion = models.TextField(null=True, blank=True)
+    fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
+    usuario_creador = models.ForeignKey(User, null=True)
+    #proyecto= models.IntegerField()
+
+    def __unicode__(self):
+        return self.nombre
+
+
 class Proyecto(models.Model):
     """Clase que representa un proyecto."""
     nombrelargo = models.CharField(unique=True, max_length=50)
@@ -77,9 +89,17 @@ class Proyecto(models.Model):
     cantidad = models.IntegerField()
     cant_actual = models.IntegerField(null=True)
     estado = models.IntegerField(max_length=1, choices=PROJECT_STATUS_CHOICES)
+    flujos = models.ManyToManyField(Flujo, through='ProyectoFlujo')
 
     def __unicode__(self):
         return self.nombrelargo
+
+class ProyectoFlujo(models.Model):
+    proyecto = models.ForeignKey(Proyecto)
+    flujo = models.ForeignKey(Flujo)
+
+    class Meta:
+        unique_together = [("proyecto", "flujo")]
 
 class UsuarioRolProyecto(models.Model):   
     usuario = models.ForeignKey(User)
@@ -88,15 +108,3 @@ class UsuarioRolProyecto(models.Model):
 
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
-
-class Flujo(models.Model):
-    """Esta clase representa el flujo para proyecto"""
-    nombre = models.CharField(unique=True, max_length=50)
-    descripcion = models.TextField(null=True, blank=True)
-    fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
-    usuario_creador = models.ForeignKey(User, null=True)      
-    #proyecto= models.IntegerField()
-
-    def __unicode__(self):
-        return self.nombre
-
