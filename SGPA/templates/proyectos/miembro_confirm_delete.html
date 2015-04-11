@@ -1,24 +1,24 @@
 {% extends "base.html" %}
-{% block title %}Eliminar Proyecto{% endblock %}
+{% block title %}Eliminar Miembro{% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> ELIMINAR PROYECTO "{{ proyecto.nombrelargo }}"</h3></font></strong></center><br>
-{% if eliminar_proyecto %}
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR MIEMBRO DEL "{{ usuariorolproyecto.proyecto.nombrelargo }}"</h3></font></strong></center><br>
+{% if eliminar_miembro %}
    {% if mensaje %}
       {% autoescape off %}
          <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
          </center><br><br>
       {% endautoescape %}
-	            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/proyectos' "/></center>
+	            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verProyecto/ver&id={{proyecto.id}}'"/></center>
 
 	{% else %}
       <form id="form_id" action="" method="post">
          {% csrf_token %}
             <center><p>
 
-                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL PROYECTO: "{{proyecto}}"?</strong><br><br>
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR AL MIEMBRO: "{{user}}"?</strong><br><br>
                        <span class="optionbuttons">
                           <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
-	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/proyectos'"/>
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verProyecto/ver&id={{proyecto.id}}'"/>
                        </span>
 
                     </p>

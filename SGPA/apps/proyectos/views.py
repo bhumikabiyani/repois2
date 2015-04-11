@@ -109,7 +109,7 @@ def crear_proyecto(request):
             urp.rol = rol
             urp.proyecto = proy
             urp.save()
-        return HttpResponseRedirect("/proyectos")
+            return HttpResponseRedirect("/proyectos")
     else:
         form = ProyectoForm()
     return render_to_response('proyectos/crear_proyecto.html', {'form': form,
@@ -152,7 +152,8 @@ def visualizar_proyectos(request, proyecto_id):
            'mod_proyecto': 'modificar proyecto' in permisosProy,
            'eliminar_proyecto': 'eliminar proyecto' in permisosProy,
            'asignar_miembros': 'asignar miembros' in permisosProy,
-           'asignar_flujo' : 'asignar flujo' in permisosProy
+           'asignar_flujo' : 'asignar flujo' in permisosProy,
+           'eliminar_miembro' : 'eliminar miembro' in permisosProy
            }
     return render_to_response('proyectos/verProyecto.html', ctx, context_instance=RequestContext(request))
 
@@ -227,54 +228,6 @@ def asignar_miembro(request, proyecto_id):
                                                                  'asignar_miembros': 'asignar miembros' in permisos
                                                                  })
 
-
-@login_required
-def borrar_rol(request, rol_id):
-    """Borra un rol con las comprobaciones de consistencia"""
-    user = User.objects.get(username=request.user.username)
-    # Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario=user).only('rol')
-    permisos_obj = []
-    for i in roles:
-        permisos_obj.extend(i.rol.permisos.all())
-    permisos = []
-    for i in permisos_obj:
-        permisos.append(i.nombre)
-    print permisos
-    #-------------------------------------------------------
-    actual = get_object_or_404(Rol, id=rol_id)
-    #Obtener todas las posibles dependencias
-    if actual.categoria == 1:
-        relacionados = UsuarioRolSistema.objects.filter(rol=actual).count()
-    elif actual.categoria == 2:
-        pass
-        #relacionados = UsuarioRolProyecto.objects.filter(rol = actual).count()
-    if request.method == 'POST':
-        actual.delete()
-        if actual.categoria == 1:
-            return HttpResponseRedirect("/rolesSist")
-        return HttpResponseRedirect("/rolesProy")
-    else:
-        if actual.id == 1:
-            error = "No se puede borrar el rol de superusuario"
-            return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,
-                                                                        'rol': actual,
-                                                                        'user': user,
-                                                                        'eliminar_rol': 'eliminar rol' in permisos
-                                                                        })
-            # if relacionados > 0:
-            #     error = "El rol se esta utilizando."
-            #     return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,
-            #                                                                       'rol':actual,
-            #                                                                       'user':user,
-            #                                                                       'eliminar_rol':'eliminar rol' in permisos
-        # 						})
-    return render_to_response("roles/rol_confirm_delete.html", {'rol': actual,
-                                                                'user': user,
-                                                                'eliminar_rol': 'eliminar rol' in permisos
-                                                                })
-
-
 @login_required
 def asignar_flujo(request, proyecto_id):
     user = User.objects.get(username=request.user.username)
@@ -313,3 +266,66 @@ def asignar_flujo(request, proyecto_id):
                                                                   'proyecto': actual,
                                                                   'user':user,
                                                                   })
+def borrar_proyecto(request, proyecto_id):
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(Proyecto, id=proyecto_id)
+    relacionados = ProyectoFlujo.objects.filter(flujo = actual).count()
+
+    if request.method == 'POST':
+        actual.delete()
+        return HttpResponseRedirect("/proyectos")
+    else:
+        if relacionados > 0:
+             error = "El Proyecto esta relacionado."
+             return render_to_response("proyectos/proyecto_confirm_delete.html", {'mensaje': error,
+                                                                               'proyecto':actual,
+                                                                               'user':user,
+                                                                               'eliminar_proyecto':'eliminar proyecto' in permisos})
+    return render_to_response("proyectos/proyecto_confirm_delete.html", {'proyecto':actual,
+                                                                      'user':user,
+                                                                      'eliminar_proyecto':'eliminar proyecto' in permisos
+								})
+
+def borrar_miembro(request, miembro_id):
+    user = User.objects.get(username=request.user.username)
+    urp = UsuarioRolProyecto.objects.get(id=miembro_id)
+    rol = Rol.objects.get(nombre=urp.rol)
+    proyecto = Proyecto.objects.get(nombrelargo=urp.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,rol=rol).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(UsuarioRolProyecto, id=miembro_id)
+    #relacionados = UsuarioRolProyecto.objects.filter(flujo = actual).count()
+
+    if request.method == 'POST':
+        actual.delete()
+        return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto.id))
+    # else:
+    #     if relacionados > 0:
+    #          error = "El Flujo esta relacionado."
+    #          return render_to_response("flujo/flujo_confirm_delete.html", {'mensaje': error,
+    #                                                                            'flujo':actual,
+    #                                                                            'user':user,
+    #                                                                            'eliminar_flujo':'eliminar flujo' in permisos})
+    return render_to_response("proyectos/miembro_confirm_delete.html", {'usuariorolproyecto':actual,
+                                                                      'user':user,
+                                                                      'proyecto': proyecto,
+                                                                      'eliminar_miembro':'eliminar miembro' in permisos
+								})
