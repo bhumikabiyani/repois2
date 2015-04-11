@@ -119,6 +119,7 @@ def crear_proyecto(request):
 
 
 def visualizar_proyectos(request, proyecto_id):
+    """Visualiza Datos de un Proyecto y muestra las operaciones que puede ejecutar"""
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     status = ""
     if proyecto.estado == 1:
@@ -159,6 +160,7 @@ def visualizar_proyectos(request, proyecto_id):
 
 
 def mod_proyecto(request, proyecto_id):
+    """Modifica un Proyecto"""
     user = User.objects.get(username=request.user.username)
     # Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario=user).only('rol')
@@ -197,6 +199,7 @@ def mod_proyecto(request, proyecto_id):
 
 @login_required
 def asignar_miembro(request, proyecto_id):
+    """Metodo para asignar miembro a proyecto"""
     user = User.objects.get(username=request.user.username)
     proyecto = Proyecto.objects.get(id=proyecto_id)
     # Validacion de permisos---------------------------------------------
@@ -230,6 +233,7 @@ def asignar_miembro(request, proyecto_id):
 
 @login_required
 def asignar_flujo(request, proyecto_id):
+    """Metodo para asignar Flujo a Proyecto"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -267,6 +271,7 @@ def asignar_flujo(request, proyecto_id):
                                                                   'user':user,
                                                                   })
 def borrar_proyecto(request, proyecto_id):
+    """Metodo para borrar Proyecto"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -297,6 +302,7 @@ def borrar_proyecto(request, proyecto_id):
 								})
 
 def borrar_miembro(request, miembro_id):
+    """Metodo para eliminar un miembro del Proyecto"""
     user = User.objects.get(username=request.user.username)
     urp = UsuarioRolProyecto.objects.get(id=miembro_id)
     rol = Rol.objects.get(nombre=urp.rol)

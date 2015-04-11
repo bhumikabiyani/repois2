@@ -112,6 +112,7 @@ def crear_flujo(request):
 			      })
 
 def visualizar_flujo(request, flujo_id):
+        """Visualiza Flujos"""
         flujos = get_object_or_404(Flujo, id=flujo_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
@@ -126,6 +127,7 @@ def visualizar_flujo(request, flujo_id):
 	return render_to_response('flujo/verFlujo.html',ctx,context_instance=RequestContext(request))
 
 def mod_flujo(request, flujo_id):
+    """Modifica un Flujo"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -154,6 +156,7 @@ def mod_flujo(request, flujo_id):
 						     })
 
 def borrar_flujo(request, flujo_id):
+    """Elimina un flujo si no està asignado a un Proyecto"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
