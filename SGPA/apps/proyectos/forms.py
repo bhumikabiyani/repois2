@@ -63,6 +63,8 @@ class NuevoMiembroForm(forms.Form):
                     raise forms.ValidationError('El usuario ' + usuario.username + ' ya tiene este rol')
             return self.cleaned_data['rol']
 
+class AsignarFlujoForm(forms.Form):
+	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
 #
