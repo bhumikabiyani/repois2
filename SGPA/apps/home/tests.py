@@ -15,6 +15,8 @@ class UserTestCase(TestCase):
 
     def setUp(self):
         self.u1 = User.objects.create(username="cgonza",first_name="Carlos",last_name="Gonzalez",email="cgonzalez@gmail.com")
+        self.p1 = Proyecto.objects.create(nombrelargo="prueba", usuario_lider = self.u1, cantidad = "10", estado = "1")
+        self.f1 = Flujo.objects.create(nombre="flujo1")
 
     def testLogin_View(self):
         request = RequestFactory().get('/usuario')
@@ -173,7 +175,7 @@ class UserTestCase(TestCase):
     def testModFlujo_View(self):
         request = RequestFactory().get('/flujos')
         user = User.objects.get(username="cgonza")
-        flujo = Flujo.objects.get(nombre="prueba")
+        flujo = Flujo.objects.get(nombre="flujo1")
         request.user = user
         response = mod_flujo(request,flujo.id)
         # Check.
@@ -182,7 +184,7 @@ class UserTestCase(TestCase):
     def testDelFlujo_View(self):
         request = RequestFactory().get('/flujos')
         user = User.objects.get(username="cgonza")
-        flujo = Flujo.objects.get(nombre="prueba")
+        flujo = Flujo.objects.get(nombre="flujo1")
         request.user = user
         response = borrar_flujo(request,flujo.id)
         # Check.
