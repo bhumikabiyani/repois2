@@ -45,14 +45,6 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
-    def testAdminRol_View(self):
-        request = RequestFactory().get('/usuario')
-        user = User.objects.get(username="cgonza")
-        request.user = user
-        response = admin_roles(request)
-        # Check.
-        self.assertEqual(response.status_code, 200)
-
     def testModRol_View(self):
         request = RequestFactory().get('/usuario')
         user = User.objects.get(username="admin")
@@ -143,7 +135,58 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
+    def testModProyecto_View(self):
+        request = RequestFactory().get('/proyectos')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = mod_proyecto(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
 
+    def testAsigMiembro_View(self):
+        request = RequestFactory().get('/proyectos')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = asignar_miembro(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsigFlujo_View(self):
+        request = RequestFactory().get('/proyectos')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = asignar_flujo(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testCrearFlujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        request.user = user
+        response = crear_flujo(request)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testModFlujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        flujo = Flujo.objects.get(nombre="prueba")
+        request.user = user
+        response = mod_flujo(request,flujo.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testDelFlujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        flujo = Flujo.objects.get(nombre="prueba")
+        request.user = user
+        response = borrar_flujo(request,flujo.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()
