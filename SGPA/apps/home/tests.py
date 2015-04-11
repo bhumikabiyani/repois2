@@ -170,6 +170,22 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
+    def testCrearFlujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        request.user = user
+        response = crear_flujo(request)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testModFlujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        flujo = Flujo.objects.get(nombre="prueba")
+        request.user = user
+        response = mod_flujo(request,flujo.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == "__main__":
