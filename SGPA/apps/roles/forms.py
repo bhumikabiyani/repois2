@@ -80,7 +80,7 @@ class UsuarioProyectoForm(forms.Form):
          if 'usuario' in self.cleaned_data:
              usuarios_existentes = UsuarioRolProyecto.objects.filter(id = self.proyecto.id)
              for i in usuarios_existentes:
-                 if(usuarios_existentes.usuario == form.clean_data['usuario']):
+                 if(usuarios_existentes.usuario == forms.clean_data['usuario']):
                      raise forms.ValidationError('Ya existe este usuario')
              return self.cleaned_data['usuario']
 

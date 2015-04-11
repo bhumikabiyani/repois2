@@ -92,7 +92,7 @@ class Proyecto(models.Model):
     flujos = models.ManyToManyField(Flujo, through='ProyectoFlujo')
 
     def __unicode__(self):
-        return self.nombre
+        return self.nombrelargo
 
 class ProyectoFlujo(models.Model):
     proyecto = models.ForeignKey(Proyecto)
