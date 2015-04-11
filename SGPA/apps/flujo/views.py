@@ -152,3 +152,33 @@ def mod_flujo(request, flujo_id):
 							   'flujo': actual,
                                                            'mod_flujo':'modificar flujo' in permisos
 						     })
+
+def borrar_flujo(request, flujo_id):
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(Flujo, id=flujo_id)
+    relacionados = ProyectoFlujo.objects.filter(flujo = actual).count()
+
+    if request.method == 'POST':
+        actual.delete()
+        return HttpResponseRedirect("/flujos")
+    else:
+        if relacionados > 0:
+             error = "El Flujo esta relacionado."
+             return render_to_response("flujo/flujo_confirm_delete.html", {'mensaje': error,
+                                                                               'flujo':actual,
+                                                                               'user':user,
+                                                                               'eliminar_flujo':'eliminar flujo' in permisos})
+    return render_to_response("flujo/flujo_confirm_delete.html", {'flujo':actual,
+                                                                      'user':user,
+                                                                      'eliminar_flujo':'eliminar flujo' in permisos
+								})
