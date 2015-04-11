@@ -210,7 +210,6 @@ def asignar_miembro(request, proyecto_id):
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = NuevoMiembroForm(proyecto,request.POST)
-        print 'llega'
         if form.is_valid():
             urp = UsuarioRolProyecto()
             miembro = User.objects.get(id=form.cleaned_data['usuario'])
