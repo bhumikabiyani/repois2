@@ -2,7 +2,7 @@
 {% block title %} Detalles Proyecto{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL PROYECTO "{{ proyecto.nombrelargo }}" </h3></font></strong></center><br>
-{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_miembros%}
+{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_miembros or asignar_flujo%}
 <form action="." method="POST">
          {% csrf_token %}
     <table class="table table-bordered">
@@ -79,7 +79,7 @@
 			{% if asignar_miembros%}
 			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>
 			{% endif %}
-            {% if asignar_miembros%}
+            {% if asignar_flujo%}
 			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>
 			{% endif %}
 			   </td><br><br>

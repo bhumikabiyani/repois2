@@ -45,7 +45,7 @@ class ModProyectoForm(forms.Form):
 
 class NuevoMiembroForm(forms.Form):
     usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')), label = 'USUARIO')
-    rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')), label = 'ROL')
+    rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','nombre')), label = 'ROL')
 
 class AsignarFlujoForm(forms.Form):
 	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
