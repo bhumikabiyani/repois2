@@ -45,14 +45,6 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
-    def testAdminRol_View(self):
-        request = RequestFactory().get('/usuario')
-        user = User.objects.get(username="cgonza")
-        request.user = user
-        response = admin_roles(request)
-        # Check.
-        self.assertEqual(response.status_code, 200)
-
     def testModRol_View(self):
         request = RequestFactory().get('/usuario')
         user = User.objects.get(username="admin")
@@ -187,6 +179,14 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
+    def testDelFlujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        flujo = Flujo.objects.get(nombre="prueba")
+        request.user = user
+        response = borrar_flujo(request,flujo.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()
