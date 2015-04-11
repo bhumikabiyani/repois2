@@ -143,6 +143,33 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
+    def testModProyecto_View(self):
+        request = RequestFactory().get('/proyectos')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = mod_proyecto(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsigMiembro_View(self):
+        request = RequestFactory().get('/proyectos')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = asignar_miembro(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsigFlujo_View(self):
+        request = RequestFactory().get('/proyectos')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = asignar_flujo(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
 
 
 if __name__ == "__main__":
