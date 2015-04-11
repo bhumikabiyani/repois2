@@ -14,8 +14,8 @@ urlpatterns = patterns('SGPA.apps.flujo.views',
 	url(r'^flujos/$', 'admin_flujo', name='vista_admiF'),
 	url(r'^verFlujo/ver&id=(?P<flujo_id>\d+)/$', 'visualizar_flujo', name='vista_flujo'),
 	url(r'^crearFlujo/$','crear_flujo',name='vista_crearFlujo'),
-	url(r'^modificarFlujo/mod&id=(?P<flujo_id>\d+)/$','mod_flujo',name='vista_modFlujo')
-	#url(r'^eliminarFlujo/del&id=(?P<flujo_id>\d+)/$','borrar_flujo',name='vista_delFlujo'),
+	url(r'^modificarFlujo/mod&id=(?P<flujo_id>\d+)/$','mod_flujo',name='vista_modFlujo'),
+	url(r'^eliminarFlujo/del&id=(?P<flujo_id>\d+)/$','borrar_flujo',name='vista_delFlujo'),
 )
 
 
