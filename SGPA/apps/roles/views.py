@@ -327,12 +327,12 @@ def borrar_rol(request, rol_id):
                                                                               'user':user,
                                                                               'eliminar_rol':'eliminar rol' in permisos
 									})
-        if relacionados > 0:
-             error = "El rol se esta utilizando."
-             return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,
-                                                                               'rol':actual,
-                                                                               'user':user,
-                                                                               'eliminar_rol':'eliminar rol' in permisos})
+        #if relacionados > 0:
+             #error = "El rol se esta utilizando."
+             #return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,
+                                                                            #   'rol':actual,
+                                                                           #    'user':user,
+                                                                          #     'eliminar_rol':'eliminar rol' in permisos})
 			# 						})
     return render_to_response("roles/rol_confirm_delete.html", {'rol':actual, 
                                                                       'user':user, 

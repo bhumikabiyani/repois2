@@ -33,6 +33,10 @@
    <div class="footer">
            <div class="volver">
 		<th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
+		{% ifequal roles.id 1 %}
+		          <td><strong>Rol con todos los permisos</strong></td>
+		       {% else %}
+
 		<td>
 			{% if eliminar_rol %}
                       <a class="btn btn-primary" href="/eliminarRol/del&id={{roles.id}}/"><strong>ELIMINAR</strong></a>
@@ -44,6 +48,8 @@
 			<a class="btn btn-primary" href="/roles/permisos&id={{roles.id}}/"><strong>ASIGNAR PERMISOS</strong></a>   
 			{% endif %}                            	
 			   </td>
+		       {% endifequal %}
+
 		{%ifequal roles.categoria 1 %}
                 <br><br><a class="btn btn-primary" href="/rolesSist"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
 		{%else %}

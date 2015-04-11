@@ -24,7 +24,6 @@ def index_view(request):
     """Muestra la Página de Inicio del Sistema"""
     return render_to_response('home/index.html', context_instance=RequestContext(request))
 
-
 def login_view(request):
     """Vista de Inicio de Sesión"""
     mensaje = ""

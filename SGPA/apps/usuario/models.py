@@ -79,7 +79,7 @@ class Proyecto(models.Model):
     estado = models.IntegerField(max_length=1, choices=PROJECT_STATUS_CHOICES)
 
     def __unicode__(self):
-        return self.nombre
+        return self.nombrelargo
 
 class UsuarioRolProyecto(models.Model):   
     usuario = models.ForeignKey(User)
