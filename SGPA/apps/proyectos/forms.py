@@ -47,12 +47,8 @@ class NuevoMiembroForm(forms.Form):
     usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')), label = 'USUARIO')
     rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')), label = 'ROL')
 
-# class AsignarRolesForm(forms.Form):
-# 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
-#
-# 	def __init__(self, cat, *args, **kwargs):
-# 		super(AsignarRolesForm, self).__init__(*args, **kwargs)
-# 		self.fields['roles'].queryset = Rol.objects.filter(categoria = cat)
+class AsignarFlujoForm(forms.Form):
+	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
 #
 # class PermisosForm(forms.Form):
 # 	permisos = forms.ModelMultipleChoiceField(queryset = Permiso.objects.filter(categoria = 1), widget = forms.CheckboxSelectMultiple, required = False)
