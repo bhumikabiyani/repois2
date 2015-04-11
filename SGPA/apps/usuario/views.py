@@ -80,7 +80,7 @@ def admin_usuarios(request):
         form = FilterForm(request.POST)
         if form.is_valid():
             palabra = form.cleaned_data['filtro']
-            lista = User.objects.filter(Q(username__icontains = palabra) | Q(first_name__icontains = palabra) | Q(last_name__icontains = palabra)).order_by('id')
+            lista = User.objects.filter(Q(username__icontains = palabra) | Q(first_name__icontains = palabra) | Q(last_name__icontains = palabra) | Q(email__icontains = palabra)).order_by('id')
             paginas = form.cleaned_data['paginas']
             request.session['nro_items'] = paginas
             paginator = Paginator(lista, int(paginas))
@@ -146,7 +146,7 @@ def mod_user(request, usuario_id):
     return render_to_response('usuario/mod_usuario.html',{'form':form, 
                                                           'user':user, 
                                                           'usuario':usuario, 
-                                                          'mod_usuario': 'Modificar usuario'
+                                                          'mod_usuario': 'modificar usuario' in permisos
 							})
 
 @login_required
@@ -182,7 +182,7 @@ def cambiar_password(request):
     if request.method == 'POST':
         form = CambiarPasswordForm(request.POST)
         if form.is_valid():
-            if user.check_password(form.cleaned_data['passwordactual'])==True:
+            if request.user.check_password(form.cleaned_data['passwordactual'])==True:
                 user.set_password(form.cleaned_data['password1'])
                 user.save()
                 return HttpResponseRedirect("/")

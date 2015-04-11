@@ -43,11 +43,11 @@
 			{% if asignar_rol%}				
 			<a class="btn btn-primary" href="/roles/permisos&id={{roles.id}}/"><strong>ASIGNAR PERMISOS</strong></a>   
 			{% endif %}                            	
-			   </td><br><br>
+			   </td>
 		{%ifequal roles.categoria 1 %}
-                <a class="btn btn-primary" href="/rolesSist"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+                <br><br><a class="btn btn-primary" href="/rolesSist"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
 		{%else %}
-		<a class="btn btn-primary" href="/rolesProy"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+		<br><br><a class="btn btn-primary" href="/rolesProy"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
 		{%endifequal %}
            </div>
      </div>

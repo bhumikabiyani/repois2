@@ -18,12 +18,14 @@
 	      <thead>
 	        <tr>
 		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>DESCRIPCION</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
 	      {%for i in pag.object_list%}
 		   <tr>
                           <td><strong><span style="color:#111111">{{i.nombre}}</span></strong></td>
+			  <td><strong><span style="color:#111111">{{i.descripcion}}</span></strong></td>
 			  {% if ver_rol %}
 		          <td><a class="btn btn-primary" href="/verRol/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}
