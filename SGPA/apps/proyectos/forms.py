@@ -40,6 +40,7 @@ class ModProyectoForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
     fecha_inicio = forms.DateField(label='INICIO')
     fecha_fin = forms.DateField(label='FIN')
+    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     cantidad = forms.IntegerField(label='HORAS')
     estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
 

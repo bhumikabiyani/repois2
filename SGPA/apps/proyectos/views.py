@@ -179,15 +179,21 @@ def mod_proyecto(request, proyecto_id):
             actual.descripcion = form.cleaned_data['descripcion']
             actual.fecha_inicio = form.cleaned_data['fecha_inicio']
             actual.fecha_fin = form.cleaned_data['fecha_fin']
+            actual.usuario_lider = User.objects.get(id=form.cleaned_data['usuario_lider'])
             actual.estado = form.cleaned_data['estado']
             actual.cantidad = form.cleaned_data['cantidad']
             actual.save()
+            userRolProyActual = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id, rol=2)
+            liderActual = UsuarioRolProyecto.objects.get(id=userRolProyActual)
+            liderActual.usuario = actual.usuario_lider
+            liderActual.save()
             return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
         form = ModProyectoForm()
         form.fields['descripcion'].initial = actual.descripcion
         form.fields['fecha_inicio'].initial = actual.fecha_inicio
         form.fields['fecha_fin'].initial = actual.fecha_fin
+        form.fields['usuario_lider'].initial = User.objects.get(username=actual.usuario_lider).id
         form.fields['estado'].initial = actual.estado
         form.fields['cantidad'].initial = actual.cantidad
     return render_to_response("proyectos/mod_proyecto.html", {'user': user,
