@@ -96,7 +96,7 @@ def crear_proyecto(request):
             proy.descripcion = form.cleaned_data['descripcion']
             # proy.fecHor_creacion = datetime.datetime.now()
             # proy.usuario_creador = user
-            userLider = User.objects.get(id=form.cleaned_data['usuario_lider'])
+            userLider = User.objects.get(username=form.cleaned_data['usuario_lider'])
             proy.usuario_lider = userLider
             proy.fecha_inicio = form.cleaned_data['fecha_inicio']
             proy.fecha_fin = form.cleaned_data['fecha_fin']
@@ -179,7 +179,7 @@ def mod_proyecto(request, proyecto_id):
             actual.descripcion = form.cleaned_data['descripcion']
             actual.fecha_inicio = form.cleaned_data['fecha_inicio']
             actual.fecha_fin = form.cleaned_data['fecha_fin']
-            actual.usuario_lider = User.objects.get(id=form.cleaned_data['usuario_lider'])
+            actual.usuario_lider = User.objects.get(username=form.cleaned_data['usuario_lider'])
             actual.estado = form.cleaned_data['estado']
             actual.cantidad = form.cleaned_data['cantidad']
             actual.save()
@@ -193,7 +193,7 @@ def mod_proyecto(request, proyecto_id):
         form.fields['descripcion'].initial = actual.descripcion
         form.fields['fecha_inicio'].initial = actual.fecha_inicio
         form.fields['fecha_fin'].initial = actual.fecha_fin
-        form.fields['usuario_lider'].initial = User.objects.get(username=actual.usuario_lider).id
+        form.fields['usuario_lider'].initial = actual.usuario_lider
         form.fields['estado'].initial = actual.estado
         form.fields['cantidad'].initial = actual.cantidad
     return render_to_response("proyectos/mod_proyecto.html", {'user': user,
@@ -222,8 +222,8 @@ def asignar_miembro(request, proyecto_id):
         form = NuevoMiembroForm(proyecto,request.POST)
         if form.is_valid():
             urp = UsuarioRolProyecto()
-            miembro = User.objects.get(id=form.cleaned_data['usuario'])
-            rol = Rol.objects.get(id=form.cleaned_data['rol'])
+            miembro = User.objects.get(username=form.cleaned_data['usuario'])
+            rol = Rol.objects.get(nombre=form.cleaned_data['rol'])
             urp.usuario = miembro
             urp.proyecto = proyecto
             urp.rol = rol
