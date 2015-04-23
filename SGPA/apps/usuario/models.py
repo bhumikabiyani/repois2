@@ -108,3 +108,45 @@ class UsuarioRolProyecto(models.Model):
 
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
+
+
+ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
+
+class UserHistory(models.Model):
+    nombre = models.CharField(unique=True, max_length=50)
+    valor_tecnico = models.IntegerField()
+    valor_negocio = models.IntegerField()
+    prioridad = models.IntegerField()
+    flujo = models.ForeignKey(Flujo)
+    actividad = models.IntegerField()
+    sprint = models.IntegerField()
+    estado = models.CharField(maxlength=6, choices=ESTADO_CHOICES)
+    tiempo_estimado = models.IntegerField()
+    tiempo_utilizado = models.IntegerField()
+
+    def __unicode__(self):
+        return self.nombre
+
+class Historia(models.Model):
+    descripcion = models.CharField(max_length=500)
+    fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
+    userhistory = models.ForeignKey(UserHistory)
+
+    def __unicode__(self):
+        return self.descripcion
+
+class ArchivosAdjuntos(models.Model):
+    userhistory = models.ForeignKey(UserHistory)
+    nombre=models.CharField(max_length=50,)
+    docfile = models.FileField(upload_to='documents')
+
+    def __unicode__(self):
+        return self.nombre
+
+class Comentarios(models.Model):
+    asunto = models.CharField(max_length=30,null=False)
+    descripcion = models.CharField(max_length=200,null=False)
+    userhistory = models.ForeignKey(UserHistory)
+
+    def __unicode__(self):
+        return self.asunto
