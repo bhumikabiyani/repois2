@@ -23,7 +23,8 @@ class ProyectoForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
     fecha_inicio = forms.DateField(label='INICIO')
     fecha_fin = forms.DateField(label='FIN')
-    usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
+    # usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     cantidad = forms.IntegerField(label='HORAS')
     #permisos = forms.ModelMultipleChoiceField(queryset = None, widget=forms.CheckboxSelectMultiple, required = False)
 
@@ -40,26 +41,39 @@ class ModProyectoForm(forms.Form):
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
     fecha_inicio = forms.DateField(label='INICIO')
     fecha_fin = forms.DateField(label='FIN')
+    # usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
     cantidad = forms.IntegerField(label='HORAS')
     estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
+    # def __init__(self,  *args, **kwargs):
+    #     super(ModProyectoForm, self).__init__(*args, **kwargs)
+    #     # self.fields['usuario_lider'].queryset = User.objects.all().values_list('id','username')
+    #     self.fields['usuario_lider'].queryset = User.objects.none().values_list('id','username')
+    #     print 'hola'
 
 class NuevoMiembroForm(forms.Form):
-    usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
-    rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
+    usuario = forms.ModelChoiceField(queryset=User.objects.all())
+    # usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
+    rol = forms.ModelChoiceField(queryset=Rol.objects.filter(categoria=2).exclude(id=2))
+    # rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
     proyecto = Proyecto()
 
     def __init__(self, proyecto, *args, **kwargs):
         super(NuevoMiembroForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
 
+    def clean_usuario(self):
+		if 'usuario' in self.cleaned_data:
+			return self.cleaned_data['usuario']
+
     def clean_rol(self):
-        if 'rol' in self.cleaned_data:
-            userRolProy = UsuarioRolProyecto.objects.all()
-            usuario = User.objects.get(id = self.cleaned_data['usuario'])
-            rol = Rol.objects.get(id = self.cleaned_data['rol'])
+        if 'rol' in self.cleaned_data and 'usuario' in self.cleaned_data:
             proy = Proyecto.objects.get(nombrelargo = self.proyecto)
+            userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proy)
+            usuario = User.objects.get(username = self.cleaned_data['usuario'])
+            rol = Rol.objects.get(nombre = self.cleaned_data['rol'])
             for i in userRolProy:
-                if usuario == i.usuario and rol == i.rol and proy == i.proyecto:
+                if rol == i.rol and usuario == i.usuario and proy == i.proyecto:
                     raise forms.ValidationError('El usuario ' + usuario.username + ' ya tiene este rol')
             return self.cleaned_data['rol']
 

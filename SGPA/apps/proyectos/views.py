@@ -27,13 +27,19 @@ def admin_proyectos(request):
     """Administracion de Proyectos"""
     user = User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
-    lista = Proyecto.objects.filter().order_by('id')
+    usuarioPorProyecto = UsuarioRolProyecto.objects.filter(usuario = user.id)
+    proys = []
+    for rec in usuarioPorProyecto:
+        if not rec.proyecto in proys:
+            proys.append(rec.proyecto.id)
+    print proys
+    lista = Proyecto.objects.filter(id__in = proys).order_by('id')
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
             palabra = form.cleaned_data['filtro']
             lista = Proyecto.objects.filter(
-                Q(nombrelargo__icontains=palabra) | Q(descripcion__icontains=palabra)).order_by('id')
+                Q(nombrelargo__icontains=palabra) | Q(descripcion__icontains=palabra), Q(id__in = proys)).order_by('id')
             paginas = form.cleaned_data['paginas']
             request.session['nro_items'] = paginas
             paginator = Paginator(lista, int(paginas))
@@ -96,7 +102,7 @@ def crear_proyecto(request):
             proy.descripcion = form.cleaned_data['descripcion']
             # proy.fecHor_creacion = datetime.datetime.now()
             # proy.usuario_creador = user
-            userLider = User.objects.get(id=form.cleaned_data['usuario_lider'])
+            userLider = User.objects.get(username=form.cleaned_data['usuario_lider'])
             proy.usuario_lider = userLider
             proy.fecha_inicio = form.cleaned_data['fecha_inicio']
             proy.fecha_fin = form.cleaned_data['fecha_fin']
@@ -179,15 +185,21 @@ def mod_proyecto(request, proyecto_id):
             actual.descripcion = form.cleaned_data['descripcion']
             actual.fecha_inicio = form.cleaned_data['fecha_inicio']
             actual.fecha_fin = form.cleaned_data['fecha_fin']
+            actual.usuario_lider = User.objects.get(username=form.cleaned_data['usuario_lider'])
             actual.estado = form.cleaned_data['estado']
             actual.cantidad = form.cleaned_data['cantidad']
             actual.save()
+            userRolProyActual = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id, rol=2)
+            liderActual = UsuarioRolProyecto.objects.get(id=userRolProyActual)
+            liderActual.usuario = actual.usuario_lider
+            liderActual.save()
             return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
         form = ModProyectoForm()
         form.fields['descripcion'].initial = actual.descripcion
         form.fields['fecha_inicio'].initial = actual.fecha_inicio
         form.fields['fecha_fin'].initial = actual.fecha_fin
+        form.fields['usuario_lider'].initial = actual.usuario_lider
         form.fields['estado'].initial = actual.estado
         form.fields['cantidad'].initial = actual.cantidad
     return render_to_response("proyectos/mod_proyecto.html", {'user': user,
@@ -216,8 +228,8 @@ def asignar_miembro(request, proyecto_id):
         form = NuevoMiembroForm(proyecto,request.POST)
         if form.is_valid():
             urp = UsuarioRolProyecto()
-            miembro = User.objects.get(id=form.cleaned_data['usuario'])
-            rol = Rol.objects.get(id=form.cleaned_data['rol'])
+            miembro = User.objects.get(username=form.cleaned_data['usuario'])
+            rol = Rol.objects.get(nombre=form.cleaned_data['rol'])
             urp.usuario = miembro
             urp.proyecto = proyecto
             urp.rol = rol
