@@ -62,8 +62,12 @@ class NuevoMiembroForm(forms.Form):
         super(NuevoMiembroForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
 
+    def clean_usuario(self):
+		if 'usuario' in self.cleaned_data:
+			return self.cleaned_data['usuario']
+
     def clean_rol(self):
-        if 'rol' in self.cleaned_data:
+        if 'rol' in self.cleaned_data and 'usuario' in self.cleaned_data:
             proy = Proyecto.objects.get(nombrelargo = self.proyecto)
             userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proy)
             usuario = User.objects.get(username = self.cleaned_data['usuario'])

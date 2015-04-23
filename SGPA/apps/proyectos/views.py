@@ -27,13 +27,19 @@ def admin_proyectos(request):
     """Administracion de Proyectos"""
     user = User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
-    lista = Proyecto.objects.filter().order_by('id')
+    usuarioPorProyecto = UsuarioRolProyecto.objects.filter(usuario = user.id)
+    proys = []
+    for rec in usuarioPorProyecto:
+        if not rec.proyecto in proys:
+            proys.append(rec.proyecto.id)
+    print proys
+    lista = Proyecto.objects.filter(id__in = proys).order_by('id')
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
             palabra = form.cleaned_data['filtro']
             lista = Proyecto.objects.filter(
-                Q(nombrelargo__icontains=palabra) | Q(descripcion__icontains=palabra)).order_by('id')
+                Q(nombrelargo__icontains=palabra) | Q(descripcion__icontains=palabra), Q(id__in = proys)).order_by('id')
             paginas = form.cleaned_data['paginas']
             request.session['nro_items'] = paginas
             paginator = Paginator(lista, int(paginas))
