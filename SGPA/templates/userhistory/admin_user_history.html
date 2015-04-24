@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}User History{% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USER HISTORY</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USER HISTORY </h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE USER HISTORY</h3></font></strong></center><br>
 {% if crear_flujo or ver_flujo %}
 <form action="." method="POST">
@@ -49,9 +49,9 @@
   
       <div class="footer">
            <div class="volver">
-                <a class="btn btn-primary" href="/"><strong> VOLVER A LA PÁGINA PRINCIPAL</strong> </a>&nbsp;&nbsp;
+                <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER AL PROYECTO</strong> </a>&nbsp;&nbsp;
 		    {% if crear_flujo %}
-                   <a class="btn btn-primary" href="/crearFlujo"><strong>CREAR NUEVO FLUJO </strong></a>
+                   <a class="btn btn-primary" href="/crearUserHistory/proyecto&id={{proyecto.id}}/"><strong>CREAR USER HISTORY</strong></a>
                     {% endif %}
 	</div>
      </div>

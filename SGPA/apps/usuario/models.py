@@ -145,22 +145,20 @@ class FlujoActividadProyecto(models.Model):
     class Meta:
         unique_together = [("flujo", "actividad", "proyecto")]
 
-        return self.nombre
-
 ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
 
 class UserHistory(models.Model):
     nombre = models.CharField(unique=True, max_length=50)
-    valor_tecnico = models.IntegerField()
-    valor_negocio = models.IntegerField()
-    prioridad = models.IntegerField()
+    valor_tecnico = models.IntegerField(null=True)
+    valor_negocio = models.IntegerField(null=True)
+    prioridad = models.IntegerField(null=True)
     proyecto = models.ForeignKey(Proyecto)
-    flujo = models.ForeignKey(Flujo)
-    actividad = models.IntegerField()
-    sprint = models.ForeignKey(Sprint)
+    flujo = models.ForeignKey(Flujo,null=True)
+    actividad = models.ForeignKey(Actividad,null=True)
+    sprint = models.ForeignKey(Sprint,null=True)
     estado = models.CharField(max_length=6, choices=ESTADO_CHOICES)
-    tiempo_estimado = models.IntegerField()
-    tiempo_utilizado = models.IntegerField()
+    tiempo_estimado = models.IntegerField(null=True)
+    tiempo_utilizado = models.IntegerField(null=True)
 
     def __unicode__(self):
         return self.nombre
