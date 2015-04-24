@@ -109,6 +109,15 @@ class UsuarioRolProyecto(models.Model):
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
 
+class Sprint(models.Model):
+    """Clase que representa un sprint."""
+    proyecto = models.ForeignKey(Proyecto)
+    nombre = models.CharField(unique=True, max_length=50)
+    fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
 class Actividad(models.Model):
     """Esta clase representa el flujo para proyecto"""
     nombre = models.CharField(unique=True, max_length=50)

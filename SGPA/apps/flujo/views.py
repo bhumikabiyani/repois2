@@ -23,7 +23,10 @@ from SGPA.apps.flujo.helper import *
 
 @login_required
 def admin_flujo(request):
-    """Administracion de flujo"""
+    """
+    :param request:
+    :return:
+    Administracion de flujo"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
