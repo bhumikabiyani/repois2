@@ -3,7 +3,7 @@
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE SPRINT PARA EL PROYECTO "{{proyecto.nombrelargo}}"</h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE SPRINT</h3></font></strong></center><br>
-
+{% if crear_sprint or ver_sprint %}
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -27,9 +27,9 @@
 		   <tr>
                           <td><strong><span style="color:#111111">{{i.nombre}}</span></strong></td>
                           <td><strong><span style="color:#111111">{{i.descripcion}}</span></strong></td>
-
-		          <td><a class="btn btn-primary" href="/verSprint/ver&id={{i.id}}/"><strong> VER </strong></a>
-
+                          {% if ver_sprint %}
+		                  <td><a class="btn btn-primary" href="/verSprint/ver&id={{i.id}}/"><strong> VER </strong></a>
+                          {% endif %}
 	           </tr>
 	    {% endfor %}
             </tbody>
@@ -49,8 +49,12 @@
       <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-
-		<a class="btn btn-primary" href="/crearSprint/crear&id={{proyecto.id}}/"><strong>CREAR NUEVO SPRINT </strong></a>
+                {% if crear_sprint %}
+		        <a class="btn btn-primary" href="/crearSprint/crear&id={{proyecto.id}}/"><strong>CREAR NUEVO SPRINT </strong></a>
+                {% endif %}
 	</div>
      </div>
+{% else %}
+	<center><strong><font face="Comic Sans MS"> NO TIENES PERMISOS</font></strong></center><br>
+{% endif %}
 {% endblock%}

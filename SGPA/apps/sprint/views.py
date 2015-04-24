@@ -26,16 +26,15 @@ from SGPA.apps.sprint.forms import *
 def admin_sprint(request,proyecto_id):
     """Administracion general de sprint"""
     user = User.objects.get(username=request.user.username)
-    #permisos = get_permisos_sistema(user)
+    permisos = get_permisos_sistema(user)
     proyecto=get_object_or_404(Proyecto, id=proyecto_id)
-    lista =  Sprint.objects.filter(proyecto=proyecto_id).order_by('id')
+    lista =  Sprint.objects.filter(proyecto=proyecto_id)
     #listaitem = Item.objects.filter(proyecto=proyecto_id, habilitado=True).order_by('id')
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
             palabra = form.cleaned_data['filtro']
-            lista = Sprint.objects.filter(
-                Q(nombre=palabra)).order_by('id')
+            lista = Sprint.objects.filter(Q(nombre=palabra) | Q(descripcion__icontains = palabra)).order_by('id')
             paginas = form.cleaned_data['paginas']
             request.session['nro_items'] = paginas
             paginator = Paginator(lista, int(paginas))
@@ -51,9 +50,9 @@ def admin_sprint(request,proyecto_id):
                                                                    'form': form,
                                                                    'lista': lista,
                                                                    'user': user,
-                                                                   'proyecto' : proyecto
-                                                                   #'ver_proyectos': 'ver proyectos' in permisos,
-                                                                   #'crear_proyecto': 'crear proyecto' in permisos,
+                                                                   'proyecto' : proyecto,
+                                                                   'ver_sprint': 'ver sprint' in permisos,
+                                                                   'crear_sprint': 'crear sprint' in permisos,
                                                                    })
     else:
         try:
@@ -72,9 +71,9 @@ def admin_sprint(request,proyecto_id):
     return render_to_response('sprint/sprint.html', {'lista': lista, 'form': form,
                                                            'user': user,
                                                            'pag': pag,
-                                                           'proyecto' : proyecto
-                                                           #'ver_proyectos': 'ver proyectos' in permisos,
-                                                           #'crear_proyecto': 'crear proyecto' in permisos,
+                                                           'proyecto' : proyecto,
+                                                           'ver_sprint': 'ver sprint' in permisos,
+                                                           'crear_sprint': 'crear sprint' in permisos,
                                                            })
 @login_required
 def crear_sprint(request, proyecto_id):
@@ -82,50 +81,34 @@ def crear_sprint(request, proyecto_id):
 
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
-    #roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
-    #permisos_obj = []
-    #for i in roles:
-     #   permisos_obj.extend(i.rol.permisos.all())
-    #permisos = []
-    #for i in permisos_obj:
-     #   permisos.append(i.nombre)
-    #print permisos
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    print permisos
     #-------------------------------------------------------------------
     proyecto = get_object_or_404(Proyecto, id = proyecto_id)
-    if proyecto.cantidad >  proyecto.cant_actual:
+    if proyecto.estado ==  1:
     	if request.method == 'POST':
-
 		form = SprintForm(proyecto_id, request.POST)
         	if form.is_valid():
-		   #tf= TipoItemFase()
-		   #tf.cant=0
      	     	   r = Sprint()
             	   r.nombre = form.cleaned_data['nombre']
                    r.descripcion = form.cleaned_data['descripcion']
                    r.fecha_inicio = form.cleaned_data['fecha_inicio']
                    r.fecha_fin = form.cleaned_data['fecha_fin']
-              #     r.tipo_item = form.cleaned_data['tipo_item']
-                 #r.num_secuencia =
-		# p.r.cant_actual = form.cleaned_data['cant_actual']
                    r.proyecto = proyecto
                    r.save()
-		   #tf.fase=r
-		   #tf.tipo_item=r.tipo_item
-		   #tf.cant = tf.cant + 1
-		   #tf.save()
-                   #proyecto.cant_actual = proyecto.cant_actual + 1
-                 #p.cant_actual = form.cleaned_data['cant_actual']
-                   #proyecto.save()
 		   return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))
     	else:
         		form = SprintForm(proyecto_id)
-			#p.cant_actual = p.cant_actual + 1
-                       # p.cant_actual = form.cleaned_data['cant_actual']
-			#p.save()
     	return render_to_response('sprint/crear_sprint.html', {'form':form,
                                                             'user':user,
-                                                            'proyecto' : proyecto
-                                                            #'crear_sprint': 'crear sprint'
+                                                            'proyecto' : proyecto,
+                                                            'crear_sprint': 'crear sprint' in permisos
 				})
     return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))
 
@@ -133,15 +116,15 @@ def visualizar_sprint(request, sprint_id):
         """Visualiza Sprint"""
         sprint = get_object_or_404(Sprint, id=sprint_id)
         user=  User.objects.get(username=request.user.username)
-        #permisos = get_permisos_sistema(user)
+        permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
-               #'ver_flujo': 'ver flujo' in permisos,
-               #'crear_flujo': 'crear flujo' in permisos,
-               #'mod_flujo': 'modificar flujo' in permisos,
-               #'eliminar_flujo': 'eliminar flujo' in permisos
-	       }
+               'ver_sprint': 'ver sprint' in permisos,
+               'crear_sprint': 'crear sprint' in permisos,
+               'mod_sprint': 'modificar sprint' in permisos,
+               'eliminar_sprint': 'eliminar sprint' in permisos
+	          }
 	return render_to_response('sprint/verSprint.html',ctx,context_instance=RequestContext(request))
 
 @login_required
@@ -149,14 +132,14 @@ def mod_sprint(request, sprint_id):
     user = User.objects.get(username=request.user.username)
     f = get_object_or_404( Sprint, id = sprint_id)
     #Validacion de permisos---------------------------------------------
-    #roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
-    #permisos_obj = []
-    #for i in roles:
-    #    permisos_obj.extend(i.rol.permisos.all())
-    #permisos = []
-    #for i in permisos_obj:
-    #    permisos.append(i.nombre)
-    #print permisos
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    print permisos
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = ModSprintForm(f,request.POST, request.FILES)
@@ -169,20 +152,20 @@ def mod_sprint(request, sprint_id):
     return render_to_response('sprint/mod_sprint.html',{'form':form,
                                                         'user':user,
                                                         'sprint': f,
-                                                        #'mod_fase':'Modificar fase' in permisos
+                                                        'mod_sprint':'modificar sprint' in permisos
                                                          })
 
 def borrar_sprint(request, sprint_id):
     """Elimina un flujo si no està asignado a un Proyecto"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
-    #roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
-    #permisos_obj = []
-    #for i in roles:
-    #   permisos_obj.extend(i.rol.permisos.all())
-    #permisos = []
-    #for i in permisos_obj:
-    #   permisos.append(i.nombre)
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
 
     #-------------------------------------------------------------------
     actual = get_object_or_404(Sprint, id=sprint_id)
@@ -197,9 +180,9 @@ def borrar_sprint(request, sprint_id):
              return render_to_response("sprint/sprint_confirm_delete.html", {'mensaje': error,
                                                                             'sprint':actual,
                                                                             'user':user,
-                                                                            #'eliminar_flujo':'eliminar flujo' in permisos
+                                                                            'eliminar_sprint':'eliminar sprint' in permisos
                                                                              })
     return render_to_response("sprint/sprint_confirm_delete.html", {'sprint':actual,
                                                                   'user':user,
-                                                                  #'eliminar_flujo':'eliminar flujo' in permisos
+                                                                  'eliminar_sprint':'eliminar sprint' in permisos
 								})

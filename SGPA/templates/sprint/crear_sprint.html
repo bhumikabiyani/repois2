@@ -2,6 +2,7 @@
 {% block title %}Sprint{% endblock %}
 {% block content %}
 <center><h2 class="text-danger"><strong> CREACIÓN DE SPRINT DEL PROYECTO "{{proyecto.nombrelargo}}"</strong></h2></center>
+{% if crear_sprint %}
    <center>
           <table class="abm">
 	     <form enctype="multipart/form-data" id="form_id" action="" method="post">
@@ -18,4 +19,7 @@
 	     </form>
           </table>
     </center>
-{% endblock%} 
+{% else %}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center>
+{% endif%}
+{% endblock%}
