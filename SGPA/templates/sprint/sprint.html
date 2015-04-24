@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Sprint{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE SPRINT PARA EL PROYECTO "{{proyecto.nombrelargo}}"</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE SPRINT</h3></font></strong></center><br>
+
+<form action="." method="POST">
+         {% csrf_token %}
+
+                    <p colspan="3">
+                        {{form.filtro.label}}: {{form.filtro}}
+
+                        {{form.paginas.label}}: {{form.paginas}}
+                        <input type="submit" name="Buscar" class= "btn btn-primary" value="ACEPTAR"/>
+                    </p>
+
+		<table class="table table-bordered">
+	      <thead>
+	        <tr>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>DESCRIPCION</center></font></strong></b></th>
+
+	        </tr>
+	      </thead>
+              <tbody>
+	      {%for i in pag.object_list%}
+		   <tr>
+                          <td><strong><span style="color:#111111">{{i.nombre}}</span></strong></td>
+                          <td><strong><span style="color:#111111">{{i.descripcion}}</span></strong></td>
+
+		          <td><a class="btn btn-primary" href="/verSprint/ver&id={{i.id}}/"><strong> VER </strong></a>
+
+	           </tr>
+	    {% endfor %}
+            </tbody>
+	  </table>
+   </form>
+
+<a colspan="3">
+                    <strong><span style="color:#111111"><h4>Página {{ pag.number }} de {{ pag.paginator.num_pages }}</h4><strong><br>
+                    {% if pag.has_previous %}
+                       <a class="btn btn-primary" href="?page={{ pag.previous_page_number }}"><strong>&nbsp;&nbsp;ANTERIOR </strong></a>
+                    {% endif %}
+                    {% if pag.has_next %}
+                       <a class="btn btn-primary" href="?page={{ pag.next_page_number }}"><strong > SIGUIENTE &nbsp;&nbsp; </strong></a>
+                    {% endif %}
+    </a><br><br>
+
+      <div class="footer">
+           <div class="volver">
+                <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+
+		<a class="btn btn-primary" href="/crearSprint/crear&id={{proyecto.id}}/"><strong>CREAR NUEVO SPRINT </strong></a>
+	</div>
+     </div>
+{% endblock%}

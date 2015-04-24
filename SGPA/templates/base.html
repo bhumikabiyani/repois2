@@ -10,6 +10,14 @@
     <script src="/media/js/jquery.form.min.js"></script>
     <script src="/media/js/SGPA.js"></script>
     <script src="/media/bootstrap/js/bootstrap.js"></script>
+    <link href="/media/calendario_dw/calendario_dw-estilos.css" type="text/css" rel="STYLESHEET">
+    <script type="text/javascript" src="/media/calendario_dw/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/media/calendario_dw/calendario_dw.js"></script> 
+    <script type="text/javascript">
+       $(document).ready(function(){
+       $(".campofecha").calendarioDW();
+       })
+</script> 
     <style type="text/css">
       body {
 	background-color: #330099;
@@ -20,22 +28,6 @@
         padding: 9px 0;
       }
     </style>
-    <script type="text/javascript">
-        $(document).on('ready',function(){
-              $.ajax({
-                  type:"GET",
-                  contentType:"application/json; charset=utf-8",
-                  dateType:"json",
-                  url:"/ws/productos/",
-                  success:function(response){
-                          var i = (response.length-1)-2;
-                          for(i;i<=(response.length-1);i++){
-                              $('#ProductosNuevos').append("<li>"+response[i].fields.nombre+"</li>");
-                          }    
-                  }
-              });
-        });
-    </script>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
