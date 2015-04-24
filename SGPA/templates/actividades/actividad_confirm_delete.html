@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Actividad{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR ACTIVIDAD "{{ actividad.nombre }}"</h3></font></strong></center><br>
+{% if eliminar_actividad %}
+   {% if mensaje %}
+      {% autoescape off %}
+         <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
+         </center><br><br>
+      {% endautoescape %}
+	            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/actividades' "/></center>
+
+	{% else %}
+      <form id="form_id" action="" method="post">
+         {% csrf_token %}
+            <center><p>
+
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR LA ACTIVIDAD: "{{actividad}}"?</strong><br><br>
+                       <span class="optionbuttons">
+                          <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/actividades'"/>
+                       </span>
+
+                    </p>
+            </center>
+      </form>{% endif %}
+{% else %}
+   <center><p><strong>NO TIENES PERMISOS</p></center>
+{% endif %}
+{% endblock%}
