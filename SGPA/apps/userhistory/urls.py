@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
+from django.conf.urls import patterns,url
 from django.conf.urls import *
+from django.views.generic import *
+from django.contrib.auth.models import User
+from django.template import *
+import os.path
 
+from SGPA.apps.roles.forms import *
+from SGPA.apps.roles.models import *
+from SGPA.apps.roles.views import *
 
 urlpatterns = patterns('SGPA.apps.userhistory.views',
-	url(r'^proyectos/$', 'admin_proyectos', name='vista_adminP'),
+	url(r'^userHistory/$', 'admin_user_history', name='vista_adminUH'),
 	#url(r'^verProyecto/ver&id=(?P<proyecto_id>\d+)/$', 'visualizar_proyectos', name='vista_proyectos'),
-	#url(r'^crearProyecto/$','crear_proyecto',name='vista_crearProyecto'),
+	url(r'^crearUserHistory/$','crear_user_history',name='vista_crearUserHistory'),
 	#url(r'^modificarProyecto/mod&id=(?P<proyecto_id>\d+)/$','mod_proyecto',name='vista_modProyecto'),
 	#url(r'^eliminarProyecto/del&id=(?P<proyecto_id>\d+)/$','borrar_proyecto',name='vista_delProyecto'),
     #url(r'^eliminarMiembro/del&id=(?P<miembro_id>\d+)/$','borrar_miembro',name='vista_delMiembro'),

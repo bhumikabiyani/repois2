@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %} Crea Flujo {% endblock %}
+{% block title %} Crea User History {% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> CREAR NUEVO FLUJO </h3></font></strong></center><br>
-{% if crear_flujo %}
+<center><strong><font face="Comic Sans MS"><h3> CREAR USER HISTORY </h3></font></strong></center><br>
+{% if crear_userhistory %}
 <form action="." method="POST">
 	{% csrf_token %}
 	<center><table>

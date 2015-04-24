@@ -109,6 +109,15 @@ class UsuarioRolProyecto(models.Model):
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
 
+class Sprint(models.Model):
+    """Clase que representa un sprint."""
+    proyecto = models.ForeignKey(Proyecto)
+    nombre = models.CharField(unique=True, max_length=50)
+    fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
 
 ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
 
@@ -117,10 +126,11 @@ class UserHistory(models.Model):
     valor_tecnico = models.IntegerField()
     valor_negocio = models.IntegerField()
     prioridad = models.IntegerField()
+    proyecto = models.ForeignKey(Proyecto)
     flujo = models.ForeignKey(Flujo)
     actividad = models.IntegerField()
-    sprint = models.IntegerField()
-    estado = models.CharField(maxlength=6, choices=ESTADO_CHOICES)
+    sprint = models.ForeignKey(Sprint)
+    estado = models.CharField(max_length=6, choices=ESTADO_CHOICES)
     tiempo_estimado = models.IntegerField()
     tiempo_utilizado = models.IntegerField()
 
@@ -150,12 +160,3 @@ class Comentarios(models.Model):
 
     def __unicode__(self):
         return self.asunto
-class Sprint(models.Model):
-    """Clase que representa un sprint."""
-    proyecto = models.ForeignKey(Proyecto)
-    nombre = models.CharField(unique=True, max_length=50)
-    fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
-
-    def __unicode__(self):
-        return self.nombre
