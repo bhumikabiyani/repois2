@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     url(r'^',include('SGPA.apps.flujo.urls')),
     url(r'^',include('SGPA.apps.proyectos.urls')),
     url(r'^',include('SGPA.apps.sprint.urls')),
+    url(r'^',include('SGPA.apps.actividades.urls')),
+    url(r'^',include('SGPA.apps.userhistory.urls')),
     # Uncomment the next line to enable the admin:
      url(r'^admin/', include(admin.site.urls)),
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT}),
