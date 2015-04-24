@@ -118,6 +118,34 @@ class Sprint(models.Model):
 
     def __unicode__(self):
         return self.nombre
+    
+class Actividad(models.Model):
+    """Esta clase representa el flujo para proyecto"""
+    nombre = models.CharField(unique=True, max_length=50)
+    descripcion = models.TextField(null=True, blank=True)
+    fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
+    usuario_creador = models.ForeignKey(User, null=True)
+    #proyecto= models.IntegerField()
+
+    def __unicode__(self):
+        return self.nombre
+
+class FlujoActividad(models.Model):
+    actividad = models.ForeignKey(Actividad)
+    flujo = models.ForeignKey(Flujo)
+
+    class Meta:
+        unique_together = [("actividad", "flujo")]
+
+class FlujoActividadProyecto(models.Model):
+    flujo = models.ForeignKey(Flujo)
+    actividad = models.ForeignKey(Actividad)
+    proyecto = models.ForeignKey(Proyecto)
+
+    class Meta:
+        unique_together = [("flujo", "actividad", "proyecto")]
+
+        return self.nombre
 
 ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
 
