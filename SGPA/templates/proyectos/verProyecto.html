@@ -46,7 +46,10 @@
 
                  <td><strong>{{miembro.usuario}}</strong></td>
                  <td><strong>{{miembro.rol}}</strong></td>
-                 {%if eliminar_miembro%}
+                 {%if miembro.rol.nombre == 'team leader'%}
+                 <td><a><strong> </strong></a></td>
+                 {%endif%}
+                 {%if eliminar_miembro and miembro.rol.nombre != 'team leader'%}
                  <td><a class="btn btn-primary" href="/eliminarMiembro/del&id={{miembro.id}}/"><strong>ELIMINAR</strong></a></td>
                  {% endif %}
              </tr>

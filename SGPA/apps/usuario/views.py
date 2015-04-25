@@ -25,18 +25,20 @@ from django.contrib import messages
 
 @login_required
 def crearUsuario_view(request):
-	"""
-	Metodo para crear un nuevo usuario
-	"""
-	user = User.objects.get(username=request.user.username)
-	roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
-    	permisos_obj = []
-    	for i in roles:
-        	permisos_obj.extend(i.rol.permisos.all())
-    	permisos = []
-    	for i in permisos_obj:
-        	permisos.append(i.nombre)
-	
+    """
+    :param request: contiene los datos de la pagina que lo llamo
+    :return: crearUsuario.html, pagina en la cual se crea el usuario
+    Metodo para crear un nuevo usuario
+    """
+    user = User.objects.get(username=request.user.username)
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+        permisos = []
+        for i in permisos_obj:
+            permisos.append(i.nombre)
+
 	form = UsuariosForm()
 	if request.method == "POST":
 		form = UsuariosForm(request.POST)
@@ -61,7 +63,12 @@ def crearUsuario_view(request):
 	return render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
 
 def lista(request, tipo):
-    """Metodo para Listar"""
+    """
+    Metodo para listar usuarios
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param tipo: contiene el tipo de objeto a listar
+    :return: lista.html, pagina en la que se lista los objetos
+    """
     user = User.objects.get(username=request.user.username)
     if tipo == 'usuarios':
         lista = User.objects.all()
@@ -71,8 +78,11 @@ def lista(request, tipo):
 
 @login_required
 def admin_usuarios(request):
-    """Administracion general de usuarios"""
-    '''Ya esta la validacion de permisos en este'''
+    """
+    Administracion general de usuarios
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:usuarios.html, pagina en la cual se trabaja con los usuarios
+    """
     user = User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
     lista = User.objects.all().order_by("id")
@@ -121,7 +131,12 @@ def admin_usuarios(request):
 
 @login_required
 def mod_user(request, usuario_id):
-    """Modifica los datos de un usuario."""
+    """
+    Modifica los datos de un usuario.
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param usuario_id: contine el id del usuario a modificar
+    :return: mod_usuario.html, pagina en la que se modifica datos del usuario
+    """
     user = User.objects.get(username=request.user.username)
     
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -152,7 +167,10 @@ def mod_user(request, usuario_id):
 @login_required
 def eliminar_usuario(request, usuario_id):
     """
-    vista utilizada para dar de baja un usuario, baja logica
+    Elimina los datos de un usuario.
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param usuario_id: contine el id del usuario a eliminar
+    :return: se cambia el estado del usuario a desactivado
     """
     user = User.objects.get(id=usuario_id)
     user.is_active = False
@@ -165,6 +183,9 @@ def eliminar_usuario(request, usuario_id):
 def activar_usuario(request, usuario_id):
     """
     vista utilizada para activar un usuario que fue dado de baja
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param usuario_id: contine el id del usuario que fue dado de baja
+    :return: se activa al usuario que se ha dado de baja
     """
     user = User.objects.get(id=usuario_id)
     user.is_active = True
@@ -177,7 +198,11 @@ def activar_usuario(request, usuario_id):
 
 @login_required
 def cambiar_password(request):
-    """Cambia la contrasena del usuario logueado"""
+    """
+    vista utilizada para cambiar la contraseña del usuario autenticado
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: cambiar _password.html, pagina para cambiar la contraseña del usuario autenticado
+    """
     user = User.objects.get(username=request.user.username)
     if request.method == 'POST':
         form = CambiarPasswordForm(request.POST)
@@ -191,25 +216,34 @@ def cambiar_password(request):
     return render_to_response('usuario/cambiar_password.html', {'form': form, 'user': user})
 
 def visualizar_usuario(request, usuario_id):
-	usuario = User.objects.get(id=usuario_id)
-        user=  User.objects.get(username=request.user.username)
-        permisos = get_permisos_sistema(user)
-        lista = User.objects.all().order_by("id")
-        ctx = {'lista':lista,
-               'usuario':usuario,
-               'ver_usuarios': 'ver usuarios' in permisos,
-               'crear_usuario': 'crear usuario' in permisos,
-               'mod_usuario': 'modificar usuario' in permisos,
-               'eliminar_usuario': 'eliminar usuario' in permisos,
-	       'asignar_rol': 'asignar rol' in permisos}
-
-	
-	return render_to_response('usuario/verUsuario.html',ctx,context_instance=RequestContext(request))
+     """
+    vista utilizada para listar los usuario del sistema
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param usuario_id: contiene el id del usuario
+    :return: se lista todos los usuarios del sistema
+    """
+     usuario = User.objects.get(id=usuario_id)
+     user=  User.objects.get(username=request.user.username)
+     permisos = get_permisos_sistema(user)
+     lista = User.objects.all().order_by("id")
+     ctx = {'lista':lista,
+            'usuario':usuario,
+            'ver_usuarios': 'ver usuarios' in permisos,
+            'crear_usuario': 'crear usuario' in permisos,
+            'mod_usuario': 'modificar usuario' in permisos,
+            'eliminar_usuario': 'eliminar usuario' in permisos,
+            'asignar_rol': 'asignar rol' in permisos}
+     return render_to_response('usuario/verUsuario.html',ctx,context_instance=RequestContext(request))
 
 
 @login_required
 def asignar_roles_sistema(request, usuario_id):
-    """Asigna roles de sistema a un usuario"""
+    """
+    Asigna Roles de Sistema a Usuario
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param usuario_id: contiene el id del usuario al que se le va a asignar el rol
+    :return: asignar_roles.html, pagina que muestra las opciones para asignar rol del sistema
+    """
     user = User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
     usuario = get_object_or_404(User, id=usuario_id)
@@ -244,35 +278,40 @@ def asignar_roles_sistema(request, usuario_id):
 
 @login_required
 def asignar_roles_proyecto(request, usuario_id):
-    """Asigna roles de proyecto a un usuario"""
-    user = User.objects.get(username=request.user.username)
-    permisos = get_permisos_sistema(user)
-    usuario = get_object_or_404(User, id=usuario_id)
-    lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
-    if request.method == 'POST':
-        form = AsignarRolesProyForm(2, request.POST)
-        if form.is_valid():
-            lista_nueva = form.cleaned_data['roles']
-            for i in lista_roles:
-                i.delete()
-            for i in lista_nueva:
-                nuevo = UsuarioRolSistema()
-                nuevo.usuario = usuario
-                nuevo.rol = i
-                nuevo.save()
-            return HttpResponseRedirect("/visualizar/ver&id=" + str(usuario_id))
-    else:
-        if usuario.id == 1:
-            error = "No se puede editar roles sobre el superusuario."
-            return render_to_response("usuario/asignar_roles.html", {'mensaje': error,
-                                                                            'usuario':usuario,
-                                                                            'user': user,
-                                                                            'asignar_rol': 'asignar rol' in permisos
-							          })
-        dict = {}
-        for i in lista_roles:
-            print i.rol
-            dict[i.rol.id] = True
-        form = AsignarRolesProyForm(2,initial = {'roles': dict})
-    return render_to_response("usuario/asignar_roles_proyecto.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
+     """
+    Asigna Roles de Proyecto a Usuario
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param usuario_id: contiene el id del usuario al que se le va a asignar el rol
+    :return: asignar_roles_proyecto.html, pagina que muestra las opciones para asignar rol de proyecto
+    """
+     user = User.objects.get(username=request.user.username)
+     permisos = get_permisos_sistema(user)
+     usuario = get_object_or_404(User, id=usuario_id)
+     lista_roles = UsuarioRolSistema.objects.filter(usuario = usuario)
+     if request.method == 'POST':
+         form = AsignarRolesProyForm(2, request.POST)
+         if form.is_valid():
+             lista_nueva = form.cleaned_data['roles']
+             for i in lista_roles:
+                 i.delete()
+             for i in lista_nueva:
+                 nuevo = UsuarioRolSistema()
+                 nuevo.usuario = usuario
+                 nuevo.rol = i
+                 nuevo.save()
+                 return HttpResponseRedirect("/visualizar/ver&id=" + str(usuario_id))
+         else:
+             if usuario.id == 1:
+                 error = "No se puede editar roles sobre el superusuario."
+                 return render_to_response("usuario/asignar_roles.html", {'mensaje': error,
+                                                                          'usuario':usuario,
+                                                                          'user': user,
+                                                                          'asignar_rol': 'asignar rol' in permisos
+                                                                          })
+             dict = {}
+             for i in lista_roles:
+                 print i.rol
+                 dict[i.rol.id] = True
+             form = AsignarRolesProyForm(2,initial = {'roles': dict})
+             return render_to_response("usuario/asignar_roles_proyecto.html", {'form':form, 'usuario':usuario, 'user':user, 'asignar_rol': 'asignar rol' in permisos
 })
