@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Sprint{% endblock %}
+{% block content %}
+<center><h2 class="text-danger"><strong> CREACIÓN DE SPRINT DEL PROYECTO "{{proyecto.nombrelargo}}"</strong></h2></center>
+{% if crear_sprint %}
+   <center>
+          <table class="abm">
+	     <form enctype="multipart/form-data" id="form_id" action="" method="post">
+                {% csrf_token %}
+		{{ form.as_table }}
+		<tr>
+                    <td colspan="2" class="buttonlist">
+		        <center>
+                              <br><br><br><input type="submit" class= "btn btn-primary" value="GUARDAR" />&nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/sprint/sprint&id={{proyecto.id}}' "/>
+		        </center>
+		    </td>
+		</tr>
+	     </form>
+          </table>
+    </center>
+{% else %}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center>
+{% endif%}
+{% endblock%}

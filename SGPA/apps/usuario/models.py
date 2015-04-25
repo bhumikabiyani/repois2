@@ -113,6 +113,7 @@ class Sprint(models.Model):
     """Clase que representa un sprint."""
     proyecto = models.ForeignKey(Proyecto)
     nombre = models.CharField(unique=True, max_length=50)
+    descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
 

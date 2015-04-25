@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Sprint{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR SPRINT "{{ sprint.nombre }}"</h3></font></strong></center><br>
+{% if eliminar_sprint %}
+   {% if mensaje %}
+      {% autoescape off %}
+         <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
+         </center><br><br>
+      {% endautoescape %}
+	            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verSprint/ver&id={{sprint.id}}/' "/></center>
+
+	{% else %}
+      <form id="form_id" action="" method="post">
+         {% csrf_token %}
+            <center><p>
+
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL SPRINT: "{{sprint.nombre}}"?</strong><br><br>
+                       <span class="optionbuttons">
+                          <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verSprint/ver&id={{sprint.id}}/'"/>
+                       </span>
+
+                    </p>
+            </center>
+      </form>
+    {% endif %}
+{% else %}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center>
+{% endif%}
+{% endblock%}

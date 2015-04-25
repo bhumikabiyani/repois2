@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} Detalles SPRINT{% endblock %}
+{%block content %}
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL SPRINT "{{ sprint.nombre }}" </h3></font></strong></center><br>
+{% if ver_sprint or mod_sprint or eliminar_sprint %}
+<form action="." method="POST">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</span></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">PROYECTO AL QUE PERTENECE</span></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">FECHA DE INICIO</span></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">FECHA DE FIN</span></strong></b></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>{{sprint.nombre}}</strong></td>
+            <td><strong>{{sprint.proyecto}}</strong></td>
+            <td><strong>{{sprint.fecha_inicio}}</strong></td>
+            <td><strong>{{sprint.fecha_fin}}</strong></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<div class="footer">
+    <div class="volver">
+        <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
+        <td>
+            {% if eliminar_sprint %}
+            <a class="btn btn-primary" href="/eliminarSprint/del&id={{sprint.id}}/"><strong>ELIMINAR</strong></a>
+            {% endif %}
+            {% if mod_sprint %}
+            <a class="btn btn-primary" href="/modificarSprint/mod&id={{sprint.id}}/"><strong>MODIFICAR</strong></a>
+            {% endif %}
+        </td><br><br>
+        <a class="btn btn-primary" href="/sprint/sprint&id={{sprint.proyecto_id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+    </div>
+</div>
+{% else %}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center><br>
+{% endif %}
+{% endblock %}
