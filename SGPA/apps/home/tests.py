@@ -7,6 +7,9 @@ from SGPA.apps.proyectos.views import *
 from SGPA.apps.roles.views import *
 from SGPA.apps.usuario.views import *
 from SGPA.apps.flujo.views import *
+from SGPA.apps.actividades.views import *
+from SGPA.apps.sprint.views import *
+from SGPA.apps.userhistory.views import *
 import unittest
 import django
 django.setup()
@@ -17,6 +20,11 @@ class UserTestCase(TestCase):
         self.u1 = User.objects.create(username="cgonza",first_name="Carlos",last_name="Gonzalez",email="cgonzalez@gmail.com")
         self.p1 = Proyecto.objects.create(nombrelargo="prueba", usuario_lider = self.u1, cantidad = "10", estado = "1")
         self.f1 = Flujo.objects.create(nombre="flujo1")
+        self.a1 = Actividad.objects.create(nombre="act1")
+        self.r1 = Rol.objects.get(id=2)
+        self.s1 = Sprint.objects.create(nombre="Sprint1",descripcion="prueba",proyecto=self.p1)
+        self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1)
+        self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1)
 
     def testLogin_View(self):
         request = RequestFactory().get('/usuario')
@@ -189,6 +197,115 @@ class UserTestCase(TestCase):
         response = borrar_flujo(request,flujo.id)
         # Check.
         self.assertEqual(response.status_code, 200)
+
+    def testCrearActividad_View(self):
+        request = RequestFactory().get('/actividades')
+        user = User.objects.get(username="cgonza")
+        request.user = user
+        response = crear_actividad(request)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testModActividad_View(self):
+        request = RequestFactory().get('/actividades')
+        user = User.objects.get(username="cgonza")
+        actividad = Actividad.objects.get(nombre="act1")
+        request.user = user
+        response = mod_actividad(request,actividad.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testDelActividad_View(self):
+        request = RequestFactory().get('/actividades')
+        user = User.objects.get(username="cgonza")
+        actividad = Actividad.objects.get(nombre="act1")
+        request.user = user
+        response = borrar_actividad(request,actividad.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsigAct_Flujo_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        flujo = Flujo.objects.get(nombre="flujo1")
+        request.user = user
+        response = asignar_actividades(request,flujo.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testBorrarMiembro_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        urp = UsuarioRolProyecto.objects.get(proyecto=self.p1,rol=self.r1,usuario=self.u1)
+        request.user = user
+        response = borrar_miembro(request,urp.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsigAct_Proy_View(self):
+        request = RequestFactory().get('/flujos')
+        user = User.objects.get(username="cgonza")
+        flujo = Flujo.objects.get(nombre="flujo1")
+        proyecto = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = asignar_actividad_proy(request,flujo.id,proyecto.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testCrearSprint_View(self):
+        request = RequestFactory().get('/Sprint')
+        user = User.objects.get(username="cgonza")
+        proyecto = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = crear_sprint(request,proyecto.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testModSprint_View(self):
+        request = RequestFactory().get('/sprint')
+        user = User.objects.get(username="cgonza")
+        sprint = Sprint.objects.get(nombre="Sprint1")
+        request.user = user
+        response = mod_sprint(request,sprint.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testDelSprint_View(self):
+        request = RequestFactory().get('/sprint')
+        user = User.objects.get(username="cgonza")
+        sprint = Sprint.objects.get(nombre="Sprint1")
+        request.user = user
+        response = borrar_sprint(request,sprint.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testCrearUserStorie_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        proyecto = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = crear_user_history(request,proyecto.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testModUserStorie_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = mod_user_history(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testDelUserStorie_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = borrar_user_history(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
 
 if __name__ == "__main__":
     unittest.main()

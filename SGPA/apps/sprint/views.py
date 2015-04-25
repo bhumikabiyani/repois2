@@ -16,9 +16,11 @@ from SGPA.apps.sprint.helper import *
 @login_required
 def admin_sprint(request,proyecto_id):
     """
-    :param request:
-    :return:
-    Administracion de Sprint"""
+    Administracion general de Sprint
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param proyecto_id: contiene el id del proyecto al cual esta relacionado el sprint
+    :return:sprint.html, pagina en la cual se trabaja con los sprint
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -81,7 +83,13 @@ def admin_sprint(request,proyecto_id):
 
 @login_required
 def crear_sprint(request, proyecto_id):
-    """Administracion general de sprint"""
+    """
+    Metodo para crear un nuevo sprint
+    :param request: contiene los datos de la pagina que lo llamo
+    :param proyecto_id: contiene el id del proyecto al cual esta relacionado el sprint a crearse
+    :return: crearSprint.html, pagina en la cual se crea el sprint
+
+    """
 
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
@@ -117,7 +125,12 @@ def crear_sprint(request, proyecto_id):
     return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))
 
 def visualizar_sprint(request, sprint_id):
-        """Visualiza Sprint"""
+        """
+    vista utilizada para listar los sprint
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param sprint_id: contiene el id del sprint
+    :return: se lista todos los sprint
+    """
         sprint = get_object_or_404(Sprint, id=sprint_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
@@ -133,6 +146,12 @@ def visualizar_sprint(request, sprint_id):
 
 @login_required
 def mod_sprint(request, sprint_id):
+    """
+    Modifica los datos de un Sprint
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param sprint_id: contine el id del sprint a modificar
+    :return: mod_sprint.html, pagina en la que se modifica datos del sprint
+    """
     user = User.objects.get(username=request.user.username)
     f = get_object_or_404( Sprint, id = sprint_id)
     #Validacion de permisos---------------------------------------------
@@ -161,11 +180,11 @@ def mod_sprint(request, sprint_id):
 
 def borrar_sprint(request, sprint_id):
     """
-
-    :param request:
-    :param sprint_id:
-    :return:
-    Elimina un Sprint si su Proyecto aun no ha iniciado"""
+    Elimina un Sprint
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param sprint_id: contiene el id del sprint a eliminar
+    :return: se elimina el sprint si el proyecto no inicio
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
