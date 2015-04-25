@@ -9,16 +9,25 @@ import django
 django.setup()
 
 class FilterForm(forms.Form):
+    """
+    Clase para el formulario Busqueda y Paginacion de Flujo
+    """
     filtro = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
     paginas = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
     
 class FilterForm2(forms.Form):
+    """
+    Clase para el formulario Busqueda y Paginacion de Flujo
+    """
     filtro1 = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
     paginas1 = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
     filtro2 = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
     paginas2 = forms.CharField(max_length=2, widget=forms.Select(choices=(('5','5'),('10','10'),('15','15'),('20','20'))), label='MOSTRAR')
 
 class FlujoForm(forms.Form):
+	"""
+	Clase para el formulario de Flujo
+	"""
 	nombre = forms.CharField(max_length=50, label='NOMBRE')
 	descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
 		
@@ -32,4 +41,7 @@ class FlujoForm(forms.Form):
 			return nombre
 
 class ModFlujoForm(forms.Form):
-	descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    """
+    Clase para modificar Flujo
+    """
+    descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')

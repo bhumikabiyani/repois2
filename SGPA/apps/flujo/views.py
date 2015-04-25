@@ -24,9 +24,10 @@ from SGPA.apps.flujo.helper import *
 @login_required
 def admin_flujo(request):
     """
-    :param request:
-    :return:
-    Administracion de flujo"""
+    Administracion de flujo
+    :param request:contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: admin_flujo.html,página en la cual se trabaja con el flujo
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -84,7 +85,11 @@ def admin_flujo(request):
 
 @login_required
 def crear_flujo(request):
-    """Agrega un nuevo flujo"""
+    """
+    Agrega un nuevo flujo
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:crear_flujo.html, pagina en la cual se crea el flujo
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -159,7 +164,12 @@ def mod_flujo(request, flujo_id):
 						     })
 
 def borrar_flujo(request, flujo_id):
-    """Elimina un flujo si no està asignado a un Proyecto"""
+    """
+    Elimina un flujo si no està asignado a un Proyecto
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param flujo_id: id del flujo que sera eliminado
+    :return:flujo_confirm_delete.html,pagina en la cual se eliminará el flujo
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')

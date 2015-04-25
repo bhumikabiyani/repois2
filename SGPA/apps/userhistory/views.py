@@ -16,9 +16,10 @@ from SGPA.apps.userhistory.helper import *
 @login_required
 def admin_user_history(request,proyecto_id):
     """
-    :param request:
-    :return:
-    Administracion de User History"""
+    Administracion de User History
+    :param request:contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: admin_user_history.html, pagina en la cual se trabaja con los user history
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -82,7 +83,12 @@ def admin_user_history(request,proyecto_id):
 
 @login_required
 def crear_user_history(request,proyecto_id):
-    """Agrega un nuevo flujo"""
+    """
+    Crear un nuevo user history
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param proyecto_id: id del proyecto en el cual se desea crear el User History
+    :return:crear_userhistory.html, pagina en la cual se crea los user history
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -116,7 +122,12 @@ def crear_user_history(request,proyecto_id):
 
 
 def visualizar_user_history(request, userhistory_id):
-    """Visualiza Flujos"""
+    """
+    Visualiza los detalles del User History
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del user history con el que se trabajara
+    :return:verUserHistory.html, pagina en la cual se visualiza los user history
+    """
     flujos = get_object_or_404(UserHistory, id=userhistory_id)
     user=  User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
@@ -131,7 +142,12 @@ def visualizar_user_history(request, userhistory_id):
     return render_to_response('userhistory/verUserHistory.html',ctx,context_instance=RequestContext(request))
 
 def mod_user_history(request, userhistory_id):
-    """Modifica un Flujo"""
+    """
+    Modifica un userhistory
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del userhistory que sera modificado
+    :return: mod_user_history.html,pagina en la cual se modificara el User History
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -162,6 +178,12 @@ def mod_user_history(request, userhistory_id):
 						     })
 
 def borrar_user_history(request, userhistory_id):
+    """
+    Metodo para eliminar un userhistory
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del user history a ser eliminado
+    :return: user_history_confirm_delete.html, pagina en la cual se elimina el user history
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
