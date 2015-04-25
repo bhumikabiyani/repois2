@@ -113,6 +113,7 @@ class Sprint(models.Model):
     """Clase que representa un sprint."""
     proyecto = models.ForeignKey(Proyecto)
     nombre = models.CharField(unique=True, max_length=50)
+    descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
@@ -145,3 +146,44 @@ class FlujoActividadProyecto(models.Model):
     class Meta:
         unique_together = [("flujo", "actividad", "proyecto")]
 
+ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
+
+class UserHistory(models.Model):
+    nombre = models.CharField(unique=True, max_length=50)
+    valor_tecnico = models.IntegerField(null=True)
+    valor_negocio = models.IntegerField(null=True)
+    prioridad = models.IntegerField(null=True)
+    proyecto = models.ForeignKey(Proyecto)
+    flujo = models.ForeignKey(Flujo,null=True)
+    actividad = models.ForeignKey(Actividad,null=True)
+    sprint = models.ForeignKey(Sprint,null=True)
+    estado = models.CharField(max_length=6, choices=ESTADO_CHOICES)
+    tiempo_estimado = models.IntegerField(null=True)
+    tiempo_utilizado = models.IntegerField(null=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+class Historia(models.Model):
+    descripcion = models.CharField(max_length=500)
+    fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
+    userhistory = models.ForeignKey(UserHistory)
+
+    def __unicode__(self):
+        return self.descripcion
+
+class ArchivosAdjuntos(models.Model):
+    userhistory = models.ForeignKey(UserHistory)
+    nombre=models.CharField(max_length=50,)
+    docfile = models.FileField(upload_to='documents')
+
+    def __unicode__(self):
+        return self.nombre
+
+class Comentarios(models.Model):
+    asunto = models.CharField(max_length=30,null=False)
+    descripcion = models.CharField(max_length=200,null=False)
+    userhistory = models.ForeignKey(UserHistory)
+
+    def __unicode__(self):
+        return self.asunto
