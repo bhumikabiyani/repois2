@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %} Detalles Flujo{% endblock %}
+{%block content %}
+<center><strong><font face="Comic Sans MS"><h3> DETALLES DEL USER HISTORY "{{ flujos.nombre }}" </h3></font></strong></center><br>
+{% if ver_user_history or mod_user_history or eliminar_user_history %}
+<form action="." method="POST">
+         {% csrf_token %}
+<table class="table table-bordered">
+	      <thead>
+	        <tr>
+	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
+		     <th class="titulo"><b><strong><span style="color:#330099">TIEMPO ESTIMADO</strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+		 <tr>
+		      
+                          <td><strong>{{flujos.nombre}}</strong></td>
+                          <td><strong>{{flujos.estado}}</strong></td>
+		          <td><strong>{{flujos.tiempo_estimado}}</strong></td>
+	           </tr>
+		</tbody>
+	  </table>
+   </form>
+
+   <div class="footer">
+           <div class="volver">
+		<th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
+		<td>
+			{% if eliminar_user_history %}
+                      <a class="btn btn-primary" href="/eliminarUserHistory/del&id={{flujos.id}}/"><strong>ELIMINAR</strong></a>
+			{% endif %}
+			{% if mod_user_history %}
+				<a class="btn btn-primary" href="/modificarUserHistory/mod&id={{flujos.id}}/"><strong>MODIFICAR</strong></a>
+					{% endif %}		
+			   
+			                            	
+			   </td><br><br>
+		<a class="btn btn-primary" href="/userHistory/proyecto&id={{flujos.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+
+           </div>
+     </div>
+{% else %}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center><br>
+{% endif %}
+{% endblock %}

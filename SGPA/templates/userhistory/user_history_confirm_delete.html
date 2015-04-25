@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Eliminar User History{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ELIMINAR USER HISTORY "{{ flujo.nombre }}"</h3></font></strong></center><br>
+{% if eliminar_user_history %}
+   {% if mensaje %}
+      {% autoescape off %}
+         <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
+         </center><br><br>
+      {% endautoescape %}
+	            <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verUserHistory/ver&id={{flujo.id}}/' "/></center>
+
+	{% else %}
+      <form id="form_id" action="" method="post">
+         {% csrf_token %}
+            <center><p>
+
+                       <strong>¿ESTÁS SEGURO DE QUERER ELIMINAR EL USER HISTORY: "{{flujo}}"?</strong><br><br>
+                       <span class="optionbuttons">
+                          <input type="submit" class= "btn btn-primary" value="SI"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	                  <input type="button" class= "btn btn-primary" value="NO" onClick = "location.href='/verUserHistory/ver&id={{flujo.id}}/'"/>
+                       </span>
+
+                    </p>
+            </center>
+      </form>{% endif %}
+{% else %}
+   <center><p><strong>NO TIENES PERMISOS</p></center>
+{% endif %}
+{% endblock%}
