@@ -164,6 +164,9 @@ class FlujoActividadProyecto(models.Model):
 ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
 
 class UserHistory(models.Model):
+    """
+    Clase que representa a un User Storie
+    """
     nombre = models.CharField(unique=True, max_length=50)
     valor_tecnico = models.IntegerField(null=True)
     valor_negocio = models.IntegerField(null=True)
@@ -180,6 +183,9 @@ class UserHistory(models.Model):
         return self.nombre
 
 class Historia(models.Model):
+    """
+    Clase que representa el Historial de User Storie
+    """
     descripcion = models.CharField(max_length=500)
     fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
     userhistory = models.ForeignKey(UserHistory)
