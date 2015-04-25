@@ -25,9 +25,10 @@ from SGPA.apps.actividades.forms import *
 @login_required
 def admin_flujo(request):
     """
-    :param request:
-    :return:
-    Administracion de flujo"""
+    Administracion de flujo
+    :param request:contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: admin_flujo.html,página en la cual se trabaja con el flujo
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -85,7 +86,11 @@ def admin_flujo(request):
 
 @login_required
 def crear_flujo(request):
-    """Agrega un nuevo flujo"""
+    """
+    Agrega un nuevo flujo
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:crear_flujo.html, pagina en la cual se crea el flujo
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -120,9 +125,17 @@ def visualizar_flujo(request, flujo_id):
         flujos = get_object_or_404(Flujo, id=flujo_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
+        fluAct = FlujoActividad.objects.filter(flujo = flujo_id)
+        actList = []
+        for rec in fluAct:
+            if not rec.actividad.id in actList:
+                actList.append(rec.actividad.id)
+        print actList
+        actividades = Actividad.objects.filter(Q(id__in = actList))
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
-               'flujos':flujos, 
+               'flujos':flujos,
+               'actividades':actividades,
                'ver_flujo': 'ver flujo' in permisos,
                'crear_flujo': 'crear flujo' in permisos,
                'mod_flujo': 'modificar flujo' in permisos,
@@ -161,7 +174,12 @@ def mod_flujo(request, flujo_id):
 						     })
 
 def borrar_flujo(request, flujo_id):
-    """Elimina un flujo si no està asignado a un Proyecto"""
+    """
+    Elimina un flujo si no està asignado a un Proyecto
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param flujo_id: id del flujo que sera eliminado
+    :return:flujo_confirm_delete.html,pagina en la cual se eliminará el flujo
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')

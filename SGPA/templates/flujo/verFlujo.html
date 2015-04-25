@@ -24,6 +24,23 @@
 	           </tr>
 		</tbody>
 	  </table>
+
+    <table class="table table-bordered">
+	      <thead>
+	        <tr>
+	             <th class="titulo"><b><strong><span style="color:#330099">ACTIVIDAD</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+         {%for act in actividades%}
+             <tr>
+                 <td><strong>{{act.nombre}}</strong></td>
+                 <td><strong>{{act.descripcion}}</strong></td>
+             </tr>
+         {% endfor %}
+		</tbody>
+	  </table>
    </form>
 
    <div class="footer">
