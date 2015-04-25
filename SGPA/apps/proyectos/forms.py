@@ -80,6 +80,14 @@ class NuevoMiembroForm(forms.Form):
 
 class AsignarFlujoForm(forms.Form):
 	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
+
+class AsignarActividadesProyForm(forms.Form):
+    actividades = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ACTIVIDADES', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(AsignarActividadesProyForm, self).__init__(*args, **kwargs)
+        self.fields['actividades'].queryset = Actividad.objects.all()
+
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
 #
