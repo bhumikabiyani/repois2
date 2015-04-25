@@ -22,7 +22,7 @@ class UserTestCase(TestCase):
         self.f1 = Flujo.objects.create(nombre="flujo1")
         self.a1 = Actividad.objects.create(nombre="act1")
         self.r1 = Rol.objects.get(id=2)
-        self.s1 = Sprint.objects.create(nombre="Sprint1",descripcion="prueba",proyecto=self.p1)
+        self.s1 = Sprint.objects.create(nombre="Sprint8",descripcion="prueba",proyecto=self.p1)
         self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1)
         self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1)
 
@@ -264,7 +264,7 @@ class UserTestCase(TestCase):
     def testModSprint_View(self):
         request = RequestFactory().get('/sprint')
         user = User.objects.get(username="cgonza")
-        sprint = Sprint.objects.get(nombre="Sprint1")
+        sprint = Sprint.objects.get(nombre="Sprint8")
         request.user = user
         response = mod_sprint(request,sprint.id)
         # Check.
@@ -273,7 +273,7 @@ class UserTestCase(TestCase):
     def testDelSprint_View(self):
         request = RequestFactory().get('/sprint')
         user = User.objects.get(username="cgonza")
-        sprint = Sprint.objects.get(nombre="Sprint1")
+        sprint = Sprint.objects.get(nombre="Sprint8")
         request.user = user
         response = borrar_sprint(request,sprint.id)
         # Check.
