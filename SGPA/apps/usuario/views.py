@@ -35,32 +35,31 @@ def crearUsuario_view(request):
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
-        permisos = []
-        for i in permisos_obj:
-            permisos.append(i.nombre)
-
-	form = UsuariosForm()
-	if request.method == "POST":
-		form = UsuariosForm(request.POST)
-		if form.is_valid():
-			username = form.cleaned_data['username']
-            		first_name = form.cleaned_data['first_name']
-            		last_name = form.cleaned_data['last_name']
-            		email = form.cleaned_data['email']
-            		password_one = form.cleaned_data['password_one']
-			password_two = form.cleaned_data['password_two']
-			u = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email,password=password_one)
-			u.save()
-			return HttpResponseRedirect("/admin")
-		else:
-			ctx = {'form':form,
-                               'user':user,
-                               'crear_usuario': 'crear usuario' in permisos}
-			return 	render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
-	ctx = {'form':form,
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    form = UsuariosForm()
+    if request.method == "POST":
+        form = UsuariosForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            password_one = form.cleaned_data['password_one']
+            password_two = form.cleaned_data['password_two']
+            u = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email,password=password_one)
+            u.save()
+            return HttpResponseRedirect("/admin")
+    else:
+        ctx = {'form':form,
                'user':user,
                'crear_usuario': 'crear usuario' in permisos}
-	return render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
+        return 	render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
+    ctx = {'form':form,
+           'user':user,
+           'crear_usuario': 'crear usuario' in permisos}
+    return render_to_response('usuario/crearUsuario.html',ctx,context_instance=RequestContext(request))
 
 def lista(request, tipo):
     """
