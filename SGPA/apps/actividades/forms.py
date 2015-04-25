@@ -33,3 +33,10 @@ class ActividadForm(forms.Form):
 
 class ModActividadForm(forms.Form):
 	descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+
+class AsignarActividadesForm(forms.Form):
+    actividades = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ACTIVIDADES', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(AsignarActividadesForm, self).__init__(*args, **kwargs)
+        self.fields['actividades'].queryset = Actividad.objects.all()

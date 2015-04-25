@@ -20,6 +20,7 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.flujo.forms import *
 from SGPA.apps.flujo.models import *
 from SGPA.apps.flujo.helper import *
+from SGPA.apps.actividades.forms import *
 
 @login_required
 def admin_flujo(request):
@@ -125,7 +126,8 @@ def visualizar_flujo(request, flujo_id):
                'ver_flujo': 'ver flujo' in permisos,
                'crear_flujo': 'crear flujo' in permisos,
                'mod_flujo': 'modificar flujo' in permisos,
-               'eliminar_flujo': 'eliminar flujo' in permisos
+               'eliminar_flujo': 'eliminar flujo' in permisos,
+               'asignar_actividades': 'asignar actividades' in permisos
 	       }
 	return render_to_response('flujo/verFlujo.html',ctx,context_instance=RequestContext(request))
 
@@ -188,3 +190,31 @@ def borrar_flujo(request, flujo_id):
                                                                       'user':user,
                                                                       'eliminar_flujo':'eliminar flujo' in permisos
 								})
+
+def asignar_actividades(request, flujo_id):
+    """Asigna actividades a un flujo"""
+    user = User.objects.get(username=request.user.username)
+    permisos = get_permisos_sistema(user)
+    flujo = get_object_or_404(Flujo, id=flujo_id)
+    lista_actividades = FlujoActividad.objects.filter(flujo = flujo)
+    if request.method == 'POST':
+        form = AsignarActividadesForm(request.POST)
+        if form.is_valid():
+            lista_nueva = form.cleaned_data['actividades']
+            for i in lista_actividades:
+                i.delete()
+            for i in lista_nueva:
+                nuevo = FlujoActividad()
+                nuevo.flujo = flujo
+                nuevo.actividad = i
+                nuevo.save()
+            return HttpResponseRedirect("/verFlujo/ver&id=" + str(flujo_id))
+    else:
+        dict = {}
+        for i in lista_actividades:
+            print i.actividad
+            dict[i.actividad.id] = True
+        form = AsignarActividadesForm(initial = {'actividades': dict})
+    return render_to_response("flujo/asignar_actividades.html", {'form':form, 'flujo':flujo, 'user':user, 'asignar_actividades': 'asignar actividades' in permisos
+                                                                 })
+
