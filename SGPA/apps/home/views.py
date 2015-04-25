@@ -21,11 +21,19 @@ from django.core.mail import EmailMessage
 
 # Create your views here.
 def index_view(request):
-    """Muestra la Página de Inicio del Sistema"""
+    """
+    Muestra la Página de Inicio del Sistema
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: index.html, pagina principal
+    """
     return render_to_response('home/index.html', context_instance=RequestContext(request))
 
 def login_view(request):
-    """Vista de Inicio de Sesión"""
+    """
+    Vista de Inicio de Sesion
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:login.html, pagina para inicio de Sesion
+    """
     mensaje = ""
     if request.user.is_authenticated():
         return HttpResponseRedirect('/')

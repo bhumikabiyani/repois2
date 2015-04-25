@@ -23,7 +23,11 @@ from SGPA.apps.actividades.helper import *
 
 @login_required
 def admin_actividades(request):
-    """Administracion de actividades"""
+    """
+    Vista para la Administración de actividades
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: admin_actividades.html, pagina en la cual se trabaja con las actividades
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -81,7 +85,11 @@ def admin_actividades(request):
 
 @login_required
 def crear_actividad(request):
-    """Agrega una nueva actividad"""
+    """
+    Vista para agregar una nueva actividad
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return: crear_actividad.html, pagina en la cual se crea la actividad
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -112,7 +120,12 @@ def crear_actividad(request):
 			      })
 
 def visualizar_actividad(request, actividad_id):
-        """Visualiza Flujos"""
+        """
+        Metodo para visualizar Actividad
+        :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+        :param actividad_id: id de la actividad que se desea actualizar
+        :return: verActividad.html,página en el cual se visualiza la actividad
+        """
         actividades = get_object_or_404(Actividad, id=actividad_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
@@ -127,7 +140,12 @@ def visualizar_actividad(request, actividad_id):
 	return render_to_response('actividades/verActividad.html',ctx,context_instance=RequestContext(request))
 
 def mod_actividad(request, actividad_id):
-    """Modifica una Actividad"""
+    """
+    Metodo que modifica una actividad
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param actividad_id: id de la actividad que se desea modificar
+    :return:mod_actividad.htm, pagina en la cual se modifica la actividad
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -156,7 +174,12 @@ def mod_actividad(request, actividad_id):
 						     })
 
 def borrar_actividad(request, actividad_id):
-    """Elimina un flujo si no està asignado a un Proyecto"""
+    """
+    Metodo que Elimina una actividad
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param actividad_id: id de la actividad que se desea eliminar
+    :return:actividad_confirm_delete.html, pagina en la cual se eliminará la actividad
+    """
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
