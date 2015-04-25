@@ -120,9 +120,17 @@ def visualizar_flujo(request, flujo_id):
         flujos = get_object_or_404(Flujo, id=flujo_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
+        fluAct = FlujoActividad.objects.filter(flujo = flujo_id)
+        actList = []
+        for rec in fluAct:
+            if not rec.actividad.id in actList:
+                actList.append(rec.actividad.id)
+        print actList
+        actividades = Actividad.objects.filter(Q(id__in = actList))
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
-               'flujos':flujos, 
+               'flujos':flujos,
+               'actividades':actividades,
                'ver_flujo': 'ver flujo' in permisos,
                'crear_flujo': 'crear flujo' in permisos,
                'mod_flujo': 'modificar flujo' in permisos,
