@@ -140,7 +140,12 @@ def visualizar_proyectos(request, proyecto_id):
     userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id)
     permisosSys = get_permisos_sistema(user)
     roles = UsuarioRolProyecto.objects.filter(usuario=user, proyecto=proyecto_id).only('rol')
-    flujos = ProyectoFlujo.objects.filter(proyecto=proyecto_id)
+    fluActProy = FlujoActividadProyecto.objects.filter(proyecto=proyecto_id).only('flujo')
+    fapList = []
+    for rec in fluActProy:
+        if not rec.flujo in fapList:
+            fapList.append(rec.flujo)
+    flujos = Flujo.objects.filter(Q(nombre__in = fapList))
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -149,6 +154,7 @@ def visualizar_proyectos(request, proyecto_id):
         permisosProy.append(i.nombre)
     print permisosProy
     lista = User.objects.all().order_by("id")
+    print proyecto.flujos
     ctx = {'lista': lista,
            'proyecto': proyecto,
            'status': status,
@@ -160,7 +166,8 @@ def visualizar_proyectos(request, proyecto_id):
            'eliminar_proyecto': 'eliminar proyecto' in permisosProy,
            'asignar_miembros': 'asignar miembros' in permisosProy,
            'asignar_flujo' : 'asignar flujo' in permisosProy,
-           'eliminar_miembro' : 'eliminar miembro' in permisosProy
+           'eliminar_miembro' : 'eliminar miembro' in permisosProy,
+           'asignar_actividades_proyecto' : 'asignar actividades proyecto' in permisosProy
            }
     return render_to_response('proyectos/verProyecto.html', ctx, context_instance=RequestContext(request))
 
@@ -259,25 +266,27 @@ def asignar_flujo(request, proyecto_id):
     #-------------------------------------------------------------------
     actual = get_object_or_404(Proyecto, id=proyecto_id)
     if request.method == 'POST':
-	if 1 == 1:
+        if 1 == 1:
             form = AsignarFlujoForm(request.POST)
             if form.is_valid():
-               actual.flujos.clear()
-               lista = form.cleaned_data['flujos']
-               for i in lista:
-			nuevo = ProyectoFlujo()
-                    	nuevo.proyecto = actual
-                    	nuevo.flujo = i
-                    	nuevo.save()
+                actual.flujos.clear()
+                lista = form.cleaned_data['flujos']
+                for flujo in lista:
+                    lista_actividades = FlujoActividad.objects.filter(flujo = flujo).only('actividad')
+                    for act in lista_actividades:
+                        fap = FlujoActividadProyecto()
+                        fap.proyecto = actual
+                        fap.flujo = flujo
+                        fap.actividad = act.actividad
+                        fap.save()
+
 
         return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
-
-	    dict = {}
-
-            for i in actual.flujos.all():
-                dict[i.id] = True
-            form = AsignarFlujoForm(initial={'flujos': dict})
+        dict = {}
+        for i in actual.flujos.all():
+            dict[i.id] = True
+        form = AsignarFlujoForm(initial={'flujos': dict})
     return render_to_response("proyectos/asignar_flujos.html", {'form': form,
                                                                   'proyecto': actual,
                                                                   'user':user,
@@ -320,14 +329,15 @@ def borrar_miembro(request, miembro_id):
     rol = Rol.objects.get(nombre=urp.rol)
     proyecto = Proyecto.objects.get(nombrelargo=urp.proyecto)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolProyecto.objects.filter(usuario = user,rol=rol).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto=proyecto).only('rol')
+    print roles
     permisos_obj = []
     for i in roles:
        permisos_obj.extend(i.rol.permisos.all())
     permisos = []
     for i in permisos_obj:
        permisos.append(i.nombre)
-
+    print permisos
     #-------------------------------------------------------------------
     actual = get_object_or_404(UsuarioRolProyecto, id=miembro_id)
     #relacionados = UsuarioRolProyecto.objects.filter(flujo = actual).count()
@@ -347,3 +357,46 @@ def borrar_miembro(request, miembro_id):
                                                                       'proyecto': proyecto,
                                                                       'eliminar_miembro':'eliminar miembro' in permisos
 								})
+
+@login_required
+def asignar_actividad_proy(request, flujo_id, proyecto_id):
+    """Metodo para asignar Flujo a Proyecto"""
+    user = User.objects.get(username=request.user.username)
+    proy = Proyecto.objects.get(id = proyecto_id)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proy).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    print permisos
+    #-------------------------------------------------------------------
+    proyactual = get_object_or_404(Proyecto, id=proyecto_id)
+    flujoactual = get_object_or_404(Flujo, id=flujo_id)
+    lista_actividades = FlujoActividadProyecto.objects.filter(flujo = flujo_id,  proyecto = proyecto_id)
+    if request.method == 'POST':
+        form = AsignarActividadesProyForm(request.POST)
+        if form.is_valid():
+            lista_nueva = form.cleaned_data['actividades']
+            for i in lista_actividades:
+                i.delete()
+            # actual.flujos.clear()
+            for i in lista_nueva:
+                fap = FlujoActividadProyecto()
+                fap.proyecto = proyactual
+                fap.flujo = flujoactual
+                fap.actividad = i
+                fap.save()
+        return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
+    else:
+        dict = {}
+        for i in lista_actividades:
+            dict[i.actividad.id] = True
+        form = AsignarActividadesProyForm(initial={'actividades': dict})
+    return render_to_response("proyectos/asignar_actividades_proy.html", {'form': form,
+                                                                  'proyecto': proyactual,
+                                                                  'flujo': flujoactual,
+                                                                  'user':user,
+                                                                  })

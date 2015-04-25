@@ -2,7 +2,7 @@
 {% block title %} Detalles Flujo{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL FLUJO "{{ flujos.nombre }}" </h3></font></strong></center><br>
-{% if ver_flujo or mod_flujo or eliminar_flujo %}
+{% if ver_flujo or mod_flujo or eliminar_flujo or asignar_actividades %}
 <form action="." method="POST">
          {% csrf_token %}
 <table class="table table-bordered">
@@ -35,8 +35,11 @@
 			{% endif %}
 			{% if mod_flujo %}
 				<a class="btn btn-primary" href="/modificarFlujo/mod&id={{flujos.id}}/"><strong>MODIFICAR</strong></a>
-					{% endif %}		
-			   
+            {% endif %}
+            {% if asignar_actividades %}
+				<a class="btn btn-primary" href="/asignarActividad/actividad&id={{flujos.id}}/"><strong>ASIGNAR ACTIVIDADES</strong></a>
+            {% endif %}
+
 			                            	
 			   </td><br><br>
 		<a class="btn btn-primary" href="/flujos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

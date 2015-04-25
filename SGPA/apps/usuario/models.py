@@ -92,7 +92,7 @@ class Proyecto(models.Model):
     cantidad = models.IntegerField()
     cant_actual = models.IntegerField(null=True)
     estado = models.IntegerField(max_length=1, choices=PROJECT_STATUS_CHOICES)
-    flujos = models.ManyToManyField(Flujo, through='ProyectoFlujo')
+    flujos = models.ManyToManyField(Flujo, through='FlujoActividadProyecto')
 
     def __unicode__(self):
         return self.nombrelargo

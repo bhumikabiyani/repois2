@@ -27,6 +27,7 @@ class ProyectoForm(forms.Form):
     # usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     cantidad = forms.IntegerField(label='HORAS')
     #permisos = forms.ModelMultipleChoiceField(queryset = None, widget=forms.CheckboxSelectMultiple, required = False)
+    estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
 
     def clean_nombrelargo(self):
 		if 'nombrelargo' in self.cleaned_data:
@@ -79,6 +80,14 @@ class NuevoMiembroForm(forms.Form):
 
 class AsignarFlujoForm(forms.Form):
 	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
+
+class AsignarActividadesProyForm(forms.Form):
+    actividades = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ACTIVIDADES', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(AsignarActividadesProyForm, self).__init__(*args, **kwargs)
+        self.fields['actividades'].queryset = Actividad.objects.all()
+
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
 #

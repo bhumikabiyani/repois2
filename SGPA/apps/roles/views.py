@@ -254,41 +254,39 @@ def admin_permisos(request, rol_id):
     #-------------------------------------------------------------------
     actual = get_object_or_404(Rol, id=rol_id)
     if request.method == 'POST':
-	if actual.categoria == 1:
+        if actual.categoria == 1:
             form = PermisosForm(request.POST)
             if form.is_valid():
-               actual.permisos.clear()
-               lista = form.cleaned_data['permisos']
-               for i in lista:
-			nuevo = RolPermiso()
-                    	nuevo.rol = actual
-                    	nuevo.permiso = i
-                    	nuevo.save()
-	else:
-		form = PermisosProyectoForm(request.POST)
-		if form.is_valid():
-               		actual.permisos.clear()
-               		lista = form.cleaned_data['permisos']
-               		for i in lista:
-				nuevo = RolPermiso()
-                    		nuevo.rol = actual
-                    		nuevo.permiso = i
-                    		nuevo.save()
+                actual.permisos.clear()
+                lista = form.cleaned_data['permisos']
+                for i in lista:
+                    nuevo = RolPermiso()
+                    nuevo.rol = actual
+                    nuevo.permiso = i
+                    nuevo.save()
+        else:
+            form = PermisosProyectoForm(request.POST)
+            if form.is_valid():
+                actual.permisos.clear()
+                lista = form.cleaned_data['permisos']
+                for i in lista:
+                    nuevo = RolPermiso()
+                    nuevo.rol = actual
+                    nuevo.permiso = i
+                    nuevo.save()
         return HttpResponseRedirect("/verRol/ver&id=" + str(rol_id))
     else:
         if actual.categoria == 1:
             dict = {}
-         
             for i in actual.permisos.all():
                 dict[i.id] = True
             form = PermisosForm(initial={'permisos': dict})
         else:
-	    dict = {}
-         
+            dict = {}
             for i in actual.permisos.all():
                 dict[i.id] = True
             form = PermisosProyectoForm(initial={'permisos': dict})
-    return render_to_response("roles/admin_permisos.html", {'form': form, 
+    return render_to_response("roles/admin_permisos.html", {'form': form,
                                                                   'roles': actual, 
                                                                   'user':user,
                                                                   })

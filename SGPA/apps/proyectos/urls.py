@@ -20,6 +20,7 @@ urlpatterns = patterns('SGPA.apps.proyectos.views',
 	url(r'^proyectos/flujos&id=(?P<rol_id>\d+)/$','admin_flujos',name='vista_flujos'),
 	url(r'^asignarMiembro/proyecto&id=(?P<proyecto_id>\d+)/$','asignar_miembro',name='vista_miembros'),
     url(r'^asignarFlujo/proyecto&id=(?P<proyecto_id>\d+)/$','asignar_flujo',name='vista_asignarflujo'),
-	url(r'^modificarMiembro/miembro&id=(?P<proyecto_id>\d+)/$','mod_miembro',name='vista_modMiembro')
+	url(r'^modificarMiembro/miembro&id=(?P<proyecto_id>\d+)/$','mod_miembro',name='vista_modMiembro'),
+    url(r'^asignarActividadProy/flujo&id=(?P<flujo_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','asignar_actividad_proy',name='vista_asignarActividadProy')
 )
 
