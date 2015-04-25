@@ -3,7 +3,7 @@
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USER HISTORY DE {{proyecto.nombrelargo}} </h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE USER HISTORY</h3></font></strong></center><br>
-{% if crear_flujo or ver_flujo %}
+{% if crear_user_history or ver_user_history %}
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -50,7 +50,7 @@
       <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER AL PROYECTO</strong> </a>&nbsp;&nbsp;
-		    {% if crear_flujo %}
+		    {% if crear_user_history %}
                    <a class="btn btn-primary" href="/crearUserHistory/proyecto&id={{proyecto.id}}/"><strong>CREAR USER HISTORY</strong></a>
                     {% endif %}
 	</div>

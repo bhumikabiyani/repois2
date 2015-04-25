@@ -2,7 +2,7 @@
 {% block title %} Modificar Flujo{% endblock %}
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> MODIFICAR USER HISTORY "{{ flujo.nombre }}"</h3></font></strong></center><br>
-{% if mod_flujo %}
+{% if mod_user_history %}
 <form action="." method="POST">
 	{% csrf_token %}
 	<center><table>

@@ -54,8 +54,8 @@ def admin_user_history(request,proyecto_id):
                                                         'user':user,
                                                         'proyecto':proyecto,
                                                         'pag': pag,
-                                                        'ver_flujo':'ver flujo' in permisos,
-							'crear_flujo':'crear flujo' in permisos
+                                                        'ver_user_history':'ver user history' in permisos,
+							'crear_user_history':'crear user history' in permisos
                                                         })
     else:
         try:
@@ -75,8 +75,8 @@ def admin_user_history(request,proyecto_id):
                                                             'user':user,
                                                             'proyecto':proyecto,
 							    'pag': pag,
-                                                            'ver_flujo':'ver flujo' in permisos,
-							    'crear_flujo':'crear flujo' in permisos
+                                                            'ver_user_history':'ver user history' in permisos,
+							    'crear_user_history':'crear user history' in permisos
 							})
 
 
@@ -111,7 +111,7 @@ def crear_user_history(request,proyecto_id):
     return render_to_response('userhistory/crear_userhistory.html',{'form':form,
                                                             'user':user,
                                                             'proyecto':proyecto,
-                                                            'crear_flujo': 'crear flujo' in permisos
+                                                            'crear_user_history': 'crear user history' in permisos
 			      })
 
 
@@ -123,10 +123,10 @@ def visualizar_user_history(request, userhistory_id):
     lista = User.objects.all().order_by("id")
     ctx = {'lista':lista,
             'flujos':flujos,
-            'ver_flujo': 'ver flujo' in permisos,
-            'crear_flujo': 'crear flujo' in permisos,
-            'mod_flujo': 'modificar flujo' in permisos,
-            'eliminar_flujo': 'eliminar flujo' in permisos
+            'ver_user_history': 'ver user history' in permisos,
+            'crear_user_history': 'crear user history' in permisos,
+            'mod_user_history': 'modificar user history' in permisos,
+            'eliminar_user_history': 'eliminar user history' in permisos
 	       }
     return render_to_response('userhistory/verUserHistory.html',ctx,context_instance=RequestContext(request))
 
@@ -158,11 +158,10 @@ def mod_user_history(request, userhistory_id):
     return render_to_response("userhistory/mod_user_history.html", {'user':user,
                                                            'form':form,
 							   'flujo': actual,
-                                                           'mod_flujo':'modificar flujo' in permisos
+                                                           'mod_user_history':'modificar user history' in permisos
 						     })
 
-def borrar_flujo(request, userhistory_id):
-    """Elimina un flujo si no està asignado a un Proyecto"""
+def borrar_user_history(request, userhistory_id):
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
@@ -175,20 +174,18 @@ def borrar_flujo(request, userhistory_id):
 
     #-------------------------------------------------------------------
     actual = get_object_or_404(UserHistory, id=userhistory_id)
-    proyecto_id= actual.proyecto
-    relacionados = ProyectoFlujo.objects.filter(flujo = actual).count()
 
     if request.method == 'POST':
         actual.delete()
-        return HttpResponseRedirect("/userHistory/proyecto&id=" + str(proyecto_id))
+        return HttpResponseRedirect("/userHistory/proyecto&id=" + str(actual.proyecto_id))
     else:
-        if relacionados > 0:
-             error = "El Flujo esta relacionado."
+        if actual.estado == 'doing':
+             error = "El User History esta en desarrollo."
              return render_to_response("userhistory/user_history_confirm_delete.html", {'mensaje': error,
                                                                                'flujo':actual,
                                                                                'user':user,
-                                                                               'eliminar_flujo':'eliminar flujo' in permisos})
+                                                                               'eliminar_user_history':'eliminar user history' in permisos})
     return render_to_response("userhistory/user_history_confirm_delete.html", {'flujo':actual,
                                                                       'user':user,
-                                                                      'eliminar_flujo':'eliminar flujo' in permisos
+                                                                      'eliminar_user_history':'eliminar user history' in permisos
 								})
