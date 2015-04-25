@@ -53,15 +53,22 @@ class ModProyectoForm(forms.Form):
     #     print 'hola'
 
 class NuevoMiembroForm(forms.Form):
-    usuario = forms.ModelChoiceField(queryset=User.objects.all())
+    lider = 0
+    usuario = forms.ModelChoiceField(queryset=User.objects.filter().exclude(id=lider))
+    print  lider
     # usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     rol = forms.ModelChoiceField(queryset=Rol.objects.filter(categoria=2).exclude(id=2))
     # rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
     proyecto = Proyecto()
 
+
     def __init__(self, proyecto, *args, **kwargs):
         super(NuevoMiembroForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
+        urp = UsuarioRolProyecto.objects.get(rol = 2, proyecto = proyecto)
+        self.lider = User.objects.get(id = urp.usuario.id)
+        print self.lider
+        self.fields['usuario'].queryset = User.objects.filter().exclude(id = self.lider.id)
 
     def clean_usuario(self):
 		if 'usuario' in self.cleaned_data:
