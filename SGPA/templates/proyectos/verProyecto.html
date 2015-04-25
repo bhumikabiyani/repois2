@@ -2,7 +2,7 @@
 {% block title %} Detalles Proyecto{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL PROYECTO "{{ proyecto.nombrelargo }}" </h3></font></strong></center><br>
-{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_miembros or asignar_flujo%}
+{% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_miembros or asignar_flujo or eliminar_miembro%}
 <form action="." method="POST">
          {% csrf_token %}
     <table class="table table-bordered">
@@ -46,7 +46,10 @@
 
                  <td><strong>{{miembro.usuario}}</strong></td>
                  <td><strong>{{miembro.rol}}</strong></td>
-                 {%if eliminar_miembro%}
+                 {%if miembro.rol.nombre == 'team leader'%}
+                 <td><a><strong> </strong></a></td>
+                 {%endif%}
+                 {%if eliminar_miembro and miembro.rol.nombre != 'team leader'%}
                  <td><a class="btn btn-primary" href="/eliminarMiembro/del&id={{miembro.id}}/"><strong>ELIMINAR</strong></a></td>
                  {% endif %}
              </tr>
@@ -59,16 +62,34 @@
 	      <thead>
 	        <tr>
 	             <th class="titulo"><b><strong><span style="color:#330099">FLUJO</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
          {%for flujo in flujos%}
              <tr>
-                 <td><strong>{{flujo.flujo}}</strong></td>
+                 <td><strong>{{flujo.nombre}}</strong></td>
+                 <td><strong>{{flujo.descripcion}}</strong></td>
+                 {%if asignar_actividades_proyecto%}
+                 <td><a class="btn btn-primary" href="/asignarActividadProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ACTIVIDADES</strong></a></td>
+                 {% endif %}
              </tr>
          {% endfor %}
 		</tbody>
 	  </table>
+    <div class="alert alert-info">
+                <ul><h3>
+            <center><a class="btn btn-primary" href="/sprint/sprint&id={{proyecto.id}}/"><strong>ADMINISTRACION DE SPRINT</strong></a>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-primary" href="/userHistory/proyecto&id={{proyecto.id}}/"><strong>ADMINISTRAR USER HISTORY</strong></a>
+            </center> </ul></h3>
+   </div>
 
 
    <div class="footer">
@@ -86,10 +107,6 @@
 			{% endif %}
             {% if asignar_flujo%}
 			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>
-			{% endif %}
-            <a class="btn btn-primary" href="/sprint/sprint&id={{proyecto.id}}/"><strong>ADMINISTRACION DE SPRINT</strong></a>
-            {% if asignar_flujo%}
-			<a class="btn btn-primary" href="/userHistory/proyecto&id={{proyecto.id}}/"><strong>ADMINISTRAR USER HISTORY</strong></a>
 			{% endif %}
 			   </td><br><br>
                <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

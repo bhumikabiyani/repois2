@@ -1,40 +1,43 @@
-# -*- coding: utf-8 -*-
-import base64
-from django.core.context_processors import csrf
+from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext, Context
-from SGPA.apps.usuario.forms import UsuariosForm
-from django.core.mail import EmailMultiAlternatives  # Enviamos HTML
-from django.contrib.auth.models import User
-import django
-from SGPA.settings import URL_LOGIN
-from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 # Paginacion en Django
-from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.core.paginator import Paginator,EmptyPage,InvalidPage
 from django.contrib.auth.decorators import login_required
 from django.template import *
-from django.contrib import *
+from django.contrib import*
 from django.template.loader import get_template
 from django.forms.formsets import formset_factory
-from SGPA.apps.proyectos.forms import *
-from SGPA.apps.proyectos.models import *
-from SGPA.apps.proyectos.helper import *
 from SGPA.apps.sprint.forms import *
+from SGPA.apps.usuario.models import *
+from SGPA.apps.sprint.helper import *
+# Create your views here.
 
 @login_required
 def admin_sprint(request,proyecto_id):
-    """Administracion general de sprint"""
+    """
+    :param request:
+    :return:
+    Administracion de Sprint"""
     user = User.objects.get(username=request.user.username)
-    permisos = get_permisos_sistema(user)
-    proyecto=get_object_or_404(Proyecto, id=proyecto_id)
-    lista =  Sprint.objects.filter(proyecto=proyecto_id)
-    #listaitem = Item.objects.filter(proyecto=proyecto_id, habilitado=True).order_by('id')
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+
+    lista = Sprint.objects.filter(proyecto=proyecto_id)
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
             palabra = form.cleaned_data['filtro']
-            lista = Sprint.objects.filter(Q(nombre=palabra) | Q(descripcion__icontains = palabra)).order_by('id')
+            lista = Sprint.objects.filter(Q(nombre__icontains = palabra) | Q(descripcion__icontains = palabra)).order_by('id')
             paginas = form.cleaned_data['paginas']
             request.session['nro_items'] = paginas
             paginator = Paginator(lista, int(paginas))
@@ -46,14 +49,14 @@ def admin_sprint(request,proyecto_id):
                 pag = paginator.page(page)
             except (EmptyPage, InvalidPage):
                 pag = paginator.page(paginator.num_pages)
-            return render_to_response('sprint/sprint.html', {'pag': pag,
-                                                                   'form': form,
-                                                                   'lista': lista,
-                                                                   'user': user,
-                                                                   'proyecto' : proyecto,
-                                                                   'ver_sprint': 'ver sprint' in permisos,
-                                                                   'crear_sprint': 'crear sprint' in permisos,
-                                                                   })
+            return render_to_response('sprint/sprint.html',{'lista':lista, 'form': form,
+
+                                                        'user':user,
+                                                        'proyecto':proyecto,
+                                                        'pag': pag,
+                                                        'ver_sprint':'ver sprint' in permisos,
+							'crear_sprint':'crear sprint' in permisos
+                                                        })
     else:
         try:
             page = int(request.GET.get('page', '1'))
@@ -68,13 +71,14 @@ def admin_sprint(request,proyecto_id):
         except (EmptyPage, InvalidPage):
             pag = paginator.page(paginator.num_pages)
         form = FilterForm(initial={'paginas': paginas})
-    return render_to_response('sprint/sprint.html', {'lista': lista, 'form': form,
-                                                           'user': user,
-                                                           'pag': pag,
-                                                           'proyecto' : proyecto,
-                                                           'ver_sprint': 'ver sprint' in permisos,
-                                                           'crear_sprint': 'crear sprint' in permisos,
-                                                           })
+    return render_to_response('sprint/sprint.html',{'lista':lista, 'form':form,
+                                                            'user':user,
+                                                            'proyecto':proyecto,
+							    'pag': pag,
+                                                            'ver_sprint':'ver sprint' in permisos,
+							    'crear_sprint':'crear sprint' in permisos
+							})
+
 @login_required
 def crear_sprint(request, proyecto_id):
     """Administracion general de sprint"""
@@ -144,11 +148,11 @@ def mod_sprint(request, sprint_id):
     if request.method == 'POST':
         form = ModSprintForm(f,request.POST, request.FILES)
         if form.is_valid():
-            f.nombre = form.cleaned_data['nombre']
+            f.descripcion = form.cleaned_data['descripcion']
             f.save()
             return HttpResponseRedirect("/verSprint/ver&id=" + str(sprint_id))
     else:
-        form = ModSprintForm(f, initial = {'nombre': f.nombre})
+        form = ModSprintForm(f, initial = {'descripcion': f.descripcion})
     return render_to_response('sprint/mod_sprint.html',{'form':form,
                                                         'user':user,
                                                         'sprint': f,
@@ -156,7 +160,12 @@ def mod_sprint(request, sprint_id):
                                                          })
 
 def borrar_sprint(request, sprint_id):
-    """Elimina un flujo si no està asignado a un Proyecto"""
+    """
+
+    :param request:
+    :param sprint_id:
+    :return:
+    Elimina un Sprint si su Proyecto aun no ha iniciado"""
     user = User.objects.get(username=request.user.username)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')

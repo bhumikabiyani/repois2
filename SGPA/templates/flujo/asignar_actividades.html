@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Asignar actividades a flujo{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h2> ASIGNAR ACTIVIDADES A FLUJO "{{ flujo.nombre }}"</h2></font></strong></center>
+{% if asignar_actividades %}
+   {% if mensaje %}
+      {% autoescape off %}
+         <center><h3> SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE: </h3>
+                  <h4><p><em> {{ mensaje }} </em></p></h4>
+         </center>
+      {% endautoescape %}
+	 <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verFlujo/ver&id={{flujo.id}}/' "/></center>
+   {% else %}
+   <center>
+      <table class="abm">
+             <form id="form_id" action="." method="POST">
+                   {% csrf_token %}
+		   {{ form.as_table }}
+		   <tr>
+			<td colspan="2" class="buttonlist">
+                            <br><input type="submit" class= "btn btn-primary" value="GUARDAR" />&nbsp;&nbsp;
+			    <input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verFlujo/ver&id={{flujo.id}}/' "/></center>
+                        </td>
+		   </tr>
+	     </form>
+      </table>
+   </center>
+{% endif %}
+{% else %}
+	<br><center><p><strong>NO POSEE PERMISOS</strong></p><center>
+{% endif %}
+{% endblock%}
