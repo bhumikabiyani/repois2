@@ -24,3 +24,7 @@ class UserHistoryForm(forms.Form):
                 if nombre == i.nombre:
                     raise forms.ValidationError('Ya existe ese nombre de User History. Elija otro')
             return nombre
+
+class ModUserHistoryForm(forms.Form):
+    estado = forms.CharField(max_length=6, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
+    tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')

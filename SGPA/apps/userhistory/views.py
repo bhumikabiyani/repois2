@@ -113,3 +113,82 @@ def crear_user_history(request,proyecto_id):
                                                             'proyecto':proyecto,
                                                             'crear_flujo': 'crear flujo' in permisos
 			      })
+
+
+def visualizar_user_history(request, userhistory_id):
+    """Visualiza Flujos"""
+    flujos = get_object_or_404(UserHistory, id=userhistory_id)
+    user=  User.objects.get(username=request.user.username)
+    permisos = get_permisos_sistema(user)
+    lista = User.objects.all().order_by("id")
+    ctx = {'lista':lista,
+            'flujos':flujos,
+            'ver_flujo': 'ver flujo' in permisos,
+            'crear_flujo': 'crear flujo' in permisos,
+            'mod_flujo': 'modificar flujo' in permisos,
+            'eliminar_flujo': 'eliminar flujo' in permisos
+	       }
+    return render_to_response('userhistory/verUserHistory.html',ctx,context_instance=RequestContext(request))
+
+def mod_user_history(request, userhistory_id):
+    """Modifica un Flujo"""
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    if request.method == 'POST':
+        form = ModUserHistoryForm(request.POST)
+        if form.is_valid():
+            actual.estado = form.cleaned_data['estado']
+            actual.tiempo_estimado = form.cleaned_data['tiempo_estimado']
+            actual.save()
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = ModUserHistoryForm()
+        form.fields['estado'].initial = actual.estado
+        form.fields['tiempo_estimado'].initial = actual.tiempo_estimado
+    return render_to_response("userhistory/mod_user_history.html", {'user':user,
+                                                           'form':form,
+							   'flujo': actual,
+                                                           'mod_flujo':'modificar flujo' in permisos
+						     })
+
+def borrar_flujo(request, userhistory_id):
+    """Elimina un flujo si no està asignado a un Proyecto"""
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto_id= actual.proyecto
+    relacionados = ProyectoFlujo.objects.filter(flujo = actual).count()
+
+    if request.method == 'POST':
+        actual.delete()
+        return HttpResponseRedirect("/userHistory/proyecto&id=" + str(proyecto_id))
+    else:
+        if relacionados > 0:
+             error = "El Flujo esta relacionado."
+             return render_to_response("userhistory/user_history_confirm_delete.html", {'mensaje': error,
+                                                                               'flujo':actual,
+                                                                               'user':user,
+                                                                               'eliminar_flujo':'eliminar flujo' in permisos})
+    return render_to_response("userhistory/user_history_confirm_delete.html", {'flujo':actual,
+                                                                      'user':user,
+                                                                      'eliminar_flujo':'eliminar flujo' in permisos
+								})

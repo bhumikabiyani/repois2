@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}User History{% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USER HISTORY </h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USER HISTORY DE {{proyecto.nombrelargo}} </h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE USER HISTORY</h3></font></strong></center><br>
 {% if crear_flujo or ver_flujo %}
 <form action="." method="POST">
@@ -29,7 +29,7 @@
 			  <td><strong><span style="color:#111111">{{i.estado}}</span></strong></td>
 			  <td><strong><span style="color:#111111">{{i.tiempo_estimado}}</span></strong></td>
 			  {% if ver_flujo %}
-		          <td><a class="btn btn-primary" href="/verFlujo/ver&id={{i.id}}/"><strong> VER </strong></a>
+		          <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}
 	           </tr>
 	    {% endfor %}
