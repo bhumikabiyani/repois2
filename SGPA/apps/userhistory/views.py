@@ -54,8 +54,8 @@ def admin_user_history(request,proyecto_id):
                                                         'user':user,
                                                         'proyecto':proyecto,
                                                         'pag': pag,
-                                                        'ver_flujo':'ver flujo' in permisos,
-							'crear_flujo':'crear flujo' in permisos
+                                                        'ver_user_history':'ver user history' in permisos,
+							'crear_user_history':'crear user history' in permisos
                                                         })
     else:
         try:
@@ -75,8 +75,8 @@ def admin_user_history(request,proyecto_id):
                                                             'user':user,
                                                             'proyecto':proyecto,
 							    'pag': pag,
-                                                            'ver_flujo':'ver flujo' in permisos,
-							    'crear_flujo':'crear flujo' in permisos
+                                                            'ver_user_history':'ver user history' in permisos,
+							    'crear_user_history':'crear user history' in permisos
 							})
 
 
@@ -111,5 +111,81 @@ def crear_user_history(request,proyecto_id):
     return render_to_response('userhistory/crear_userhistory.html',{'form':form,
                                                             'user':user,
                                                             'proyecto':proyecto,
-                                                            'crear_flujo': 'crear flujo' in permisos
+                                                            'crear_user_history': 'crear user history' in permisos
 			      })
+
+
+def visualizar_user_history(request, userhistory_id):
+    """Visualiza Flujos"""
+    flujos = get_object_or_404(UserHistory, id=userhistory_id)
+    user=  User.objects.get(username=request.user.username)
+    permisos = get_permisos_sistema(user)
+    lista = User.objects.all().order_by("id")
+    ctx = {'lista':lista,
+            'flujos':flujos,
+            'ver_user_history': 'ver user history' in permisos,
+            'crear_user_history': 'crear user history' in permisos,
+            'mod_user_history': 'modificar user history' in permisos,
+            'eliminar_user_history': 'eliminar user history' in permisos
+	       }
+    return render_to_response('userhistory/verUserHistory.html',ctx,context_instance=RequestContext(request))
+
+def mod_user_history(request, userhistory_id):
+    """Modifica un Flujo"""
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    if request.method == 'POST':
+        form = ModUserHistoryForm(request.POST)
+        if form.is_valid():
+            actual.estado = form.cleaned_data['estado']
+            actual.tiempo_estimado = form.cleaned_data['tiempo_estimado']
+            actual.save()
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = ModUserHistoryForm()
+        form.fields['estado'].initial = actual.estado
+        form.fields['tiempo_estimado'].initial = actual.tiempo_estimado
+    return render_to_response("userhistory/mod_user_history.html", {'user':user,
+                                                           'form':form,
+							   'flujo': actual,
+                                                           'mod_user_history':'modificar user history' in permisos
+						     })
+
+def borrar_user_history(request, userhistory_id):
+    user = User.objects.get(username=request.user.username)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+
+    if request.method == 'POST':
+        actual.delete()
+        return HttpResponseRedirect("/userHistory/proyecto&id=" + str(actual.proyecto_id))
+    else:
+        if actual.estado == 'doing':
+             error = "El User History esta en desarrollo."
+             return render_to_response("userhistory/user_history_confirm_delete.html", {'mensaje': error,
+                                                                               'flujo':actual,
+                                                                               'user':user,
+                                                                               'eliminar_user_history':'eliminar user history' in permisos})
+    return render_to_response("userhistory/user_history_confirm_delete.html", {'flujo':actual,
+                                                                      'user':user,
+                                                                      'eliminar_user_history':'eliminar user history' in permisos
+								})
