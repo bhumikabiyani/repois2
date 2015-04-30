@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import base64
+from wheel.util import utf8
 from django.core.context_processors import csrf
+from django.db.models import Max
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Context
 from SGPA.apps.usuario.forms import UsuariosForm
@@ -130,17 +132,30 @@ def visualizar_flujo(request, flujo_id):
         flujos = get_object_or_404(Flujo, id=flujo_id)
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
-        fluAct = FlujoActividad.objects.filter(flujo = flujo_id)
-        actList = []
+        fluAct = FlujoActividad.objects.filter(flujo = flujo_id).order_by('orden')
+        actList = {}
         for rec in fluAct:
-            if not rec.actividad.id in actList:
-                actList.append(rec.actividad.id)
-        print actList
-        actividades = Actividad.objects.filter(Q(id__in = actList))
+            if not actList.has_key(rec.flujo.id):
+                actList[rec.flujo.id] = {}
+            if not actList[rec.flujo.id].has_key(rec.actividad.id):
+                actList[rec.flujo.id][rec.actividad.id] = []
+            act = Actividad.objects.get(nombre = rec.actividad)
+            actList[rec.flujo.id][rec.actividad.id].append(act.nombre)
+            actList[rec.flujo.id][rec.actividad.id].append(act.descripcion)
+            actList[rec.flujo.id][rec.actividad.id].append(rec.orden)
+        if actList:
+            actDict = actList[int(flujo_id)]
+        else:
+            actDict = None
+
+        #     if not rec.actividad.id in actList:
+        #         actList.append(rec.actividad.id)
+        # print actList
+        # actividades = Actividad.objects.filter(Q(id__in = actList))
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'flujos':flujos,
-               'actividades':actividades,
+               'actividades':actDict,
                'ver_flujo': 'ver flujo' in permisos,
                'crear_flujo': 'crear flujo' in permisos,
                'mod_flujo': 'modificar flujo' in permisos,
@@ -237,9 +252,15 @@ def asignar_actividades(request, flujo_id):
             for i in lista_actividades:
                 i.delete()
             for i in lista_nueva:
+                famax = FlujoActividad.objects.filter(flujo = flujo).aggregate(Max('orden'))
                 nuevo = FlujoActividad()
                 nuevo.flujo = flujo
                 nuevo.actividad = i
+                print famax
+                if famax['orden__max']:
+                    nuevo.orden = (int(famax['orden__max']) + 1)
+                else:
+                    nuevo.orden = 1
                 nuevo.save()
             return HttpResponseRedirect("/verFlujo/ver&id=" + str(flujo_id))
     else:
