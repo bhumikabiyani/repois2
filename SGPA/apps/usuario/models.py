@@ -146,9 +146,10 @@ class FlujoActividad(models.Model):
     """
     actividad = models.ForeignKey(Actividad)
     flujo = models.ForeignKey(Flujo)
+    orden = models.CharField(max_length=50)
 
     class Meta:
-        unique_together = [("actividad", "flujo")]
+        unique_together = [("actividad", "flujo", "orden")]
 
 class FlujoActividadProyecto(models.Model):
     """

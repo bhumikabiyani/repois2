@@ -29,14 +29,16 @@
 	      <thead>
 	        <tr>
 	             <th class="titulo"><b><strong><span style="color:#330099">ACTIVIDAD</strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b>
+	             <th class="titulo"><b><strong><span style="color:#330099">ORDEN</strong></b>
 	        </tr>
 	      </thead>
               <tbody>
-         {%for act in actividades%}
+         {%for key,value in actividades.items%}
              <tr>
-                 <td><strong>{{act.nombre}}</strong></td>
-                 <td><strong>{{act.descripcion}}</strong></td>
+                 <td><strong>{{value.0}}</strong></td>
+                 <td><strong>{{value.1}}</strong>
+                 <td><strong>{{value.2}}</strong></td>
              </tr>
          {% endfor %}
 		</tbody>
