@@ -102,18 +102,22 @@ def crear_user_history(request,proyecto_id):
     #-------------------------------------------------------------------
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     if request.method == 'POST':
-        form = UserHistoryForm(request.POST)
+        form = UserHistoryForm(proyecto_id, request.POST)
         if form.is_valid():
             r = UserHistory()
             r.nombre = form.cleaned_data['nombre']
+            r.descripcion = form.cleaned_data['descripcion']
             r.estado = form.cleaned_data['estado']
+            r.valor_negocio = form.cleaned_data['valor_negocio']
+            r.valor_tecnico = form.cleaned_data['valor_tecnico']
             r.tiempo_estimado = form.cleaned_data['tiempo_estimado']
+            r.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
             r.proyecto = proyecto
             r.save()
             return HttpResponseRedirect("/userHistory/proyecto&id=" + str(proyecto_id))
 
     else:
-        form = UserHistoryForm()
+        form = UserHistoryForm(proyecto_id)
     return render_to_response('userhistory/crear_userhistory.html',{'form':form,
                                                             'user':user,
                                                             'proyecto':proyecto,

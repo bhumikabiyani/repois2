@@ -18,16 +18,20 @@
 	      <thead>
 	        <tr>
 		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>NOMBRE</center></font></strong></b></th>
-		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>ESTADO</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>DESCRIPCION</center></font></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>ESTADO</center></font></strong></b></th>
 		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>TIEMPO ESTIMADO</center></font></strong></b></th>
-	        </tr>
+	        <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS"><center>ENCARGADO</center></font></strong></b></th>
+            </tr>
 	      </thead>
               <tbody>
 	      {%for i in pag.object_list%}
 		   <tr>
                           <td><strong><span style="color:#111111">{{i.nombre}}</span></strong></td>
-			  <td><strong><span style="color:#111111">{{i.estado}}</span></strong></td>
+			  <td><strong><span style="color:#111111">{{i.descripcion}}</span></strong></td>
+               <td><strong><span style="color:#111111">{{i.estado}}</span></strong></td>
 			  <td><strong><span style="color:#111111">{{i.tiempo_estimado}}</span></strong></td>
+               <td><strong><span style="color:#111111">{{i.encargado}}</span></strong></td>
 			  {% if ver_user_history %}
 		          <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}

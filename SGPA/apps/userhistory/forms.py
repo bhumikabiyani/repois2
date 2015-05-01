@@ -20,20 +20,28 @@ class UserHistoryForm(forms.Form):
     Clase para el formulario de UserHistory
     """
     nombre = forms.CharField(max_length=50, label='NOMBRE')
-    estado = forms.CharField(max_length=6, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
+    descripcion = forms.CharField(max_length=500, label='DESCRIPCION')
+    estado = forms.CharField(max_length=12, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
+    valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
+    valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
-    def clean_nombre(self):
-        if 'nombre' in self.cleaned_data:
-            userHistory = UserHistory.objects.all()
-            nombre = self.cleaned_data['nombre']
-            for i in userHistory:
-                if nombre == i.nombre:
-                    raise forms.ValidationError('Ya existe ese nombre de User History. Elija otro')
-            return nombre
+    encargado = forms.ModelChoiceField(queryset=User.objects.filter())
+    #usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
+    proyecto = Proyecto()
+
+    def __init__(self, proyecto, *args, **kwargs):
+        super(UserHistoryForm, self).__init__(*args, **kwargs)
+        self.proyecto = proyecto
+        urp = UsuarioRolProyecto.objects.filter(proyecto = proyecto)
+        listUser = []
+        for rec in urp:
+            if not rec.usuario.id in listUser:
+                listUser.append(rec.usuario.id)
+        self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
 
 class ModUserHistoryForm(forms.Form):
     """
     Clase para el formulario de modificar User History
     """
-    estado = forms.CharField(max_length=6, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
+    estado = forms.CharField(max_length=12, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')

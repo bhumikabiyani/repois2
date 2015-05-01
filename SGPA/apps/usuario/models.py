@@ -166,19 +166,24 @@ class FlujoActividadProyecto(models.Model):
 ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('en-curso','En Curso'),('cancelado','Cancelado')
                 ,('finalizado','Finalizado'))
 
+ESTADO_KANBAN=(('to-do','To do'),('doing','Doing'),('done','Done'))
+
 class UserHistory(models.Model):
     """
     Clase que representa a un User Storie
     """
     nombre = models.CharField(unique=True, max_length=50)
+    descripcion = models.CharField(max_length=500)
     valor_tecnico = models.IntegerField(null=True)
     valor_negocio = models.IntegerField(null=True)
     prioridad = models.IntegerField(null=True)
     proyecto = models.ForeignKey(Proyecto)
+    encargado = models.ForeignKey(User)
     flujo = models.ForeignKey(Flujo,null=True)
     actividad = models.ForeignKey(Actividad,null=True)
     sprint = models.ForeignKey(Sprint,null=True)
     estado = models.CharField(max_length=12, choices=ESTADO_CHOICES)
+    estadokanban = models.CharField(max_length=6, choices=ESTADO_KANBAN)
     tiempo_estimado = models.IntegerField(null=True)
     tiempo_utilizado = models.IntegerField(null=True)
 
