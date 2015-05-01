@@ -158,9 +158,10 @@ class FlujoActividadProyecto(models.Model):
     flujo = models.ForeignKey(Flujo)
     actividad = models.ForeignKey(Actividad)
     proyecto = models.ForeignKey(Proyecto)
+    orden = models.CharField(max_length=50)
 
     class Meta:
-        unique_together = [("flujo", "actividad", "proyecto")]
+        unique_together = [("flujo", "actividad", "proyecto", "orden")]
 
 ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('en-curso','En Curso'),('cancelado','Cancelado')
                 ,('finalizado','Finalizado'))

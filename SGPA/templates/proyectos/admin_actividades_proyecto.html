@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Actividades Proyecto{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ACTIVIDADES DEL FLUJO "{{ flujo.nombre }}" DEL PROYECTO "{{ proyecto.nombrelargo }}"</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE ACTIVIDADES</h3></font></strong></center><br>
+{% if asignar_actividades_proyecto or ver_flujo %}
+<form action="." method="POST">
+		<table class="table table-bordered">
+	      <thead>
+	        <tr>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">NOMBRE</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">DESCRIPCION</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">ORDEN</center></font></strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+              {%for keyO,valueO in actividades.items%}
+                {%for keyA,valueA in valueO.items%}
+                     <tr>
+                         <td><strong><span style="color:#111111">{{valueA.0}}</span></strong></td>
+                         <td><strong><span style="color:#111111">{{valueA.1}}</span></strong></td>
+                         <td><strong><span style="color:#111111">{{keyO}}</span></strong></td>
+                         {% if keyO > 1 %}
+                            <td><a class="btn btn-primary" href="/subirActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>SUBIR</strong></a></td>
+                         {% endif %}
+                         {% if keyO < ultActividad %}
+                            <td><a class="btn btn-primary" href="/bajarActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>BAJAR</strong></a></td>
+                         {% endif %}
+                     </tr>
+                {% endfor %}
+             {% endfor %}
+            </tbody>
+	  </table>
+   </form>
+
+
+      <div class="footer">
+           <div class="volver">
+               <td><a class="btn btn-primary" href="/asignarActividadProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ASIGNAR ACTIVIDADES</strong></a></td>
+                 <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+	</div>
+     </div>
+{% else %}
+	<center><strong><font face="Comic Sans MS"> NO TIENES PERMISOS</font></strong></center><br> 
+{% endif %}
+{% endblock%}

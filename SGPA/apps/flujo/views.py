@@ -137,25 +137,24 @@ def visualizar_flujo(request, flujo_id):
         for rec in fluAct:
             if not actList.has_key(rec.flujo.id):
                 actList[rec.flujo.id] = {}
-            if not actList[rec.flujo.id].has_key(rec.actividad.id):
-                actList[rec.flujo.id][rec.actividad.id] = []
+            if not actList[rec.flujo.id].has_key(int(rec.orden)):
+                actList[rec.flujo.id][int(rec.orden)] = {}
+            if not actList[rec.flujo.id][int(rec.orden)].has_key(rec.actividad.id):
+                actList[rec.flujo.id][int(rec.orden)][rec.actividad.id] = []
             act = Actividad.objects.get(nombre = rec.actividad)
-            actList[rec.flujo.id][rec.actividad.id].append(act.nombre)
-            actList[rec.flujo.id][rec.actividad.id].append(act.descripcion)
-            actList[rec.flujo.id][rec.actividad.id].append(rec.orden)
+            actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.nombre)
+            actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.descripcion)
+            ultActividad = int(rec.orden)
         if actList:
             actDict = actList[int(flujo_id)]
         else:
             actDict = None
-
-        #     if not rec.actividad.id in actList:
-        #         actList.append(rec.actividad.id)
-        # print actList
-        # actividades = Actividad.objects.filter(Q(id__in = actList))
         lista = User.objects.all().order_by("id")
+        print ultActividad
         ctx = {'lista':lista,
                'flujos':flujos,
                'actividades':actDict,
+               'ultActividad':ultActividad,
                'ver_flujo': 'ver flujo' in permisos,
                'crear_flujo': 'crear flujo' in permisos,
                'mod_flujo': 'modificar flujo' in permisos,
@@ -271,4 +270,25 @@ def asignar_actividades(request, flujo_id):
         form = AsignarActividadesForm(initial = {'actividades': dict})
     return render_to_response("flujo/asignar_actividades.html", {'form':form, 'flujo':flujo, 'user':user, 'asignar_actividades': 'asignar actividades' in permisos
                                                                  })
+def subir_actividad(request, flujo_id, actividad_id):
+
+    flujos = get_object_or_404(Flujo, id=flujo_id)
+    actActual = FlujoActividad.objects.get(flujo = flujo_id, actividad = actividad_id)
+    actSig = FlujoActividad.objects.get(flujo = flujo_id, orden = (int(actActual.orden)-1))
+    actActual.orden = int(actActual.orden) - 1
+    actSig.orden = int(actSig.orden) + 1
+    actActual.save()
+    actSig.save()
+    return HttpResponseRedirect("/verFlujo/ver&id=%s/" %flujo_id)
+
+def bajar_actividad(request, flujo_id, actividad_id):
+
+    flujos = get_object_or_404(Flujo, id=flujo_id)
+    actActual = FlujoActividad.objects.get(flujo = flujo_id, actividad = actividad_id)
+    actSig = FlujoActividad.objects.get(flujo = flujo_id, orden = (int(actActual.orden)+1))
+    actActual.orden = int(actActual.orden) + 1
+    actSig.orden = int(actSig.orden) - 1
+    actActual.save()
+    actSig.save()
+    return HttpResponseRedirect("/verFlujo/ver&id=%s/" %flujo_id)
 

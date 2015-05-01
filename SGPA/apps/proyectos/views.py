@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import base64
 from django.core.context_processors import csrf
+from django.db.models import Max
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Context
 from SGPA.apps.usuario.forms import UsuariosForm
@@ -278,6 +279,7 @@ def asignar_flujo(request, proyecto_id):
                         fap.proyecto = actual
                         fap.flujo = flujo
                         fap.actividad = act.actividad
+                        fap.orden = act.orden
                         fap.save()
 
 
@@ -384,10 +386,15 @@ def asignar_actividad_proy(request, flujo_id, proyecto_id):
                 i.delete()
             # actual.flujos.clear()
             for i in lista_nueva:
+                fapmax = FlujoActividadProyecto.objects.filter(flujo = flujoactual,proyecto = proyactual).aggregate(Max('orden'))
                 fap = FlujoActividadProyecto()
                 fap.proyecto = proyactual
                 fap.flujo = flujoactual
                 fap.actividad = i
+                if fapmax['orden__max']:
+                    fap.orden = (int(fapmax['orden__max']) + 1)
+                else:
+                    fap.orden = 1
                 fap.save()
         return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
@@ -400,6 +407,70 @@ def asignar_actividad_proy(request, flujo_id, proyecto_id):
                                                                   'flujo': flujoactual,
                                                                   'user':user,
                                                                   })
+
+def ver_actividades_proyecto(request, flujo_id, proyecto_id):
+    """Visualiza Datos de un Proyecto y muestra las operaciones que puede ejecutar"""
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+    flujo = get_object_or_404(Flujo, id=flujo_id)
+    user = User.objects.get(username=request.user.username)
+    userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id)
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    fluActProy = FlujoActividadProyecto.objects.filter(flujo = flujo_id, proyecto = proyecto_id).order_by('orden')
+    actList = {}
+    ultActividad = 0
+    for rec in fluActProy:
+        if not actList.has_key(rec.flujo.id):
+            actList[rec.flujo.id] = {}
+        if not actList[rec.flujo.id].has_key(int(rec.orden)):
+            actList[rec.flujo.id][int(rec.orden)] = {}
+        if not actList[rec.flujo.id][int(rec.orden)].has_key(rec.actividad.id):
+            actList[rec.flujo.id][int(rec.orden)][rec.actividad.id] = []
+        act = Actividad.objects.get(nombre = rec.actividad)
+        actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.nombre)
+        actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.descripcion)
+        ultActividad = int(rec.orden)
+    if actList:
+        actDict = actList[int(flujo_id)]
+    else:
+        actDict = None
+    lista = User.objects.all().order_by("id")
+    ctx = {'flujo':flujo,
+           'proyecto':proyecto,
+           'actividades':actDict,
+           'ultActividad':ultActividad,
+           'ver_flujo': 'ver flujo' in permisos,
+           'asignar_actividades_proyecto': 'asignar actividades proyecto' in permisos
+       }
+    return render_to_response('proyectos/admin_actividades_proyecto.html', ctx, context_instance=RequestContext(request))
+
+def subir_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
+
+    flujos = get_object_or_404(Flujo, id=flujo_id)
+    actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id)
+    actSig = FlujoActividadProyecto.objects.get(flujo = flujo_id, orden = (int(actActual.orden)-1))
+    actActual.orden = int(actActual.orden) - 1
+    actSig.orden = int(actSig.orden) + 1
+    actActual.save()
+    actSig.save()
+    return HttpResponseRedirect("/verActividadesProy/flujo&id=%s&&proyecto&id=%s/" %(flujo_id,proyecto_id))
+
+def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
+
+    flujos = get_object_or_404(Flujo, id=flujo_id)
+    actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id)
+    actSig = FlujoActividadProyecto.objects.get(flujo = flujo_id, orden = (int(actActual.orden)+1))
+    actActual.orden = int(actActual.orden) + 1
+    actSig.orden = int(actSig.orden) - 1
+    actActual.save()
+    actSig.save()
+    return HttpResponseRedirect("/verActividadesProy/flujo&id=%s&&proyecto&id=%s/" %(flujo_id,proyecto_id))
+
 @login_required
 def visualizar_kanban(request, flujo_id, proyecto_id):
     """Metodo para asignar Flujo a Proyecto"""

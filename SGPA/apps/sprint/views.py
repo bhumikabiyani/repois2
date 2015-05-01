@@ -100,7 +100,6 @@ def crear_sprint(request, proyecto_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
     #-------------------------------------------------------------------
     proyecto = get_object_or_404(Proyecto, id = proyecto_id)
     if proyecto.estado ==  1:
@@ -132,11 +131,16 @@ def visualizar_sprint(request, sprint_id):
     :return: se lista todos los sprint
     """
         sprint = get_object_or_404(Sprint, id=sprint_id)
+        US = UserHistory.objects.filter(sprint = sprint_id)
+        duracion = 0
+        for i in US:
+            duracion += i.tiempo_estimado
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
+               'duracion' : duracion,
                'ver_sprint': 'ver sprint' in permisos,
                'crear_sprint': 'crear sprint' in permisos,
                'mod_sprint': 'modificar sprint' in permisos,
@@ -211,6 +215,6 @@ def borrar_sprint(request, sprint_id):
                                                                             'eliminar_sprint':'eliminar sprint' in permisos
                                                                              })
     return render_to_response("sprint/sprint_confirm_delete.html", {'sprint':actual,
-                                                                  'user':user,
-                                                                  'eliminar_sprint':'eliminar sprint' in permisos
-								})
+                                                                    'user':user,
+                                                                    'eliminar_sprint':'eliminar sprint' in permisos
+                                                                    })
