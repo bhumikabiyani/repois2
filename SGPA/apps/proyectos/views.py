@@ -471,7 +471,6 @@ def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
     actSig.save()
     return HttpResponseRedirect("/verActividadesProy/flujo&id=%s&&proyecto&id=%s/" %(flujo_id,proyecto_id))
 
-                                                                  })
 @login_required
 def visualizar_kanban(request, flujo_id, proyecto_id):
     """Metodo para asignar Flujo a Proyecto"""
