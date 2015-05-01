@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Tablero Kanban{% endblock %}
+{%block content %}
+<center><strong><font face="Comic Sans MS"><h3> TABLA KANBAN </h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
+
+<form action="." method="POST">
+         {% csrf_token %}
+<table class="table table-bordered" cellpadding="1" cellspacing="1">
+	       <tr>
+                {%for f in actividades%}
+                 <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{f.actividad.nombre}}</span></strong></center></td>
+                {% endfor %}
+           </tr>
+           <tr>
+              {%for f in actividades%}
+                 <td bgcolor="red"><strong><center>TO DO</center></strong></td>
+                 <td bgcolor="yellow"><strong><center>DOING</center></strong></td>
+                 <td bgcolor="chartreuse"><strong><center>DONE</center></strong></td>
+              {% endfor %}
+           </tr>
+           <tr>
+              {%for f in actividades%}
+                 <td><strong></strong></td>
+                 <td><strong></strong></td>
+                 <td><strong></strong></td>
+              {% endfor %}
+           </tr>
+           <tr>
+              {%for f in actividades%}
+                 <td><strong></strong></td>
+                 <td><strong></strong></td>
+                 <td><strong></strong></td>
+              {% endfor %}
+           </tr>
+</table>
+
+</form>
+
+   <div class="footer">
+           <div class="volver">
+               <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+           </div>
+     </div>
+
+{% endblock %}

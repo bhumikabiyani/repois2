@@ -471,3 +471,29 @@ def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
     actSig.save()
     return HttpResponseRedirect("/verActividadesProy/flujo&id=%s&&proyecto&id=%s/" %(flujo_id,proyecto_id))
 
+                                                                  })
+@login_required
+def visualizar_kanban(request, flujo_id, proyecto_id):
+    """Metodo para asignar Flujo a Proyecto"""
+    user = User.objects.get(username=request.user.username)
+    proy = Proyecto.objects.get(id = proyecto_id)
+    #Validacion de permisos---------------------------------------------
+    #roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proy).only('rol')
+    #permisos_obj = []
+    #for i in roles:
+    #    permisos_obj.extend(i.rol.permisos.all())
+    #permisos = []
+    #for i in permisos_obj:
+    #    permisos.append(i.nombre)
+    #print permisos
+    #-------------------------------------------------------------------
+    proyactual = get_object_or_404(Proyecto, id=proyecto_id)
+    flujoactual = get_object_or_404(Flujo, id=flujo_id)
+    actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual)
+    return render_to_response("proyectos/verkanban.html", {
+                                                                  'proyecto': proyactual,
+                                                                  'flujo': flujoactual,
+                                                                  'user':user,
+                                                                  'actividades':actividades
+
+                                                                  })
