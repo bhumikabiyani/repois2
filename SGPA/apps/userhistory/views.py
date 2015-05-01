@@ -167,14 +167,20 @@ def mod_user_history(request, userhistory_id):
     if request.method == 'POST':
         form = ModUserHistoryForm(request.POST)
         if form.is_valid():
+            actual.descripcion = form.cleaned_data['descripcion']
             actual.estado = form.cleaned_data['estado']
             actual.tiempo_estimado = form.cleaned_data['tiempo_estimado']
+            actual.valor_tenico = form.cleaned_data['valor_tecnico']
+            actual.valor_negocio = form.cleaned_data['valor_negocio']
             actual.save()
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = ModUserHistoryForm()
+        form.fields['descripcion'].initial = actual.descripcion
         form.fields['estado'].initial = actual.estado
         form.fields['tiempo_estimado'].initial = actual.tiempo_estimado
+        form.fields['valor_tecnico'].initial = actual.valor_tecnico
+        form.fields['valor_negocio'].initial = actual.valor_negocio
     return render_to_response("userhistory/mod_user_history.html", {'user':user,
                                                            'form':form,
 							   'flujo': actual,

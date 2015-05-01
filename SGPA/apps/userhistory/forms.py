@@ -43,5 +43,9 @@ class ModUserHistoryForm(forms.Form):
     """
     Clase para el formulario de modificar User History
     """
+    descripcion =forms.CharField(max_length=500, label='DESCRIPCION')
     estado = forms.CharField(max_length=12, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
+    valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
+    valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
+    
