@@ -134,6 +134,7 @@ def visualizar_flujo(request, flujo_id):
         permisos = get_permisos_sistema(user)
         fluAct = FlujoActividad.objects.filter(flujo = flujo_id).order_by('orden')
         actList = {}
+        ultActividad = 0
         for rec in fluAct:
             if not actList.has_key(rec.flujo.id):
                 actList[rec.flujo.id] = {}
@@ -150,7 +151,6 @@ def visualizar_flujo(request, flujo_id):
         else:
             actDict = None
         lista = User.objects.all().order_by("id")
-        print ultActividad
         ctx = {'lista':lista,
                'flujos':flujos,
                'actividades':actDict,
