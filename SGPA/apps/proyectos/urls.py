@@ -21,6 +21,10 @@ urlpatterns = patterns('SGPA.apps.proyectos.views',
 	url(r'^asignarMiembro/proyecto&id=(?P<proyecto_id>\d+)/$','asignar_miembro',name='vista_miembros'),
     url(r'^asignarFlujo/proyecto&id=(?P<proyecto_id>\d+)/$','asignar_flujo',name='vista_asignarflujo'),
 	url(r'^modificarMiembro/miembro&id=(?P<proyecto_id>\d+)/$','mod_miembro',name='vista_modMiembro'),
-    url(r'^asignarActividadProy/flujo&id=(?P<flujo_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','asignar_actividad_proy',name='vista_asignarActividadProy')
+    url(r'^asignarActividadProy/flujo&id=(?P<flujo_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','asignar_actividad_proy',name='vista_asignarActividadProy'),
+    url(r'^verActividadesProy/flujo&id=(?P<flujo_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$', 'ver_actividades_proyecto', name='vista_actividades_proyecto'),
+    url(r'^bajarActividadProy/flujo&id=(?P<flujo_id>\d+)&&actividad&id=(?P<actividad_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','bajar_actividad_proyecto',name='vista_bajarActividadProyecto'),
+    url(r'^subirActividadProy/flujo&id=(?P<flujo_id>\d+)&&actividad&id=(?P<actividad_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','subir_actividad_proyecto',name='vista_subirActividadProyecto')
+
 )
 

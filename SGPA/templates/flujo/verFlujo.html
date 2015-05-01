@@ -34,12 +34,20 @@
 	        </tr>
 	      </thead>
               <tbody>
-         {%for key,value in actividades.items%}
-             <tr>
-                 <td><strong>{{value.0}}</strong></td>
-                 <td><strong>{{value.1}}</strong>
-                 <td><strong>{{value.2}}</strong></td>
-             </tr>
+         {%for keyO,valueO in actividades.items%}
+            {%for keyA,valueA in valueO.items%}
+                 <tr>
+                     <td><strong>{{valueA.0}}</strong></td>
+                     <td><strong>{{valueA.1}}</strong></td>
+                     <td><strong>{{keyO}}</strong></td>
+                     {% if keyO > 1 %}
+                        <td><a class="btn btn-primary" href="/subirActividad/flujo&id={{flujos.id}}&&actividad&id={{keyA}}/"><strong>SUBIR</strong></a></td>
+                     {% endif %}
+                     {% if keyO < ultActividad %}
+                        <td><a class="btn btn-primary" href="/bajarActividad/flujo&id={{flujos.id}}&&actividad&id={{keyA}}/"><strong>BAJAR</strong></a></td>
+                     {% endif %}
+                 </tr>
+            {% endfor %}
          {% endfor %}
 		</tbody>
 	  </table>
