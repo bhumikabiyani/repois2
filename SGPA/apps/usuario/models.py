@@ -158,11 +158,13 @@ class FlujoActividadProyecto(models.Model):
     flujo = models.ForeignKey(Flujo)
     actividad = models.ForeignKey(Actividad)
     proyecto = models.ForeignKey(Proyecto)
+    orden = models.CharField(max_length=50)
 
     class Meta:
-        unique_together = [("flujo", "actividad", "proyecto")]
+        unique_together = [("flujo", "actividad", "proyecto", "orden")]
 
-ESTADO_CHOICES=(('to-do','To do'),('doing','Doing'),('done','Done'))
+ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('en-curso','En Curso'),('cancelado','Cancelado')
+                ,('finalizado','Finalizado'))
 
 class UserHistory(models.Model):
     """
@@ -176,7 +178,7 @@ class UserHistory(models.Model):
     flujo = models.ForeignKey(Flujo,null=True)
     actividad = models.ForeignKey(Actividad,null=True)
     sprint = models.ForeignKey(Sprint,null=True)
-    estado = models.CharField(max_length=6, choices=ESTADO_CHOICES)
+    estado = models.CharField(max_length=12, choices=ESTADO_CHOICES)
     tiempo_estimado = models.IntegerField(null=True)
     tiempo_utilizado = models.IntegerField(null=True)
 
