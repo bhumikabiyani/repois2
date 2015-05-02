@@ -11,3 +11,16 @@ def get_permisos_sistema(user):
     for i in permisos_obj:
         permisos.append(i.nombre)
     return permisos
+
+def registrar_log(userHistory,descripcion,usuario):
+    log = Historia()
+    log.descripcion = descripcion
+    log.fecHor_creacion = datetime.datetime.now()
+    log.userhistory = userHistory
+    log.usuario = usuario
+    log.estado = userHistory.estado
+    log.sprint = userHistory.sprint
+    log.actividad = userHistory.actividad
+    log.flujo = userHistory.flujo
+    log.estadokanban = userHistory.estadokanban
+    log.save()
