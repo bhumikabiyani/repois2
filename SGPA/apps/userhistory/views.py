@@ -181,6 +181,8 @@ def mod_user_history(request, userhistory_id):
             actual.valor_tenico = form.cleaned_data['valor_tecnico']
             actual.valor_negocio = form.cleaned_data['valor_negocio']
             actual.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
+            actual.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
+            actual.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
             actual.save()
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -191,6 +193,8 @@ def mod_user_history(request, userhistory_id):
         form.fields['valor_tecnico'].initial = actual.valor_tecnico
         form.fields['valor_negocio'].initial = actual.valor_negocio
         form.fields['encargado'].initial = actual.encargado
+        form.fields['flujo'].initial = actual.flujo
+        form.fields['sprint'].initial = actual.sprint
     return render_to_response("userhistory/mod_user_history.html", {'user':user,
                                                            'form':form,
 							   'flujo': actual,

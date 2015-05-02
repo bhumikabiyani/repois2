@@ -61,6 +61,8 @@ class ModUserHistoryForm(forms.Form):
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     encargado = forms.ModelChoiceField(queryset=User.objects.filter())
+    flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
+    sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
     proyecto = Proyecto()
 
     def __init__(self, proyecto, *args, **kwargs):
@@ -72,3 +74,13 @@ class ModUserHistoryForm(forms.Form):
             if not rec.usuario.id in listUser:
                 listUser.append(rec.usuario.id)
         self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
+
+        fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
+        listFlujo = []
+        for i in fap:
+            if not i.flujo.id in listFlujo:
+                listFlujo.append(i.flujo.id)
+        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
+
+        sp = Sprint.objects.filter(proyecto = proyecto)
+        self.fields['sprint'].queryset = sp
