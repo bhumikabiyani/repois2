@@ -10,7 +10,12 @@
 	        <tr>
 		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">DESCRIPCION</center></font></strong></b></th>
 		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">USUARIO</center></font></strong></b></th>
-		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">FECHA DE CREACION</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">SPRINT</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">FLUJO</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">ESTADO</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">ACTIVIDAD KANBAN</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">ESTADO KANBAN</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">FECHA DE LOG</center></font></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
@@ -18,6 +23,11 @@
                 <tr>
                     <td><strong><span style="color:#111111">{{log.descripcion}}</span></strong></td>
                     <td><strong><span style="color:#111111">{{log.usuario}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.sprint}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.flujo}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.estado}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.actividad}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.estadokanban}}</span></strong></td>
                     <td><strong><span style="color:#111111">{{log.fecHor_creacion}}</span></strong></td>
                 </tr>
               {% endfor %}

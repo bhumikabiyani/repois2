@@ -198,6 +198,11 @@ class Historia(models.Model):
     fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
     userhistory = models.ForeignKey(UserHistory)
     usuario = models.ForeignKey(User)
+    estadokanban = models.CharField(max_length=6, choices=ESTADO_KANBAN)
+    estado = models.CharField(max_length=12, choices=ESTADO_CHOICES)
+    sprint = models.ForeignKey(Sprint,null=True)
+    actividad = models.ForeignKey(Actividad,null=True)
+    flujo = models.ForeignKey(Flujo,null=True)
 
     def __unicode__(self):
         return self.descripcion

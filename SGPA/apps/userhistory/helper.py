@@ -18,4 +18,9 @@ def registrar_log(userHistory,descripcion,usuario):
     log.fecHor_creacion = datetime.datetime.now()
     log.userhistory = userHistory
     log.usuario = usuario
+    log.estado = userHistory.estado
+    log.sprint = userHistory.sprint
+    log.actividad = userHistory.actividad
+    log.flujo = userHistory.flujo
+    log.estadokanban = userHistory.estadokanban
     log.save()
