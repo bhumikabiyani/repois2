@@ -115,6 +115,8 @@ def crear_user_history(request,proyecto_id):
             r.valor_tecnico = form.cleaned_data['valor_tecnico']
             r.tiempo_estimado = form.cleaned_data['tiempo_estimado']
             r.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
+            r.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
+            r.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
             r.proyecto = proyecto
             r.save()
             return HttpResponseRedirect("/userHistory/proyecto&id=" + str(proyecto_id))
@@ -167,23 +169,27 @@ def mod_user_history(request, userhistory_id):
 
     #-------------------------------------------------------------------
     actual = get_object_or_404(UserHistory, id=userhistory_id)
+    print actual.proyecto
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
     if request.method == 'POST':
-        form = ModUserHistoryForm(request.POST)
+        form = ModUserHistoryForm(proyecto.id, request.POST)
         if form.is_valid():
             actual.descripcion = form.cleaned_data['descripcion']
             actual.estado = form.cleaned_data['estado']
             actual.tiempo_estimado = form.cleaned_data['tiempo_estimado']
             actual.valor_tenico = form.cleaned_data['valor_tecnico']
             actual.valor_negocio = form.cleaned_data['valor_negocio']
+            actual.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
             actual.save()
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
-        form = ModUserHistoryForm()
+        form = ModUserHistoryForm(proyecto.id)
         form.fields['descripcion'].initial = actual.descripcion
         form.fields['estado'].initial = actual.estado
         form.fields['tiempo_estimado'].initial = actual.tiempo_estimado
         form.fields['valor_tecnico'].initial = actual.valor_tecnico
         form.fields['valor_negocio'].initial = actual.valor_negocio
+        form.fields['encargado'].initial = actual.encargado
     return render_to_response("userhistory/mod_user_history.html", {'user':user,
                                                            'form':form,
 							   'flujo': actual,
