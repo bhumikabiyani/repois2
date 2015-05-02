@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'SGPA.apps.home',
     'SGPA.apps.usuario',
+    'bootstrap3_datepicker'
 )
 
 MIDDLEWARE_CLASSES = (

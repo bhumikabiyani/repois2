@@ -11,6 +11,7 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.sprint.forms import *
 from SGPA.apps.usuario.models import *
 from SGPA.apps.sprint.helper import *
+import datetime, time
 # Create your views here.
 
 @login_required
@@ -109,8 +110,8 @@ def crear_sprint(request, proyecto_id):
      	     	   r = Sprint()
             	   r.nombre = form.cleaned_data['nombre']
                    r.descripcion = form.cleaned_data['descripcion']
-                   r.fecha_inicio = form.cleaned_data['fecha_inicio']
-                   r.fecha_fin = form.cleaned_data['fecha_fin']
+                   r.fecha_inicio = datetime.datetime.now()
+                   r.fecha_fin = datetime.datetime.now() + datetime.timedelta(days=1)
                    r.proyecto = proyecto
                    r.save()
 		   return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))

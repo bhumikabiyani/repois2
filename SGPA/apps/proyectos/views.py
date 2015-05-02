@@ -488,7 +488,7 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
     #-------------------------------------------------------------------
     proyactual = get_object_or_404(Proyecto, id=proyecto_id)
     flujoactual = get_object_or_404(Flujo, id=flujo_id)
-    actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual)
+    actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual).order_by('orden')
     return render_to_response("proyectos/verkanban.html", {
                                                                   'proyecto': proyactual,
                                                                   'flujo': flujoactual,

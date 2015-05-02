@@ -6,7 +6,11 @@ from SGPA.apps.usuario.models import *
 from SGPA.apps.usuario.helper import *
 import datetime
 import django
+from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 django.setup()
+from bootstrap3_datepicker.fields import DatePickerField
+from bootstrap3_datepicker.widgets import DatePickerInput
 
 class FilterForm(forms.Form):
     filtro = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
@@ -16,6 +20,7 @@ class SprintForm(forms.Form):
 
     nombre = forms.CharField(required=False, label='NOMBRE')
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    #fecha_inicio  = forms.DateField(widget=SelectDateWidget(years=BIRTH_YEAR_CHOICES))
     fecha_inicio = forms.DateField(label='FECHA DE INICIO')
     fecha_fin = forms.DateField(label='FECHA DE FIN')
 
@@ -34,6 +39,14 @@ class SprintForm(forms.Form):
 				if nombre == s.nombre:
 					raise forms.ValidationError('Ya existe ese nombre de sprint. Elija otro')
 			return nombre
+
+    def clean_fecha_fin(self):
+        if 'fecha_fin' in self.cleaned_data:
+            fecha_fin = self.cleaned_data['fecha_fin']
+            fecha_inicio = self.cleaned_data['fecha_inicio']
+            if fecha_fin < fecha_inicio:
+                raise forms.ValidationError('La fecha de fin es menor a la fecha de inicio.')
+            return fecha_fin
 
 class ModSprintForm(forms.Form):
     """Formulario para la modificacion de Sprint."""

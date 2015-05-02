@@ -17,15 +17,16 @@
               {%for keyO,valueO in actividades.items%}
                 {%for keyA,valueA in valueO.items%}
                      <tr>
-                         <td><strong><span style="color:#111111">{{valueA.0}}</span></strong></td>
-                         <td><strong><span style="color:#111111">{{valueA.1}}</span></strong></td>
-                         <td><strong><span style="color:#111111">{{keyO}}</span></strong></td>
-                         {% if keyO > 1 %}
-                            <td><a class="btn btn-primary" href="/subirActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>SUBIR</strong></a></td>
+                         <th><strong><span style="color:#111111">{{valueA.0}}</span></strong></th>
+                         <th><strong><span style="color:#111111">{{valueA.1}}</span></strong></th>
+                         <th><strong><span style="color:#111111">{{keyO}}</span></strong></th>
+
+                         <th>{% if keyO > 1 %}
+                            <a class="btn btn-primary" href="/subirActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>SUBIR</strong></a>
                          {% endif %}
                          {% if keyO < ultActividad %}
-                            <td><a class="btn btn-primary" href="/bajarActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>BAJAR</strong></a></td>
-                         {% endif %}
+                            <a class="btn btn-primary" href="/bajarActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>BAJAR</strong></a>
+                         {% endif %}</th>
                      </tr>
                 {% endfor %}
              {% endfor %}
@@ -36,8 +37,9 @@
 
       <div class="footer">
            <div class="volver">
-               <td><a class="btn btn-primary" href="/asignarActividadProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ASIGNAR ACTIVIDADES</strong></a></td>
                  <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+                 <a class="btn btn-primary" href="/asignarActividadProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ASIGNAR ACTIVIDADES</strong></a></td>
+
 	</div>
      </div>
 {% else %}
