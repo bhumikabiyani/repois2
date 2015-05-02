@@ -21,8 +21,9 @@ def admin_user_history(request,proyecto_id):
     :return: admin_user_history.html, pagina en la cual se trabaja con los user history
     """
     user = User.objects.get(username=request.user.username)
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -33,7 +34,7 @@ def admin_user_history(request,proyecto_id):
     #-------------------------------------------------------------------
     userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id)
     lista = UserHistory.objects.filter(proyecto=proyecto_id)
-    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
@@ -56,7 +57,8 @@ def admin_user_history(request,proyecto_id):
                                                         'proyecto':proyecto,
                                                         'pag': pag,
                                                         'ver_user_history':'ver user history' in permisos,
-							'crear_user_history':'crear user history' in permisos
+                                                        'ver_log_userhistory':'ver log user history' in permisos,
+							                            'crear_user_history':'crear user history' in permisos
                                                         })
     else:
         try:
@@ -75,10 +77,11 @@ def admin_user_history(request,proyecto_id):
     return render_to_response('userhistory/admin_user_history.html',{'lista':lista, 'form':form,
                                                             'user':user,
                                                             'proyecto':proyecto,
-							    'pag': pag,
+                                                            'pag': pag,
                                                             'ver_user_history':'ver user history' in permisos,
-							    'crear_user_history':'crear user history' in permisos
-							})
+                                                            'ver_log_userhistory':'ver log user history' in permisos,
+                                                            'crear_user_history':'crear user history' in permisos
+                                                            })
 
 
 @login_required
@@ -221,3 +224,23 @@ def borrar_user_history(request, userhistory_id):
                                                                       'user':user,
                                                                       'eliminar_user_history':'eliminar user history' in permisos
 								})
+
+def ver_log_user_history(request, userhistory_id):
+
+    userHist = get_object_or_404(UserHistory, id=userhistory_id)
+    user =  User.objects.get(username=request.user.username)
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = userHist.proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    historial = Historia.objects.filter(userhistory = userHist).order_by("fecHor_creacion")
+    ctx = {'historial':historial,
+            'proyecto':userHist.proyecto,
+            'userHist':userHist,
+            'ver_log_userhistory': 'ver log user history' in permisos
+	       }
+    return render_to_response('userhistory/log_user_history.html',ctx,context_instance=RequestContext(request))
+

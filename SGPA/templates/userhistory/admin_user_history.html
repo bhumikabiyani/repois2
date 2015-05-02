@@ -3,7 +3,7 @@
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ADMINISTRACIÓN DE USER HISTORY DE {{proyecto.nombrelargo}} </h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE USER HISTORY</h3></font></strong></center><br>
-{% if crear_user_history or ver_user_history %}
+{% if crear_user_history or ver_user_history or ver_log_userhistory %}
 <form action="." method="POST">
          {% csrf_token %}
 
@@ -35,6 +35,9 @@
 			  {% if ver_user_history %}
 		          <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{i.id}}/"><strong> VER </strong></a>
 			  {% endif %}
+              {% if ver_log_userhistory %}
+                    <td><a class="btn btn-primary" href="/verLogUserHistory/ver&id={{i.id}}/"><strong> HISTORIAL </strong></a>
+              {% endif %}
 	           </tr>
 	    {% endfor %}
             </tbody>

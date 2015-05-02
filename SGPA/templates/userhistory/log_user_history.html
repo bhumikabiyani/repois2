@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Log User History{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> HISTORIAL DEL USER HISTORY "{{ userHist.nombre }}" DEL PROYECTO "{{ proyecto.nombrelargo }}"</h3></font></strong></center>
+<center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> HISTORIAL</h3></font></strong></center><br>
+{% if ver_log_userhistory %}
+<form action="." method="POST">
+		<table class="table table-bordered">
+	      <thead>
+	        <tr>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">DESCRIPCION</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">FECHA DE CREACION</center></font></strong></b></th>
+	        </tr>
+	      </thead>
+              <tbody>
+              {%for log in historial%}
+                <tr>
+                    <td><strong><span style="color:#111111">{{log.descripcion}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.fecHor_creacion}}</span></strong></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+	  </table>
+   </form>
+
+
+      <div class="footer">
+           <div class="volver">
+               <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+	</div>
+     </div>
+{% else %}
+	<center><strong><font face="Comic Sans MS"> NO TIENES PERMISOS</font></strong></center><br> 
+{% endif %}
+{% endblock%}

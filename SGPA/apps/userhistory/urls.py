@@ -16,4 +16,5 @@ urlpatterns = patterns('SGPA.apps.userhistory.views',
     url(r'^modificarUserHistory/mod&id=(?P<userhistory_id>\d+)/$','mod_user_history',name='vista_moduserHistory'),
     url(r'^eliminarUserHistory/del&id=(?P<userhistory_id>\d+)/$','borrar_user_history',name='vista_delUserHistory'),
     url(r'^crearUserHistory/proyecto&id=(?P<proyecto_id>\d+)/$','crear_user_history',name='vista_crearUserHistory'),
+    url(r'^verLogUserHistory/ver&id=(?P<userhistory_id>\d+)/$', 'ver_log_user_history', name='vista_logUserHistory')
 )
