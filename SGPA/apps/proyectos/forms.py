@@ -65,7 +65,9 @@ class NuevoMiembroForm(forms.Form):
     def __init__(self, proyecto, *args, **kwargs):
         super(NuevoMiembroForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
-        urp = UsuarioRolProyecto.objects.get(rol = 2, proyecto = proyecto)
+        rol = Rol.objects.get(nombre = "team leader")
+        if rol:
+            urp = UsuarioRolProyecto.objects.get(rol = rol, proyecto = proyecto)
         self.lider = User.objects.get(id = urp.usuario.id)
         print self.lider
         self.fields['usuario'].queryset = User.objects.filter().exclude(id = self.lider.id)
