@@ -9,6 +9,7 @@
 	      <thead>
 	        <tr>
 		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">DESCRIPCION</center></font></strong></b></th>
+		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">USUARIO</center></font></strong></b></th>
 		    <th class="titulo"><b><strong><span style="color:#6666FF"><strong><font face="Comic Sans MS">FECHA DE CREACION</center></font></strong></b></th>
 	        </tr>
 	      </thead>
@@ -16,6 +17,7 @@
               {%for log in historial%}
                 <tr>
                     <td><strong><span style="color:#111111">{{log.descripcion}}</span></strong></td>
+                    <td><strong><span style="color:#111111">{{log.usuario}}</span></strong></td>
                     <td><strong><span style="color:#111111">{{log.fecHor_creacion}}</span></strong></td>
                 </tr>
               {% endfor %}
@@ -26,7 +28,7 @@
 
       <div class="footer">
            <div class="volver">
-               <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+               <a class="btn btn-primary" href="/userHistory/proyecto&id={{userHist.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
 	</div>
      </div>
 {% else %}

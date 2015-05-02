@@ -197,6 +197,7 @@ class Historia(models.Model):
     descripcion = models.CharField(max_length=500)
     fecHor_creacion = models.DateTimeField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
     userhistory = models.ForeignKey(UserHistory)
+    usuario = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.descripcion

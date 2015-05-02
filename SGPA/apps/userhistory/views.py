@@ -119,6 +119,7 @@ def crear_user_history(request,proyecto_id):
             r.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
             r.proyecto = proyecto
             r.save()
+            registrar_log(r,"Creacion",user)
             return HttpResponseRedirect("/userHistory/proyecto&id=" + str(proyecto_id))
 
     else:
