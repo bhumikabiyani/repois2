@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'SGPA.apps.home',
     'SGPA.apps.usuario',
-    'bootstrap3_datepicker'
+    'datetimewidget'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 )
 
 ROOT_URLCONF = 'SGPA.urls'
@@ -82,7 +83,7 @@ SITE_ID = 1
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 

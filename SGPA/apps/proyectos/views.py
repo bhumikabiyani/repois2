@@ -22,6 +22,23 @@ from SGPA.apps.proyectos.forms import *
 from SGPA.apps.proyectos.models import *
 from SGPA.apps.proyectos.helper import *
 
+def dateTimeViewBootstrap2(request):
+
+    if request.method == 'POST':
+        form = ProyectoForm(request.POST)
+        if form.is_valid():
+            return render_to_response(request, 'sprint/crear_proyecto.html', {
+                'form': form,'bootstrap':2
+            })
+    else:
+        if request.GET.get('id',None):
+            form = ProyectoForm(instance=ProyectoForm.objects.get(id=request.GET.get('id',None)))
+        else:
+            form = ProyectoForm()
+
+    return render_to_response(request, 'sprint/crear_proyecto.html', {
+             'form': form,'bootstrap':2
+            })
 
 @login_required
 def admin_proyectos(request):

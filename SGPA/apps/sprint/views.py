@@ -11,8 +11,27 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.sprint.forms import *
 from SGPA.apps.usuario.models import *
 from SGPA.apps.sprint.helper import *
-import datetime, time
+import datetime,time
 # Create your views here.
+
+def dateTimeViewBootstrap2(request):
+
+    if request.method == 'POST':
+
+        form = SprintForm(request.POST)
+        if form.is_valid():
+            return render(request, 'sprint/crear_sprint.html', {
+                'form': form,'bootstrap':2
+            })
+    else:
+        if request.GET.get('id',None):
+            form = SprintForm(instance=SprintForm.objects.get(id=request.GET.get('id',None)))
+        else:
+            form = SprintForm()
+
+    return render(request, 'sprint/crear_sprint.html', {
+             'form': form,'bootstrap':2
+            })
 
 @login_required
 def admin_sprint(request,proyecto_id):
@@ -110,8 +129,8 @@ def crear_sprint(request, proyecto_id):
      	     	   r = Sprint()
             	   r.nombre = form.cleaned_data['nombre']
                    r.descripcion = form.cleaned_data['descripcion']
-                   r.fecha_inicio = datetime.datetime.now()
-                   r.fecha_fin = datetime.datetime.now() + datetime.timedelta(days=1)
+                   r.fecha_inicio = form.cleaned_data['fecha_inicio']
+                   r.fecha_fin = form.cleaned_data['fecha_fin']
                    r.proyecto = proyecto
                    r.save()
 		   return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))
@@ -134,14 +153,17 @@ def visualizar_sprint(request, sprint_id):
         sprint = get_object_or_404(Sprint, id=sprint_id)
         US = UserHistory.objects.filter(sprint = sprint_id)
         duracion = 0
+        duracionSprint = 0
         for i in US:
             duracion += i.tiempo_estimado
+        duracionSprint = sprint.fecha_fin - sprint.fecha_inicio
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
                'duracion' : duracion,
+               'duracionSprint': duracionSprint,
                'ver_sprint': 'ver sprint' in permisos,
                'crear_sprint': 'crear sprint' in permisos,
                'mod_sprint': 'modificar sprint' in permisos,

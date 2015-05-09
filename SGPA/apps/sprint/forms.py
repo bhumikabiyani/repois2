@@ -9,8 +9,7 @@ import django
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 django.setup()
-from bootstrap3_datepicker.fields import DatePickerField
-from bootstrap3_datepicker.widgets import DatePickerInput
+from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
 
 class FilterForm(forms.Form):
     filtro = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
@@ -20,12 +19,14 @@ class SprintForm(forms.Form):
 
     nombre = forms.CharField(required=False, label='NOMBRE')
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
-    #fecha_inicio  = forms.DateField(widget=SelectDateWidget(years=BIRTH_YEAR_CHOICES))
-    fecha_inicio = forms.DateField(label='FECHA DE INICIO')
-    fecha_fin = forms.DateField(label='FECHA DE FIN')
+    fecha_inicio = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2), label='FECHA DE INICIO')
+    fecha_fin = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2), label= 'FECHA DE FIN')
 
     class Meta:
         model = Sprint
+        widgets = {
+            'date': DateWidget(attrs={'id':"fecha_inicio"}, usel10n = True, bootstrap_version=2)
+        }
 
     def __init__(self, proyect_id, *args, **kwargs):
         super(SprintForm, self).__init__(*args, **kwargs)
@@ -47,6 +48,7 @@ class SprintForm(forms.Form):
             if fecha_fin < fecha_inicio:
                 raise forms.ValidationError('La fecha de fin es menor a la fecha de inicio.')
             return fecha_fin
+
 
 class ModSprintForm(forms.Form):
     """Formulario para la modificacion de Sprint."""

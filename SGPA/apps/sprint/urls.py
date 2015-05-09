@@ -15,7 +15,8 @@ urlpatterns = patterns('SGPA.apps.sprint.views',
 	url(r'^verSprint/ver&id=(?P<sprint_id>\d+)/$', 'visualizar_sprint', name='vista_sprint'),
 	url(r'^crearSprint/crear&id=(?P<proyecto_id>\d+)/$', 'crear_sprint', name='vista_crearS'),
 	url(r'^modificarSprint/mod&id=(?P<sprint_id>\d+)/$','mod_sprint',name='vista_modSprint'),
-	url(r'^eliminarSprint/del&id=(?P<sprint_id>\d+)/$','borrar_sprint',name='vista_delSprint')
+	url(r'^eliminarSprint/del&id=(?P<sprint_id>\d+)/$','borrar_sprint',name='vista_delSprint'),
+    url("^model_form_v2/$", dateTimeViewBootstrap2,)
     #url(r'^eliminarMiembro/del&id=(?P<miembro_id>\d+)/$','borrar_miembro',name='vista_delMiembro'),
 	#url(r'^proyectos/flujos&id=(?P<rol_id>\d+)/$','admin_flujos',name='vista_flujos'),
 	#url(r'^asignarMiembro/proyecto&id=(?P<proyecto_id>\d+)/$','asignar_miembro',name='vista_miembros'),

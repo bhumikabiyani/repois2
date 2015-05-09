@@ -7,6 +7,7 @@ from SGPA.apps.usuario.helper import *
 import datetime
 import django
 django.setup()
+from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
 
 class FilterForm(forms.Form):
     filtro = forms.CharField(max_length = 30, label = 'BUSCAR', required=False)
@@ -21,13 +22,27 @@ class FilterForm2(forms.Form):
 class ProyectoForm(forms.Form):
     nombrelargo = forms.CharField(max_length=50, label='NOMBRE')
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
-    fecha_inicio = forms.DateField(label='INICIO')
-    fecha_fin = forms.DateField(label='FIN')
-    usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
+    fecha_inicio = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2),label='FECHA DE INICIO')
+    fecha_fin = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2),label='FECHA DE FIN')
+    usuario_lider = forms.ModelChoiceField(queryset=User.objects.all(), label= 'USUARIO LIDER')
     # usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     cantidad = forms.IntegerField(label='HORAS')
     #permisos = forms.ModelMultipleChoiceField(queryset = None, widget=forms.CheckboxSelectMultiple, required = False)
     estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
+
+    class Meta:
+        model = Proyecto
+        widgets = {
+            'date': DateWidget(attrs={'id':"fecha_inicio"}, usel10n = True, bootstrap_version=2)
+        }
+
+    def clean_fecha_fin(self):
+        if 'fecha_fin' in self.cleaned_data:
+            fecha_fin = self.cleaned_data['fecha_fin']
+            fecha_inicio = self.cleaned_data['fecha_inicio']
+            if fecha_fin < fecha_inicio:
+                raise forms.ValidationError('La fecha de fin es menor a la fecha de inicio.')
+            return fecha_fin
 
     def clean_nombrelargo(self):
 		if 'nombrelargo' in self.cleaned_data:
