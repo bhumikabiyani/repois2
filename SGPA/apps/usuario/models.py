@@ -114,6 +114,7 @@ class UsuarioRolProyecto(models.Model):
     usuario = models.ForeignKey(User)
     rol = models.ForeignKey(Rol, null=True)
     proyecto = models.ForeignKey(Proyecto)
+    horas = models.IntegerField(null=False)
 
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
