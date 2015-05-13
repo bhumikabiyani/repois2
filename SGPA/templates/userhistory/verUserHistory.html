@@ -45,8 +45,10 @@
 			{% endif %}
 			{% if mod_user_history %}
 				<a class="btn btn-primary" href="/modificarUserHistory/mod&id={{flujos.id}}/"><strong>MODIFICAR</strong></a>
-					{% endif %}		
-			   
+            {% endif %}
+            {% if add_comment %}
+				<a class="btn btn-primary" href="/addComment/comment&id={{flujos.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
+            {% endif %}
 			                            	
 			   </td><br><br>
 		<a class="btn btn-primary" href="/userHistory/proyecto&id={{flujos.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

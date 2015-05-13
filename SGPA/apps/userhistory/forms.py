@@ -84,3 +84,21 @@ class ModUserHistoryForm(forms.Form):
 
         sp = Sprint.objects.filter(proyecto = proyecto)
         self.fields['sprint'].queryset = sp
+
+class AddCommentForm(forms.Form):
+    asunto = forms.CharField(max_length=500, label='ASUNTO')
+    descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    #tipo_item = forms.ModelChoiceField(queryset=TipoItem.objects.all(), label='TIPO DE ITEM')
+
+    def __init__(self, userhistory, *args, **kwargs):
+        super(AddCommentForm, self).__init__(*args, **kwargs)
+        self.us = userhistory
+
+    def clean_asunto(self):
+		if 'asunto' in self.cleaned_data:
+			comment = Comentarios.objects.filter(userhistory = self.us)
+			asunto = self.cleaned_data['asunto']
+			for rec in comment:
+				if asunto == rec.asunto:
+					raise forms.ValidationError('Ya existe ese asunto. Elija otro')
+			return asunto
