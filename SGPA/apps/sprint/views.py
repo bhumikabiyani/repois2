@@ -11,7 +11,7 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.sprint.forms import *
 from SGPA.apps.usuario.models import *
 from SGPA.apps.sprint.helper import *
-import datetime,time
+from datetime import datetime, date, time, timedelta
 # Create your views here.
 
 def dateTimeViewBootstrap2(request):
@@ -153,10 +153,11 @@ def visualizar_sprint(request, sprint_id):
         sprint = get_object_or_404(Sprint, id=sprint_id)
         US = UserHistory.objects.filter(sprint = sprint_id)
         duracion = 0
-        duracionSprint = 0
         for i in US:
             duracion += i.tiempo_estimado
-        duracionSprint = sprint.fecha_fin - sprint.fecha_inicio
+        duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)
+        duracionSprint = duracionS.days
+        print duracionSprint
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
