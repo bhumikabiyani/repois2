@@ -152,18 +152,22 @@ def visualizar_sprint(request, sprint_id):
     """
         sprint = get_object_or_404(Sprint, id=sprint_id)
         US = UserHistory.objects.filter(sprint = sprint_id)
-        duracion = 0
-        for i in US:
-            duracion += i.tiempo_estimado
+        capSem = necesidad = duracionSprint = 0
         duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)
         duracionSprint = duracionS.days
-        print duracionSprint
+        urp = UsuarioRolProyecto.objects.filter(proyecto=sprint.proyecto)
+        for rec in urp:
+            capSem += rec.horas
+        capacidad = capSem * duracionSprint
+        for i in US:
+            necesidad += i.tiempo_estimado
         user=  User.objects.get(username=request.user.username)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
-               'duracion' : duracion,
+               'capacidad' : capacidad,
+               'necesidad' : necesidad,
                'duracionSprint': duracionSprint,
                'ver_sprint': 'ver sprint' in permisos,
                'crear_sprint': 'crear sprint' in permisos,
