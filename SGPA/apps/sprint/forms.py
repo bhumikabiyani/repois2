@@ -19,13 +19,13 @@ class SprintForm(forms.Form):
 
     nombre = forms.CharField(required=False, label='NOMBRE')
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
-    fecha_inicio = forms.DateField(widget=DateWidget(usel10n=False, bootstrap_version=2), label='FECHA DE INICIO')
-    fecha_fin = forms.DateField(widget=DateWidget(usel10n=False, bootstrap_version=2), label= 'FECHA DE FIN')
+    fecha_inicio = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2), label='FECHA DE INICIO')
+    fecha_fin = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2), label= 'FECHA DE FIN')
 
     class Meta:
         model = Sprint
         widgets = {
-            'date': DateWidget(attrs={'id':"fecha_inicio"}, usel10n = False, bootstrap_version=2)
+            'date': DateWidget(attrs={'id':"fecha_inicio"}, usel10n = True, bootstrap_version=2)
         }
 
     def __init__(self, proyect_id, *args, **kwargs):
