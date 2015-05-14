@@ -122,6 +122,10 @@ class AsignarActividadesProyForm(forms.Form):
         super(AsignarActividadesProyForm, self).__init__(*args, **kwargs)
         self.fields['actividades'].queryset = Actividad.objects.all()
 
+class AsignarEncargadoUSForm(forms.Form):
+    encargado = forms.ModelChoiceField(queryset=User.objects.filter())
+
+
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
 #

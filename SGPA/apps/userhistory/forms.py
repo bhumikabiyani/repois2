@@ -25,7 +25,6 @@ class UserHistoryForm(forms.Form):
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
-    encargado = forms.ModelChoiceField(queryset=User.objects.filter())
     flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
     sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
     #usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
@@ -39,7 +38,7 @@ class UserHistoryForm(forms.Form):
         for rec in urp:
             if not rec.usuario.id in listUser:
                 listUser.append(rec.usuario.id)
-        self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
+        # self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
 
         fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
         listFlujo = []
@@ -102,3 +101,17 @@ class AddCommentForm(forms.Form):
 				if asunto == rec.asunto:
 					raise forms.ValidationError('Ya existe ese asunto. Elija otro')
 			return asunto
+
+class AsignarEncargadoUSForm(forms.Form):
+    encargado = forms.ModelChoiceField(queryset=User.objects.filter())
+
+    def __init__(self, proyecto, *args, **kwargs):
+        super(AsignarEncargadoUSForm, self).__init__(*args, **kwargs)
+        self.proyecto = proyecto
+        cliente = Rol.objects.get(nombre = "Cliente")
+        urp = UsuarioRolProyecto.objects.filter(proyecto = proyecto).exclude(rol=cliente)
+        listUser = []
+        for rec in urp:
+            if not rec.usuario.id in listUser:
+                listUser.append(rec.usuario.id)
+        self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))

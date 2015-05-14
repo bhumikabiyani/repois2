@@ -2,7 +2,7 @@
 {% block title %} Detalles Flujo{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL USER HISTORY "{{ userhistory.nombre }}" </h3></font></strong></center><br>
-{% if ver_user_history or mod_user_history or eliminar_user_history %}
+{% if ver_user_history or mod_user_history or eliminar_user_history or add_comment or asignar_encargado %}
 <form action="." method="POST">
          {% csrf_token %}
 <table class="table table-bordered">
@@ -63,6 +63,9 @@
 			{% endif %}
 			{% if mod_user_history %}
 				<a class="btn btn-primary" href="/modificarUserHistory/mod&id={{userhistory.id}}/"><strong>MODIFICAR</strong></a>
+            {% endif %}
+            {% if asignar_encargado %}
+				<a class="btn btn-primary" href="/encargadoUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR ENCARGADO</strong></a>
             {% endif %}
             {% if add_comment %}
 				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
