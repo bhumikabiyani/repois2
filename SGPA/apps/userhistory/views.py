@@ -147,6 +147,7 @@ def visualizar_user_history(request, userhistory_id):
     proyecto = get_object_or_404(Proyecto, id=userHist.proyecto.id)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
+    comments = Comentarios.objects.filter(userhistory = userHist)
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -155,7 +156,8 @@ def visualizar_user_history(request, userhistory_id):
         permisos.append(i.nombre)
     lista = User.objects.all().order_by("id")
     ctx = {'lista':lista,
-            'flujos':userHist,
+            'userhistory':userHist,
+            'comments':comments,
             'ver_user_history': 'ver user history' in permisos,
             'crear_user_history': 'crear user history' in permisos,
             'mod_user_history': 'modificar user history' in permisos,
@@ -293,6 +295,7 @@ def agregar_comentario(request, userhistory_id):
             comment.descripcion = form.cleaned_data['descripcion']
             comment.userhistory = us
             comment.save()
+            registrar_log(us,"Comentario ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"})",user)
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = AddCommentForm(us)
