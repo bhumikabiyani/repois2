@@ -130,6 +130,7 @@ def crear_proyecto(request):
             urp = UsuarioRolProyecto()
             urp.usuario = userLider
             rol = Rol.objects.get(id=2)
+            urp.horas = 0
             urp.rol = rol
             urp.proyecto = proy
             urp.save()
@@ -258,10 +259,11 @@ def asignar_miembro(request, proyecto_id):
             urp.usuario = miembro
             urp.proyecto = proyecto
             urp.rol = rol
+            urp.horas = form.cleaned_data['horas']
             urp.save()
             return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
     else:
-        form = NuevoMiembroForm(proyecto)
+        form = NuevoMiembroForm(proyecto,initial={'horas': 0})
     return render_to_response('proyectos/asignar_miembro.html', {'form': form,
                                                                  'user': user,
                                                                  'proyecto': proyecto,

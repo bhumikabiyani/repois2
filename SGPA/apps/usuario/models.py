@@ -114,6 +114,7 @@ class UsuarioRolProyecto(models.Model):
     usuario = models.ForeignKey(User)
     rol = models.ForeignKey(Rol, null=True)
     proyecto = models.ForeignKey(Proyecto)
+    horas = models.IntegerField(null=False)
 
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
@@ -178,7 +179,7 @@ class UserHistory(models.Model):
     valor_negocio = models.IntegerField(null=True)
     prioridad = models.IntegerField(null=True)
     proyecto = models.ForeignKey(Proyecto)
-    encargado = models.ForeignKey(User)
+    encargado = models.ForeignKey(User,null=True)
     flujo = models.ForeignKey(Flujo,null=True)
     actividad = models.ForeignKey(Actividad,null=True)
     sprint = models.ForeignKey(Sprint,null=True)

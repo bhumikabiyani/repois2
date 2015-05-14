@@ -73,6 +73,7 @@ class NuevoMiembroForm(forms.Form):
     print  lider
     # usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     rol = forms.ModelChoiceField(queryset=Rol.objects.filter(categoria=2).exclude(id=2))
+    horas = forms.IntegerField(label='Horas semanales')
     # rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
     proyecto = Proyecto()
 
@@ -97,10 +98,19 @@ class NuevoMiembroForm(forms.Form):
             userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proy)
             usuario = User.objects.get(username = self.cleaned_data['usuario'])
             rol = Rol.objects.get(nombre = self.cleaned_data['rol'])
+            if self.cleaned_data['rol'] == 'Cliente':
+                self.cleaned_data['horas'] = 0
             for i in userRolProy:
                 if rol == i.rol and usuario == i.usuario and proy == i.proyecto:
                     raise forms.ValidationError('El usuario ' + usuario.username + ' ya tiene este rol')
             return self.cleaned_data['rol']
+
+    def clean_horas(self):
+        if 'rol' in self.cleaned_data and 'horas' in self.cleaned_data:
+            rol = Rol.objects.get(nombre = self.cleaned_data['rol'])
+            if rol.nombre == 'Cliente' and self.cleaned_data['horas'] != 0:
+                raise forms.ValidationError('El cliente no debe tener horas ')
+            return self.cleaned_data['horas']
 
 class AsignarFlujoForm(forms.Form):
 	flujos = forms.ModelMultipleChoiceField(queryset = Flujo.objects.all(), widget = forms.CheckboxSelectMultiple, required = False)
@@ -111,6 +121,10 @@ class AsignarActividadesProyForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(AsignarActividadesProyForm, self).__init__(*args, **kwargs)
         self.fields['actividades'].queryset = Actividad.objects.all()
+
+class AsignarEncargadoUSForm(forms.Form):
+    encargado = forms.ModelChoiceField(queryset=User.objects.filter())
+
 
 # class AsignarRolesForm(forms.Form):
 # 	roles = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'ROLES DISPONIBLES', required=False)
