@@ -18,5 +18,7 @@ urlpatterns = patterns('SGPA.apps.userhistory.views',
     url(r'^crearUserHistory/proyecto&id=(?P<proyecto_id>\d+)/$','crear_user_history',name='vista_crearUserHistory'),
     url(r'^verLogUserHistory/ver&id=(?P<userhistory_id>\d+)/$', 'ver_log_user_history', name='vista_logUserHistory'),
     url(r'^addComment/comment&id=(?P<userhistory_id>\d+)/$', 'agregar_comentario', name='vista_addCommentUserHistory'),
-    url(r'^encargadoUserHistory/us&id=(?P<userhistory_id>\d+)/$','asignar_encargado_userhistory',name='vista_asignarEncargadoUS')
+    url(r'^encargadoUserHistory/us&id=(?P<userhistory_id>\d+)/$','asignar_encargado_userhistory',name='vista_asignarEncargadoUS'),
+    url(r'^sprintUserHistory/us&id=(?P<userhistory_id>\d+)/$','asignar_sprint_userhistory',name='vista_asignarSprintUS'),
+    url(r'^flujoUserHistory/us&id=(?P<userhistory_id>\d+)/$','asignar_flujo_userhistory',name='vista_asignarFlujoUS')
 )

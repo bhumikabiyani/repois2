@@ -25,8 +25,8 @@ class UserHistoryForm(forms.Form):
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
-    flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
-    sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
+    # flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
+    # sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
     #usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
     proyecto = Proyecto()
 
@@ -45,10 +45,10 @@ class UserHistoryForm(forms.Form):
         for i in fap:
             if not i.flujo.id in listFlujo:
                 listFlujo.append(i.flujo.id)
-        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
+        # self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
 
         sp = Sprint.objects.filter(proyecto = proyecto)
-        self.fields['sprint'].queryset = sp
+        # self.fields['sprint'].queryset = sp
 
 class ModUserHistoryForm(forms.Form):
     """
@@ -59,9 +59,9 @@ class ModUserHistoryForm(forms.Form):
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
-    encargado = forms.ModelChoiceField(queryset=User.objects.filter())
-    flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
-    sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
+    # encargado = forms.ModelChoiceField(queryset=User.objects.filter())
+    # flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
+    # sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
     proyecto = Proyecto()
 
     def __init__(self, proyecto, *args, **kwargs):
@@ -72,17 +72,17 @@ class ModUserHistoryForm(forms.Form):
         for rec in urp:
             if not rec.usuario.id in listUser:
                 listUser.append(rec.usuario.id)
-        self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
+        # self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
 
         fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
         listFlujo = []
         for i in fap:
             if not i.flujo.id in listFlujo:
                 listFlujo.append(i.flujo.id)
-        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
+        # self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
 
         sp = Sprint.objects.filter(proyecto = proyecto)
-        self.fields['sprint'].queryset = sp
+        # self.fields['sprint'].queryset = sp
 
 class AddCommentForm(forms.Form):
     asunto = forms.CharField(max_length=500, label='ASUNTO')
@@ -115,3 +115,25 @@ class AsignarEncargadoUSForm(forms.Form):
             if not rec.usuario.id in listUser:
                 listUser.append(rec.usuario.id)
         self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
+
+class AsignarSprintUSForm(forms.Form):
+    sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
+
+    def __init__(self, proyecto, *args, **kwargs):
+        super(AsignarSprintUSForm, self).__init__(*args, **kwargs)
+        self.proyecto = proyecto
+        sp = Sprint.objects.filter(proyecto = proyecto)
+        self.fields['sprint'].queryset = sp
+
+class AsignarFlujoUSForm(forms.Form):
+    flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
+
+    def __init__(self, proyecto, *args, **kwargs):
+        super(AsignarFlujoUSForm, self).__init__(*args, **kwargs)
+        self.proyecto = proyecto
+        fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
+        listFlujo = []
+        for i in fap:
+            if not i.flujo.id in listFlujo:
+                listFlujo.append(i.flujo.id)
+        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))

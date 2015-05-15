@@ -23,11 +23,27 @@
                 <tr>
                     <td><strong><span style="color:#111111">{{log.descripcion}}</span></strong></td>
                     <td><strong><span style="color:#111111">{{log.usuario}}</span></strong></td>
-                    <td><strong><span style="color:#111111">{{log.sprint}}</span></strong></td>
-                    <td><strong><span style="color:#111111">{{log.flujo}}</span></strong></td>
+                    {% if log.sprint %}
+                        <td><strong><span style="color:#111111">{{log.sprint}}</span></strong></td>
+                    {% else %}
+                        <td><strong><span style="color:#111111">{{" "}}</span></strong></td>
+                    {% endif %}
+                    {% if log.flujo %}
+                        <td><strong><span style="color:#111111">{{log.flujo}}</span></strong></td>
+                    {% else %}
+                        <td><strong><span style="color:#111111">{{" "}}</span></strong></td>
+                    {% endif %}
                     <td><strong><span style="color:#111111">{{log.estado}}</span></strong></td>
-                    <td><strong><span style="color:#111111">{{log.actividad}}</span></strong></td>
-                    <td><strong><span style="color:#111111">{{log.estadokanban}}</span></strong></td>
+                    {% if log.actividad %}
+                        <td><strong><span style="color:#111111">{{log.actividad}}</span></strong></td>
+                    {% else %}
+                        <td><strong><span style="color:#111111">{{" "}}</span></strong></td>
+                    {% endif %}
+                    {% if log.estadokanban %}
+                        <td><strong><span style="color:#111111">{{log.estadokanban}}</span></strong></td>
+                    {% else %}
+                        <td><strong><span style="color:#111111">{{" "}}</span></strong></td>
+                    {% endif %}
                     <td><strong><span style="color:#111111">{{log.fecHor_creacion}}</span></strong></td>
                 </tr>
               {% endfor %}

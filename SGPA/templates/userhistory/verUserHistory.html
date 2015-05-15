@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% block title %} Detalles Flujo{% endblock %}
+{% block title %} Detalles User History{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL USER HISTORY "{{ userhistory.nombre }}" </h3></font></strong></center><br>
-{% if ver_user_history or mod_user_history or eliminar_user_history or add_comment or asignar_encargado %}
+{% if ver_user_history or mod_user_history or eliminar_user_history or add_comment or asignar_encargado or asignar_flujo or asignar_sprint%}
 <form action="." method="POST">
          {% csrf_token %}
 <table class="table table-bordered">
@@ -28,9 +28,21 @@
 		                <td><strong>{{userhistory.tiempo_estimado}}</strong></td>
                         <td><strong>{{userhistory.valor_tecnico}}</strong></td>
                         <td><strong>{{userhistory.valor_negocio}}</strong></td>
-                        <td><strong>{{userhistory.encargado}}</strong></td>
-                        <td><strong>{{userhistory.flujo}}</strong></td>
-                        <td><strong>{{userhistory.sprint}}</strong></td>
+                        {% if userhistory.encargado %}
+                            <td><strong>{{userhistory.encargado}}</strong></td>
+                        {% else %}
+                            <td><strong>{{" "}}</strong></td>
+                        {% endif %}
+                        {% if userhistory.flujo %}
+                            <td><strong>{{userhistory.flujo}}</strong></td>
+                        {% else %}
+                            <td><strong>{{" "}}</strong></td>
+                        {% endif %}
+                        {% if userhistory.sprint %}
+                            <td><strong>{{userhistory.sprint}}</strong></td>
+                        {% else %}
+                            <td><strong>{{" "}}</strong></td>
+                        {% endif %}
 	           </tr>
 		</tbody>
 	  </table>
@@ -66,6 +78,12 @@
             {% endif %}
             {% if asignar_encargado %}
 				<a class="btn btn-primary" href="/encargadoUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR ENCARGADO</strong></a>
+            {% endif %}
+            {% if asignar_sprint %}
+				<a class="btn btn-primary" href="/sprintUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR A SPRINT</strong></a>
+            {% endif %}
+            {% if asignar_flujo %}
+				<a class="btn btn-primary" href="/flujoUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR A FLUJO</strong></a>
             {% endif %}
             {% if add_comment %}
 				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
