@@ -148,6 +148,7 @@ def visualizar_user_history(request, userhistory_id):
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     comments = Comentarios.objects.filter(userhistory = userHist)
+    adjuntos = ArchivosAdjuntos.objects.filter(userhistory = userHist)
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -158,6 +159,7 @@ def visualizar_user_history(request, userhistory_id):
     ctx = {'lista':lista,
             'userhistory':userHist,
             'comments':comments,
+            'adjuntos': adjuntos,
             'ver_user_history': 'ver user history' in permisos,
             'crear_user_history': 'crear user history' in permisos,
             'mod_user_history': 'modificar user history' in permisos,
@@ -412,3 +414,38 @@ def asignar_flujo_userhistory(request, userhistory_id):
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
 
+
+@login_required
+def archivos_adjuntos(request, userhistory_id):
+
+    user = User.objects.get(username=request.user.username)
+    us = get_object_or_404( UserHistory, id = userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    print permisos
+    #-------------------------------------------------------------------
+    if request.method == 'POST':
+        form = ArchivosAdjuntosForm(us, request.POST, request.FILES)
+        if form.is_valid():
+            adjunto = ArchivosAdjuntos()
+            adjunto.nombre = form.cleaned_data['nombre']
+            adjunto.docfile = form.cleaned_data['docfile']
+            adjunto.userhistory = us
+            adjunto.save()
+            registrar_log(us,"Se agrego el Archivo Adjunto: "+adjunto.nombre,user)
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = ArchivosAdjuntosForm(us)
+
+    return render_to_response('userhistory/archivos_adjuntos.html',{'form':form,
+                                                        'user':user,
+                                                        'userhistory': us,
+                                                        #'archivos_adjuntos':'archivos adjuntos' in permisos
+                                                         })

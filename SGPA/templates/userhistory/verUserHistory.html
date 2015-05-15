@@ -62,6 +62,22 @@
              </tr>
 
          {% endfor %}
+         </tbody>
+	  </table>
+         <table class="table table-bordered">
+	      <thead>
+	        <tr>
+                <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</span></strong></b></th>
+                <th class="titulo"><b><strong><span style="color:#330099">ARCHIVOS ADJUNTOS</span></strong></b></th>
+                </tr>
+	      </thead>
+              <tbody>
+         {%for a in adjuntos%}
+         <tr>
+             <td><strong>{{a.nombre}}</strong></td>
+             <td><strong>{{a.docfile}}</strong></td>
+         </tr>
+         {% endfor %}
 		</tbody>
 	  </table>
 
@@ -88,7 +104,9 @@
             {% if add_comment %}
 				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
             {% endif %}
-			                            	
+
+				<a class="btn btn-primary" href="/archivosAdjuntos/adjuntos&id={{userhistory.id}}/"><strong>ARCHIVOS ADJUNTOS</strong></a>
+
 			   </td><br><br>
 		<a class="btn btn-primary" href="/userHistory/proyecto&id={{userhistory.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
 
