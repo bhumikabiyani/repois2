@@ -1,12 +1,28 @@
 {% extends 'base.html' %}
 {% block title %} Tablero Kanban{% endblock %}
 {%block content %}
-<center><strong><font face="Comic Sans MS"><h3> TABLA KANBAN </h3></font></strong></center>
-<center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
 
 <form action="." method="POST">
-         {% csrf_token %}
-<table class="table table-bordered" cellpadding="1" cellspacing="1">
+    {% csrf_token %}
+    <table class="table table-bordered" cellpadding="1" cellspacing="1">
+        <thead>
+        <tr>
+            <td bgcolor="blue"><strong><span style="color:#FFFFFF"><center>BACKLOG</center></span></strong></td>
+            <td bgcolor="blue"><strong><span style="color:#FFFFFF"><center>SPRINT BACKLOG</center></span></strong></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>{{US.nombre}}</strong></td>
+            <td><strong> ps,p</strong></td>
+
+        </tr>
+		</tbody>
+    </table>
+    <center><strong><font face="Comic Sans MS"><h3> TABLA KANBAN </h3></font></strong></center>
+    <center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
+
+    <table class="table table-bordered" cellpadding="1" cellspacing="1">
 	       <tr>
                 {%for f in actividades%}
                  <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{f.actividad.nombre}}</span></strong></center></td>

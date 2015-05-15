@@ -505,6 +505,7 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
     #    permisos.append(i.nombre)
     #print permisos
     #-------------------------------------------------------------------
+    US = UserHistory.objects.filter(proyecto = proyecto_id)
     proyactual = get_object_or_404(Proyecto, id=proyecto_id)
     flujoactual = get_object_or_404(Flujo, id=flujo_id)
     actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual).order_by('orden')
@@ -512,6 +513,7 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
                                                                   'proyecto': proyactual,
                                                                   'flujo': flujoactual,
                                                                   'user':user,
+                                                                  'US' : US,
                                                                   'actividades':actividades
 
                                                                   })

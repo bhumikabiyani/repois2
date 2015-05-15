@@ -7,6 +7,7 @@ from SGPA.apps.usuario.helper import *
 import datetime
 import django
 django.setup()
+from django.forms.widgets import *
 
 class FilterForm(forms.Form):
     """
@@ -115,3 +116,20 @@ class AsignarEncargadoUSForm(forms.Form):
             if not rec.usuario.id in listUser:
                 listUser.append(rec.usuario.id)
         self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
+
+class ArchivosAdjuntosForm(forms.Form):
+    nombre = forms.CharField(max_length=500, label='NOMBRE')
+    docfile = forms.FileField(required=False, label='DOCUMENTO')
+
+    def __init__(self, userhistory, *args, **kwargs):
+        super(ArchivosAdjuntosForm, self).__init__(*args, **kwargs)
+        self.us = userhistory
+
+    def clean_nombre(self):
+		if 'nombre' in self.cleaned_data:
+			adjuntos = ArchivosAdjuntos.objects.filter(userhistory = self.us)
+			nombre = self.cleaned_data['nombre']
+			for r in adjuntos:
+				if nombre == r.nombre:
+					raise forms.ValidationError('Ya existe ese nombre. Elija otro')
+			return nombre
