@@ -137,7 +137,7 @@ class AsignarFlujoUSForm(forms.Form):
         for i in fap:
             if not i.flujo.id in listFlujo:
                 listFlujo.append(i.flujo.id)
-        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))        self.fields['encargado'].queryset = User.objects.filter(Q(id__in = listUser))
+        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo)) 
 
 class ArchivosAdjuntosForm(forms.Form):
     nombre = forms.CharField(max_length=500, label='NOMBRE')
