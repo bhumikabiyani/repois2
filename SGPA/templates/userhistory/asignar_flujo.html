@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} Asignar Flujo a User History{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ASIGNAR FLUJO A "{{ userhistory.nombre }}"</h3></font></strong></center><br>
+{% if asignar_flujo %}
+<form action="." method="POST">
+	{% csrf_token %}
+	<center><table>
+	{{ form.as_table }}
+	</table><br><br>
+	<button class="btn btn-primary" type="submit"> GUARDAR </button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verUserHistory/ver&id={{userhistory.id}}/' "/></center>
+</form>
+{% else%}
+<center><strong><font face="Comic Sans MS">NO TIENES PERMISOS</font></strong></center><br>
+{% endif%}
+{% endblock%}
+

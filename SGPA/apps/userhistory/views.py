@@ -118,11 +118,11 @@ def crear_user_history(request,proyecto_id):
             r.valor_tecnico = form.cleaned_data['valor_tecnico']
             r.tiempo_estimado = form.cleaned_data['tiempo_estimado']
             # r.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
-            r.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
-            fap = FlujoActividadProyecto.objects.get(flujo = r.flujo, proyecto = proyecto, orden = 1)
-            r.actividad = fap.actividad
-            r.estadokanban = 'To do'
-            r.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
+            # r.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
+            # fap = FlujoActividadProyecto.objects.get(flujo = r.flujo, proyecto = proyecto, orden = 1)
+            # r.actividad = fap.actividad
+            # r.estadokanban = 'To do'
+            # r.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
             r.proyecto = proyecto
             r.save()
             registrar_log(r,"Creacion",user)
@@ -150,6 +150,7 @@ def visualizar_user_history(request, userhistory_id):
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     comments = Comentarios.objects.filter(userhistory = userHist)
+    adjuntos = ArchivosAdjuntos.objects.filter(userhistory = userHist)
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -160,12 +161,15 @@ def visualizar_user_history(request, userhistory_id):
     ctx = {'lista':lista,
             'userhistory':userHist,
             'comments':comments,
+            'adjuntos': adjuntos,
             'ver_user_history': 'ver user history' in permisos,
             'crear_user_history': 'crear user history' in permisos,
             'mod_user_history': 'modificar user history' in permisos,
             'eliminar_user_history': 'eliminar user history' in permisos,
             'add_comment': 'agregar comentario' in permisos,
-            'asignar_encargado': 'asignar encargado' in permisos
+            'asignar_encargado': 'asignar encargado' in permisos,
+            'asignar_sprint': 'asignar sprint a us' in permisos,
+            'asignar_flujo': 'asignar flujo a us' in permisos
 	       }
     return render_to_response('userhistory/verUserHistory.html',ctx,context_instance=RequestContext(request))
 
@@ -199,8 +203,8 @@ def mod_user_history(request, userhistory_id):
             actual.valor_tenico = form.cleaned_data['valor_tecnico']
             actual.valor_negocio = form.cleaned_data['valor_negocio']
             # actual.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
-            actual.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
-            actual.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
+            # actual.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
+            # actual.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
             actual.save()
             registrar_log(actual,"Modificacion",user)
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
@@ -212,8 +216,8 @@ def mod_user_history(request, userhistory_id):
         form.fields['valor_tecnico'].initial = actual.valor_tecnico
         form.fields['valor_negocio'].initial = actual.valor_negocio
         # form.fields['encargado'].initial = actual.encargado
-        form.fields['flujo'].initial = actual.flujo
-        form.fields['sprint'].initial = actual.sprint
+        # form.fields['flujo'].initial = actual.flujo
+        # form.fields['sprint'].initial = actual.sprint
     return render_to_response("userhistory/mod_user_history.html", {'user':user,
                                                            'form':form,
 							   'flujo': actual,
@@ -356,3 +360,109 @@ def asignar_encargado_userhistory(request, userhistory_id):
                                                                      'userhistory': actual,
                                                                      'asignar_encargado':'asignar encargado' in permisos
 						     })
+
+def asignar_sprint_userhistory(request, userhistory_id):
+
+    user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+
+    if request.method == 'POST':
+        form = AsignarSprintUSForm(proyecto.id, request.POST)
+        if form.is_valid():
+            sprint = form.cleaned_data['sprint']
+            actual.sprint = Sprint.objects.get(nombre = sprint)
+            actual.estado = "iniciado"
+            actual.save()
+            registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = AsignarSprintUSForm(proyecto.id)
+        form.fields['sprint'].initial = actual.sprint
+    return render_to_response("userhistory/asignar_sprint.html", {'user':user,
+                                                                     'form':form,
+                                                                     'userhistory': actual,
+                                                                     'asignar_sprint':'asignar sprint a us' in permisos
+                                                                     })
+
+def asignar_flujo_userhistory(request, userhistory_id):
+
+    user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+
+    if request.method == 'POST':
+        form = AsignarFlujoUSForm(proyecto.id, request.POST)
+        if form.is_valid():
+            flujo = form.cleaned_data['flujo']
+            actual.flujo = Flujo.objects.get(nombre = flujo)
+            fap = FlujoActividadProyecto.objects.get(flujo = actual.flujo, proyecto = proyecto, orden = 1)
+            actual.actividad = fap.actividad
+            actual.estadokanban = 'To do'
+            actual.save()
+            registrar_log(actual,"Asignacion de Flujo: "+actual.flujo.nombre,user)
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = AsignarFlujoUSForm(proyecto.id)
+        form.fields['flujo'].initial = actual.flujo
+    return render_to_response("userhistory/asignar_flujo.html", {'user':user,
+                                                                     'form':form,
+                                                                     'userhistory': actual,
+                                                                     'asignar_flujo':'asignar flujo a us' in permisos
+						     })
+
+
+@login_required
+def archivos_adjuntos(request, userhistory_id):
+
+    user = User.objects.get(username=request.user.username)
+    us = get_object_or_404( UserHistory, id = userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    print permisos
+    #-------------------------------------------------------------------
+    if request.method == 'POST':
+        form = ArchivosAdjuntosForm(us, request.POST, request.FILES)
+        if form.is_valid():
+            adjunto = ArchivosAdjuntos()
+            adjunto.nombre = form.cleaned_data['nombre']
+            adjunto.docfile = form.cleaned_data['docfile']
+            adjunto.userhistory = us
+            adjunto.save()
+            registrar_log(us,"Se agrego el Archivo Adjunto: "+adjunto.nombre,user)
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = ArchivosAdjuntosForm(us)
+
+    return render_to_response('userhistory/archivos_adjuntos.html',{'form':form,
+                                                        'user':user,
+                                                        'userhistory': us,
+                                                        #'archivos_adjuntos':'archivos adjuntos' in permisos
+                                                         })
