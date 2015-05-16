@@ -464,7 +464,7 @@ def asignar_flujo_userhistory(request, userhistory_id):
             actual.flujo = Flujo.objects.get(nombre = flujo)
             fap = FlujoActividadProyecto.objects.get(flujo = actual.flujo, proyecto = proyecto, orden = 1)
             actual.actividad = fap.actividad
-            actual.estadokanban = 'To do'
+            actual.estadokanban = 'to-do'
             actual.save()
             registrar_log(actual,"Asignacion de Flujo: "+actual.flujo.nombre,user)
              #---Enviar Correo----#
@@ -537,6 +537,7 @@ def cambiar_estados(request, userhistory_id):
         if form.is_valid():
             actual.estadokanban =form.cleaned_data['estadokanban']
             actual.save()
+            registrar_log(actual,"Cambio de Estado: "+actual.estadokanban,user )
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = CambiarEstadosUSForm()
