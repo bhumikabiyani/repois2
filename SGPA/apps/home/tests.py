@@ -436,6 +436,14 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
+    def testCambiar_Actividad_Kanban_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = cambiar_actividad(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
 
 if __name__ == "__main__":
     unittest.main()

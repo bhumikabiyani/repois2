@@ -162,10 +162,11 @@ class CambiarEstadosUSForm(forms.Form):
 class CambiarActividadUSForm(forms.Form):
     actividad = forms.ModelChoiceField(queryset=Actividad.objects.filter())
 
-    def __init__(self, proyecto, *args, **kwargs):
+    def __init__(self, us, *args, **kwargs):
         super(CambiarActividadUSForm, self).__init__(*args, **kwargs)
-        self.proyecto = proyecto
-        fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
+        self.us = us
+        userhistory = UserHistory.objects.get(id = us)
+        fap = FlujoActividadProyecto.objects.filter(proyecto = userhistory.proyecto,flujo = userhistory.flujo)
         listAct = []
         for i in fap:
             if not i.actividad.id in listAct:

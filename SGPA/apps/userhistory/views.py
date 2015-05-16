@@ -559,6 +559,7 @@ def cambiar_actividad(request, userhistory_id):
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    userhistory = UserHistory.objects.get(id = userhistory_id)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     permisos_obj = []
@@ -571,7 +572,7 @@ def cambiar_actividad(request, userhistory_id):
     #-------------------------------------------------------------------
 
     if request.method == 'POST':
-        form = CambiarActividadUSForm(proyecto.id, request.POST)
+        form = CambiarActividadUSForm(userhistory.id, request.POST)
         if form.is_valid():
             actividad = form.cleaned_data['actividad']
             actual.actividad = Actividad.objects.get(nombre = actividad)
@@ -589,7 +590,7 @@ def cambiar_actividad(request, userhistory_id):
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
-        form = CambiarActividadUSForm(proyecto.id)
+        form = CambiarActividadUSForm(userhistory.id)
         form.fields['actividad'].initial = actual.actividad
     return render_to_response("userhistory/cambiar_actividad.html", {'user':user,
                                                                      'form':form,

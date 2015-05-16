@@ -571,7 +571,8 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
         if not dictKanban.has_key(acti.nombre):
             dictKanban[acti.nombre] = {}
     print dictKanban
-    for rec in US:
+    usFllujo = UserHistory.objects.filter(proyecto = proyecto_id, flujo = flujoactual).order_by('valor_tecnico')
+    for rec in usFllujo:
         if rec.flujo:
             acti = Actividad.objects.get(nombre = rec.actividad)
             nombreAct = acti.nombre
