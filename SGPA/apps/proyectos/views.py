@@ -552,6 +552,63 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
                 dict[nombre][valor_tecnico][rec.id][cont] = str(rec.nombre)
             cont += 1
 
+    actList = []
+    actList.append("BACKLOG")
+    for rec in actividades:
+        acti = Actividad.objects.get(nombre = rec.actividad)
+        if not acti.nombre in actList:
+            actList.append(acti.nombre)
+            actList.append(acti.nombre)
+            actList.append(acti.nombre)
+    newList = []
+    for rec in actList:
+        newList.append("")
+    # print newList
+    # print sprintList
+    dictKanban = {}
+    for rec in actividades:
+        acti = Actividad.objects.get(nombre = rec.actividad)
+        if not dictKanban.has_key(acti.nombre):
+            dictKanban[acti.nombre] = {}
+    print dictKanban
+    for rec in US:
+        if rec.flujo:
+            acti = Actividad.objects.get(nombre = rec.actividad)
+            nombreAct = acti.nombre
+        else:
+            nombreAct = "BACKLOG"
+        # valor_tecnico = rec.valor_tecnico * -1
+        if not dictKanban.has_key(nombreAct):
+            dictKanban[nombreAct] = {}
+        # if not dict[nombre].has_key(valor_tecnico):
+        #     dict[nombre][valor_tecnico] = {}
+        # if not dictKanban[nombreAct].has_key(rec.estadokanban):
+        #     dictKanban[nombreAct][rec.estadokanban] = {}
+        if not dictKanban[nombreAct].has_key(rec.id):
+            dictKanban[nombreAct][rec.id] = []
+            for act in actList:
+                dictKanban[nombreAct][rec.id].append("")
+        # if not dict[rec.sprint.nombre].has_key(rec.nombre):
+        #     dict[rec.sprint.nombre][rec.id] = []
+
+        cont = 0
+        for act in actList:
+            # print sp
+            if act == nombreAct:
+                if nombreAct == 'BACKLOG':
+                    dictKanban[nombreAct][rec.id][0] = str(rec.nombre)
+                    break
+                if rec.estadokanban == 'To do':
+                    dictKanban[nombreAct][rec.id][cont] = str(rec.nombre)
+                    break
+                elif rec.estadokanban == 'Doing':
+                    dictKanban[nombreAct][rec.id][cont+1] = str(rec.nombre)
+                    break
+                elif rec.estadokanban == 'Done':
+                    dictKanban[nombreAct][rec.id][cont+2] = str(rec.nombre)
+                    break
+            cont += 1
+
 
 
         # dict[nombre].append(rec.nombre)
@@ -564,6 +621,7 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
                                                                   'proyecto': proyactual,
                                                                   'flujo': flujoactual,
                                                                   'dict': dict,
+                                                                  'dictKanban': dictKanban,
                                                                   'user':user,
                                                                   'US' : US,
                                                                   'sprint' : sprints,

@@ -32,8 +32,7 @@
     <center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
 
     <table class="table table-bordered" cellpadding="1" cellspacing="1">
-
-	       <tr>
+                <td colspan="1" rowspan="2" bgcolor="blue"><center><strong><span style="color:#FFFFFF">BACKLOG</span></strong></center></td>
                 {%for f in actividades%}
                  <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{f.actividad.nombre}}</span></strong></center></td>
                 {% endfor %}
@@ -45,20 +44,18 @@
                  <td bgcolor="chartreuse"><strong><center>DONE</center></strong></td>
               {% endfor %}
            </tr>
-           <tr>
-              {%for f in actividades%}
-                 <td><strong></strong></td>
-                 <td><strong></strong></td>
-                 <td><strong></strong></td>
-              {% endfor %}
-           </tr>
-           <tr>
-              {%for f in actividades%}
-                 <td><strong></strong></td>
-                 <td><strong></strong></td>
-                 <td><strong></strong></td>
-              {% endfor %}
-           </tr>
+
+
+            {%for key,uss in dictKanban.items%}
+                {%for key2,listanombre in uss.items%}
+                    <tr>
+                        {%for rec in listanombre%}
+                            <td><a href="/verUserHistory/ver&id={{key2}}/"><font color="gray"><strong><em><u>{{rec}}</u></em></strong></font></a></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+
     </table>
 
 </form>
