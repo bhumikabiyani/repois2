@@ -137,11 +137,11 @@ class AsignarFlujoUSForm(forms.Form):
         for i in fap:
             if not i.flujo.id in listFlujo:
                 listFlujo.append(i.flujo.id)
-        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo)) 
+        self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
 
 class ArchivosAdjuntosForm(forms.Form):
     nombre = forms.CharField(max_length=500, label='NOMBRE')
-    docfile = forms.FileField(required=False, label='DOCUMENTO')
+    docfile = forms.FileField(label='SELECCIONA UN ARCHIVO')
 
     def __init__(self, userhistory, *args, **kwargs):
         super(ArchivosAdjuntosForm, self).__init__(*args, **kwargs)

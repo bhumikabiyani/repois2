@@ -12,6 +12,7 @@ from SGPA.apps.sprint.forms import *
 from SGPA.apps.usuario.models import *
 from SGPA.apps.sprint.helper import *
 from datetime import datetime, date, time, timedelta
+from dateutil import rrule
 # Create your views here.
 
 def dateTimeViewBootstrap2(request):
@@ -152,27 +153,36 @@ def visualizar_sprint(request, sprint_id):
     """
         sprint = get_object_or_404(Sprint, id=sprint_id)
         US = UserHistory.objects.filter(sprint = sprint_id)
-        capSem = necesidad = duracionSprint = 0
-        duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)
-        duracionSprint = duracionS.days
+        capSem = necesidad = 0
+        sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
+        laborales = [dia for dia in range(7) if dia not in sabdom]
+        totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
+        print totalDias.count()
+        duracionSprintDias = totalDias.count()
+        duracionSprintSem = duracionSprintDias / 5
+        # duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)
+        # duracionSprint = duracionS.days
         urp = UsuarioRolProyecto.objects.filter(proyecto=sprint.proyecto)
         for rec in urp:
             capSem += rec.horas
-        capacidad = capSem * duracionSprint
+        capacidad = capSem * duracionSprintSem
         for i in US:
             necesidad += i.tiempo_estimado
         user=  User.objects.get(username=request.user.username)
+        userhistories = UserHistory.objects.filter(proyecto = sprint.proyecto, sprint = sprint)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
+               'userhistories': userhistories,
                'capacidad' : capacidad,
                'necesidad' : necesidad,
-               'duracionSprint': duracionSprint,
+               'duracionSprint': duracionSprintSem,
                'ver_sprint': 'ver sprint' in permisos,
                'crear_sprint': 'crear sprint' in permisos,
                'mod_sprint': 'modificar sprint' in permisos,
-               'eliminar_sprint': 'eliminar sprint' in permisos
+               'eliminar_sprint': 'eliminar sprint' in permisos,
+               'ver_user_history': 'ver user history' in permisos
 	          }
 	return render_to_response('sprint/verSprint.html',ctx,context_instance=RequestContext(request))
 

@@ -71,11 +71,12 @@
                 <th class="titulo"><b><strong><span style="color:#330099">ARCHIVOS ADJUNTOS</span></strong></b></th>
                 </tr>
 	      </thead>
-              <tbody>
+              <tbody >
          {%for a in adjuntos%}
-         <tr>
+         <tr >
              <td><strong>{{a.nombre}}</strong></td>
              <td><strong>{{a.docfile}}</strong></td>
+             <td><a class="btn btn-primary" href="{{ a.docfile.url }}"><strong>DESCARGAR</strong></a></td>
          </tr>
          {% endfor %}
 		</tbody>
@@ -105,7 +106,7 @@
 				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
             {% endif %}
 
-				<a class="btn btn-primary" href="/archivosAdjuntos/adjuntos&id={{userhistory.id}}/"><strong>ARCHIVOS ADJUNTOS</strong></a>
+				<a class="btn btn-primary" href="/archivosAdjuntos/adjuntos&id={{userhistory.id}}/"><strong>ADJUNTAR ARCHIVOS</strong></a>
 
 			   </td><br><br>
 		<a class="btn btn-primary" href="/userHistory/proyecto&id={{userhistory.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

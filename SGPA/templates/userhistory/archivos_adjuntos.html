@@ -3,14 +3,13 @@
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> ARCHIVOS ADJUNTOS - "{{userhistory.nombre}}"</h3></font></strong></center><br>
 
-<form action="." method="POST">
+<form action="" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	<center><table>
 	{{ form.as_table }}
 	</table><br><br>
 	<button class="btn btn-primary" type="submit"> GUARDAR </button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verUserHistory/ver&id={{userhistory.id}}' "/></center>
-
 </form>
 {% endblock%}
 
