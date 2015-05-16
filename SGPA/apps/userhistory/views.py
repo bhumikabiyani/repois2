@@ -198,7 +198,7 @@ def mod_user_history(request, userhistory_id):
             actual.descripcion = form.cleaned_data['descripcion']
             actual.estado = form.cleaned_data['estado']
             actual.tiempo_estimado = form.cleaned_data['tiempo_estimado']
-            actual.valor_tenico = form.cleaned_data['valor_tecnico']
+            actual.valor_tecnico = form.cleaned_data['valor_tecnico']
             actual.valor_negocio = form.cleaned_data['valor_negocio']
             # actual.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
             # actual.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])

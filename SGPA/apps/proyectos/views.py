@@ -505,15 +505,67 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
     #    permisos.append(i.nombre)
     #print permisos
     #-------------------------------------------------------------------
-    US = UserHistory.objects.filter(proyecto = proyecto_id)
+    US = UserHistory.objects.filter(proyecto = proyecto_id).order_by('valor_tecnico')
+    print US
+    usExcSprint = UserHistory.objects.filter(proyecto = proyecto_id,sprint = None).order_by('sprint')
     proyactual = get_object_or_404(Proyecto, id=proyecto_id)
     flujoactual = get_object_or_404(Flujo, id=flujo_id)
     actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual).order_by('orden')
+    sprints = Sprint.objects.filter(proyecto = proyecto_id).order_by('fecha_inicio')
+    sprintList = []
+    sprintList.append("BACKLOG")
+    for rec in sprints:
+        if not rec.nombre in sprintList:
+            sprintList.append(str(rec.nombre))
+    newList = []
+    for rec in sprintList:
+        newList.append("")
+    # print newList
+    # print sprintList
+    dict = {}
+    for rec in sprints:
+        if not dict.has_key(rec.nombre):
+            dict[rec.nombre] = {}
+    print dict
+    for rec in US:
+        if rec.sprint:
+            sprint = Sprint.objects.get(nombre = rec.sprint)
+            nombre = sprint.nombre
+        else:
+            nombre = "BACKLOG"
+        valor_tecnico = rec.valor_tecnico * -1
+        if not dict.has_key(nombre):
+            dict[nombre] = {}
+        if not dict[nombre].has_key(valor_tecnico):
+            dict[nombre][valor_tecnico] = {}
+        if not dict[nombre][valor_tecnico].has_key(rec.id):
+            dict[nombre][valor_tecnico][rec.id] = []
+            for sp in sprintList:
+                dict[nombre][valor_tecnico][rec.id].append("")
+        # if not dict[rec.sprint.nombre].has_key(rec.nombre):
+        #     dict[rec.sprint.nombre][rec.id] = []
+
+        cont = 0
+        for sp in sprintList:
+            # print sp
+            if sp == nombre:
+                dict[nombre][valor_tecnico][rec.id][cont] = str(rec.nombre)
+            cont += 1
+
+
+
+        # dict[nombre].append(rec.nombre)
+        # dict[rec.sprint.id][rec.id].append(rec.sprint.nombre)
+        # actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.descripcion)
+        # ultActividad = int(rec.orden)
+
+
     return render_to_response("proyectos/verkanban.html", {
                                                                   'proyecto': proyactual,
                                                                   'flujo': flujoactual,
+                                                                  'dict': dict,
                                                                   'user':user,
                                                                   'US' : US,
-                                                                  'actividades':actividades
-
+                                                                  'sprint' : sprints,
+                                                                  'actividades': actividades
                                                                   })
