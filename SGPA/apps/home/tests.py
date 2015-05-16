@@ -28,8 +28,8 @@ class UserTestCase(TestCase):
         self.fap2 = FlujoActividadProyecto.objects.create(flujo = self.f1, actividad = self.a2, proyecto = self.p1, orden = 2)
         self.r1 = Rol.objects.create(nombre="team leaders",categoria=1)
         self.s1 = Sprint.objects.create(nombre="Sprint8",descripcion="prueba",proyecto=self.p1)
-        self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1,encargado=self.u1)
-        self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1)
+        self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1,encargado=self.u1,valor_tecnico=10)
+        self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1, horas=0)
 
     def testLogin_View(self):
         request = RequestFactory().get('/usuario')
@@ -381,6 +381,53 @@ class UserTestCase(TestCase):
         response = ver_log_user_history(request,us.id)
         # Check.
         self.assertEqual(response.status_code, 200)
+
+    def testAddComment_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = agregar_comentario(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsignar_EncargadoUS_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = asignar_encargado_userhistory(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsignar_SprintUS_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = asignar_sprint_userhistory(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsignar_FlujoUS_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = asignar_flujo_userhistory(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAdjuntar_ArchivoUS_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = archivos_adjuntos(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+
 
 if __name__ == "__main__":
     unittest.main()

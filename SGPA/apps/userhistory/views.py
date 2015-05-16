@@ -209,12 +209,13 @@ def mod_user_history(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Modificacion",user)
              #---Enviar Correo----#
-            contenido = render_to_string('mailing/modificar_userstorie.html',{'ustorie':actual.nombre,
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/modificar_userstorie.html',{'ustorie':actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'estado':actual.estado})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -269,7 +270,12 @@ def borrar_user_history(request, userhistory_id):
 								})
 
 def ver_log_user_history(request, userhistory_id):
-
+    """
+    Metodo para ver Historial del User Storie
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del user history del cual se desea guardar el historial
+    :return: log_user:history.html, pagina en la cual se visualiza el historial
+    """
     userHist = get_object_or_404(UserHistory, id=userhistory_id)
     user =  User.objects.get(username=request.user.username)
     roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = userHist.proyecto).only('rol')
@@ -289,7 +295,12 @@ def ver_log_user_history(request, userhistory_id):
 
 @login_required
 def agregar_comentario(request, userhistory_id):
-
+    """
+    Metodo para agregar comentario al User Storie
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id:  id del user history en la cual se desea agregar el comentario
+    :return: add_comment.html, pagina en la cual se guarda el comentario
+    """
     user = User.objects.get(username=request.user.username)
     us = get_object_or_404( UserHistory, id = userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
@@ -313,12 +324,13 @@ def agregar_comentario(request, userhistory_id):
             comment.save()
             registrar_log(us,"Comentario ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"})",user)
             #---Enviar Correo----#
-            contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
+            if us.encargado != None:
+                contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'comentario':comment.descripcion})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[us.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[us.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -331,7 +343,12 @@ def agregar_comentario(request, userhistory_id):
                                                          })
 
 def asignar_encargado_userhistory(request, userhistory_id):
-
+    """
+    Metodo en el cual se asigna encargado al User History
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: userhistory_id:  id del user history al cual se asignara un encargado
+    :return: asignar_encargado.html, pagina en la cual se asigna el encargado
+    """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
@@ -354,11 +371,12 @@ def asignar_encargado_userhistory(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Asignacion de Encargado: "+actual.encargado.username,user)
             #---Enviar Correo----#
-            contenido = render_to_string('mailing/asignar_userstory.html',{'ustorie': actual.nombre,
+            if actual.encargado !=None:
+                contenido = render_to_string('mailing/asignar_userstory.html',{'ustorie': actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -371,7 +389,12 @@ def asignar_encargado_userhistory(request, userhistory_id):
 						     })
 
 def asignar_sprint_userhistory(request, userhistory_id):
-
+    """
+    Metodo en el cual se asigna el User History a un Sprint
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History que sera asignado al Sprint
+    :return: asignar_sprint.html, pagina en la cual se asigna el user history al sprint
+    """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
@@ -395,12 +418,13 @@ def asignar_sprint_userhistory(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
              #---Enviar Correo----#
-            contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'sprint':sprint})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -413,7 +437,12 @@ def asignar_sprint_userhistory(request, userhistory_id):
                                                                      })
 
 def asignar_flujo_userhistory(request, userhistory_id):
-
+    """
+    Metodo en el cual se asigna el user history al Flujo
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History que sera asignado al Flujo
+    :return: asignar_flujo.html, pagina en la cual se asigna el user history al Flujo
+    """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
@@ -439,12 +468,13 @@ def asignar_flujo_userhistory(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Asignacion de Flujo: "+actual.flujo.nombre,user)
              #---Enviar Correo----#
-            contenido = render_to_string('mailing/asignar_flujo.html',{'ustorie': actual.nombre,
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/asignar_flujo.html',{'ustorie': actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'flujo':flujo})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -457,6 +487,12 @@ def asignar_flujo_userhistory(request, userhistory_id):
 						     })
 
 def archivos_adjuntos(request, userhistory_id):
+    """
+    Metodo en el cual se adjuntan archivos al User History
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del user history al cual se le adjunta el archivo
+    :return: archivos_adjuntos.html, pagina en el cualse adjunta archivo
+    """
     user = User.objects.get(username=request.user.username)
     us = get_object_or_404( UserHistory, id = userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
