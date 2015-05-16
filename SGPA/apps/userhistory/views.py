@@ -208,12 +208,13 @@ def mod_user_history(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Modificacion",user)
              #---Enviar Correo----#
-            contenido = render_to_string('mailing/modificar_userstorie.html',{'ustorie':actual.nombre,
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/modificar_userstorie.html',{'ustorie':actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'estado':actual.estado})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -312,12 +313,13 @@ def agregar_comentario(request, userhistory_id):
             comment.save()
             registrar_log(us,"Comentario ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"})",user)
             #---Enviar Correo----#
-            contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
+            if us.encargado != None:
+                contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'comentario':comment.descripcion})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[us.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[us.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -353,11 +355,12 @@ def asignar_encargado_userhistory(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Asignacion de Encargado: "+actual.encargado.username,user)
             #---Enviar Correo----#
-            contenido = render_to_string('mailing/asignar_userstory.html',{'ustorie': actual.nombre,
+            if actual.encargado !=None:
+                contenido = render_to_string('mailing/asignar_userstory.html',{'ustorie': actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -394,12 +397,13 @@ def asignar_sprint_userhistory(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
              #---Enviar Correo----#
-            contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'sprint':sprint})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
@@ -438,12 +442,13 @@ def asignar_flujo_userhistory(request, userhistory_id):
             actual.save()
             registrar_log(actual,"Asignacion de Flujo: "+actual.flujo.nombre,user)
              #---Enviar Correo----#
-            contenido = render_to_string('mailing/asignar_flujo.html',{'ustorie': actual.nombre,
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/asignar_flujo.html',{'ustorie': actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
                                          'flujo':flujo})
-            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
-            correo.content_subtype = "html"
-            correo.send()
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
             #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
