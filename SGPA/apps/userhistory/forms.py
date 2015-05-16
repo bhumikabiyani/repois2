@@ -155,3 +155,6 @@ class ArchivosAdjuntosForm(forms.Form):
 				if nombre == r.nombre:
 					raise forms.ValidationError('Ya existe ese nombre. Elija otro')
 			return nombre
+
+class CambiarEstadosUSForm(forms.Form):
+    estadokanban = forms.CharField(widget=forms.Select(choices=ESTADO_KANBAN))

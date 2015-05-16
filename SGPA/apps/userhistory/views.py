@@ -157,6 +157,7 @@ def visualizar_user_history(request, userhistory_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
+
     lista = User.objects.all().order_by("id")
     ctx = {'lista':lista,
             'userhistory':userHist,
@@ -472,10 +473,40 @@ def archivos_adjuntos(request, userhistory_id):
     if request.method == 'POST':
         form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
         if form.is_valid():
-        	newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
-        	newdoc.save(form)
-        	return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+            newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
+            newdoc.save(form)
+            registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
+        return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = ArchivosAdjuntosForm(us)
-    return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us})
+    return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
 
+def cambiar_estados(request, userhistory_id):
+    user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+
+    if request.method == 'POST':
+        form = CambiarEstadosUSForm(request.POST)
+        if form.is_valid():
+            actual.estadokanban =form.cleaned_data['estadokanban']
+            actual.save()
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = CambiarEstadosUSForm()
+        form.fields['estadokanban'].initial = actual.estadokanban
+    return render_to_response("userhistory/cambiar_estados.html", {'user':user,
+                                                                     'form':form,
+                                                                     'userhistory': actual,
+                                                                     'asignar_encargado':'asignar encargado' in permisos
+						     })
