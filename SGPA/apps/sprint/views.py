@@ -162,17 +162,20 @@ def visualizar_sprint(request, sprint_id):
         for i in US:
             necesidad += i.tiempo_estimado
         user=  User.objects.get(username=request.user.username)
+        userhistories = UserHistory.objects.filter(proyecto = sprint.proyecto, sprint = sprint)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
+               'userhistories': userhistories,
                'capacidad' : capacidad,
                'necesidad' : necesidad,
                'duracionSprint': duracionSprint,
                'ver_sprint': 'ver sprint' in permisos,
                'crear_sprint': 'crear sprint' in permisos,
                'mod_sprint': 'modificar sprint' in permisos,
-               'eliminar_sprint': 'eliminar sprint' in permisos
+               'eliminar_sprint': 'eliminar sprint' in permisos,
+               'ver_user_history': 'ver user history' in permisos
 	          }
 	return render_to_response('sprint/verSprint.html',ctx,context_instance=RequestContext(request))
 
