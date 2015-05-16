@@ -10,3 +10,5 @@ AND pg_catalog.pg_table_is_visible(c.oid)
 ORDER BY 1;" > droptables
 
 psql -h localhost -d SGPA_db_produccion -U udesarrollo -f droptables
+
+dropdb -h localhost -U udesarrollo SGPA_db_produccion
