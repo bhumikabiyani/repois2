@@ -518,6 +518,12 @@ def archivos_adjuntos(request, userhistory_id):
     return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
 
 def cambiar_estados(request, userhistory_id):
+    """
+    Metodo en el cual se cambia de estado kanban al us
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History que sera cambiado de estado
+    :return: cambiar_estados.html, pagina en la cual se cambia de estado al user history
+    """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
@@ -551,10 +557,10 @@ def cambiar_estados(request, userhistory_id):
 
 def cambiar_actividad(request, userhistory_id):
     """
-    Metodo en el cual se asigna el user history al Flujo
+    Metodo en el cual se cambia de actividad al us
     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
-    :param userhistory_id: id del User History que sera asignado al Flujo
-    :return: asignar_flujo.html, pagina en la cual se asigna el user history al Flujo
+    :param userhistory_id: id del User History que sera cambiado de actividad
+    :return: cambiar_actividad.html, pagina en la cual se cambia de actividad al user history
     """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
