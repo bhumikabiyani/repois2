@@ -427,6 +427,14 @@ class UserTestCase(TestCase):
         # Check.
         self.assertEqual(response.status_code, 200)
 
+    def testCambiar_Estado_Kanban_View(self):
+        request = RequestFactory().get('/userhistory')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre="US1")
+        request.user = user
+        response = cambiar_estados(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == "__main__":
