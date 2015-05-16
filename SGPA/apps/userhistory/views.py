@@ -11,6 +11,8 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.userhistory.forms import *
 from SGPA.apps.flujo.models import *
 from SGPA.apps.userhistory.helper import *
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 # Create your views here.
 
 @login_required
@@ -301,6 +303,14 @@ def agregar_comentario(request, userhistory_id):
             comment.userhistory = us
             comment.save()
             registrar_log(us,"Comentario ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"})",user)
+            #---Enviar Correo----#
+            contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'comentario':comment.descripcion})
+            correo = EmailMessage('Notificacion de SGPA', contenido, to=[us.encargado.email])
+            correo.content_subtype = "html"
+            correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = AddCommentForm(us)
@@ -334,6 +344,13 @@ def asignar_encargado_userhistory(request, userhistory_id):
             actual.encargado = User.objects.get(username = userEncargado)
             actual.save()
             registrar_log(actual,"Asignacion de Encargado: "+actual.encargado.username,user)
+            #---Enviar Correo----#
+            contenido = render_to_string('mailing/asignar_userstory.html',{'ustorie': actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo})
+            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+            correo.content_subtype = "html"
+            correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = AsignarEncargadoUSForm(proyecto.id)
