@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block navegacion %}
+    <span class="element-divider"></span>
+    <a class="element" href="{% url 'sigma:inicio' %}">P&aacute;gina Principal</a>
+    <a class="element" href="{% url 'sigma:des_proyec' %}">Proyectos</a>
+    <a class="element" href="{% url 'sigma:adm_fase' item.tipoItems.fase.proyecto.pk %}">Fase</a>
+    <a class="element" href="{% url 'sigma:adm_i' item.tipoItems.fase.pk %}">&Iacute;tem</a>
+    <a class="pull-menu" href="#"></a>
+{% endblock %}
+{% block titulo %}Archivos del item {{ item.nombre }}{% endblock %}
+{% block contenido %}
+    {% load sigma_system_tags %}
+    <div class="span10">
+        <h2><a href="#"></a>Administrador<small class="on-right">de Archivos del &Iacute;tem</small> {{ item.nombre }}</h2>
+        <div class="example">
+            <a href="#">
+                <button type="button" class="command-button primary" onclick="agregar('{% url 'sigma:adm_arch_alta' item.pk %}');"><!id="botonAgregarArchivo">
+                    <i class="icon-new on-left"></i><b>Agregar</b>
+                    <small>Archivo</small>
+                </button>
+            </a>
+            <table class="table striped hovered dataTable" id="tablaFase">
+                <thead>
+                     <tr>
+                         <th class="text-left">Nombre</th>
+                         <th class="text-left">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for archivo in archivos %}
+                        <tr>
+                            <td class="right" width>{{ archivo.archivo_adj.name }}</td>
+                            <td align="center">
+                                <div class="span8">
+                                    <nav class="navigation-bar transparente">
+                                        <div class="navigation-bar-content">
+                                            <ul class="element-menu">
+                                                <li>
+                                                    <a class="dropdown-toggle" href="#"><i class="icon-cog"></i></a>
+                                                    <ul class="dropdown-menu" data-role="dropdown">
+                                                        <li class="text-left " onclick="confirmar('{% url 'sigma:adm_arch_baja' item.pk archivo.pk %}', '{{ archivo.pk }}')"><a id="botBaja{{ archivo.pk }}" >
+                                                            <i class="icon-remove on-left"></i>Eliminar</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                <script>
+                    function confirmar(urlAux, idA){
+                        var csrftoken = getCookie('csrftoken');
+                            $("#botBaja"+idA).on('click', function(){
+                                $.Dialog({
+                                    shadow: true,
+                                    overlay: true,
+                                    flat: true,
+                                    draggable: true,
+                                    icon: '<span class="icon-bus"></span>',
+                                    title: 'Draggable window',
+                                    width: 500,
+                                    padding: 10,
+                                    content: 'This Window is draggable by caption.',
+                                    onShow: function(){
+                                        var content = '<form method="post" action="'+urlAux+'">' +
+                                                '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrftoken+'">'+
+                                                '<p>¿Est&aacute; seguro de querer eliminar esta archivo?</p>' +
+                                                '<input type="submit" value="S&iacute;">' +
+                                                '<a href="#"><input type="button" class="button inverse" value="No" onclick="$.Dialog.close();"></a>'+
+                                                '</form>';
+                                        $.Dialog.title("Confirmar Eliminaci&oacute;n");
+                                        $.Dialog.content(content);
+                                    }
+                                });
+                            });}
+                        </script>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-left">Nombre</th>
+                        <th class="text-left">Editar</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <script>
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+                $(document).ready(function() {
+                    $('#tablaFase').dataTable( {
+                        "oLanguage": {
+                            "sUrl": "/static/MetroBoostrap/data/spanish.txt"
+                        }
+                    } );
+                } );
+                function agregar(urlAgregar){
+                    var csrftoken = getCookie('csrftoken');
+                        //csrftoken = data.csrfmiddlewaretoken;
+                        $.Dialog({
+                            shadow: true,
+                            overlay: true,
+                            flat: true,
+                            draggable: true,
+                            icon: '<span class="icon-bus"></span>',
+                            title: 'Draggable window',
+                            width: 500,
+                            padding: 10,
+                            content: 'This Window is draggable by caption.',
+                            onShow: function(){
+                                var content1 = '<form method="post" action="'+urlAgregar+'" enctype="multipart/form-data">' +
+                                        '<p>Seleccione el archivo</p>' +
+                                        '<input type="hidden" name="csrfmiddlewaretoken" value="'+csrftoken+'">'+
+                                        '<div>'+
+                                        '<input type="file" required="true" name="arch" value="Seleccionar archivo">'+
+                                        ''+
+                                        '</div>'+
+                                        '<div><input type="submit" class="button success" value="S&iacute;">' +
+                                        '<a href="#"><input type="button" class="button inverse" value="No" onclick="$.Dialog.close();"></a></div>'+
+                                        '</form>';
+                                $.Dialog.title("Confirmar Eliminaci&oacute;n");
+                                $.Dialog.content(content1);
+                            }
+                        });
+                }
+            </script>
+        </div>
+    </div>
+{% endblock %}

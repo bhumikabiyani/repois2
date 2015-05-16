@@ -207,6 +207,14 @@ def mod_user_history(request, userhistory_id):
             # actual.sprint = Sprint.objects.get(nombre=form.cleaned_data['sprint'])
             actual.save()
             registrar_log(actual,"Modificacion",user)
+             #---Enviar Correo----#
+            contenido = render_to_string('mailing/modificar_userstorie.html',{'ustorie':actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'estado':actual.estado})
+            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+            correo.content_subtype = "html"
+            correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = ModUserHistoryForm(proyecto.id)
@@ -385,6 +393,14 @@ def asignar_sprint_userhistory(request, userhistory_id):
             actual.estado = "iniciado"
             actual.save()
             registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
+             #---Enviar Correo----#
+            contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'sprint':sprint})
+            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+            correo.content_subtype = "html"
+            correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = AsignarSprintUSForm(proyecto.id)
@@ -421,6 +437,14 @@ def asignar_flujo_userhistory(request, userhistory_id):
             actual.estadokanban = 'To do'
             actual.save()
             registrar_log(actual,"Asignacion de Flujo: "+actual.flujo.nombre,user)
+             #---Enviar Correo----#
+            contenido = render_to_string('mailing/asignar_flujo.html',{'ustorie': actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'flujo':flujo})
+            correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+            correo.content_subtype = "html"
+            correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = AsignarFlujoUSForm(proyecto.id)
@@ -431,10 +455,7 @@ def asignar_flujo_userhistory(request, userhistory_id):
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
 
-
-@login_required
 def archivos_adjuntos(request, userhistory_id):
-
     user = User.objects.get(username=request.user.username)
     us = get_object_or_404( UserHistory, id = userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
@@ -449,20 +470,12 @@ def archivos_adjuntos(request, userhistory_id):
     print permisos
     #-------------------------------------------------------------------
     if request.method == 'POST':
-        form = ArchivosAdjuntosForm(us, request.POST, request.FILES)
+        form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
         if form.is_valid():
-            adjunto = ArchivosAdjuntos()
-            adjunto.nombre = form.cleaned_data['nombre']
-            adjunto.docfile = form.cleaned_data['docfile']
-            adjunto.userhistory = us
-            adjunto.save()
-            registrar_log(us,"Se agrego el Archivo Adjunto: "+adjunto.nombre,user)
-            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+        	newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
+        	newdoc.save(form)
+        	return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
     else:
         form = ArchivosAdjuntosForm(us)
+    return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us})
 
-    return render_to_response('userhistory/archivos_adjuntos.html',{'form':form,
-                                                        'user':user,
-                                                        'userhistory': us,
-                                                        #'archivos_adjuntos':'archivos adjuntos' in permisos
-                                                         })

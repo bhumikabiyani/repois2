@@ -141,7 +141,7 @@ class AsignarFlujoUSForm(forms.Form):
 
 class ArchivosAdjuntosForm(forms.Form):
     nombre = forms.CharField(max_length=500, label='NOMBRE')
-    docfile = forms.FileField(required=False, label='DOCUMENTO')
+    docfile = forms.FileField(label='SELECCIONA UN ARCHIVO')
 
     def __init__(self, userhistory, *args, **kwargs):
         super(ArchivosAdjuntosForm, self).__init__(*args, **kwargs)
