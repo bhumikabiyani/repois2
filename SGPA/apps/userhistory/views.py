@@ -546,3 +546,52 @@ def cambiar_estados(request, userhistory_id):
                                                                      'userhistory': actual,
                                                                      'asignar_encargado':'asignar encargado' in permisos
 						     })
+
+
+def cambiar_actividad(request, userhistory_id):
+    """
+    Metodo en el cual se asigna el user history al Flujo
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History que sera asignado al Flujo
+    :return: asignar_flujo.html, pagina en la cual se asigna el user history al Flujo
+    """
+    user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+
+    #-------------------------------------------------------------------
+
+    if request.method == 'POST':
+        form = CambiarActividadUSForm(proyecto.id, request.POST)
+        if form.is_valid():
+            actividad = form.cleaned_data['actividad']
+            actual.actividad = Actividad.objects.get(nombre = actividad)
+            actual.estadokanban = "to-do"
+            actual.save()
+            registrar_log(actual,"Cambio de Actividad: "+actual.actividad.nombre,user)
+             #---Enviar Correo----#
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/asignar_flujo.html',{'ustorie': actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'actividad':actividad})
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
+            #-------------------#
+            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+    else:
+        form = CambiarActividadUSForm(proyecto.id)
+        form.fields['actividad'].initial = actual.actividad
+    return render_to_response("userhistory/cambiar_actividad.html", {'user':user,
+                                                                     'form':form,
+                                                                     'userhistory': actual,
+                                                                     'asignar_flujo':'asignar flujo a us' in permisos
+						     })

@@ -158,3 +158,16 @@ class ArchivosAdjuntosForm(forms.Form):
 
 class CambiarEstadosUSForm(forms.Form):
     estadokanban = forms.CharField(widget=forms.Select(choices=ESTADO_KANBAN))
+
+class CambiarActividadUSForm(forms.Form):
+    actividad = forms.ModelChoiceField(queryset=Actividad.objects.filter())
+
+    def __init__(self, proyecto, *args, **kwargs):
+        super(CambiarActividadUSForm, self).__init__(*args, **kwargs)
+        self.proyecto = proyecto
+        fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
+        listAct = []
+        for i in fap:
+            if not i.actividad.id in listAct:
+                listAct.append(i.actividad.id)
+        self.fields['actividad'].queryset = Actividad.objects.filter(Q(id__in = listAct))
