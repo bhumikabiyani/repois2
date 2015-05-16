@@ -26,6 +26,7 @@ def index_view(request):
     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
     :return: index.html, pagina principal
     """
+
     return render_to_response('home/index.html', context_instance=RequestContext(request))
 
 def login_view(request):

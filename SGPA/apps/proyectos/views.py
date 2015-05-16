@@ -598,13 +598,13 @@ def visualizar_kanban(request, flujo_id, proyecto_id):
                 if nombreAct == 'BACKLOG':
                     dictKanban[nombreAct][rec.id][0] = str(rec.nombre)
                     break
-                if rec.estadokanban == 'To do':
+                if rec.estadokanban == 'to-do':
                     dictKanban[nombreAct][rec.id][cont] = str(rec.nombre)
                     break
-                elif rec.estadokanban == 'Doing':
+                elif rec.estadokanban == 'doing':
                     dictKanban[nombreAct][rec.id][cont+1] = str(rec.nombre)
                     break
-                elif rec.estadokanban == 'Done':
+                elif rec.estadokanban == 'done':
                     dictKanban[nombreAct][rec.id][cont+2] = str(rec.nombre)
                     break
             cont += 1

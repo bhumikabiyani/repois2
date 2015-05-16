@@ -105,9 +105,11 @@
             {% if add_comment %}
 				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
             {% endif %}
-
+            {% if adjuntar_archivos %}
 				<a class="btn btn-primary" href="/archivosAdjuntos/adjuntos&id={{userhistory.id}}/"><strong>ADJUNTAR ARCHIVOS</strong></a>
-
+            {% endif %}
+                <a class="btn btn-primary" href="/cambiarEstados/us&id={{userhistory.id}}/"><strong>CAMBIAR ESTADO KANBAN</strong></a>
+               <a class="btn btn-primary" href="/cambiarActividad/us&id={{userhistory.id}}/"><strong>CAMBIAR ACTIVIDAD KANBAN</strong></a>
 			   </td><br><br>
 		<a class="btn btn-primary" href="/userHistory/proyecto&id={{userhistory.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
 

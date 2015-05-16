@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %} Cambiar Actividad en Kanban de User History{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> CAMBIAR ACTIVIDAD KANBAN DEL "{{ userhistory.nombre }}"</h3></font></strong></center><br>
+
+<form action="." method="POST">
+	{% csrf_token %}
+	<center><table>
+	{{ form.as_table }}
+	</table><br><br>
+	<button class="btn btn-primary" type="submit"> GUARDAR </button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verUserHistory/ver&id={{userhistory.id}}/' "/></center>
+</form>
+{% endblock%}
