@@ -50,8 +50,9 @@
     <table class="table table-bordered">
 	      <thead>
 	        <tr>
-	             <th class="titulo"><b><strong><span style="color:#330099">ASUNTO</span></strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">COMENTARIO</span></strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">TRABAJO</span></strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</span></strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">HORAS</span></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
@@ -59,6 +60,7 @@
              <tr>
                  <td><strong>{{comment.asunto}}</strong></td>
                  <td><strong>{{comment.descripcion}}</strong></td>
+                 <td><strong>{{comment.horas}}</strong></td>
              </tr>
 
          {% endfor %}
@@ -103,7 +105,7 @@
 				<a class="btn btn-primary" href="/flujoUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR A FLUJO</strong></a>
             {% endif %}
             {% if add_comment %}
-				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
+				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR TRABAJO</strong></a>
             {% endif %}
 
 				<a class="btn btn-primary" href="/archivosAdjuntos/adjuntos&id={{userhistory.id}}/"><strong>ADJUNTAR ARCHIVOS</strong></a>

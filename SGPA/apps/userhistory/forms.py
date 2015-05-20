@@ -88,6 +88,7 @@ class ModUserHistoryForm(forms.Form):
 class AddCommentForm(forms.Form):
     asunto = forms.CharField(max_length=500, label='ASUNTO')
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    horas = forms.IntegerField(label='HORAS')
     #tipo_item = forms.ModelChoiceField(queryset=TipoItem.objects.all(), label='TIPO DE ITEM')
 
     def __init__(self, userhistory, *args, **kwargs):

@@ -321,8 +321,9 @@ def agregar_comentario(request, userhistory_id):
             comment.asunto = form.cleaned_data['asunto']
             comment.descripcion = form.cleaned_data['descripcion']
             comment.userhistory = us
+            comment.horas = form.cleaned_data['horas']
             comment.save()
-            registrar_log(us,"Comentario ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"})",user)
+            registrar_log(us,"Trabajo ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"} {Horas: "+comment.horas+"})",user)
             #---Enviar Correo----#
             if us.encargado != None:
                 contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
