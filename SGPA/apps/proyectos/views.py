@@ -174,11 +174,15 @@ def visualizar_proyectos(request, proyecto_id):
     print permisosProy
     lista = User.objects.all().order_by("id")
     print proyecto.flujos
+    proyPend = False
+    if proyecto.estado == 1:
+        proyPend = True
     ctx = {'lista': lista,
            'proyecto': proyecto,
            'status': status,
            'miembros': userRolProy,
            'flujos': flujos,
+           'proyPend': proyPend,
            'ver_proyectos': 'ver proyectos' in permisosSys,
            'crear_proyecto': 'crear proyecto' in permisosSys,
            'mod_proyecto': 'modificar proyecto' in permisosProy,
@@ -428,7 +432,6 @@ def asignar_actividad_proy(request, flujo_id, proyecto_id):
                                                                   })
 
 def ver_actividades_proyecto(request, flujo_id, proyecto_id):
-    """Visualiza Datos de un Proyecto y muestra las operaciones que puede ejecutar"""
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     flujo = get_object_or_404(Flujo, id=flujo_id)
     user = User.objects.get(username=request.user.username)
@@ -459,9 +462,13 @@ def ver_actividades_proyecto(request, flujo_id, proyecto_id):
     else:
         actDict = None
     lista = User.objects.all().order_by("id")
+    proyPend = False
+    if proyecto.estado == 1:
+        proyPend = True
     ctx = {'flujo':flujo,
            'proyecto':proyecto,
            'actividades':actDict,
+           'proyPend':proyPend,
            'ultActividad':ultActividad,
            'ver_flujo': 'ver flujo' in permisos,
            'asignar_actividades_proyecto': 'asignar actividades proyecto' in permisos

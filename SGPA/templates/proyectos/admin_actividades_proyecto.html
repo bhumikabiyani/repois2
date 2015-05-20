@@ -21,10 +21,10 @@
                          <th><strong><span style="color:#111111">{{valueA.1}}</span></strong></th>
                          <th><strong><span style="color:#111111">{{keyO}}</span></strong></th>
 
-                         <th>{% if keyO > 1 %}
+                         <th>{% if keyO > 1 and proyPend%}
                             <a class="btn btn-primary" href="/subirActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>SUBIR</strong></a>
                          {% endif %}
-                         {% if keyO < ultActividad %}
+                         {% if keyO < ultActividad and proyPend%}
                             <a class="btn btn-primary" href="/bajarActividadProy/flujo&id={{flujo.id}}&&actividad&id={{keyA}}&&proyecto&id={{proyecto.id}}/"><strong>BAJAR</strong></a>
                          {% endif %}</th>
                      </tr>
@@ -38,8 +38,9 @@
       <div class="footer">
            <div class="volver">
                  <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-                 <a class="btn btn-primary" href="/asignarActividadProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ASIGNAR ACTIVIDADES</strong></a></td>
-
+               {% if asignar_actividades_proyecto and proyPend%}
+                    <a class="btn btn-primary" href="/asignarActividadProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ASIGNAR ACTIVIDADES</strong></a></td>
+               {% endif %}
 	</div>
      </div>
 {% else %}

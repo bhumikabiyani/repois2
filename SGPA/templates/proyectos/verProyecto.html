@@ -56,7 +56,7 @@
                  {%if miembro.rol.nombre == 'team leader'%}
                  <td><a><strong> </strong></a></td>
                  {%endif%}
-                 {%if eliminar_miembro and miembro.rol.nombre != 'team leader'%}
+                 {%if eliminar_miembro and miembro.rol.nombre != 'team leader' and proyPend%}
                  <td><a class="btn btn-primary" href="/eliminarMiembro/del&id={{miembro.id}}/"><strong>ELIMINAR</strong></a></td>
                  {% endif %}
              </tr>
@@ -107,13 +107,13 @@
 			<!--{% if eliminar_proyecto %}-->
                       <!--<a class="btn btn-primary" href="/eliminarProyecto/del&id={{proyecto.id}}/"><strong>ELIMINAR</strong></a>-->
 			<!--{% endif %}			-->
-			{% if mod_proyecto %}
+			{% if mod_proyecto and proyPend%}
 				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
-			{% if asignar_miembros%}
+			{% if asignar_miembros and proyPend%}
 			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>
 			{% endif %}
-            {% if asignar_flujo%}
+            {% if asignar_flujo and proyPend%}
 			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>
 			{% endif %}
 			   </td><br><br>

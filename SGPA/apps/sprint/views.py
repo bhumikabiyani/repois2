@@ -72,12 +72,15 @@ def admin_sprint(request,proyecto_id):
                 pag = paginator.page(page)
             except (EmptyPage, InvalidPage):
                 pag = paginator.page(paginator.num_pages)
+            proyPend = False
+            if proyecto.estado == 1:
+                proyPend = True
             return render_to_response('sprint/sprint.html',{'lista':lista, 'form': form,
-
-                                                        'user':user,
-                                                        'proyecto':proyecto,
-                                                        'pag': pag,
-                                                        'ver_sprint':'ver sprint' in permisos,
+                                                            'user':user,
+                                                            'proyecto':proyecto,
+                                                            'proyPend':proyPend,
+                                                            'pag': pag,
+                                                            'ver_sprint':'ver sprint' in permisos,
 							'crear_sprint':'crear sprint' in permisos
                                                         })
     else:
@@ -94,9 +97,13 @@ def admin_sprint(request,proyecto_id):
         except (EmptyPage, InvalidPage):
             pag = paginator.page(paginator.num_pages)
         form = FilterForm(initial={'paginas': paginas})
+    proyPend = False
+    if proyecto.estado == 1:
+        proyPend = True
     return render_to_response('sprint/sprint.html',{'lista':lista, 'form':form,
                                                             'user':user,
                                                             'proyecto':proyecto,
+                                                            'proyPend':proyPend,
 							    'pag': pag,
                                                             'ver_sprint':'ver sprint' in permisos,
 							    'crear_sprint':'crear sprint' in permisos
