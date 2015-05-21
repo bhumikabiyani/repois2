@@ -19,6 +19,7 @@ from django.contrib import *
 from django.template.loader import get_template
 from django.forms.formsets import formset_factory
 from SGPA.apps.proyectos.forms import *
+from SGPA.apps.proyectos.forms import *
 from SGPA.apps.proyectos.models import *
 from SGPA.apps.proyectos.helper import *
 
