@@ -50,21 +50,25 @@
                 {%for key2,listanombre in uss.items%}
                     <tr>
                         {%for rec in listanombre%}
-                        <td><div class="btn-group">
-                        <button type="button" class="btn btn-primary">{{rec}}</button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only"></span>
-                        </button>
-                            <ul class="dropdown-menu" role="menu">
-                            <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
-                                <li class="divider"></li>
-                            <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
-                                <li class="divider"></li>
-                            <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
-                                <li class="divider"></li>
-                            <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
-                            </ul>
-                        </div></td>
+                            {%if rec%}
+                                <td><div class="btn-group">
+                                <a href="/verUserHistory/ver&id={{key2}}/"><span style="color:#2702E1"><button type="button" class="btn btn-primary" >{{rec}}</button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
+                                <span class="caret"></span>
+                                <span class="sr-only"></span>
+                                </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
+                                        <li class="divider"></li>
+                                    <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
+                                        <li class="divider"></li>
+                                    <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
+                                        <li class="divider"></li>
+                                    <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
+                                    </ul>
+                                </div></td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
