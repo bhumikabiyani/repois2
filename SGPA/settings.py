@@ -39,7 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'SGPA.apps.home',
     'SGPA.apps.usuario',
-    'datetimewidget'
+    'datetimewidget',
+    'db_file_storage'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -71,6 +72,9 @@ DATABASES = {
 	    'PORT': '5432',
     }
 }
+
+
+DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

@@ -8,6 +8,7 @@ import datetime
 import django
 django.setup()
 from django.forms.widgets import *
+from db_file_storage.form_widgets import DBClearableFileInput
 
 class FilterForm(forms.Form):
     """
@@ -143,6 +144,8 @@ class ArchivosAdjuntosForm(forms.Form):
     nombre = forms.CharField(max_length=500, label='NOMBRE')
     docfile = forms.FileField(label='SELECCIONA UN ARCHIVO')
 
+
+
     def __init__(self, userhistory, *args, **kwargs):
         super(ArchivosAdjuntosForm, self).__init__(*args, **kwargs)
         self.us = userhistory
@@ -171,3 +174,12 @@ class CambiarActividadUSForm(forms.Form):
             if not i.actividad.id in listAct:
                 listAct.append(i.actividad.id)
         self.fields['actividad'].queryset = Actividad.objects.filter(Q(id__in = listAct))
+
+class ConsoleForm(forms.ModelForm):
+
+    class Meta:
+        model = Console
+        exclude = []
+        widgets = {
+            'picture': DBClearableFileInput
+        }

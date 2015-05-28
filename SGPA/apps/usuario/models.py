@@ -1,6 +1,7 @@
 # -*- coding: iso-8859-15 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from db_file_storage.model_utils import delete_file, delete_file_if_needed
 
 CATEGORY_CHOICES = (
     ('1', 'Rol de Sistema'),
@@ -223,3 +224,20 @@ class Comentarios(models.Model):
 
     def __unicode__(self):
         return self.asunto
+
+class ConsolePicture(models.Model):
+    bytes = models.TextField()
+    filename = models.CharField(max_length=255)
+    mimetype = models.CharField(max_length=50)
+
+class Console(models.Model):
+    name = models.CharField(max_length=100)
+    picture = models.ImageField(upload_to='console.ConsolePicture/bytes/filename/mimetype', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        delete_file_if_needed(self, 'picture')
+        super(Console, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        super(Console, self).delete(*args, **kwargs)
+        delete_file(self, 'picture')
