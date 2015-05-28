@@ -304,6 +304,7 @@ def agregar_comentario(request, userhistory_id):
     user = User.objects.get(username=request.user.username)
     us = get_object_or_404( UserHistory, id = userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
+
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
     permisos_obj = []
@@ -312,7 +313,7 @@ def agregar_comentario(request, userhistory_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
+
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = AddCommentForm(us, request.POST, request.FILES)
@@ -321,8 +322,9 @@ def agregar_comentario(request, userhistory_id):
             comment.asunto = form.cleaned_data['asunto']
             comment.descripcion = form.cleaned_data['descripcion']
             comment.userhistory = us
+            comment.horas = form.cleaned_data['horas']
             comment.save()
-            registrar_log(us,"Comentario ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"})",user)
+            #registrar_log(us,"Trabajo ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"} {Horas: "+comment.horas+"})",user)
             #---Enviar Correo----#
             if us.encargado != None:
                 contenido = render_to_string('mailing/agregar_comentario.html',{'ustorie': us.nombre,
@@ -332,7 +334,7 @@ def agregar_comentario(request, userhistory_id):
                 correo.content_subtype = "html"
                 correo.send()
             #-------------------#
-            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
     else:
         form = AddCommentForm(us)
 
@@ -504,7 +506,7 @@ def archivos_adjuntos(request, userhistory_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
+
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
@@ -512,12 +514,18 @@ def archivos_adjuntos(request, userhistory_id):
             newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
             newdoc.save(form)
             registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
-        return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+        return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
     else:
         form = ArchivosAdjuntosForm(us)
     return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
 
 def cambiar_estados(request, userhistory_id):
+    """
+    Metodo en el cual se cambia de estado kanban al us
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History que sera cambiado de estado
+    :return: cambiar_estados.html, pagina en la cual se cambia de estado al user history
+    """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
@@ -538,7 +546,7 @@ def cambiar_estados(request, userhistory_id):
             actual.estadokanban =form.cleaned_data['estadokanban']
             actual.save()
             registrar_log(actual,"Cambio de Estado: "+actual.estadokanban,user )
-            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = CambiarEstadosUSForm()
         form.fields['estadokanban'].initial = actual.estadokanban
@@ -551,14 +559,15 @@ def cambiar_estados(request, userhistory_id):
 
 def cambiar_actividad(request, userhistory_id):
     """
-    Metodo en el cual se asigna el user history al Flujo
+    Metodo en el cual se cambia de actividad al us
     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
-    :param userhistory_id: id del User History que sera asignado al Flujo
-    :return: asignar_flujo.html, pagina en la cual se asigna el user history al Flujo
+    :param userhistory_id: id del User History que sera cambiado de actividad
+    :return: cambiar_actividad.html, pagina en la cual se cambia de actividad al user history
     """
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    userhistory = UserHistory.objects.get(id = userhistory_id)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     permisos_obj = []
@@ -571,7 +580,7 @@ def cambiar_actividad(request, userhistory_id):
     #-------------------------------------------------------------------
 
     if request.method == 'POST':
-        form = CambiarActividadUSForm(proyecto.id, request.POST)
+        form = CambiarActividadUSForm(userhistory.id, request.POST)
         if form.is_valid():
             actividad = form.cleaned_data['actividad']
             actual.actividad = Actividad.objects.get(nombre = actividad)
@@ -587,12 +596,21 @@ def cambiar_actividad(request, userhistory_id):
                 correo.content_subtype = "html"
                 correo.send()
             #-------------------#
-            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(userhistory.proyecto.id))
+
     else:
-        form = CambiarActividadUSForm(proyecto.id)
+        form = CambiarActividadUSForm(userhistory.id)
         form.fields['actividad'].initial = actual.actividad
     return render_to_response("userhistory/cambiar_actividad.html", {'user':user,
                                                                      'form':form,
                                                                      'userhistory': actual,
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
+
+def finalizar_userhistory(request, userhistory_id):
+
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    actual.estado = 'finalizado'
+    actual.save()
+    return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))

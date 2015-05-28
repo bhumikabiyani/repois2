@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'SGPA.apps.home',
     'SGPA.apps.usuario',
+    'datetimewidget'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,7 +82,7 @@ SITE_ID = 1
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 

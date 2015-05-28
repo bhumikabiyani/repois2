@@ -72,12 +72,15 @@ def admin_sprint(request,proyecto_id):
                 pag = paginator.page(page)
             except (EmptyPage, InvalidPage):
                 pag = paginator.page(paginator.num_pages)
+            proyPend = False
+            if proyecto.estado == 1:
+                proyPend = True
             return render_to_response('sprint/sprint.html',{'lista':lista, 'form': form,
-
-                                                        'user':user,
-                                                        'proyecto':proyecto,
-                                                        'pag': pag,
-                                                        'ver_sprint':'ver sprint' in permisos,
+                                                            'user':user,
+                                                            'proyecto':proyecto,
+                                                            'proyPend':proyPend,
+                                                            'pag': pag,
+                                                            'ver_sprint':'ver sprint' in permisos,
 							'crear_sprint':'crear sprint' in permisos
                                                         })
     else:
@@ -94,9 +97,13 @@ def admin_sprint(request,proyecto_id):
         except (EmptyPage, InvalidPage):
             pag = paginator.page(paginator.num_pages)
         form = FilterForm(initial={'paginas': paginas})
+    proyPend = False
+    if proyecto.estado == 1:
+        proyPend = True
     return render_to_response('sprint/sprint.html',{'lista':lista, 'form':form,
                                                             'user':user,
                                                             'proyecto':proyecto,
+                                                            'proyPend':proyPend,
 							    'pag': pag,
                                                             'ver_sprint':'ver sprint' in permisos,
 							    'crear_sprint':'crear sprint' in permisos
@@ -153,7 +160,7 @@ def visualizar_sprint(request, sprint_id):
     """
         sprint = get_object_or_404(Sprint, id=sprint_id)
         US = UserHistory.objects.filter(sprint = sprint_id)
-        capSem = necesidad = 0
+        capSem = necesidad = consumidas = 0
         sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
         laborales = [dia for dia in range(7) if dia not in sabdom]
         totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
@@ -168,6 +175,10 @@ def visualizar_sprint(request, sprint_id):
         capacidad = capSem * duracionSprintSem
         for i in US:
             necesidad += i.tiempo_estimado
+            trabajos = Comentarios.objects.filter(userhistory = i)
+            for usTrabajo in trabajos:
+                consumidas += usTrabajo.horas
+        disponibles = capacidad - consumidas
         user=  User.objects.get(username=request.user.username)
         userhistories = UserHistory.objects.filter(proyecto = sprint.proyecto, sprint = sprint)
         permisos = get_permisos_sistema(user)
@@ -177,6 +188,8 @@ def visualizar_sprint(request, sprint_id):
                'userhistories': userhistories,
                'capacidad' : capacidad,
                'necesidad' : necesidad,
+               'disponibles' : disponibles,
+               'consumidas' : consumidas,
                'duracionSprint': duracionSprintSem,
                'ver_sprint': 'ver sprint' in permisos,
                'crear_sprint': 'crear sprint' in permisos,

@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SGPA.widgets</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SGPA-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SGPA-module.html">Package&nbsp;SGPA</a> ::
+        Module&nbsp;widgets
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SGPA.widgets-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SGPA.widgets-module.html">Module SGPA.widgets</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-name">__author__</tt> <tt class="py-op">=</tt> <tt class="py-docstring">'Alfredo Saglimbeni'</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">datetime</tt> <tt class="py-keyword">import</tt> <tt class="py-name">datetime</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">re</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">uuid</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module SGPA.apps.actividades.forms=SGPA.apps.actividades.forms-module.html,Module SGPA.apps.flujo.forms=SGPA.apps.flujo.forms-module.html,Module SGPA.apps.home.forms=SGPA.apps.home.forms-module.html,Module SGPA.apps.proyectos.forms=SGPA.apps.proyectos.forms-module.html,Module SGPA.apps.roles.forms=SGPA.apps.roles.forms-module.html,Module SGPA.apps.sprint.forms=SGPA.apps.sprint.forms-module.html,Module SGPA.apps.userhistory.forms=SGPA.apps.userhistory.forms-module.html,Module SGPA.apps.usuario.forms=SGPA.apps.usuario.forms-module.html"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-0', 'forms', 'link-0');">forms</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-1', 'forms', 'link-0');">forms</a></tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name" targets="Variable SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets=SGPA.apps.proyectos.forms.ProyectoForm.Meta-class.html#widgets,Variable SGPA.apps.sprint.forms.SprintForm.Meta.widgets=SGPA.apps.sprint.forms.SprintForm.Meta-class.html#widgets,Module SGPA.widgets=SGPA.widgets-module.html"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
+SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-2', 'widgets', 'link-2');">widgets</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-3', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
+SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-4', 'widgets', 'link-2');">widgets</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">MultiWidget</tt><tt class="py-op">,</tt> <tt class="py-name">DateTimeInput</tt><tt class="py-op">,</tt> <tt class="py-name">DateInput</tt><tt class="py-op">,</tt> <tt class="py-name">TimeInput</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">utils</tt><tt class="py-op">.</tt><tt class="py-name">formats</tt> <tt class="py-keyword">import</tt> <tt class="py-name">get_format</tt><tt class="py-op">,</tt> <tt class="py-name">get_language</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">utils</tt><tt class="py-op">.</tt><tt class="py-name">safestring</tt> <tt class="py-keyword">import</tt> <tt class="py-name">mark_safe</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">utils</tt><tt class="py-op">.</tt><tt class="py-name">six</tt> <tt class="py-keyword">import</tt> <tt class="py-name">string_types</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line">    <tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-5', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
+SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-6', 'widgets', 'link-2');">widgets</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">to_current_timezone</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">except</tt> <tt class="py-name">ImportError</tt><tt class="py-op">:</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">    <tt class="py-name">to_current_timezone</tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt class="py-name">obj</tt><tt class="py-op">:</tt> <tt class="py-name">obj</tt> <tt class="py-comment"># passthrough, no tz support</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-comment"># This should be updated as more .po files are added to the datetime picker javascript code</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt id="link-7" class="py-name" targets="Variable SGPA.widgets.supported_languages=SGPA.widgets-module.html#supported_languages"><a title="SGPA.widgets.supported_languages" class="py-name" href="#" onclick="return doclink('link-7', 'supported_languages', 'link-7');">supported_languages</a></tt> <tt class="py-op">=</tt> <tt class="py-name">set</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">    <tt class="py-string">'ar'</tt><tt class="py-op">,</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">    <tt class="py-string">'bg'</tt><tt class="py-op">,</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line">    <tt class="py-string">'ca'</tt><tt class="py-op">,</tt> <tt class="py-string">'cs'</tt><tt class="py-op">,</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line">    <tt class="py-string">'da'</tt><tt class="py-op">,</tt> <tt class="py-string">'de'</tt><tt class="py-op">,</tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">    <tt class="py-string">'ee'</tt><tt class="py-op">,</tt> <tt class="py-string">'el'</tt><tt class="py-op">,</tt> <tt class="py-string">'es'</tt><tt class="py-op">,</tt><tt class="py-string">'eu'</tt><tt class="py-op">,</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line">    <tt class="py-string">'fi'</tt><tt class="py-op">,</tt> <tt class="py-string">'fr'</tt><tt class="py-op">,</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-string">'he'</tt><tt class="py-op">,</tt> <tt class="py-string">'hr'</tt><tt class="py-op">,</tt> <tt class="py-string">'hu'</tt><tt class="py-op">,</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line">    <tt class="py-string">'id'</tt><tt class="py-op">,</tt> <tt class="py-string">'is'</tt><tt class="py-op">,</tt> <tt class="py-string">'it'</tt><tt class="py-op">,</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">    <tt class="py-string">'ja'</tt><tt class="py-op">,</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">    <tt class="py-string">'ko'</tt><tt class="py-op">,</tt> <tt class="py-string">'kr'</tt><tt class="py-op">,</tt> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line">    <tt class="py-string">'lt'</tt><tt class="py-op">,</tt> <tt class="py-string">'lv'</tt><tt class="py-op">,</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">    <tt class="py-string">'ms'</tt><tt class="py-op">,</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line">    <tt class="py-string">'nb'</tt><tt class="py-op">,</tt> <tt class="py-string">'nl'</tt><tt class="py-op">,</tt> <tt class="py-string">'no'</tt><tt class="py-op">,</tt> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-string">'pl'</tt><tt class="py-op">,</tt> <tt class="py-string">'pt-BR'</tt><tt class="py-op">,</tt> <tt class="py-string">'pt'</tt><tt class="py-op">,</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt class="py-string">'ro'</tt><tt class="py-op">,</tt> <tt class="py-string">'rs'</tt><tt class="py-op">,</tt> <tt class="py-string">'rs-latin'</tt><tt class="py-op">,</tt> <tt class="py-string">'ru'</tt><tt class="py-op">,</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">    <tt class="py-string">'sk'</tt><tt class="py-op">,</tt> <tt class="py-string">'sl'</tt><tt class="py-op">,</tt> <tt class="py-string">'sv'</tt><tt class="py-op">,</tt> <tt class="py-string">'sw'</tt><tt class="py-op">,</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">    <tt class="py-string">'th'</tt><tt class="py-op">,</tt> <tt class="py-string">'tr'</tt><tt class="py-op">,</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-string">'ua'</tt><tt class="py-op">,</tt> <tt class="py-string">'uk'</tt><tt class="py-op">,</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">    <tt class="py-string">'zh-CN'</tt><tt class="py-op">,</tt> <tt class="py-string">'zh-TW'</tt><tt class="py-op">,</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line"> </tt>
+<a name="get_supported_language"></a><div id="get_supported_language-def"><a name="L44"></a><tt class="py-lineno"> 44</tt> <a class="py-toggle" href="#" id="get_supported_language-toggle" onclick="return toggle('get_supported_language');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets-module.html#get_supported_language">get_supported_language</a><tt class="py-op">(</tt><tt class="py-param">language_country_code</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="get_supported_language-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="get_supported_language-expanded"><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">    <tt class="py-docstring">"""Helps us get from django's 'language-countryCode' to the datepicker's 'language' if we</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt class="py-docstring">    possibly can.</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line"><tt class="py-docstring">    If we pass the django 'language_countryCode' through untouched then it might not</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"><tt class="py-docstring">    match an exact language string supported by the datepicker and would default to English which</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt class="py-docstring">    would be worse than trying to match the language part.</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">    <tt class="py-comment"># Catch empty strings in case one sneeks in</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">language_country_code</tt><tt class="py-op">:</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">'en'</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">    <tt class="py-comment"># Check full language &amp; country code against the supported languages as there are dual entries</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">    <tt class="py-comment"># in the list eg. zh-CN (assuming that is a language country code)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">language_country_code</tt> <tt class="py-keyword">in</tt> <tt id="link-8" class="py-name"><a title="SGPA.widgets.supported_languages" class="py-name" href="#" onclick="return doclink('link-8', 'supported_languages', 'link-7');">supported_languages</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">language_country_code</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">    <tt class="py-comment"># Grab just the language part and try that</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">    <tt class="py-name">language</tt> <tt class="py-op">=</tt> <tt class="py-name">language_country_code</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'-'</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">language</tt> <tt class="py-keyword">in</tt> <tt id="link-9" class="py-name"><a title="SGPA.widgets.supported_languages" class="py-name" href="#" onclick="return doclink('link-9', 'supported_languages', 'link-7');">supported_languages</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">language</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">    <tt class="py-comment"># Otherwise return English as the default</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-string">'en'</tt> </tt>
+</div><a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"><tt id="link-10" class="py-name" targets="Variable SGPA.widgets.dateConversiontoPython=SGPA.widgets-module.html#dateConversiontoPython"><a title="SGPA.widgets.dateConversiontoPython" class="py-name" href="#" onclick="return doclink('link-10', 'dateConversiontoPython', 'link-10');">dateConversiontoPython</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">    <tt class="py-string">'P'</tt><tt class="py-op">:</tt> <tt class="py-string">'%p'</tt><tt class="py-op">,</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-string">'ss'</tt><tt class="py-op">:</tt> <tt class="py-string">'%S'</tt><tt class="py-op">,</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-string">'ii'</tt><tt class="py-op">:</tt> <tt class="py-string">'%M'</tt><tt class="py-op">,</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">    <tt class="py-string">'hh'</tt><tt class="py-op">:</tt> <tt class="py-string">'%H'</tt><tt class="py-op">,</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">    <tt class="py-string">'HH'</tt><tt class="py-op">:</tt> <tt class="py-string">'%I'</tt><tt class="py-op">,</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">    <tt class="py-string">'dd'</tt><tt class="py-op">:</tt> <tt class="py-string">'%d'</tt><tt class="py-op">,</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">    <tt class="py-string">'mm'</tt><tt class="py-op">:</tt> <tt class="py-string">'%m'</tt><tt class="py-op">,</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">    <tt class="py-string">'yy'</tt><tt class="py-op">:</tt> <tt class="py-string">'%y'</tt><tt class="py-op">,</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">    <tt class="py-string">'yyyy'</tt><tt class="py-op">:</tt> <tt class="py-string">'%Y'</tt><tt class="py-op">,</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"><tt id="link-11" class="py-name" targets="Variable SGPA.widgets.toPython_re=SGPA.widgets-module.html#toPython_re"><a title="SGPA.widgets.toPython_re" class="py-name" href="#" onclick="return doclink('link-11', 'toPython_re', 'link-11');">toPython_re</a></tt> <tt class="py-op">=</tt> <tt class="py-name">re</tt><tt class="py-op">.</tt><tt class="py-name">compile</tt><tt class="py-op">(</tt><tt class="py-string">r'\b('</tt> <tt class="py-op">+</tt> <tt class="py-string">'|'</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt id="link-12" class="py-name"><a title="SGPA.widgets.dateConversiontoPython" class="py-name" href="#" onclick="return doclink('link-12', 'dateConversiontoPython', 'link-10');">dateConversiontoPython</a></tt><tt class="py-op">.</tt><tt class="py-name">keys</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">r')\b'</tt><tt class="py-op">)</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt id="link-13" class="py-name" targets="Variable SGPA.widgets.dateConversiontoJavascript=SGPA.widgets-module.html#dateConversiontoJavascript"><a title="SGPA.widgets.dateConversiontoJavascript" class="py-name" href="#" onclick="return doclink('link-13', 'dateConversiontoJavascript', 'link-13');">dateConversiontoJavascript</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">    <tt class="py-string">'%M'</tt><tt class="py-op">:</tt> <tt class="py-string">'ii'</tt><tt class="py-op">,</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">    <tt class="py-string">'%m'</tt><tt class="py-op">:</tt> <tt class="py-string">'mm'</tt><tt class="py-op">,</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">    <tt class="py-string">'%I'</tt><tt class="py-op">:</tt> <tt class="py-string">'HH'</tt><tt class="py-op">,</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">    <tt class="py-string">'%H'</tt><tt class="py-op">:</tt> <tt class="py-string">'hh'</tt><tt class="py-op">,</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">    <tt class="py-string">'%d'</tt><tt class="py-op">:</tt> <tt class="py-string">'dd'</tt><tt class="py-op">,</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">    <tt class="py-string">'%Y'</tt><tt class="py-op">:</tt> <tt class="py-string">'yyyy'</tt><tt class="py-op">,</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">    <tt class="py-string">'%y'</tt><tt class="py-op">:</tt> <tt class="py-string">'yy'</tt><tt class="py-op">,</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line">    <tt class="py-string">'%p'</tt><tt class="py-op">:</tt> <tt class="py-string">'P'</tt><tt class="py-op">,</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">    <tt class="py-string">'%S'</tt><tt class="py-op">:</tt> <tt class="py-string">'ss'</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-op">}</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt id="link-14" class="py-name" targets="Variable SGPA.widgets.toJavascript_re=SGPA.widgets-module.html#toJavascript_re"><a title="SGPA.widgets.toJavascript_re" class="py-name" href="#" onclick="return doclink('link-14', 'toJavascript_re', 'link-14');">toJavascript_re</a></tt> <tt class="py-op">=</tt> <tt class="py-name">re</tt><tt class="py-op">.</tt><tt class="py-name">compile</tt><tt class="py-op">(</tt><tt class="py-string">r'(?&lt;!\w)('</tt> <tt class="py-op">+</tt> <tt class="py-string">'|'</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt id="link-15" class="py-name"><a title="SGPA.widgets.dateConversiontoJavascript" class="py-name" href="#" onclick="return doclink('link-15', 'dateConversiontoJavascript', 'link-13');">dateConversiontoJavascript</a></tt><tt class="py-op">.</tt><tt class="py-name">keys</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">r')\b'</tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line"><tt id="link-16" class="py-name" targets="Variable SGPA.widgets.BOOTSTRAP_INPUT_TEMPLATE=SGPA.widgets-module.html#BOOTSTRAP_INPUT_TEMPLATE"><a title="SGPA.widgets.BOOTSTRAP_INPUT_TEMPLATE" class="py-name" href="#" onclick="return doclink('link-16', 'BOOTSTRAP_INPUT_TEMPLATE', 'link-16');">BOOTSTRAP_INPUT_TEMPLATE</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">    <tt class="py-number">2</tt><tt class="py-op">:</tt> <tt class="py-string">"""</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line"><tt class="py-string">       &lt;div id="%(id)s"  class="controls input-append date"&gt;</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"><tt class="py-string">           %(rendered_widget)s</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line"><tt class="py-string">           %(clear_button)s</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line"><tt class="py-string">           &lt;span class="add-on"&gt;&lt;i class="icon-th"&gt;&lt;/i&gt;&lt;/span&gt;</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line"><tt class="py-string">       &lt;/div&gt;</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line"><tt class="py-string">       &lt;script type="text/javascript"&gt;</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"><tt class="py-string">           $("#%(id)s").datetimepicker({%(options)s});</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line"><tt class="py-string">       &lt;/script&gt;</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line"><tt class="py-string">       """</tt><tt class="py-op">,</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">    <tt class="py-number">3</tt><tt class="py-op">:</tt> <tt class="py-string">"""</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line"><tt class="py-string">       &lt;div id="%(id)s" class="input-group date"&gt;</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"><tt class="py-string">           %(rendered_widget)s</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"><tt class="py-string">           %(clear_button)s</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line"><tt class="py-string">           &lt;span class="input-group-addon"&gt;&lt;span class="glyphicon %(glyphicon)s"&gt;&lt;/span&gt;&lt;/span&gt;</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line"><tt class="py-string">       &lt;/div&gt;</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line"><tt class="py-string">       &lt;script type="text/javascript"&gt;</tt> </tt>
+<a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"><tt class="py-string">           $("#%(id)s").datetimepicker({%(options)s}).find('input').addClass("form-control");</tt> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"><tt class="py-string">       &lt;/script&gt;</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line"><tt class="py-string">       """</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">       <tt class="py-op">}</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line"> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line"><tt id="link-17" class="py-name" targets="Variable SGPA.widgets.CLEAR_BTN_TEMPLATE=SGPA.widgets-module.html#CLEAR_BTN_TEMPLATE"><a title="SGPA.widgets.CLEAR_BTN_TEMPLATE" class="py-name" href="#" onclick="return doclink('link-17', 'CLEAR_BTN_TEMPLATE', 'link-17');">CLEAR_BTN_TEMPLATE</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-number">2</tt><tt class="py-op">:</tt> <tt class="py-string">"""&lt;span class="add-on"&gt;&lt;i class="icon-remove"&gt;&lt;/i&gt;&lt;/span&gt;"""</tt><tt class="py-op">,</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line">                      <tt class="py-number">3</tt><tt class="py-op">:</tt> <tt class="py-string">"""&lt;span class="input-group-addon"&gt;&lt;span class="glyphicon glyphicon-remove"&gt;&lt;/span&gt;&lt;/span&gt;"""</tt><tt class="py-op">}</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt id="link-18" class="py-name" targets="Variable SGPA.widgets.quoted_options=SGPA.widgets-module.html#quoted_options"><a title="SGPA.widgets.quoted_options" class="py-name" href="#" onclick="return doclink('link-18', 'quoted_options', 'link-18');">quoted_options</a></tt> <tt class="py-op">=</tt> <tt class="py-name">set</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">    <tt class="py-string">'format'</tt><tt class="py-op">,</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line">    <tt class="py-string">'startDate'</tt><tt class="py-op">,</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">    <tt class="py-string">'endDate'</tt><tt class="py-op">,</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">    <tt class="py-string">'startView'</tt><tt class="py-op">,</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">    <tt class="py-string">'minView'</tt><tt class="py-op">,</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">    <tt class="py-string">'maxView'</tt><tt class="py-op">,</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">    <tt class="py-string">'todayBtn'</tt><tt class="py-op">,</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">    <tt class="py-string">'language'</tt><tt class="py-op">,</tt> </tt>
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">    <tt class="py-string">'pickerPosition'</tt><tt class="py-op">,</tt> </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">    <tt class="py-string">'viewSelect'</tt><tt class="py-op">,</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">    <tt class="py-string">'initialDate'</tt><tt class="py-op">,</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">    <tt class="py-string">'weekStart'</tt><tt class="py-op">,</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">    <tt class="py-string">'minuteStep'</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">    <tt class="py-string">'daysOfWeekDisabled'</tt><tt class="py-op">,</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">    <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"><tt class="py-comment"># to traslate boolean object to javascript</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt id="link-19" class="py-name" targets="Variable SGPA.widgets.quoted_bool_options=SGPA.widgets-module.html#quoted_bool_options"><a title="SGPA.widgets.quoted_bool_options" class="py-name" href="#" onclick="return doclink('link-19', 'quoted_bool_options', 'link-19');">quoted_bool_options</a></tt> <tt class="py-op">=</tt> <tt class="py-name">set</tt><tt class="py-op">(</tt><tt class="py-op">[</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">    <tt class="py-string">'autoclose'</tt><tt class="py-op">,</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">    <tt class="py-string">'todayHighlight'</tt><tt class="py-op">,</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">    <tt class="py-string">'showMeridian'</tt><tt class="py-op">,</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">    <tt class="py-string">'clearBtn'</tt><tt class="py-op">,</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">    <tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line"> </tt>
+<a name="quote"></a><div id="quote-def"><a name="L154"></a><tt class="py-lineno">154</tt> <a class="py-toggle" href="#" id="quote-toggle" onclick="return toggle('quote');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets-module.html#quote">quote</a><tt class="py-op">(</tt><tt class="py-param">key</tt><tt class="py-op">,</tt> <tt class="py-param">value</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="quote-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="quote-expanded"><a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">    <tt class="py-docstring">"""Certain options support string values. We want clients to be able to pass Python strings in</tt> </tt>
+<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"><tt class="py-docstring">    but we need them to be quoted in the output. Unfortunately some of those options also allow</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line"><tt class="py-docstring">    numbers so we type check the value before wrapping it in quotes.</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt id="link-20" class="py-name"><a title="SGPA.widgets.quoted_options" class="py-name" href="#" onclick="return doclink('link-20', 'quoted_options', 'link-18');">quoted_options</a></tt> <tt class="py-keyword">and</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">string_types</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-string">"'%s'"</tt> <tt class="py-op">%</tt> <tt class="py-name">value</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line"> </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">key</tt> <tt class="py-keyword">in</tt> <tt id="link-21" class="py-name"><a title="SGPA.widgets.quoted_bool_options" class="py-name" href="#" onclick="return doclink('link-21', 'quoted_bool_options', 'link-19');">quoted_bool_options</a></tt> <tt class="py-keyword">and</tt> <tt class="py-name">isinstance</tt><tt class="py-op">(</tt><tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">bool</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-op">{</tt><tt class="py-name">True</tt><tt class="py-op">:</tt><tt class="py-string">'true'</tt><tt class="py-op">,</tt><tt class="py-name">False</tt><tt class="py-op">:</tt><tt class="py-string">'false'</tt><tt class="py-op">}</tt><tt class="py-op">[</tt><tt class="py-name">value</tt><tt class="py-op">]</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">value</tt> </tt>
+</div><a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"> </tt>
+<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line"> </tt>
+<a name="PickerWidgetMixin"></a><div id="PickerWidgetMixin-def"><a name="L169"></a><tt class="py-lineno">169</tt> <a class="py-toggle" href="#" id="PickerWidgetMixin-toggle" onclick="return toggle('PickerWidgetMixin');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.widgets.PickerWidgetMixin-class.html">PickerWidgetMixin</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PickerWidgetMixin-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="PickerWidgetMixin-expanded"><a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">    <tt id="link-22" class="py-name" targets="Variable SGPA.widgets.DateTimeWidget.format_name=SGPA.widgets.DateTimeWidget-class.html#format_name,Variable SGPA.widgets.DateWidget.format_name=SGPA.widgets.DateWidget-class.html#format_name,Variable SGPA.widgets.PickerWidgetMixin.format_name=SGPA.widgets.PickerWidgetMixin-class.html#format_name,Variable SGPA.widgets.TimeWidget.format_name=SGPA.widgets.TimeWidget-class.html#format_name"><a title="SGPA.widgets.DateTimeWidget.format_name
+SGPA.widgets.DateWidget.format_name
+SGPA.widgets.PickerWidgetMixin.format_name
+SGPA.widgets.TimeWidget.format_name" class="py-name" href="#" onclick="return doclink('link-22', 'format_name', 'link-22');">format_name</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">    <tt id="link-23" class="py-name" targets="Variable SGPA.widgets.DateTimeWidget.glyphicon=SGPA.widgets.DateTimeWidget-class.html#glyphicon,Variable SGPA.widgets.DateWidget.glyphicon=SGPA.widgets.DateWidget-class.html#glyphicon,Variable SGPA.widgets.PickerWidgetMixin.glyphicon=SGPA.widgets.PickerWidgetMixin-class.html#glyphicon,Variable SGPA.widgets.TimeWidget.glyphicon=SGPA.widgets.TimeWidget-class.html#glyphicon"><a title="SGPA.widgets.DateTimeWidget.glyphicon
+SGPA.widgets.DateWidget.glyphicon
+SGPA.widgets.PickerWidgetMixin.glyphicon
+SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return doclink('link-23', 'glyphicon', 'link-23');">glyphicon</a></tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line"> </tt>
+<a name="PickerWidgetMixin.__init__"></a><div id="PickerWidgetMixin.__init__-def"><a name="L174"></a><tt class="py-lineno">174</tt> <a class="py-toggle" href="#" id="PickerWidgetMixin.__init__-toggle" onclick="return toggle('PickerWidgetMixin.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets.PickerWidgetMixin-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">attrs</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">usel10n</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">bootstrap_version</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PickerWidgetMixin.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="PickerWidgetMixin.__init__-expanded"><a name="L175"></a><tt class="py-lineno">175</tt>  <tt class="py-line"> </tt>
+<a name="L176"></a><tt class="py-lineno">176</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">bootstrap_version</tt> <tt class="py-keyword">in</tt> <tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">,</tt><tt class="py-number">3</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L177"></a><tt class="py-lineno">177</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bootstrap_version</tt> <tt class="py-op">=</tt> <tt class="py-name">bootstrap_version</tt> </tt>
+<a name="L178"></a><tt class="py-lineno">178</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L179"></a><tt class="py-lineno">179</tt>  <tt class="py-line">            <tt class="py-comment"># default 2 to mantain support to old implemetation of django-datetime-widget</tt> </tt>
+<a name="L180"></a><tt class="py-lineno">180</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bootstrap_version</tt> <tt class="py-op">=</tt> <tt class="py-number">2</tt> </tt>
+<a name="L181"></a><tt class="py-lineno">181</tt>  <tt class="py-line"> </tt>
+<a name="L182"></a><tt class="py-lineno">182</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">attrs</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L183"></a><tt class="py-lineno">183</tt>  <tt class="py-line">            <tt class="py-name">attrs</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-string">'readonly'</tt><tt class="py-op">:</tt> <tt class="py-string">''</tt><tt class="py-op">}</tt> </tt>
+<a name="L184"></a><tt class="py-lineno">184</tt>  <tt class="py-line"> </tt>
+<a name="L185"></a><tt class="py-lineno">185</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt> </tt>
+<a name="L186"></a><tt class="py-lineno">186</tt>  <tt class="py-line"> </tt>
+<a name="L187"></a><tt class="py-lineno">187</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">is_localized</tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L188"></a><tt class="py-lineno">188</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">format</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L189"></a><tt class="py-lineno">189</tt>  <tt class="py-line"> </tt>
+<a name="L190"></a><tt class="py-lineno">190</tt>  <tt class="py-line">        <tt class="py-comment"># We want to have a Javascript style date format specifier in the options dictionary and we</tt> </tt>
+<a name="L191"></a><tt class="py-lineno">191</tt>  <tt class="py-line">        <tt class="py-comment"># want a Python style date format specifier as a member variable for parsing the date string</tt> </tt>
+<a name="L192"></a><tt class="py-lineno">192</tt>  <tt class="py-line">        <tt class="py-comment"># from the form data</tt> </tt>
+<a name="L193"></a><tt class="py-lineno">193</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">usel10n</tt> <tt class="py-keyword">is</tt> <tt class="py-name">True</tt><tt class="py-op">:</tt> </tt>
+<a name="L194"></a><tt class="py-lineno">194</tt>  <tt class="py-line">            <tt class="py-comment"># If we're doing localisation, get the local Python date format and convert it to</tt> </tt>
+<a name="L195"></a><tt class="py-lineno">195</tt>  <tt class="py-line">            <tt class="py-comment"># Javascript data format for the options dictionary</tt> </tt>
+<a name="L196"></a><tt class="py-lineno">196</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">is_localized</tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+<a name="L197"></a><tt class="py-lineno">197</tt>  <tt class="py-line"> </tt>
+<a name="L198"></a><tt class="py-lineno">198</tt>  <tt class="py-line">            <tt class="py-comment"># Get format from django format system</tt> </tt>
+<a name="L199"></a><tt class="py-lineno">199</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">format</tt> <tt class="py-op">=</tt> <tt class="py-name">get_format</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name"><a title="SGPA.widgets.DateTimeWidget.format_name
+SGPA.widgets.DateWidget.format_name
+SGPA.widgets.PickerWidgetMixin.format_name
+SGPA.widgets.TimeWidget.format_name" class="py-name" href="#" onclick="return doclink('link-24', 'format_name', 'link-22');">format_name</a></tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L200"></a><tt class="py-lineno">200</tt>  <tt class="py-line"> </tt>
+<a name="L201"></a><tt class="py-lineno">201</tt>  <tt class="py-line">            <tt class="py-comment"># Convert Python format specifier to Javascript format specifier</tt> </tt>
+<a name="L202"></a><tt class="py-lineno">202</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'format'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt id="link-25" class="py-name"><a title="SGPA.widgets.toJavascript_re" class="py-name" href="#" onclick="return doclink('link-25', 'toJavascript_re', 'link-14');">toJavascript_re</a></tt><tt class="py-op">.</tt><tt class="py-name">sub</tt><tt class="py-op">(</tt> </tt>
+<a name="L203"></a><tt class="py-lineno">203</tt>  <tt class="py-line">                <tt class="py-keyword">lambda</tt> <tt class="py-name">x</tt><tt class="py-op">:</tt> <tt id="link-26" class="py-name"><a title="SGPA.widgets.dateConversiontoJavascript" class="py-name" href="#" onclick="return doclink('link-26', 'dateConversiontoJavascript', 'link-13');">dateConversiontoJavascript</a></tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">.</tt><tt class="py-name">group</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L204"></a><tt class="py-lineno">204</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">format</tt> </tt>
+<a name="L205"></a><tt class="py-lineno">205</tt>  <tt class="py-line">                <tt class="py-op">)</tt> </tt>
+<a name="L206"></a><tt class="py-lineno">206</tt>  <tt class="py-line"> </tt>
+<a name="L207"></a><tt class="py-lineno">207</tt>  <tt class="py-line">            <tt class="py-comment"># Set the local language</tt> </tt>
+<a name="L208"></a><tt class="py-lineno">208</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'language'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt id="link-27" class="py-name" targets="Function SGPA.widgets.get_supported_language()=SGPA.widgets-module.html#get_supported_language"><a title="SGPA.widgets.get_supported_language" class="py-name" href="#" onclick="return doclink('link-27', 'get_supported_language', 'link-27');">get_supported_language</a></tt><tt class="py-op">(</tt><tt class="py-name">get_language</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L209"></a><tt class="py-lineno">209</tt>  <tt class="py-line"> </tt>
+<a name="L210"></a><tt class="py-lineno">210</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L211"></a><tt class="py-lineno">211</tt>  <tt class="py-line"> </tt>
+<a name="L212"></a><tt class="py-lineno">212</tt>  <tt class="py-line">            <tt class="py-comment"># If we're not doing localisation, get the Javascript date format provided by the user,</tt> </tt>
+<a name="L213"></a><tt class="py-lineno">213</tt>  <tt class="py-line">            <tt class="py-comment"># with a default, and convert it to a Python data format for later string parsing</tt> </tt>
+<a name="L214"></a><tt class="py-lineno">214</tt>  <tt class="py-line">            <tt class="py-name">format</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'format'</tt><tt class="py-op">]</tt> </tt>
+<a name="L215"></a><tt class="py-lineno">215</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">format</tt> <tt class="py-op">=</tt> <tt id="link-28" class="py-name"><a title="SGPA.widgets.toPython_re" class="py-name" href="#" onclick="return doclink('link-28', 'toPython_re', 'link-11');">toPython_re</a></tt><tt class="py-op">.</tt><tt class="py-name">sub</tt><tt class="py-op">(</tt> </tt>
+<a name="L216"></a><tt class="py-lineno">216</tt>  <tt class="py-line">                <tt class="py-keyword">lambda</tt> <tt class="py-name">x</tt><tt class="py-op">:</tt> <tt id="link-29" class="py-name"><a title="SGPA.widgets.dateConversiontoPython" class="py-name" href="#" onclick="return doclink('link-29', 'dateConversiontoPython', 'link-10');">dateConversiontoPython</a></tt><tt class="py-op">[</tt><tt class="py-name">x</tt><tt class="py-op">.</tt><tt class="py-name">group</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> </tt>
+<a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line">                <tt class="py-name">format</tt> </tt>
+<a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line">                <tt class="py-op">)</tt> </tt>
+<a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line"> </tt>
+<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-30" class="py-name" targets="Class SGPA.widgets.PickerWidgetMixin=SGPA.widgets.PickerWidgetMixin-class.html"><a title="SGPA.widgets.PickerWidgetMixin" class="py-name" href="#" onclick="return doclink('link-30', 'PickerWidgetMixin', 'link-30');">PickerWidgetMixin</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Method SGPA.apps.actividades.forms.AsignarActividadesForm.__init__()=SGPA.apps.actividades.forms.AsignarActividadesForm-class.html#__init__,Method SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__()=SGPA.apps.proyectos.forms.AsignarActividadesProyForm-class.html#__init__,Method SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__()=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#__init__,Method SGPA.apps.roles.forms.AsignarRolesForm.__init__()=SGPA.apps.roles.forms.AsignarRolesForm-class.html#__init__,Method SGPA.apps.roles.forms.AsignarRolesProyForm.__init__()=SGPA.apps.roles.forms.AsignarRolesProyForm-class.html#__init__,Method SGPA.apps.roles.forms.UsuarioProyectoForm.__init__()=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#__init__,Method SGPA.apps.sprint.forms.ModSprintForm.__init__()=SGPA.apps.sprint.forms.ModSprintForm-class.html#__init__,Method SGPA.apps.sprint.forms.SprintForm.__init__()=SGPA.apps.sprint.forms.SprintForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AddCommentForm.__init__()=SGPA.apps.userhistory.forms.AddCommentForm-class.html#__init__,Method SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__()=SGPA.apps.userhistory.forms.ArchivosAdjuntosForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarEncargadoUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarFlujoUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarSprintUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__()=SGPA.apps.userhistory.forms.CambiarActividadUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__()=SGPA.apps.userhistory.forms.ModUserHistoryForm-class.html#__init__,Method SGPA.apps.userhistory.forms.UserHistoryForm.__init__()=SGPA.apps.userhistory.forms.UserHistoryForm-class.html#__init__,Method SGPA.widgets.DateTimeWidget.__init__()=SGPA.widgets.DateTimeWidget-class.html#__init__,Method SGPA.widgets.DateWidget.__init__()=SGPA.widgets.DateWidget-class.html#__init__,Method SGPA.widgets.PickerWidgetMixin.__init__()=SGPA.widgets.PickerWidgetMixin-class.html#__init__,Method SGPA.widgets.TimeWidget.__init__()=SGPA.widgets.TimeWidget-class.html#__init__"><a title="SGPA.apps.actividades.forms.AsignarActividadesForm.__init__
+SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__
+SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
+SGPA.apps.roles.forms.AsignarRolesForm.__init__
+SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
+SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.ModSprintForm.__init__
+SGPA.apps.sprint.forms.SprintForm.__init__
+SGPA.apps.userhistory.forms.AddCommentForm.__init__
+SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
+SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
+SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
+SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.UserHistoryForm.__init__
+SGPA.widgets.DateTimeWidget.__init__
+SGPA.widgets.DateWidget.__init__
+SGPA.widgets.PickerWidgetMixin.__init__
+SGPA.widgets.TimeWidget.__init__" class="py-name" href="#" onclick="return doclink('link-31', '__init__', 'link-31');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">,</tt> <tt class="py-name">format</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L221"></a><tt class="py-lineno">221</tt>  <tt class="py-line"> </tt>
+<a name="PickerWidgetMixin.render"></a><div id="PickerWidgetMixin.render-def"><a name="L222"></a><tt class="py-lineno">222</tt> <a class="py-toggle" href="#" id="PickerWidgetMixin.render-toggle" onclick="return toggle('PickerWidgetMixin.render');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets.PickerWidgetMixin-class.html#render">render</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">,</tt> <tt class="py-param">value</tt><tt class="py-op">,</tt> <tt class="py-param">attrs</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PickerWidgetMixin.render-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="PickerWidgetMixin.render-expanded"><a name="L223"></a><tt class="py-lineno">223</tt>  <tt class="py-line">        <tt class="py-name">final_attrs</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">build_attrs</tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">)</tt> </tt>
+<a name="L224"></a><tt class="py-lineno">224</tt>  <tt class="py-line">        <tt class="py-name">rendered_widget</tt> <tt class="py-op">=</tt> <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-32" class="py-name"><a title="SGPA.widgets.PickerWidgetMixin" class="py-name" href="#" onclick="return doclink('link-32', 'PickerWidgetMixin', 'link-30');">PickerWidgetMixin</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Method SGPA.widgets.PickerWidgetMixin.render()=SGPA.widgets.PickerWidgetMixin-class.html#render"><a title="SGPA.widgets.PickerWidgetMixin.render" class="py-name" href="#" onclick="return doclink('link-33', 'render', 'link-33');">render</a></tt><tt class="py-op">(</tt><tt class="py-name">name</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">,</tt> <tt class="py-name">final_attrs</tt><tt class="py-op">)</tt> </tt>
+<a name="L225"></a><tt class="py-lineno">225</tt>  <tt class="py-line"> </tt>
+<a name="L226"></a><tt class="py-lineno">226</tt>  <tt class="py-line">        <tt class="py-comment">#if not set, autoclose have to be true.</tt> </tt>
+<a name="L227"></a><tt class="py-lineno">227</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">setdefault</tt><tt class="py-op">(</tt><tt class="py-string">'autoclose'</tt><tt class="py-op">,</tt> <tt class="py-name">True</tt><tt class="py-op">)</tt> </tt>
+<a name="L228"></a><tt class="py-lineno">228</tt>  <tt class="py-line"> </tt>
+<a name="L229"></a><tt class="py-lineno">229</tt>  <tt class="py-line">        <tt class="py-comment"># Build javascript options out of python dictionary</tt> </tt>
+<a name="L230"></a><tt class="py-lineno">230</tt>  <tt class="py-line">        <tt class="py-name">options_list</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L231"></a><tt class="py-lineno">231</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">key</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt> <tt class="py-keyword">in</tt> <tt class="py-name">iter</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">items</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L232"></a><tt class="py-lineno">232</tt>  <tt class="py-line">            <tt class="py-name">options_list</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-string">"%s: %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">,</tt> <tt id="link-34" class="py-name" targets="Function SGPA.widgets.quote()=SGPA.widgets-module.html#quote"><a title="SGPA.widgets.quote" class="py-name" href="#" onclick="return doclink('link-34', 'quote', 'link-34');">quote</a></tt><tt class="py-op">(</tt><tt class="py-name">key</tt><tt class="py-op">,</tt> <tt class="py-name">value</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L233"></a><tt class="py-lineno">233</tt>  <tt class="py-line"> </tt>
+<a name="L234"></a><tt class="py-lineno">234</tt>  <tt class="py-line">        <tt class="py-name">js_options</tt> <tt class="py-op">=</tt> <tt class="py-string">",\n"</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">options_list</tt><tt class="py-op">)</tt> </tt>
+<a name="L235"></a><tt class="py-lineno">235</tt>  <tt class="py-line"> </tt>
+<a name="L236"></a><tt class="py-lineno">236</tt>  <tt class="py-line">        <tt class="py-comment"># Use provided id or generate hex to avoid collisions in document</tt> </tt>
+<a name="L237"></a><tt class="py-lineno">237</tt>  <tt class="py-line">        <tt class="py-name">id</tt> <tt class="py-op">=</tt> <tt class="py-name">final_attrs</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">,</tt> <tt class="py-name">uuid</tt><tt class="py-op">.</tt><tt class="py-name">uuid4</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">hex</tt><tt class="py-op">)</tt> </tt>
+<a name="L238"></a><tt class="py-lineno">238</tt>  <tt class="py-line"> </tt>
+<a name="L239"></a><tt class="py-lineno">239</tt>  <tt class="py-line">        <tt class="py-name">clearBtn</tt> <tt class="py-op">=</tt> <tt id="link-35" class="py-name"><a title="SGPA.widgets.quote" class="py-name" href="#" onclick="return doclink('link-35', 'quote', 'link-34');">quote</a></tt><tt class="py-op">(</tt><tt class="py-string">'clearBtn'</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'clearBtn'</tt><tt class="py-op">,</tt> <tt class="py-string">'true'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> <tt class="py-op">==</tt> <tt class="py-string">'true'</tt> </tt>
+<a name="L240"></a><tt class="py-lineno">240</tt>  <tt class="py-line"> </tt>
+<a name="L241"></a><tt class="py-lineno">241</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">mark_safe</tt><tt class="py-op">(</tt> </tt>
+<a name="L242"></a><tt class="py-lineno">242</tt>  <tt class="py-line">            <tt id="link-36" class="py-name"><a title="SGPA.widgets.BOOTSTRAP_INPUT_TEMPLATE" class="py-name" href="#" onclick="return doclink('link-36', 'BOOTSTRAP_INPUT_TEMPLATE', 'link-16');">BOOTSTRAP_INPUT_TEMPLATE</a></tt><tt class="py-op">[</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bootstrap_version</tt><tt class="py-op">]</tt> </tt>
+<a name="L243"></a><tt class="py-lineno">243</tt>  <tt class="py-line">                <tt class="py-op">%</tt> <tt class="py-name">dict</tt><tt class="py-op">(</tt> </tt>
+<a name="L244"></a><tt class="py-lineno">244</tt>  <tt class="py-line">                    <tt class="py-name">id</tt><tt class="py-op">=</tt><tt class="py-name">id</tt><tt class="py-op">,</tt> </tt>
+<a name="L245"></a><tt class="py-lineno">245</tt>  <tt class="py-line">                    <tt class="py-name">rendered_widget</tt><tt class="py-op">=</tt><tt class="py-name">rendered_widget</tt><tt class="py-op">,</tt> </tt>
+<a name="L246"></a><tt class="py-lineno">246</tt>  <tt class="py-line">                    <tt class="py-name">clear_button</tt><tt class="py-op">=</tt><tt id="link-37" class="py-name"><a title="SGPA.widgets.CLEAR_BTN_TEMPLATE" class="py-name" href="#" onclick="return doclink('link-37', 'CLEAR_BTN_TEMPLATE', 'link-17');">CLEAR_BTN_TEMPLATE</a></tt><tt class="py-op">[</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">bootstrap_version</tt><tt class="py-op">]</tt> <tt class="py-keyword">if</tt> <tt class="py-name">clearBtn</tt> <tt class="py-keyword">else</tt> <tt class="py-string">""</tt><tt class="py-op">,</tt> </tt>
+<a name="L247"></a><tt class="py-lineno">247</tt>  <tt class="py-line">                    <tt id="link-38" class="py-name"><a title="SGPA.widgets.DateTimeWidget.glyphicon
+SGPA.widgets.DateWidget.glyphicon
+SGPA.widgets.PickerWidgetMixin.glyphicon
+SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return doclink('link-38', 'glyphicon', 'link-23');">glyphicon</a></tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-39" class="py-name"><a title="SGPA.widgets.DateTimeWidget.glyphicon
+SGPA.widgets.DateWidget.glyphicon
+SGPA.widgets.PickerWidgetMixin.glyphicon
+SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return doclink('link-39', 'glyphicon', 'link-23');">glyphicon</a></tt><tt class="py-op">,</tt> </tt>
+<a name="L248"></a><tt class="py-lineno">248</tt>  <tt class="py-line">                    <tt class="py-name">options</tt><tt class="py-op">=</tt><tt class="py-name">js_options</tt> </tt>
+<a name="L249"></a><tt class="py-lineno">249</tt>  <tt class="py-line">                    <tt class="py-op">)</tt> </tt>
+<a name="L250"></a><tt class="py-lineno">250</tt>  <tt class="py-line">        <tt class="py-op">)</tt> </tt>
+</div><a name="L251"></a><tt class="py-lineno">251</tt>  <tt class="py-line"> </tt>
+<a name="PickerWidgetMixin._media"></a><div id="PickerWidgetMixin._media-def"><a name="L252"></a><tt class="py-lineno">252</tt> <a class="py-toggle" href="#" id="PickerWidgetMixin._media-toggle" onclick="return toggle('PickerWidgetMixin._media');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets.PickerWidgetMixin-class.html#_media">_media</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="PickerWidgetMixin._media-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="PickerWidgetMixin._media-expanded"><a name="L253"></a><tt class="py-lineno">253</tt>  <tt class="py-line"> </tt>
+<a name="L254"></a><tt class="py-lineno">254</tt>  <tt class="py-line">        <tt class="py-name">js</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-string">"js/bootstrap-datetimepicker.js"</tt><tt class="py-op">]</tt> </tt>
+<a name="L255"></a><tt class="py-lineno">255</tt>  <tt class="py-line"> </tt>
+<a name="L256"></a><tt class="py-lineno">256</tt>  <tt class="py-line">        <tt class="py-name">language</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'language'</tt><tt class="py-op">,</tt> <tt class="py-string">'en'</tt><tt class="py-op">)</tt> </tt>
+<a name="L257"></a><tt class="py-lineno">257</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">language</tt> <tt class="py-op">!=</tt> <tt class="py-string">'en'</tt><tt class="py-op">:</tt> </tt>
+<a name="L258"></a><tt class="py-lineno">258</tt>  <tt class="py-line">            <tt class="py-name">js</tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-string">"js/locales/bootstrap-datetimepicker.%s.js"</tt> <tt class="py-op">%</tt> <tt class="py-name">language</tt><tt class="py-op">)</tt> </tt>
+<a name="L259"></a><tt class="py-lineno">259</tt>  <tt class="py-line"> </tt>
+<a name="L260"></a><tt class="py-lineno">260</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-40" class="py-name"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
+SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-40', 'widgets', 'link-2');">widgets</a></tt><tt class="py-op">.</tt><tt class="py-name">Media</tt><tt class="py-op">(</tt> </tt>
+<a name="L261"></a><tt class="py-lineno">261</tt>  <tt class="py-line">            <tt class="py-name">css</tt><tt class="py-op">=</tt><tt class="py-op">{</tt> </tt>
+<a name="L262"></a><tt class="py-lineno">262</tt>  <tt class="py-line">                <tt class="py-string">'all'</tt><tt class="py-op">:</tt> <tt class="py-op">(</tt><tt class="py-string">'css/datetimepicker.css'</tt><tt class="py-op">,</tt><tt class="py-op">)</tt> </tt>
+<a name="L263"></a><tt class="py-lineno">263</tt>  <tt class="py-line">                <tt class="py-op">}</tt><tt class="py-op">,</tt> </tt>
+<a name="L264"></a><tt class="py-lineno">264</tt>  <tt class="py-line">            <tt class="py-name">js</tt><tt class="py-op">=</tt><tt class="py-name">js</tt> </tt>
+<a name="L265"></a><tt class="py-lineno">265</tt>  <tt class="py-line">            <tt class="py-op">)</tt> </tt>
+</div><a name="L266"></a><tt class="py-lineno">266</tt>  <tt class="py-line"> </tt>
+<a name="L267"></a><tt class="py-lineno">267</tt>  <tt class="py-line">    <tt id="link-41" class="py-name" targets="Variable SGPA.apps.actividades.forms.ActividadForm.media=SGPA.apps.actividades.forms.ActividadForm-class.html#media,Variable SGPA.apps.actividades.forms.AsignarActividadesForm.media=SGPA.apps.actividades.forms.AsignarActividadesForm-class.html#media,Variable SGPA.apps.actividades.forms.FilterForm.media=SGPA.apps.actividades.forms.FilterForm-class.html#media,Variable SGPA.apps.actividades.forms.FilterForm2.media=SGPA.apps.actividades.forms.FilterForm2-class.html#media,Variable SGPA.apps.actividades.forms.ModActividadForm.media=SGPA.apps.actividades.forms.ModActividadForm-class.html#media,Variable SGPA.apps.flujo.forms.FilterForm.media=SGPA.apps.flujo.forms.FilterForm-class.html#media,Variable SGPA.apps.flujo.forms.FilterForm2.media=SGPA.apps.flujo.forms.FilterForm2-class.html#media,Variable SGPA.apps.flujo.forms.FlujoForm.media=SGPA.apps.flujo.forms.FlujoForm-class.html#media,Variable SGPA.apps.flujo.forms.ModFlujoForm.media=SGPA.apps.flujo.forms.ModFlujoForm-class.html#media,Variable SGPA.apps.home.forms.LoginForm.media=SGPA.apps.home.forms.LoginForm-class.html#media,Variable SGPA.apps.home.forms.RecuperarContrasenaForm.media=SGPA.apps.home.forms.RecuperarContrasenaForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarActividadesProyForm.media=SGPA.apps.proyectos.forms.AsignarActividadesProyForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarEncargadoUSForm.media=SGPA.apps.proyectos.forms.AsignarEncargadoUSForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarFlujoForm.media=SGPA.apps.proyectos.forms.AsignarFlujoForm-class.html#media,Variable SGPA.apps.proyectos.forms.FilterForm.media=SGPA.apps.proyectos.forms.FilterForm-class.html#media,Variable SGPA.apps.proyectos.forms.FilterForm2.media=SGPA.apps.proyectos.forms.FilterForm2-class.html#media,Variable SGPA.apps.proyectos.forms.ModProyectoForm.media=SGPA.apps.proyectos.forms.ModProyectoForm-class.html#media,Variable SGPA.apps.proyectos.forms.NuevoMiembroForm.media=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#media,Variable SGPA.apps.proyectos.forms.ProyectoForm.media=SGPA.apps.proyectos.forms.ProyectoForm-class.html#media,Variable SGPA.apps.roles.forms.AsignarRolesForm.media=SGPA.apps.roles.forms.AsignarRolesForm-class.html#media,Variable SGPA.apps.roles.forms.AsignarRolesProyForm.media=SGPA.apps.roles.forms.AsignarRolesProyForm-class.html#media,Variable SGPA.apps.roles.forms.FilterForm.media=SGPA.apps.roles.forms.FilterForm-class.html#media,Variable SGPA.apps.roles.forms.FilterForm2.media=SGPA.apps.roles.forms.FilterForm2-class.html#media,Variable SGPA.apps.roles.forms.ModRolesForm.media=SGPA.apps.roles.forms.ModRolesForm-class.html#media,Variable SGPA.apps.roles.forms.PermisosForm.media=SGPA.apps.roles.forms.PermisosForm-class.html#media,Variable SGPA.apps.roles.forms.PermisosProyectoForm.media=SGPA.apps.roles.forms.PermisosProyectoForm-class.html#media,Variable SGPA.apps.roles.forms.RolesPForm.media=SGPA.apps.roles.forms.RolesPForm-class.html#media,Variable SGPA.apps.roles.forms.RolesSForm.media=SGPA.apps.roles.forms.RolesSForm-class.html#media,Variable SGPA.apps.roles.forms.UsuarioProyectoForm.media=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#media,Variable SGPA.apps.sprint.forms.FilterForm.media=SGPA.apps.sprint.forms.FilterForm-class.html#media,Variable SGPA.apps.sprint.forms.ModSprintForm.media=SGPA.apps.sprint.forms.ModSprintForm-class.html#media,Variable SGPA.apps.sprint.forms.SprintForm.media=SGPA.apps.sprint.forms.SprintForm-class.html#media,Variable SGPA.apps.userhistory.forms.AddCommentForm.media=SGPA.apps.userhistory.forms.AddCommentForm-class.html#media,Variable SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.media=SGPA.apps.userhistory.forms.ArchivosAdjuntosForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.media=SGPA.apps.userhistory.forms.AsignarEncargadoUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarFlujoUSForm.media=SGPA.apps.userhistory.forms.AsignarFlujoUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarSprintUSForm.media=SGPA.apps.userhistory.forms.AsignarSprintUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.CambiarActividadUSForm.media=SGPA.apps.userhistory.forms.CambiarActividadUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.CambiarEstadosUSForm.media=SGPA.apps.userhistory.forms.CambiarEstadosUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.FilterForm.media=SGPA.apps.userhistory.forms.FilterForm-class.html#media,Variable SGPA.apps.userhistory.forms.ModUserHistoryForm.media=SGPA.apps.userhistory.forms.ModUserHistoryForm-class.html#media,Variable SGPA.apps.userhistory.forms.UserHistoryForm.media=SGPA.apps.userhistory.forms.UserHistoryForm-class.html#media,Variable SGPA.apps.usuario.forms.CambiarPasswordForm.media=SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#media,Variable SGPA.apps.usuario.forms.FilterForm.media=SGPA.apps.usuario.forms.FilterForm-class.html#media,Variable SGPA.apps.usuario.forms.ModUsuariosForm.media=SGPA.apps.usuario.forms.ModUsuariosForm-class.html#media,Variable SGPA.apps.usuario.forms.UsuariosForm.media=SGPA.apps.usuario.forms.UsuariosForm-class.html#media,Variable SGPA.widgets.DateTimeWidget.media=SGPA.widgets.DateTimeWidget-class.html#media,Variable SGPA.widgets.DateWidget.media=SGPA.widgets.DateWidget-class.html#media,Variable SGPA.widgets.PickerWidgetMixin.media=SGPA.widgets.PickerWidgetMixin-class.html#media,Variable SGPA.widgets.TimeWidget.media=SGPA.widgets.TimeWidget-class.html#media"><a title="SGPA.apps.actividades.forms.ActividadForm.media
+SGPA.apps.actividades.forms.AsignarActividadesForm.media
+SGPA.apps.actividades.forms.FilterForm.media
+SGPA.apps.actividades.forms.FilterForm2.media
+SGPA.apps.actividades.forms.ModActividadForm.media
+SGPA.apps.flujo.forms.FilterForm.media
+SGPA.apps.flujo.forms.FilterForm2.media
+SGPA.apps.flujo.forms.FlujoForm.media
+SGPA.apps.flujo.forms.ModFlujoForm.media
+SGPA.apps.home.forms.LoginForm.media
+SGPA.apps.home.forms.RecuperarContrasenaForm.media
+SGPA.apps.proyectos.forms.AsignarActividadesProyForm.media
+SGPA.apps.proyectos.forms.AsignarEncargadoUSForm.media
+SGPA.apps.proyectos.forms.AsignarFlujoForm.media
+SGPA.apps.proyectos.forms.FilterForm.media
+SGPA.apps.proyectos.forms.FilterForm2.media
+SGPA.apps.proyectos.forms.ModProyectoForm.media
+SGPA.apps.proyectos.forms.NuevoMiembroForm.media
+SGPA.apps.proyectos.forms.ProyectoForm.media
+SGPA.apps.roles.forms.AsignarRolesForm.media
+SGPA.apps.roles.forms.AsignarRolesProyForm.media
+SGPA.apps.roles.forms.FilterForm.media
+SGPA.apps.roles.forms.FilterForm2.media
+SGPA.apps.roles.forms.ModRolesForm.media
+SGPA.apps.roles.forms.PermisosForm.media
+SGPA.apps.roles.forms.PermisosProyectoForm.media
+SGPA.apps.roles.forms.RolesPForm.media
+SGPA.apps.roles.forms.RolesSForm.media
+SGPA.apps.roles.forms.UsuarioProyectoForm.media
+SGPA.apps.sprint.forms.FilterForm.media
+SGPA.apps.sprint.forms.ModSprintForm.media
+SGPA.apps.sprint.forms.SprintForm.media
+SGPA.apps.userhistory.forms.AddCommentForm.media
+SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.media
+SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.media
+SGPA.apps.userhistory.forms.AsignarFlujoUSForm.media
+SGPA.apps.userhistory.forms.AsignarSprintUSForm.media
+SGPA.apps.userhistory.forms.CambiarActividadUSForm.media
+SGPA.apps.userhistory.forms.CambiarEstadosUSForm.media
+SGPA.apps.userhistory.forms.FilterForm.media
+SGPA.apps.userhistory.forms.ModUserHistoryForm.media
+SGPA.apps.userhistory.forms.UserHistoryForm.media
+SGPA.apps.usuario.forms.CambiarPasswordForm.media
+SGPA.apps.usuario.forms.FilterForm.media
+SGPA.apps.usuario.forms.ModUsuariosForm.media
+SGPA.apps.usuario.forms.UsuariosForm.media
+SGPA.widgets.DateTimeWidget.media
+SGPA.widgets.DateWidget.media
+SGPA.widgets.PickerWidgetMixin.media
+SGPA.widgets.TimeWidget.media" class="py-name" href="#" onclick="return doclink('link-41', 'media', 'link-41');">media</a></tt> <tt class="py-op">=</tt> <tt class="py-name">property</tt><tt class="py-op">(</tt><tt id="link-42" class="py-name" targets="Method SGPA.widgets.PickerWidgetMixin._media()=SGPA.widgets.PickerWidgetMixin-class.html#_media"><a title="SGPA.widgets.PickerWidgetMixin._media" class="py-name" href="#" onclick="return doclink('link-42', '_media', 'link-42');">_media</a></tt><tt class="py-op">)</tt> </tt>
+</div><a name="L268"></a><tt class="py-lineno">268</tt>  <tt class="py-line"> </tt>
+<a name="L269"></a><tt class="py-lineno">269</tt>  <tt class="py-line"> </tt>
+<a name="DateTimeWidget"></a><div id="DateTimeWidget-def"><a name="L270"></a><tt class="py-lineno">270</tt> <a class="py-toggle" href="#" id="DateTimeWidget-toggle" onclick="return toggle('DateTimeWidget');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.widgets.DateTimeWidget-class.html">DateTimeWidget</a><tt class="py-op">(</tt><tt class="py-base-class">PickerWidgetMixin</tt><tt class="py-op">,</tt> <tt class="py-base-class">DateTimeInput</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="DateTimeWidget-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="DateTimeWidget-expanded"><a name="L271"></a><tt class="py-lineno">271</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L272"></a><tt class="py-lineno">272</tt>  <tt class="py-line"><tt class="py-docstring">    DateTimeWidget is the corresponding widget for Datetime field, it renders both the date and time</tt> </tt>
+<a name="L273"></a><tt class="py-lineno">273</tt>  <tt class="py-line"><tt class="py-docstring">    sections of the datetime picker.</tt> </tt>
+<a name="L274"></a><tt class="py-lineno">274</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L275"></a><tt class="py-lineno">275</tt>  <tt class="py-line"> </tt>
+<a name="L276"></a><tt class="py-lineno">276</tt>  <tt class="py-line">    <tt id="link-43" class="py-name"><a title="SGPA.widgets.DateTimeWidget.format_name
+SGPA.widgets.DateWidget.format_name
+SGPA.widgets.PickerWidgetMixin.format_name
+SGPA.widgets.TimeWidget.format_name" class="py-name" href="#" onclick="return doclink('link-43', 'format_name', 'link-22');">format_name</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'DATETIME_INPUT_FORMATS'</tt> </tt>
+<a name="L277"></a><tt class="py-lineno">277</tt>  <tt class="py-line">    <tt id="link-44" class="py-name"><a title="SGPA.widgets.DateTimeWidget.glyphicon
+SGPA.widgets.DateWidget.glyphicon
+SGPA.widgets.PickerWidgetMixin.glyphicon
+SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return doclink('link-44', 'glyphicon', 'link-23');">glyphicon</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'glyphicon-th'</tt> </tt>
+<a name="L278"></a><tt class="py-lineno">278</tt>  <tt class="py-line"> </tt>
+<a name="DateTimeWidget.__init__"></a><div id="DateTimeWidget.__init__-def"><a name="L279"></a><tt class="py-lineno">279</tt> <a class="py-toggle" href="#" id="DateTimeWidget.__init__-toggle" onclick="return toggle('DateTimeWidget.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets.DateTimeWidget-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">attrs</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">usel10n</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">bootstrap_version</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="DateTimeWidget.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="DateTimeWidget.__init__-expanded"><a name="L280"></a><tt class="py-lineno">280</tt>  <tt class="py-line"> </tt>
+<a name="L281"></a><tt class="py-lineno">281</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">options</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L282"></a><tt class="py-lineno">282</tt>  <tt class="py-line">            <tt class="py-name">options</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L283"></a><tt class="py-lineno">283</tt>  <tt class="py-line"> </tt>
+<a name="L284"></a><tt class="py-lineno">284</tt>  <tt class="py-line">        <tt class="py-comment"># Set the default options to show only the datepicker object</tt> </tt>
+<a name="L285"></a><tt class="py-lineno">285</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'format'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'format'</tt><tt class="py-op">,</tt> <tt class="py-string">'dd/mm/yyyy hh:ii'</tt><tt class="py-op">)</tt> </tt>
+<a name="L286"></a><tt class="py-lineno">286</tt>  <tt class="py-line"> </tt>
+<a name="L287"></a><tt class="py-lineno">287</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-45" class="py-name" targets="Class SGPA.widgets.DateTimeWidget=SGPA.widgets.DateTimeWidget-class.html"><a title="SGPA.widgets.DateTimeWidget" class="py-name" href="#" onclick="return doclink('link-45', 'DateTimeWidget', 'link-45');">DateTimeWidget</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-46" class="py-name"><a title="SGPA.apps.actividades.forms.AsignarActividadesForm.__init__
+SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__
+SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
+SGPA.apps.roles.forms.AsignarRolesForm.__init__
+SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
+SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.ModSprintForm.__init__
+SGPA.apps.sprint.forms.SprintForm.__init__
+SGPA.apps.userhistory.forms.AddCommentForm.__init__
+SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
+SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
+SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
+SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.UserHistoryForm.__init__
+SGPA.widgets.DateTimeWidget.__init__
+SGPA.widgets.DateWidget.__init__
+SGPA.widgets.PickerWidgetMixin.__init__
+SGPA.widgets.TimeWidget.__init__" class="py-name" href="#" onclick="return doclink('link-46', '__init__', 'link-31');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">,</tt> <tt class="py-name">usel10n</tt><tt class="py-op">,</tt> <tt class="py-name">bootstrap_version</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L288"></a><tt class="py-lineno">288</tt>  <tt class="py-line"> </tt>
+<a name="L289"></a><tt class="py-lineno">289</tt>  <tt class="py-line"> </tt>
+<a name="DateWidget"></a><div id="DateWidget-def"><a name="L290"></a><tt class="py-lineno">290</tt> <a class="py-toggle" href="#" id="DateWidget-toggle" onclick="return toggle('DateWidget');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.widgets.DateWidget-class.html">DateWidget</a><tt class="py-op">(</tt><tt class="py-base-class">PickerWidgetMixin</tt><tt class="py-op">,</tt> <tt class="py-base-class">DateInput</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="DateWidget-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="DateWidget-expanded"><a name="L291"></a><tt class="py-lineno">291</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L292"></a><tt class="py-lineno">292</tt>  <tt class="py-line"><tt class="py-docstring">    DateWidget is the corresponding widget for Date field, it renders only the date section of</tt> </tt>
+<a name="L293"></a><tt class="py-lineno">293</tt>  <tt class="py-line"><tt class="py-docstring">    datetime picker.</tt> </tt>
+<a name="L294"></a><tt class="py-lineno">294</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L295"></a><tt class="py-lineno">295</tt>  <tt class="py-line"> </tt>
+<a name="L296"></a><tt class="py-lineno">296</tt>  <tt class="py-line">    <tt id="link-47" class="py-name"><a title="SGPA.widgets.DateTimeWidget.format_name
+SGPA.widgets.DateWidget.format_name
+SGPA.widgets.PickerWidgetMixin.format_name
+SGPA.widgets.TimeWidget.format_name" class="py-name" href="#" onclick="return doclink('link-47', 'format_name', 'link-22');">format_name</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'DATE_INPUT_FORMATS'</tt> </tt>
+<a name="L297"></a><tt class="py-lineno">297</tt>  <tt class="py-line">    <tt id="link-48" class="py-name"><a title="SGPA.widgets.DateTimeWidget.glyphicon
+SGPA.widgets.DateWidget.glyphicon
+SGPA.widgets.PickerWidgetMixin.glyphicon
+SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return doclink('link-48', 'glyphicon', 'link-23');">glyphicon</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'glyphicon-calendar'</tt> </tt>
+<a name="L298"></a><tt class="py-lineno">298</tt>  <tt class="py-line"> </tt>
+<a name="DateWidget.__init__"></a><div id="DateWidget.__init__-def"><a name="L299"></a><tt class="py-lineno">299</tt> <a class="py-toggle" href="#" id="DateWidget.__init__-toggle" onclick="return toggle('DateWidget.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets.DateWidget-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">attrs</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">usel10n</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">bootstrap_version</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="DateWidget.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="DateWidget.__init__-expanded"><a name="L300"></a><tt class="py-lineno">300</tt>  <tt class="py-line"> </tt>
+<a name="L301"></a><tt class="py-lineno">301</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">options</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L302"></a><tt class="py-lineno">302</tt>  <tt class="py-line">            <tt class="py-name">options</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L303"></a><tt class="py-lineno">303</tt>  <tt class="py-line"> </tt>
+<a name="L304"></a><tt class="py-lineno">304</tt>  <tt class="py-line">        <tt class="py-comment"># Set the default options to show only the datepicker object</tt> </tt>
+<a name="L305"></a><tt class="py-lineno">305</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'startView'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'startView'</tt><tt class="py-op">,</tt> <tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L306"></a><tt class="py-lineno">306</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'minView'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'minView'</tt><tt class="py-op">,</tt> <tt class="py-number">2</tt><tt class="py-op">)</tt> </tt>
+<a name="L307"></a><tt class="py-lineno">307</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'format'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'format'</tt><tt class="py-op">,</tt> <tt class="py-string">'dd/mm/yyyy'</tt><tt class="py-op">)</tt> </tt>
+<a name="L308"></a><tt class="py-lineno">308</tt>  <tt class="py-line"> </tt>
+<a name="L309"></a><tt class="py-lineno">309</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-49" class="py-name" targets="Class SGPA.widgets.DateWidget=SGPA.widgets.DateWidget-class.html"><a title="SGPA.widgets.DateWidget" class="py-name" href="#" onclick="return doclink('link-49', 'DateWidget', 'link-49');">DateWidget</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-50" class="py-name"><a title="SGPA.apps.actividades.forms.AsignarActividadesForm.__init__
+SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__
+SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
+SGPA.apps.roles.forms.AsignarRolesForm.__init__
+SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
+SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.ModSprintForm.__init__
+SGPA.apps.sprint.forms.SprintForm.__init__
+SGPA.apps.userhistory.forms.AddCommentForm.__init__
+SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
+SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
+SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
+SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.UserHistoryForm.__init__
+SGPA.widgets.DateTimeWidget.__init__
+SGPA.widgets.DateWidget.__init__
+SGPA.widgets.PickerWidgetMixin.__init__
+SGPA.widgets.TimeWidget.__init__" class="py-name" href="#" onclick="return doclink('link-50', '__init__', 'link-31');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">,</tt> <tt class="py-name">usel10n</tt><tt class="py-op">,</tt> <tt class="py-name">bootstrap_version</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L310"></a><tt class="py-lineno">310</tt>  <tt class="py-line"> </tt>
+<a name="L311"></a><tt class="py-lineno">311</tt>  <tt class="py-line"> </tt>
+<a name="TimeWidget"></a><div id="TimeWidget-def"><a name="L312"></a><tt class="py-lineno">312</tt> <a class="py-toggle" href="#" id="TimeWidget-toggle" onclick="return toggle('TimeWidget');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.widgets.TimeWidget-class.html">TimeWidget</a><tt class="py-op">(</tt><tt class="py-base-class">PickerWidgetMixin</tt><tt class="py-op">,</tt> <tt class="py-base-class">TimeInput</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TimeWidget-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="TimeWidget-expanded"><a name="L313"></a><tt class="py-lineno">313</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L314"></a><tt class="py-lineno">314</tt>  <tt class="py-line"><tt class="py-docstring">    TimeWidget is the corresponding widget for Time field, it renders only the time section of</tt> </tt>
+<a name="L315"></a><tt class="py-lineno">315</tt>  <tt class="py-line"><tt class="py-docstring">    datetime picker.</tt> </tt>
+<a name="L316"></a><tt class="py-lineno">316</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L317"></a><tt class="py-lineno">317</tt>  <tt class="py-line"> </tt>
+<a name="L318"></a><tt class="py-lineno">318</tt>  <tt class="py-line">    <tt id="link-51" class="py-name"><a title="SGPA.widgets.DateTimeWidget.format_name
+SGPA.widgets.DateWidget.format_name
+SGPA.widgets.PickerWidgetMixin.format_name
+SGPA.widgets.TimeWidget.format_name" class="py-name" href="#" onclick="return doclink('link-51', 'format_name', 'link-22');">format_name</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'TIME_INPUT_FORMATS'</tt> </tt>
+<a name="L319"></a><tt class="py-lineno">319</tt>  <tt class="py-line">    <tt id="link-52" class="py-name"><a title="SGPA.widgets.DateTimeWidget.glyphicon
+SGPA.widgets.DateWidget.glyphicon
+SGPA.widgets.PickerWidgetMixin.glyphicon
+SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return doclink('link-52', 'glyphicon', 'link-23');">glyphicon</a></tt> <tt class="py-op">=</tt> <tt class="py-string">'glyphicon-time'</tt> </tt>
+<a name="L320"></a><tt class="py-lineno">320</tt>  <tt class="py-line"> </tt>
+<a name="TimeWidget.__init__"></a><div id="TimeWidget.__init__-def"><a name="L321"></a><tt class="py-lineno">321</tt> <a class="py-toggle" href="#" id="TimeWidget.__init__-toggle" onclick="return toggle('TimeWidget.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.widgets.TimeWidget-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">attrs</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">options</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">usel10n</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">bootstrap_version</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TimeWidget.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TimeWidget.__init__-expanded"><a name="L322"></a><tt class="py-lineno">322</tt>  <tt class="py-line"> </tt>
+<a name="L323"></a><tt class="py-lineno">323</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">options</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L324"></a><tt class="py-lineno">324</tt>  <tt class="py-line">            <tt class="py-name">options</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L325"></a><tt class="py-lineno">325</tt>  <tt class="py-line"> </tt>
+<a name="L326"></a><tt class="py-lineno">326</tt>  <tt class="py-line">        <tt class="py-comment"># Set the default options to show only the timepicker object</tt> </tt>
+<a name="L327"></a><tt class="py-lineno">327</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'startView'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'startView'</tt><tt class="py-op">,</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L328"></a><tt class="py-lineno">328</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'minView'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'minView'</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L329"></a><tt class="py-lineno">329</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'maxView'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'maxView'</tt><tt class="py-op">,</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L330"></a><tt class="py-lineno">330</tt>  <tt class="py-line">        <tt class="py-name">options</tt><tt class="py-op">[</tt><tt class="py-string">'format'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">options</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-string">'format'</tt><tt class="py-op">,</tt> <tt class="py-string">'hh:ii'</tt><tt class="py-op">)</tt> </tt>
+<a name="L331"></a><tt class="py-lineno">331</tt>  <tt class="py-line"> </tt>
+<a name="L332"></a><tt class="py-lineno">332</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-53" class="py-name" targets="Class SGPA.widgets.TimeWidget=SGPA.widgets.TimeWidget-class.html"><a title="SGPA.widgets.TimeWidget" class="py-name" href="#" onclick="return doclink('link-53', 'TimeWidget', 'link-53');">TimeWidget</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-54" class="py-name"><a title="SGPA.apps.actividades.forms.AsignarActividadesForm.__init__
+SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__
+SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
+SGPA.apps.roles.forms.AsignarRolesForm.__init__
+SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
+SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.ModSprintForm.__init__
+SGPA.apps.sprint.forms.SprintForm.__init__
+SGPA.apps.userhistory.forms.AddCommentForm.__init__
+SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
+SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
+SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
+SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
+SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.UserHistoryForm.__init__
+SGPA.widgets.DateTimeWidget.__init__
+SGPA.widgets.DateWidget.__init__
+SGPA.widgets.PickerWidgetMixin.__init__
+SGPA.widgets.TimeWidget.__init__" class="py-name" href="#" onclick="return doclink('link-54', '__init__', 'link-31');">__init__</a></tt><tt class="py-op">(</tt><tt class="py-name">attrs</tt><tt class="py-op">,</tt> <tt class="py-name">options</tt><tt class="py-op">,</tt> <tt class="py-name">usel10n</tt><tt class="py-op">,</tt> <tt class="py-name">bootstrap_version</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L333"></a><tt class="py-lineno">333</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SGPA-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat May 16 05:43:09 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

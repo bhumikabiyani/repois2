@@ -50,8 +50,9 @@
     <table class="table table-bordered">
 	      <thead>
 	        <tr>
-	             <th class="titulo"><b><strong><span style="color:#330099">ASUNTO</span></strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">COMENTARIO</span></strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">TRABAJO</span></strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</span></strong></b></th>
+	             <th class="titulo"><b><strong><span style="color:#330099">HORAS</span></strong></b></th>
 	        </tr>
 	      </thead>
               <tbody>
@@ -59,6 +60,7 @@
              <tr>
                  <td><strong>{{comment.asunto}}</strong></td>
                  <td><strong>{{comment.descripcion}}</strong></td>
+                 <td><strong>{{comment.horas}}</strong></td>
              </tr>
 
          {% endfor %}
@@ -102,18 +104,9 @@
             {% if asignar_flujo %}
 				<a class="btn btn-primary" href="/flujoUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR A FLUJO</strong></a>
             {% endif %}
-            {% if add_comment %}
-				<a class="btn btn-primary" href="/addComment/comment&id={{userhistory.id}}/"><strong>AGREGAR COMENTARIO</strong></a>
-            {% endif %}
-            <!--{% if adjuntar_archivos %}-->
-				<a class="btn btn-primary" href="/archivosAdjuntos/adjuntos&id={{userhistory.id}}/"><strong>ADJUNTAR ARCHIVOS</strong></a>
-            <!--{% endif %}-->
-                <a class="btn btn-primary" href="/cambiarEstados/us&id={{userhistory.id}}/"><strong>CAMBIAR ESTADO KANBAN</strong></a>
-               <a class="btn btn-primary" href="/cambiarActividad/us&id={{userhistory.id}}/"><strong>CAMBIAR ACTIVIDAD KANBAN</strong></a>
-			    <a class="btn btn-primary" href="/databasefile/"><strong>DATABASEFILE</strong></a>
-            </td><br><br>
+			   </td><br><br>
 		<a class="btn btn-primary" href="/userHistory/proyecto&id={{userhistory.proyecto.id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
-
+        <a class="btn btn-primary" href="/databasefile/"><strong>DATABASEFILE</strong></a>
            </div>
      </div>
 {% else %}

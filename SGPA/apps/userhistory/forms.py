@@ -89,6 +89,7 @@ class ModUserHistoryForm(forms.Form):
 class AddCommentForm(forms.Form):
     asunto = forms.CharField(max_length=500, label='ASUNTO')
     descripcion = forms.CharField(widget=forms.Textarea(), required=False, label='DESCRIPCIÓN')
+    horas = forms.IntegerField(label='HORAS')
     #tipo_item = forms.ModelChoiceField(queryset=TipoItem.objects.all(), label='TIPO DE ITEM')
 
     def __init__(self, userhistory, *args, **kwargs):
@@ -144,8 +145,6 @@ class ArchivosAdjuntosForm(forms.Form):
     nombre = forms.CharField(max_length=500, label='NOMBRE')
     docfile = forms.FileField(label='SELECCIONA UN ARCHIVO')
 
-
-
     def __init__(self, userhistory, *args, **kwargs):
         super(ArchivosAdjuntosForm, self).__init__(*args, **kwargs)
         self.us = userhistory
@@ -165,10 +164,11 @@ class CambiarEstadosUSForm(forms.Form):
 class CambiarActividadUSForm(forms.Form):
     actividad = forms.ModelChoiceField(queryset=Actividad.objects.filter())
 
-    def __init__(self, proyecto, *args, **kwargs):
+    def __init__(self, us, *args, **kwargs):
         super(CambiarActividadUSForm, self).__init__(*args, **kwargs)
-        self.proyecto = proyecto
-        fap = FlujoActividadProyecto.objects.filter(proyecto = proyecto)
+        self.us = us
+        userhistory = UserHistory.objects.get(id = us)
+        fap = FlujoActividadProyecto.objects.filter(proyecto = userhistory.proyecto,flujo = userhistory.flujo)
         listAct = []
         for i in fap:
             if not i.actividad.id in listAct:

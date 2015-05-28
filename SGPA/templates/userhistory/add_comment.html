@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %} Agregar Comentario {% endblock %}
 {% block content %}
-<center><strong><font face="Comic Sans MS"><h3> NUEVO COMENTARIO - "{{userhistory.nombre}}"</h3></font></strong></center><br>
+<center><strong><font face="Comic Sans MS"><h3> NUEVO TRABAJO - "{{userhistory.nombre}}" - PROYECTO "{{userhistory.proyecto.nombrelargo}}"</h3></font></strong></center><br>
 {% if add_comment %}
 <form action="." method="POST">
 	{% csrf_token %}
@@ -9,7 +9,7 @@
 	{{ form.as_table }}
 	</table><br><br>
 	<button class="btn btn-primary" type="submit"> GUARDAR </button>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verUserHistory/ver&id={{userhistory.id}}' "/></center>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verkanban/ver&id={{userhistory.proyecto.id}}' "/></center>
 
 </form>
 {% else %}

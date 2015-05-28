@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>SGPA.apps.usuario.forms</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SGPA-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="SGPA-module.html">Package&nbsp;SGPA</a> ::
+        <a href="SGPA.apps-module.html">Package&nbsp;apps</a> ::
+        <a href="SGPA.apps.usuario-module.html">Package&nbsp;usuario</a> ::
+        Module&nbsp;forms
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="SGPA.apps.usuario.forms-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="SGPA.apps.usuario.forms-module.html">Module SGPA.apps.usuario.forms</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment"># -*- coding: utf-8 -*-</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt> <tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module SGPA.apps.actividades.forms=SGPA.apps.actividades.forms-module.html,Module SGPA.apps.flujo.forms=SGPA.apps.flujo.forms-module.html,Module SGPA.apps.home.forms=SGPA.apps.home.forms-module.html,Module SGPA.apps.proyectos.forms=SGPA.apps.proyectos.forms-module.html,Module SGPA.apps.roles.forms=SGPA.apps.roles.forms-module.html,Module SGPA.apps.sprint.forms=SGPA.apps.sprint.forms-module.html,Module SGPA.apps.userhistory.forms=SGPA.apps.userhistory.forms-module.html,Module SGPA.apps.usuario.forms=SGPA.apps.usuario.forms-module.html"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-0', 'forms', 'link-0');">forms</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module SGPA.apps.actividades.models=SGPA.apps.actividades.models-module.html,Module SGPA.apps.flujo.models=SGPA.apps.flujo.models-module.html,Module SGPA.apps.home.models=SGPA.apps.home.models-module.html,Module SGPA.apps.proyectos.models=SGPA.apps.proyectos.models-module.html,Module SGPA.apps.roles.models=SGPA.apps.roles.models-module.html,Module SGPA.apps.sprint.models=SGPA.apps.sprint.models-module.html,Module SGPA.apps.userhistory.models=SGPA.apps.userhistory.models-module.html,Module SGPA.apps.usuario.models=SGPA.apps.usuario.models-module.html"><a title="SGPA.apps.actividades.models
+SGPA.apps.flujo.models
+SGPA.apps.home.models
+SGPA.apps.proyectos.models
+SGPA.apps.roles.models
+SGPA.apps.sprint.models
+SGPA.apps.userhistory.models
+SGPA.apps.usuario.models" class="py-name" href="#" onclick="return doclink('link-1', 'models', 'link-1');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">db</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name"><a title="SGPA.apps.actividades.models
+SGPA.apps.flujo.models
+SGPA.apps.home.models
+SGPA.apps.proyectos.models
+SGPA.apps.roles.models
+SGPA.apps.sprint.models
+SGPA.apps.userhistory.models
+SGPA.apps.usuario.models" class="py-name" href="#" onclick="return doclink('link-2', 'models', 'link-1');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">Q</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-3" class="py-name" targets="Package SGPA=SGPA-module.html"><a title="SGPA" class="py-name" href="#" onclick="return doclink('link-3', 'SGPA', 'link-3');">SGPA</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Package SGPA.apps=SGPA.apps-module.html"><a title="SGPA.apps" class="py-name" href="#" onclick="return doclink('link-4', 'apps', 'link-4');">apps</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Variable SGPA.apps.proyectos.forms.NuevoMiembroForm.usuario=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#usuario,Variable SGPA.apps.roles.forms.UsuarioProyectoForm.usuario=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#usuario,Package SGPA.apps.usuario=SGPA.apps.usuario-module.html,Variable SGPA.apps.usuario.models.Historia.usuario=SGPA.apps.usuario.models.Historia-class.html#usuario,Variable SGPA.apps.usuario.models.UsuarioRolProyecto.usuario=SGPA.apps.usuario.models.UsuarioRolProyecto-class.html#usuario,Variable SGPA.apps.usuario.models.UsuarioRolSistema.usuario=SGPA.apps.usuario.models.UsuarioRolSistema-class.html#usuario"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.usuario
+SGPA.apps.roles.forms.UsuarioProyectoForm.usuario
+SGPA.apps.usuario
+SGPA.apps.usuario.models.Historia.usuario
+SGPA.apps.usuario.models.UsuarioRolProyecto.usuario
+SGPA.apps.usuario.models.UsuarioRolSistema.usuario" class="py-name" href="#" onclick="return doclink('link-5', 'usuario', 'link-5');">usuario</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="SGPA.apps.actividades.models
+SGPA.apps.flujo.models
+SGPA.apps.home.models
+SGPA.apps.proyectos.models
+SGPA.apps.roles.models
+SGPA.apps.sprint.models
+SGPA.apps.userhistory.models
+SGPA.apps.usuario.models" class="py-name" href="#" onclick="return doclink('link-6', 'models', 'link-1');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name"><a title="SGPA" class="py-name" href="#" onclick="return doclink('link-7', 'SGPA', 'link-3');">SGPA</a></tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="SGPA.apps" class="py-name" href="#" onclick="return doclink('link-8', 'apps', 'link-4');">apps</a></tt><tt class="py-op">.</tt><tt id="link-9" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.usuario
+SGPA.apps.roles.forms.UsuarioProyectoForm.usuario
+SGPA.apps.usuario
+SGPA.apps.usuario.models.Historia.usuario
+SGPA.apps.usuario.models.UsuarioRolProyecto.usuario
+SGPA.apps.usuario.models.UsuarioRolSistema.usuario" class="py-name" href="#" onclick="return doclink('link-9', 'usuario', 'link-5');">usuario</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Module SGPA.apps.actividades.helper=SGPA.apps.actividades.helper-module.html,Module SGPA.apps.flujo.helper=SGPA.apps.flujo.helper-module.html,Module SGPA.apps.proyectos.helper=SGPA.apps.proyectos.helper-module.html,Module SGPA.apps.roles.helper=SGPA.apps.roles.helper-module.html,Module SGPA.apps.sprint.helper=SGPA.apps.sprint.helper-module.html,Module SGPA.apps.userhistory.helper=SGPA.apps.userhistory.helper-module.html,Module SGPA.apps.usuario.helper=SGPA.apps.usuario.helper-module.html"><a title="SGPA.apps.actividades.helper
+SGPA.apps.flujo.helper
+SGPA.apps.proyectos.helper
+SGPA.apps.roles.helper
+SGPA.apps.sprint.helper
+SGPA.apps.userhistory.helper
+SGPA.apps.usuario.helper" class="py-name" href="#" onclick="return doclink('link-10', 'helper', 'link-10');">helper</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">datetime</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"> </tt>
+<a name="UsuariosForm"></a><div id="UsuariosForm-def"><a name="L9"></a><tt class="py-lineno"> 9</tt> <a class="py-toggle" href="#" id="UsuariosForm-toggle" onclick="return toggle('UsuariosForm');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.UsuariosForm-class.html">UsuariosForm</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">Form</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UsuariosForm-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="UsuariosForm-expanded"><a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">    Formulario para Creacion de Usuario</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt id="link-11" class="py-name" targets="Variable SGPA.apps.usuario.forms.UsuariosForm.username=SGPA.apps.usuario.forms.UsuariosForm-class.html#username"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-11', 'username', 'link-11');">username</a></tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-12', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"USUARIO"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-13" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-13', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt id="link-14" class="py-name" targets="Variable SGPA.apps.usuario.forms.ModUsuariosForm.first_name=SGPA.apps.usuario.forms.ModUsuariosForm-class.html#first_name,Variable SGPA.apps.usuario.forms.UsuariosForm.first_name=SGPA.apps.usuario.forms.UsuariosForm-class.html#first_name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.first_name
+SGPA.apps.usuario.forms.UsuariosForm.first_name" class="py-name" href="#" onclick="return doclink('link-14', 'first_name', 'link-14');">first_name</a></tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-15', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"NOMBRE"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-16" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-16', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt id="link-17" class="py-name" targets="Variable SGPA.apps.usuario.forms.ModUsuariosForm.last_name=SGPA.apps.usuario.forms.ModUsuariosForm-class.html#last_name,Variable SGPA.apps.usuario.forms.UsuariosForm.last_name=SGPA.apps.usuario.forms.UsuariosForm-class.html#last_name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.last_name
+SGPA.apps.usuario.forms.UsuariosForm.last_name" class="py-name" href="#" onclick="return doclink('link-17', 'last_name', 'link-17');">last_name</a></tt> <tt class="py-op">=</tt> <tt id="link-18" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-18', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"APELLIDO"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-19" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-19', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt id="link-20" class="py-name" targets="Variable SGPA.apps.usuario.forms.ModUsuariosForm.email=SGPA.apps.usuario.forms.ModUsuariosForm-class.html#email,Variable SGPA.apps.usuario.forms.UsuariosForm.email=SGPA.apps.usuario.forms.UsuariosForm-class.html#email"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.email
+SGPA.apps.usuario.forms.UsuariosForm.email" class="py-name" href="#" onclick="return doclink('link-20', 'email', 'link-20');">email</a></tt> <tt class="py-op">=</tt> <tt id="link-21" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-21', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">EmailField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"CORREO ELECTRONICO"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-22" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-22', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt id="link-23" class="py-name" targets="Variable SGPA.apps.usuario.forms.UsuariosForm.password_one=SGPA.apps.usuario.forms.UsuariosForm-class.html#password_one"><a title="SGPA.apps.usuario.forms.UsuariosForm.password_one" class="py-name" href="#" onclick="return doclink('link-23', 'password_one', 'link-23');">password_one</a></tt> <tt class="py-op">=</tt> <tt id="link-24" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-24', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"CONTRASE&#209;A"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-25" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-25', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">(</tt><tt class="py-name">render_value</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt id="link-26" class="py-name" targets="Variable SGPA.apps.usuario.forms.UsuariosForm.password_two=SGPA.apps.usuario.forms.UsuariosForm-class.html#password_two"><a title="SGPA.apps.usuario.forms.UsuariosForm.password_two" class="py-name" href="#" onclick="return doclink('link-26', 'password_two', 'link-26');">password_two</a></tt> <tt class="py-op">=</tt> <tt id="link-27" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-27', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"CONFIRMAR CONTRASE&#209;A"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-28" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-28', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">(</tt><tt class="py-name">render_value</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="UsuariosForm.clean_username"></a><div id="UsuariosForm.clean_username-def"><a name="L20"></a><tt class="py-lineno">20</tt> <a class="py-toggle" href="#" id="UsuariosForm.clean_username-toggle" onclick="return toggle('UsuariosForm.clean_username');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.UsuariosForm-class.html#clean_username">clean_username</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UsuariosForm.clean_username-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="UsuariosForm.clean_username-expanded"><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">        <tt id="link-29" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-29', 'username', 'link-11');">username</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'username'</tt><tt class="py-op">]</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">            <tt class="py-name">u</tt> <tt class="py-op">=</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name" targets="Method SGPA.apps.home.models.userProfile.objects()=SGPA.apps.home.models.userProfile-class.html#objects,Method SGPA.apps.usuario.models.Actividad.objects()=SGPA.apps.usuario.models.Actividad-class.html#objects,Method SGPA.apps.usuario.models.ArchivosAdjuntos.objects()=SGPA.apps.usuario.models.ArchivosAdjuntos-class.html#objects,Method SGPA.apps.usuario.models.Comentarios.objects()=SGPA.apps.usuario.models.Comentarios-class.html#objects,Method SGPA.apps.usuario.models.Flujo.objects()=SGPA.apps.usuario.models.Flujo-class.html#objects,Method SGPA.apps.usuario.models.FlujoActividad.objects()=SGPA.apps.usuario.models.FlujoActividad-class.html#objects,Method SGPA.apps.usuario.models.FlujoActividadProyecto.objects()=SGPA.apps.usuario.models.FlujoActividadProyecto-class.html#objects,Method SGPA.apps.usuario.models.Historia.objects()=SGPA.apps.usuario.models.Historia-class.html#objects,Method SGPA.apps.usuario.models.Permiso.objects()=SGPA.apps.usuario.models.Permiso-class.html#objects,Method SGPA.apps.usuario.models.Proyecto.objects()=SGPA.apps.usuario.models.Proyecto-class.html#objects,Method SGPA.apps.usuario.models.ProyectoFlujo.objects()=SGPA.apps.usuario.models.ProyectoFlujo-class.html#objects,Method SGPA.apps.usuario.models.Rol.objects()=SGPA.apps.usuario.models.Rol-class.html#objects,Method SGPA.apps.usuario.models.RolPermiso.objects()=SGPA.apps.usuario.models.RolPermiso-class.html#objects,Method SGPA.apps.usuario.models.Sprint.objects()=SGPA.apps.usuario.models.Sprint-class.html#objects,Method SGPA.apps.usuario.models.UserHistory.objects()=SGPA.apps.usuario.models.UserHistory-class.html#objects,Method SGPA.apps.usuario.models.UsuarioRolProyecto.objects()=SGPA.apps.usuario.models.UsuarioRolProyecto-class.html#objects,Method SGPA.apps.usuario.models.UsuarioRolSistema.objects()=SGPA.apps.usuario.models.UsuarioRolSistema-class.html#objects"><a title="SGPA.apps.home.models.userProfile.objects
+SGPA.apps.usuario.models.Actividad.objects
+SGPA.apps.usuario.models.ArchivosAdjuntos.objects
+SGPA.apps.usuario.models.Comentarios.objects
+SGPA.apps.usuario.models.Flujo.objects
+SGPA.apps.usuario.models.FlujoActividad.objects
+SGPA.apps.usuario.models.FlujoActividadProyecto.objects
+SGPA.apps.usuario.models.Historia.objects
+SGPA.apps.usuario.models.Permiso.objects
+SGPA.apps.usuario.models.Proyecto.objects
+SGPA.apps.usuario.models.ProyectoFlujo.objects
+SGPA.apps.usuario.models.Rol.objects
+SGPA.apps.usuario.models.RolPermiso.objects
+SGPA.apps.usuario.models.Sprint.objects
+SGPA.apps.usuario.models.UserHistory.objects
+SGPA.apps.usuario.models.UsuarioRolProyecto.objects
+SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-30', 'objects', 'link-30');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-31" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-31', 'username', 'link-11');">username</a></tt><tt class="py-op">=</tt><tt id="link-32" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-32', 'username', 'link-11');">username</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name" targets="Class SGPA.apps.home.models.userProfile.DoesNotExist=SGPA.apps.home.models.userProfile.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Actividad.DoesNotExist=SGPA.apps.usuario.models.Actividad.DoesNotExist-class.html,Class SGPA.apps.usuario.models.ArchivosAdjuntos.DoesNotExist=SGPA.apps.usuario.models.ArchivosAdjuntos.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Comentarios.DoesNotExist=SGPA.apps.usuario.models.Comentarios.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Flujo.DoesNotExist=SGPA.apps.usuario.models.Flujo.DoesNotExist-class.html,Class SGPA.apps.usuario.models.FlujoActividad.DoesNotExist=SGPA.apps.usuario.models.FlujoActividad.DoesNotExist-class.html,Class SGPA.apps.usuario.models.FlujoActividadProyecto.DoesNotExist=SGPA.apps.usuario.models.FlujoActividadProyecto.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Historia.DoesNotExist=SGPA.apps.usuario.models.Historia.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Permiso.DoesNotExist=SGPA.apps.usuario.models.Permiso.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Proyecto.DoesNotExist=SGPA.apps.usuario.models.Proyecto.DoesNotExist-class.html,Class SGPA.apps.usuario.models.ProyectoFlujo.DoesNotExist=SGPA.apps.usuario.models.ProyectoFlujo.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Rol.DoesNotExist=SGPA.apps.usuario.models.Rol.DoesNotExist-class.html,Class SGPA.apps.usuario.models.RolPermiso.DoesNotExist=SGPA.apps.usuario.models.RolPermiso.DoesNotExist-class.html,Class SGPA.apps.usuario.models.Sprint.DoesNotExist=SGPA.apps.usuario.models.Sprint.DoesNotExist-class.html,Class SGPA.apps.usuario.models.UserHistory.DoesNotExist=SGPA.apps.usuario.models.UserHistory.DoesNotExist-class.html,Class SGPA.apps.usuario.models.UsuarioRolProyecto.DoesNotExist=SGPA.apps.usuario.models.UsuarioRolProyecto.DoesNotExist-class.html,Class SGPA.apps.usuario.models.UsuarioRolSistema.DoesNotExist=SGPA.apps.usuario.models.UsuarioRolSistema.DoesNotExist-class.html"><a title="SGPA.apps.home.models.userProfile.DoesNotExist
+SGPA.apps.usuario.models.Actividad.DoesNotExist
+SGPA.apps.usuario.models.ArchivosAdjuntos.DoesNotExist
+SGPA.apps.usuario.models.Comentarios.DoesNotExist
+SGPA.apps.usuario.models.Flujo.DoesNotExist
+SGPA.apps.usuario.models.FlujoActividad.DoesNotExist
+SGPA.apps.usuario.models.FlujoActividadProyecto.DoesNotExist
+SGPA.apps.usuario.models.Historia.DoesNotExist
+SGPA.apps.usuario.models.Permiso.DoesNotExist
+SGPA.apps.usuario.models.Proyecto.DoesNotExist
+SGPA.apps.usuario.models.ProyectoFlujo.DoesNotExist
+SGPA.apps.usuario.models.Rol.DoesNotExist
+SGPA.apps.usuario.models.RolPermiso.DoesNotExist
+SGPA.apps.usuario.models.Sprint.DoesNotExist
+SGPA.apps.usuario.models.UserHistory.DoesNotExist
+SGPA.apps.usuario.models.UsuarioRolProyecto.DoesNotExist
+SGPA.apps.usuario.models.UsuarioRolSistema.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-33', 'DoesNotExist', 'link-33');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt id="link-34" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-34', 'username', 'link-11');">username</a></tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt id="link-35" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-35', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">'Nombre de usuario ya existe'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"> </tt>
+<a name="UsuariosForm.clean_email"></a><div id="UsuariosForm.clean_email-def"><a name="L28"></a><tt class="py-lineno">28</tt> <a class="py-toggle" href="#" id="UsuariosForm.clean_email-toggle" onclick="return toggle('UsuariosForm.clean_email');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.UsuariosForm-class.html#clean_email">clean_email</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UsuariosForm.clean_email-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="UsuariosForm.clean_email-expanded"><a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt id="link-36" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.email
+SGPA.apps.usuario.forms.UsuariosForm.email" class="py-name" href="#" onclick="return doclink('link-36', 'email', 'link-20');">email</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'email'</tt><tt class="py-op">]</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">            <tt class="py-name">u</tt> <tt class="py-op">=</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="SGPA.apps.home.models.userProfile.objects
+SGPA.apps.usuario.models.Actividad.objects
+SGPA.apps.usuario.models.ArchivosAdjuntos.objects
+SGPA.apps.usuario.models.Comentarios.objects
+SGPA.apps.usuario.models.Flujo.objects
+SGPA.apps.usuario.models.FlujoActividad.objects
+SGPA.apps.usuario.models.FlujoActividadProyecto.objects
+SGPA.apps.usuario.models.Historia.objects
+SGPA.apps.usuario.models.Permiso.objects
+SGPA.apps.usuario.models.Proyecto.objects
+SGPA.apps.usuario.models.ProyectoFlujo.objects
+SGPA.apps.usuario.models.Rol.objects
+SGPA.apps.usuario.models.RolPermiso.objects
+SGPA.apps.usuario.models.Sprint.objects
+SGPA.apps.usuario.models.UserHistory.objects
+SGPA.apps.usuario.models.UsuarioRolProyecto.objects
+SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-37', 'objects', 'link-30');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-38" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.email
+SGPA.apps.usuario.forms.UsuariosForm.email" class="py-name" href="#" onclick="return doclink('link-38', 'email', 'link-20');">email</a></tt><tt class="py-op">=</tt><tt id="link-39" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.email
+SGPA.apps.usuario.forms.UsuariosForm.email" class="py-name" href="#" onclick="return doclink('link-39', 'email', 'link-20');">email</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt id="link-40" class="py-name"><a title="SGPA.apps.home.models.userProfile.DoesNotExist
+SGPA.apps.usuario.models.Actividad.DoesNotExist
+SGPA.apps.usuario.models.ArchivosAdjuntos.DoesNotExist
+SGPA.apps.usuario.models.Comentarios.DoesNotExist
+SGPA.apps.usuario.models.Flujo.DoesNotExist
+SGPA.apps.usuario.models.FlujoActividad.DoesNotExist
+SGPA.apps.usuario.models.FlujoActividadProyecto.DoesNotExist
+SGPA.apps.usuario.models.Historia.DoesNotExist
+SGPA.apps.usuario.models.Permiso.DoesNotExist
+SGPA.apps.usuario.models.Proyecto.DoesNotExist
+SGPA.apps.usuario.models.ProyectoFlujo.DoesNotExist
+SGPA.apps.usuario.models.Rol.DoesNotExist
+SGPA.apps.usuario.models.RolPermiso.DoesNotExist
+SGPA.apps.usuario.models.Sprint.DoesNotExist
+SGPA.apps.usuario.models.UserHistory.DoesNotExist
+SGPA.apps.usuario.models.UsuarioRolProyecto.DoesNotExist
+SGPA.apps.usuario.models.UsuarioRolSistema.DoesNotExist" class="py-name" href="#" onclick="return doclink('link-40', 'DoesNotExist', 'link-33');">DoesNotExist</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt id="link-41" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.email
+SGPA.apps.usuario.forms.UsuariosForm.email" class="py-name" href="#" onclick="return doclink('link-41', 'email', 'link-20');">email</a></tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt id="link-42" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-42', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">'Email ya registrado'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="UsuariosForm.clean_password_two"></a><div id="UsuariosForm.clean_password_two-def"><a name="L36"></a><tt class="py-lineno">36</tt> <a class="py-toggle" href="#" id="UsuariosForm.clean_password_two-toggle" onclick="return toggle('UsuariosForm.clean_password_two');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.UsuariosForm-class.html#clean_password_two">clean_password_two</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UsuariosForm.clean_password_two-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="UsuariosForm.clean_password_two-expanded"><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt id="link-43" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.password_one" class="py-name" href="#" onclick="return doclink('link-43', 'password_one', 'link-23');">password_one</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password_one'</tt><tt class="py-op">]</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt id="link-44" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.password_two" class="py-name" href="#" onclick="return doclink('link-44', 'password_two', 'link-26');">password_two</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password_two'</tt><tt class="py-op">]</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt id="link-45" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.password_one" class="py-name" href="#" onclick="return doclink('link-45', 'password_one', 'link-23');">password_one</a></tt> <tt class="py-op">==</tt> <tt id="link-46" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.password_two" class="py-name" href="#" onclick="return doclink('link-46', 'password_two', 'link-26');">password_two</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-keyword">raise</tt> <tt id="link-47" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-47', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">'Contrase&#241;as no coinciden'</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"> </tt>
+<a name="FilterForm"></a><div id="FilterForm-def"><a name="L44"></a><tt class="py-lineno">44</tt> <a class="py-toggle" href="#" id="FilterForm-toggle" onclick="return toggle('FilterForm');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.FilterForm-class.html">FilterForm</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">Form</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="FilterForm-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="FilterForm-expanded"><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line"><tt class="py-docstring">    Formulario para el filtrado de objetos en listas</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">    <tt id="link-48" class="py-name" targets="Variable SGPA.apps.actividades.forms.FilterForm.filtro=SGPA.apps.actividades.forms.FilterForm-class.html#filtro,Variable SGPA.apps.flujo.forms.FilterForm.filtro=SGPA.apps.flujo.forms.FilterForm-class.html#filtro,Variable SGPA.apps.proyectos.forms.FilterForm.filtro=SGPA.apps.proyectos.forms.FilterForm-class.html#filtro,Variable SGPA.apps.roles.forms.FilterForm.filtro=SGPA.apps.roles.forms.FilterForm-class.html#filtro,Variable SGPA.apps.sprint.forms.FilterForm.filtro=SGPA.apps.sprint.forms.FilterForm-class.html#filtro,Variable SGPA.apps.userhistory.forms.FilterForm.filtro=SGPA.apps.userhistory.forms.FilterForm-class.html#filtro,Variable SGPA.apps.usuario.forms.FilterForm.filtro=SGPA.apps.usuario.forms.FilterForm-class.html#filtro"><a title="SGPA.apps.actividades.forms.FilterForm.filtro
+SGPA.apps.flujo.forms.FilterForm.filtro
+SGPA.apps.proyectos.forms.FilterForm.filtro
+SGPA.apps.roles.forms.FilterForm.filtro
+SGPA.apps.sprint.forms.FilterForm.filtro
+SGPA.apps.userhistory.forms.FilterForm.filtro
+SGPA.apps.usuario.forms.FilterForm.filtro" class="py-name" href="#" onclick="return doclink('link-48', 'filtro', 'link-48');">filtro</a></tt> <tt class="py-op">=</tt> <tt id="link-49" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-49', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">max_length</tt> <tt class="py-op">=</tt> <tt class="py-number">30</tt><tt class="py-op">,</tt> <tt class="py-name">label</tt> <tt class="py-op">=</tt> <tt class="py-string">'BUSCAR'</tt><tt class="py-op">,</tt> <tt class="py-name">required</tt><tt class="py-op">=</tt><tt class="py-name">False</tt><tt class="py-op">)</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">    <tt id="link-50" class="py-name" targets="Variable SGPA.apps.actividades.forms.FilterForm.paginas=SGPA.apps.actividades.forms.FilterForm-class.html#paginas,Variable SGPA.apps.flujo.forms.FilterForm.paginas=SGPA.apps.flujo.forms.FilterForm-class.html#paginas,Variable SGPA.apps.proyectos.forms.FilterForm.paginas=SGPA.apps.proyectos.forms.FilterForm-class.html#paginas,Variable SGPA.apps.roles.forms.FilterForm.paginas=SGPA.apps.roles.forms.FilterForm-class.html#paginas,Variable SGPA.apps.sprint.forms.FilterForm.paginas=SGPA.apps.sprint.forms.FilterForm-class.html#paginas,Variable SGPA.apps.userhistory.forms.FilterForm.paginas=SGPA.apps.userhistory.forms.FilterForm-class.html#paginas,Variable SGPA.apps.usuario.forms.FilterForm.paginas=SGPA.apps.usuario.forms.FilterForm-class.html#paginas"><a title="SGPA.apps.actividades.forms.FilterForm.paginas
+SGPA.apps.flujo.forms.FilterForm.paginas
+SGPA.apps.proyectos.forms.FilterForm.paginas
+SGPA.apps.roles.forms.FilterForm.paginas
+SGPA.apps.sprint.forms.FilterForm.paginas
+SGPA.apps.userhistory.forms.FilterForm.paginas
+SGPA.apps.usuario.forms.FilterForm.paginas" class="py-name" href="#" onclick="return doclink('link-50', 'paginas', 'link-50');">paginas</a></tt> <tt class="py-op">=</tt> <tt id="link-51" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-51', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">2</tt><tt class="py-op">,</tt> <tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-52" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-52', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">Select</tt><tt class="py-op">(</tt><tt class="py-name">choices</tt><tt class="py-op">=</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-string">'5'</tt><tt class="py-op">,</tt><tt class="py-string">'5'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-op">(</tt><tt class="py-string">'10'</tt><tt class="py-op">,</tt><tt class="py-string">'10'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-op">(</tt><tt class="py-string">'15'</tt><tt class="py-op">,</tt><tt class="py-string">'15'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt><tt class="py-op">(</tt><tt class="py-string">'20'</tt><tt class="py-op">,</tt><tt class="py-string">'20'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">'MOSTRAR'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"> </tt>
+<a name="ModUsuariosForm"></a><div id="ModUsuariosForm-def"><a name="L51"></a><tt class="py-lineno">51</tt> <a class="py-toggle" href="#" id="ModUsuariosForm-toggle" onclick="return toggle('ModUsuariosForm');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.ModUsuariosForm-class.html">ModUsuariosForm</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">Form</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ModUsuariosForm-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="ModUsuariosForm-expanded"><a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line"><tt class="py-docstring">    Formulario para la modificacion de datos de Usuario</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">    <tt id="link-53" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.first_name
+SGPA.apps.usuario.forms.UsuariosForm.first_name" class="py-name" href="#" onclick="return doclink('link-53', 'first_name', 'link-14');">first_name</a></tt> <tt class="py-op">=</tt> <tt id="link-54" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-54', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"NOMBRE"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-55" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-55', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">    <tt id="link-56" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.last_name
+SGPA.apps.usuario.forms.UsuariosForm.last_name" class="py-name" href="#" onclick="return doclink('link-56', 'last_name', 'link-17');">last_name</a></tt> <tt class="py-op">=</tt> <tt id="link-57" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-57', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"APELLIDO"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-58" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-58', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">    <tt id="link-59" class="py-name"><a title="SGPA.apps.usuario.forms.ModUsuariosForm.email
+SGPA.apps.usuario.forms.UsuariosForm.email" class="py-name" href="#" onclick="return doclink('link-59', 'email', 'link-20');">email</a></tt> <tt class="py-op">=</tt> <tt id="link-60" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-60', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">EmailField</tt><tt class="py-op">(</tt><tt class="py-name">label</tt><tt class="py-op">=</tt><tt class="py-string">"CORREO ELECTRONICO"</tt><tt class="py-op">,</tt><tt class="py-name">widget</tt><tt class="py-op">=</tt><tt id="link-61" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-61', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">TextInput</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line"> </tt>
+<a name="CambiarPasswordForm"></a><div id="CambiarPasswordForm-def"><a name="L59"></a><tt class="py-lineno">59</tt> <a class="py-toggle" href="#" id="CambiarPasswordForm-toggle" onclick="return toggle('CambiarPasswordForm');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.CambiarPasswordForm-class.html">CambiarPasswordForm</a><tt class="py-op">(</tt><tt class="py-base-class">forms</tt><tt class="py-op">.</tt><tt class="py-base-class">Form</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CambiarPasswordForm-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="CambiarPasswordForm-expanded"><a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line"><tt class="py-docstring">    Formulario para Cambiar contrase&#241;as de Usuario autenticado</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">    <tt id="link-62" class="py-name" targets="Variable SGPA.apps.usuario.forms.CambiarPasswordForm.passwordactual=SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#passwordactual"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.passwordactual" class="py-name" href="#" onclick="return doclink('link-62', 'passwordactual', 'link-62');">passwordactual</a></tt> <tt class="py-op">=</tt> <tt id="link-63" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-63', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">widget</tt> <tt class="py-op">=</tt> <tt id="link-64" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-64', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">128</tt><tt class="py-op">,</tt> <tt class="py-name">label</tt> <tt class="py-op">=</tt> <tt class="py-string">u'ESCRIBA SU CONTRASE&#209;A ACTUAL'</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">    <tt id="link-65" class="py-name" targets="Variable SGPA.apps.usuario.forms.CambiarPasswordForm.password1=SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#password1"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password1" class="py-name" href="#" onclick="return doclink('link-65', 'password1', 'link-65');">password1</a></tt> <tt class="py-op">=</tt> <tt id="link-66" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-66', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">widget</tt> <tt class="py-op">=</tt> <tt id="link-67" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-67', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">128</tt><tt class="py-op">,</tt> <tt class="py-name">label</tt> <tt class="py-op">=</tt> <tt class="py-string">u'ESCRIBA SU NUEVA CONTRASE&#209;A'</tt><tt class="py-op">)</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">    <tt id="link-68" class="py-name" targets="Variable SGPA.apps.usuario.forms.CambiarPasswordForm.password2=SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#password2"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password2" class="py-name" href="#" onclick="return doclink('link-68', 'password2', 'link-68');">password2</a></tt> <tt class="py-op">=</tt> <tt id="link-69" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-69', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">CharField</tt><tt class="py-op">(</tt><tt class="py-name">widget</tt> <tt class="py-op">=</tt> <tt id="link-70" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-70', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">PasswordInput</tt><tt class="py-op">,</tt> <tt class="py-name">max_length</tt><tt class="py-op">=</tt><tt class="py-number">128</tt><tt class="py-op">,</tt> <tt class="py-name">label</tt> <tt class="py-op">=</tt> <tt class="py-string">u'REPITA SU NUEVA CONTRASE&#209;A'</tt><tt class="py-op">)</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line"> </tt>
+<a name="CambiarPasswordForm.clean_password2"></a><div id="CambiarPasswordForm.clean_password2-def"><a name="L67"></a><tt class="py-lineno">67</tt> <a class="py-toggle" href="#" id="CambiarPasswordForm.clean_password2-toggle" onclick="return toggle('CambiarPasswordForm.clean_password2');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#clean_password2">clean_password2</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CambiarPasswordForm.clean_password2-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CambiarPasswordForm.clean_password2-expanded"><a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-string">'password1'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">:</tt> </tt>
+<a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line">            <tt id="link-71" class="py-name"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password1" class="py-name" href="#" onclick="return doclink('link-71', 'password1', 'link-65');">password1</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password1'</tt><tt class="py-op">]</tt> </tt>
+<a name="L70"></a><tt class="py-lineno">70</tt>  <tt class="py-line">            <tt id="link-72" class="py-name"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password2" class="py-name" href="#" onclick="return doclink('link-72', 'password2', 'link-68');">password2</a></tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">cleaned_data</tt><tt class="py-op">[</tt><tt class="py-string">'password2'</tt><tt class="py-op">]</tt> </tt>
+<a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt id="link-73" class="py-name"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password1" class="py-name" href="#" onclick="return doclink('link-73', 'password1', 'link-65');">password1</a></tt> <tt class="py-op">==</tt> <tt id="link-74" class="py-name"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password2" class="py-name" href="#" onclick="return doclink('link-74', 'password2', 'link-68');">password2</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt id="link-75" class="py-name"><a title="SGPA.apps.usuario.forms.CambiarPasswordForm.password2" class="py-name" href="#" onclick="return doclink('link-75', 'password2', 'link-68');">password2</a></tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt id="link-76" class="py-name"><a title="SGPA.apps.actividades.forms
+SGPA.apps.flujo.forms
+SGPA.apps.home.forms
+SGPA.apps.proyectos.forms
+SGPA.apps.roles.forms
+SGPA.apps.sprint.forms
+SGPA.apps.userhistory.forms
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-76', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt class="py-name">ValidationError</tt><tt class="py-op">(</tt><tt class="py-string">'Las contrase&#241;as no coinciden'</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="SGPA-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat May 16 05:43:09 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

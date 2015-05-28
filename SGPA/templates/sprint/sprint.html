@@ -48,7 +48,7 @@
       <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER AL PROYECTO</strong> </a>&nbsp;&nbsp;
-		    {% if crear_sprint %}
+		    {% if crear_sprint and ProyPend %}
                    <a class="btn btn-primary" href="/crearSprint/crear&id={{proyecto.id}}/"><strong>CREAR SPRINT</strong></a>
                     {% endif %}
 	</div>
