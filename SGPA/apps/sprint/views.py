@@ -81,7 +81,7 @@ def admin_sprint(request,proyecto_id):
                                                             'proyPend':proyPend,
                                                             'pag': pag,
                                                             'ver_sprint':'ver sprint' in permisos,
-							'crear_sprint':'crear sprint' in permisos
+                                                            'crear_sprint':'crear sprint' in permisos
                                                         })
     else:
         try:
@@ -104,9 +104,9 @@ def admin_sprint(request,proyecto_id):
                                                             'user':user,
                                                             'proyecto':proyecto,
                                                             'proyPend':proyPend,
-							    'pag': pag,
+                                                            'pag': pag,
                                                             'ver_sprint':'ver sprint' in permisos,
-							    'crear_sprint':'crear sprint' in permisos
+                                                            'crear_sprint':'crear sprint' in permisos
 							})
 
 @login_required
@@ -120,8 +120,9 @@ def crear_sprint(request, proyecto_id):
     """
 
     user = User.objects.get(username=request.user.username)
+    proyecto = get_object_or_404(Proyecto, id = proyecto_id)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -129,7 +130,6 @@ def crear_sprint(request, proyecto_id):
     for i in permisos_obj:
         permisos.append(i.nombre)
     #-------------------------------------------------------------------
-    proyecto = get_object_or_404(Proyecto, id = proyecto_id)
     if proyecto.estado ==  1:
     	if request.method == 'POST':
 		form = SprintForm(proyecto_id, request.POST)
@@ -153,49 +153,56 @@ def crear_sprint(request, proyecto_id):
     return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))
 
 def visualizar_sprint(request, sprint_id):
-        """
+    """
     vista utilizada para listar los sprint
     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
     :param sprint_id: contiene el id del sprint
     :return: se lista todos los sprint
     """
-        sprint = get_object_or_404(Sprint, id=sprint_id)
-        sprintus = UserHistorySprint.objects.filter(sprint = sprint)
-        capSem = necesidad = consumidas = 0
-        sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
-        laborales = [dia for dia in range(7) if dia not in sabdom]
-        totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
-        print totalDias.count()
-        duracionSprintDias = totalDias.count()
-        duracionSprintSem = duracionSprintDias / 5
-        # duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)
-        # duracionSprint = duracionS.days
-        urp = UsuarioRolProyecto.objects.filter(proyecto=sprint.proyecto)
-        for rec in urp:
-            capSem += rec.horas
-        capacidad = capSem * duracionSprintSem
-        for i in sprintus:
-            necesidad += i.horas_plan
-            consumidas += i.horas_ejec
-        disponibles = capacidad - consumidas
-        user=  User.objects.get(username=request.user.username)
-        permisos = get_permisos_sistema(user)
-        lista = User.objects.all().order_by("id")
-        ctx = {'lista':lista,
-               'sprint':sprint,
-               'sprintus': sprintus,
-               'capacidad' : capacidad,
-               'necesidad' : necesidad,
-               'disponibles' : disponibles,
-               'consumidas' : consumidas,
-               'duracionSprint': duracionSprintSem,
-               'ver_sprint': 'ver sprint' in permisos,
-               'crear_sprint': 'crear sprint' in permisos,
-               'mod_sprint': 'modificar sprint' in permisos,
-               'eliminar_sprint': 'eliminar sprint' in permisos,
-               'ver_user_history': 'ver user history' in permisos
-	          }
-	return render_to_response('sprint/verSprint.html',ctx,context_instance=RequestContext(request))
+    sprint = get_object_or_404(Sprint, id=sprint_id)
+    sprintus = UserHistorySprint.objects.filter(sprint = sprint)
+    capSem = necesidad = consumidas = 0
+    sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
+    laborales = [dia for dia in range(7) if dia not in sabdom]
+    totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
+    print totalDias.count()
+    duracionSprintDias = totalDias.count()
+    duracionSprintSem = duracionSprintDias / 5
+    # duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)
+    # duracionSprint = duracionS.days
+    urp = UsuarioRolProyecto.objects.filter(proyecto=sprint.proyecto)
+    for rec in urp:
+        capSem += rec.horas
+    capacidad = capSem * duracionSprintSem
+    for i in sprintus:
+        necesidad += i.horas_plan
+        consumidas += i.horas_ejec
+    disponibles = capacidad - consumidas
+    user = User.objects.get(username=request.user.username)
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = sprint.proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
+    lista = User.objects.all().order_by("id")
+    ctx = {'lista':lista,
+           'sprint':sprint,
+           'sprintus': sprintus,
+           'capacidad' : capacidad,
+           'necesidad' : necesidad,
+           'disponibles' : disponibles,
+           'consumidas' : consumidas,
+           'duracionSprint': duracionSprintSem,
+           'ver_sprint': 'ver sprint' in permisos,
+           'crear_sprint': 'crear sprint' in permisos,
+           'mod_sprint': 'modificar sprint' in permisos,
+           'eliminar_sprint': 'eliminar sprint' in permisos,
+           'ver_user_history': 'ver user history' in permisos,
+           'iniciar_sprint': 'iniciar sprint' in permisos
+          }
+    return render_to_response('sprint/verSprint.html',ctx,context_instance=RequestContext(request))
 
 @login_required
 def mod_sprint(request, sprint_id):
@@ -267,3 +274,10 @@ def borrar_sprint(request, sprint_id):
                                                                     'user':user,
                                                                     'eliminar_sprint':'eliminar sprint' in permisos
                                                                     })
+
+def iniciar_sprint(request, sprint_id):
+
+    sprint = get_object_or_404(Sprint, id=sprint_id)
+    sprint.estado = "iniciado"
+    sprint.save()
+    return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)

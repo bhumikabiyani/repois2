@@ -67,6 +67,9 @@
             {% if mod_sprint %}
             <a class="btn btn-primary" href="/modificarSprint/mod&id={{sprint.id}}/"><strong>MODIFICAR</strong></a>
             {% endif %}
+            {% if iniciar_sprint %}
+            <a class="btn btn-primary" href="/iniciarSprint/sprint&id={{sprint.id}}/"><strong>INICIAR</strong></a>
+            {% endif %}
         </td><br><br>
         <a class="btn btn-primary" href="/sprint/sprint&id={{sprint.proyecto_id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
     </div>
