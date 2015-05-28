@@ -16,6 +16,7 @@
             <th class="titulo"><b><strong><span style="color:#330099">NECESIDAD</span></strong></b></th>
             <th class="titulo"><b><strong><span style="color:#330099">CONSUMIDAS</span></strong></b></th>
             <th class="titulo"><b><strong><span style="color:#330099">DISPONIBLES</span></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">ESTADO</span></strong></b></th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
             <td><strong>{{necesidad}} horas(s)</strong></td>
             <td><strong>{{consumidas}} horas(s)</strong></td>
             <td><strong>{{disponibles}} horas(s)</strong></td>
+            <td><strong>{{sprint.estado}}</strong></td>
         </tr>
         </tbody>
     </table>
@@ -37,17 +39,19 @@
         <tr>
              <th class="titulo"><b><strong><span style="color:#330099">USER HISTORY</span></strong></b></th>
              <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</span></strong></b></th>
-             <th class="titulo"><b><strong><span style="color:#330099">TIEMPO ESTIMADO</span></strong></b></th>
+             <th class="titulo"><b><strong><span style="color:#330099">PLANIFICADO</span></strong></b></th>
+             <th class="titulo"><b><strong><span style="color:#330099">EJECUTADO</span></strong></b></th>
         </tr>
       </thead>
           <tbody>
-     {%for us in userhistories%}
+     {%for ussp in sprintus%}
          <tr>
-             <td><strong>{{us.nombre}}</strong></td>
-             <td><strong>{{us.descripcion}}</strong></td>
-             <td><strong>{{us.tiempo_estimado}}</strong></td>
+             <td><strong>{{ussp.userhistory.nombre}}</strong></td>
+             <td><strong>{{ussp.userhistory.descripcion}}</strong></td>
+             <td><strong>{{ussp.horas_plan}}</strong></td>
+             <td><strong>{{ussp.horas_ejec}}</strong></td>
              {%if ver_user_history%}
-             <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{us.id}}/"><strong>VER</strong></a></td>
+             <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{ussp.userhistory.id}}/"><strong>VER</strong></a></td>
              {% endif %}
          </tr>
      {% endfor %}

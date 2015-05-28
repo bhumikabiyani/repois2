@@ -140,6 +140,7 @@ def crear_sprint(request, proyecto_id):
                    r.fecha_inicio = form.cleaned_data['fecha_inicio']
                    r.fecha_fin = form.cleaned_data['fecha_fin']
                    r.proyecto = proyecto
+                   r.estado = "planificacion"
                    r.save()
 		   return HttpResponseRedirect("/sprint/sprint&id="+ str(proyecto_id))
     	else:
@@ -159,7 +160,7 @@ def visualizar_sprint(request, sprint_id):
     :return: se lista todos los sprint
     """
         sprint = get_object_or_404(Sprint, id=sprint_id)
-        US = UserHistory.objects.filter(sprint = sprint_id)
+        sprintus = UserHistorySprint.objects.filter(sprint = sprint)
         capSem = necesidad = consumidas = 0
         sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
         laborales = [dia for dia in range(7) if dia not in sabdom]
@@ -173,19 +174,16 @@ def visualizar_sprint(request, sprint_id):
         for rec in urp:
             capSem += rec.horas
         capacidad = capSem * duracionSprintSem
-        for i in US:
-            necesidad += i.tiempo_estimado
-            trabajos = Comentarios.objects.filter(userhistory = i)
-            for usTrabajo in trabajos:
-                consumidas += usTrabajo.horas
+        for i in sprintus:
+            necesidad += i.horas_plan
+            consumidas += i.horas_ejec
         disponibles = capacidad - consumidas
         user=  User.objects.get(username=request.user.username)
-        userhistories = UserHistory.objects.filter(proyecto = sprint.proyecto, sprint = sprint)
         permisos = get_permisos_sistema(user)
         lista = User.objects.all().order_by("id")
         ctx = {'lista':lista,
                'sprint':sprint,
-               'userhistories': userhistories,
+               'sprintus': sprintus,
                'capacidad' : capacidad,
                'necesidad' : necesidad,
                'disponibles' : disponibles,

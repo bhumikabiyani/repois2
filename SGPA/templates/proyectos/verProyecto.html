@@ -107,7 +107,7 @@
 			<!--{% if eliminar_proyecto %}-->
                       <!--<a class="btn btn-primary" href="/eliminarProyecto/del&id={{proyecto.id}}/"><strong>ELIMINAR</strong></a>-->
 			<!--{% endif %}			-->
-			{% if mod_proyecto and proyPend%}
+			{% if mod_proyecto %}
 				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
 			{% if asignar_miembros and proyPend%}
