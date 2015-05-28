@@ -173,3 +173,6 @@ class CambiarActividadUSForm(forms.Form):
             if not i.actividad.id in listAct:
                 listAct.append(i.actividad.id)
         self.fields['actividad'].queryset = Actividad.objects.filter(Q(id__in = listAct))
+
+#class FinalizarUSForm(forms.Form):
+#    estado = forms.CharField(widget=forms.Select(choices=ESTADO_CHOICES))

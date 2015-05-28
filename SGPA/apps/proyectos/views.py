@@ -19,9 +19,12 @@ from django.contrib import *
 from django.template.loader import get_template
 from django.forms.formsets import formset_factory
 from SGPA.apps.proyectos.forms import *
-from SGPA.apps.proyectos.forms import *
 from SGPA.apps.proyectos.models import *
 from SGPA.apps.proyectos.helper import *
+import numpy as np
+import matplotlib.pyplot as plt
+from dateutil import rrule
+
 
 def dateTimeViewBootstrap2(request):
 
@@ -499,140 +502,197 @@ def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
     return HttpResponseRedirect("/verActividadesProy/flujo&id=%s&&proyecto&id=%s/" %(flujo_id,proyecto_id))
 
 @login_required
-def visualizar_kanban(request, flujo_id, proyecto_id):
-    """Metodo para asignar Flujo a Proyecto"""
+def visualizar_kanban(request, proyecto_id):
+    """Metodo para visualizar la tabla kanban"""
     user = User.objects.get(username=request.user.username)
     proy = Proyecto.objects.get(id = proyecto_id)
     #Validacion de permisos---------------------------------------------
-    #roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proy).only('rol')
-    #permisos_obj = []
-    #for i in roles:
-    #    permisos_obj.extend(i.rol.permisos.all())
-    #permisos = []
-    #for i in permisos_obj:
-    #    permisos.append(i.nombre)
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proy).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
     #print permisos
     #-------------------------------------------------------------------
     US = UserHistory.objects.filter(proyecto = proyecto_id).order_by('valor_tecnico')
-    print US
     usExcSprint = UserHistory.objects.filter(proyecto = proyecto_id,sprint = None).order_by('sprint')
     proyactual = get_object_or_404(Proyecto, id=proyecto_id)
-    flujoactual = get_object_or_404(Flujo, id=flujo_id)
-    actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual).order_by('orden')
-    sprints = Sprint.objects.filter(proyecto = proyecto_id).order_by('fecha_inicio')
-    sprintList = []
-    sprintList.append("BACKLOG")
-    for rec in sprints:
-        if not rec.nombre in sprintList:
-            sprintList.append(str(rec.nombre))
-    newList = []
-    for rec in sprintList:
-        newList.append("")
-    # print newList
-    # print sprintList
-    dict = {}
-    for rec in sprints:
-        if not dict.has_key(rec.nombre):
-            dict[rec.nombre] = {}
-    print dict
-    for rec in US:
-        if rec.sprint:
-            sprint = Sprint.objects.get(nombre = rec.sprint)
-            nombre = sprint.nombre
-        else:
-            nombre = "BACKLOG"
-        valor_tecnico = rec.valor_tecnico * -1
-        if not dict.has_key(nombre):
-            dict[nombre] = {}
-        if not dict[nombre].has_key(valor_tecnico):
-            dict[nombre][valor_tecnico] = {}
-        if not dict[nombre][valor_tecnico].has_key(rec.id):
-            dict[nombre][valor_tecnico][rec.id] = []
+    fluAps = FlujoActividadProyecto.objects.filter(proyecto = proyecto_id)
+    listflu = []
+    for fap in fluAps:
+        if not fap.flujo in listflu:
+            listflu.append(fap.flujo)
+    nro = 0
+    dictAct = {}
+    kanbanxflujo = {}
+    dictUltAct = {}
+    for flujo in listflu:
+        flujoactual = get_object_or_404(Flujo, nombre=flujo.nombre)
+        actividades = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual).order_by('orden')
+        if not dictAct.has_key(flujoactual.nombre):
+            dictAct[flujoactual.nombre] = []
+        dictAct[flujoactual.nombre] = actividades
+        faps = FlujoActividadProyecto.objects.filter(flujo=flujoactual, proyecto =proyactual).order_by('-orden')
+        ultimaActividad = Actividad.objects.get(nombre = faps[0].actividad)
+        if not dictUltAct.has_key(flujoactual.nombre):
+            dictUltAct[flujoactual.nombre] = []
+        dictUltAct[flujoactual.nombre].append(ultimaActividad)
+        sprints = Sprint.objects.filter(proyecto = proyecto_id).order_by('fecha_inicio')
+        sprintList = []
+        sprintList.append("BACKLOG")
+
+        for rec in sprints:
+            if not rec.nombre in sprintList:
+                sprintList.append(str(rec.nombre))
+        newList = []
+        for rec in sprintList:
+            newList.append("")
+        # print newList
+        # print sprintList
+        dict = {}
+        for rec in sprints:
+            if not dict.has_key(rec.nombre):
+                dict[rec.nombre] = {}
+        print dict
+        for rec in US:
+            if rec.sprint:
+                sprint = Sprint.objects.get(nombre = rec.sprint)
+                nombre = sprint.nombre
+            else:
+                nombre = "BACKLOG"
+            valor_tecnico = rec.valor_tecnico * -1
+            if not dict.has_key(nombre):
+                dict[nombre] = {}
+            if not dict[nombre].has_key(valor_tecnico):
+                dict[nombre][valor_tecnico] = {}
+            if not dict[nombre][valor_tecnico].has_key(rec.id):
+                dict[nombre][valor_tecnico][rec.id] = []
+                for sp in sprintList:
+                    dict[nombre][valor_tecnico][rec.id].append("")
+            # if not dict[rec.sprint.nombre].has_key(rec.nombre):
+            #     dict[rec.sprint.nombre][rec.id] = []
+
+            cont = 0
             for sp in sprintList:
-                dict[nombre][valor_tecnico][rec.id].append("")
-        # if not dict[rec.sprint.nombre].has_key(rec.nombre):
-        #     dict[rec.sprint.nombre][rec.id] = []
+                # print sp
+                if sp == nombre:
+                    dict[nombre][valor_tecnico][rec.id][cont] = str(rec.nombre)
+                cont += 1
 
-        cont = 0
-        for sp in sprintList:
-            # print sp
-            if sp == nombre:
-                dict[nombre][valor_tecnico][rec.id][cont] = str(rec.nombre)
-            cont += 1
-
-    actList = []
-    actList.append("BACKLOG")
-    for rec in actividades:
-        acti = Actividad.objects.get(nombre = rec.actividad)
-        if not acti.nombre in actList:
-            actList.append(acti.nombre)
-            actList.append(acti.nombre)
-            actList.append(acti.nombre)
-    newList = []
-    for rec in actList:
-        newList.append("")
-    # print newList
-    # print sprintList
-    dictKanban = {}
-    for rec in actividades:
-        acti = Actividad.objects.get(nombre = rec.actividad)
-        if not dictKanban.has_key(acti.nombre):
-            dictKanban[acti.nombre] = {}
-    print dictKanban
-    usFllujo = UserHistory.objects.filter(proyecto = proyecto_id, flujo = flujoactual).order_by('valor_tecnico')
-    for rec in usFllujo:
-        if rec.flujo:
+        actList = []
+        actList.append("BACKLOG")
+        for rec in actividades:
             acti = Actividad.objects.get(nombre = rec.actividad)
-            nombreAct = acti.nombre
-        else:
-            nombreAct = "BACKLOG"
-        # valor_tecnico = rec.valor_tecnico * -1
-        if not dictKanban.has_key(nombreAct):
-            dictKanban[nombreAct] = {}
-        # if not dict[nombre].has_key(valor_tecnico):
-        #     dict[nombre][valor_tecnico] = {}
-        # if not dictKanban[nombreAct].has_key(rec.estadokanban):
-        #     dictKanban[nombreAct][rec.estadokanban] = {}
-        if not dictKanban[nombreAct].has_key(rec.id):
-            dictKanban[nombreAct][rec.id] = []
+            if not acti.nombre in actList:
+                actList.append(acti.nombre)
+                actList.append(acti.nombre)
+                actList.append(acti.nombre)
+        newList = []
+        for rec in actList:
+            newList.append("")
+        # print newList
+        # print sprintList
+        dictKanban = {}
+
+        for rec in actividades:
+            acti = Actividad.objects.get(nombre = rec.actividad)
+            if not dictKanban.has_key(acti.nombre):
+                dictKanban[acti.nombre] = {}
+        usFllujo = UserHistory.objects.filter(proyecto = proyecto_id, flujo = flujoactual).order_by('valor_tecnico')
+
+        for rec in usFllujo:
+            if rec.flujo:
+                acti = Actividad.objects.get(nombre = rec.actividad)
+                nombreAct = acti.nombre
+                estadok  = rec.estadokanban
+            else:
+                nombreAct = "BACKLOG"
+            # valor_tecnico = rec.valor_tecnico * -1
+            if not dictKanban.has_key(nombreAct):
+                dictKanban[nombreAct] = {}
+            # if not dict[nombre].has_key(valor_tecnico):
+            #     dict[nombre][valor_tecnico] = {}
+            # if not dictKanban[nombreAct].has_key(rec.estadokanban):
+            #     dictKanban[nombreAct][rec.estadokanban] = {}
+            if not dictKanban[nombreAct].has_key(rec.id):
+                dictKanban[nombreAct][rec.id] = []
+                for act in actList:
+                    dictKanban[nombreAct][rec.id].append(["",""])
+            # if not dict[rec.sprint.nombre].has_key(rec.nombre):
+            #     dict[rec.sprint.nombre][rec.id] = []
+
+            cont = 0
             for act in actList:
-                dictKanban[nombreAct][rec.id].append("")
-        # if not dict[rec.sprint.nombre].has_key(rec.nombre):
-        #     dict[rec.sprint.nombre][rec.id] = []
-
-        cont = 0
-        for act in actList:
-            # print sp
-            if act == nombreAct:
-                if nombreAct == 'BACKLOG':
-                    dictKanban[nombreAct][rec.id][0] = str(rec.nombre)
-                    break
-                if rec.estadokanban == 'to-do':
-                    dictKanban[nombreAct][rec.id][cont] = str(rec.nombre)
-                    break
-                elif rec.estadokanban == 'doing':
-                    dictKanban[nombreAct][rec.id][cont+1] = str(rec.nombre)
-                    break
-                elif rec.estadokanban == 'done':
-                    dictKanban[nombreAct][rec.id][cont+2] = str(rec.nombre)
-                    break
-            cont += 1
-
-
-
-        # dict[nombre].append(rec.nombre)
-        # dict[rec.sprint.id][rec.id].append(rec.sprint.nombre)
-        # actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.descripcion)
-        # ultActividad = int(rec.orden)
+                if act == nombreAct:
+                    if nombreAct == 'BACKLOG':
+                        dictKanban[nombreAct][rec.id][0][0] = str(rec.nombre)
+                        break
+                    if rec.estadokanban == 'to-do':
+                        dictKanban[nombreAct][rec.id][cont][0] = str(rec.nombre)
+                        dictKanban[nombreAct][rec.id][cont][1] = str("to-do")
+                        break
+                    elif rec.estadokanban == 'doing':
+                        dictKanban[nombreAct][rec.id][cont+1][0] = str(rec.nombre)
+                        dictKanban[nombreAct][rec.id][cont+1][1] = str("doing")
+                        break
+                    elif rec.estadokanban == 'done':
+                        dictKanban[nombreAct][rec.id][cont+2][0] = str(rec.nombre)
+                        dictKanban[nombreAct][rec.id][cont+2][1] = str("done")
+                        break
+                cont += 1
+        if not kanbanxflujo.has_key(flujoactual.nombre):
+            kanbanxflujo[flujoactual.nombre] = []
+        kanbanxflujo[flujoactual.nombre] = dictKanban
+            # dict[nombre].append(rec.nombre)
+            # dict[rec.sprint.id][rec.id].append(rec.sprint.nombre)
+            # actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.descripcion)
+            #ultActividad = int(rec.orden)
 
 
+    print "fim"
+    print kanbanxflujo
     return render_to_response("proyectos/verkanban.html", {
                                                                   'proyecto': proyactual,
-                                                                  'flujo': flujoactual,
+                                                                  'listflu': listflu,
                                                                   'dict': dict,
-                                                                  'dictKanban': dictKanban,
+                                                                  'kanbanxflujo': kanbanxflujo,
                                                                   'user':user,
                                                                   'US' : US,
                                                                   'sprint' : sprints,
-                                                                  'actividades': actividades
+                                                                  'dictAct': dictAct,
+                                                                  'estadok':estadok,
+                                                                  'dictUltAct' : dictUltAct
+
                                                                   })
+
+@login_required
+def visualizar_burndownChart(request, proyecto_id):
+    """Metodo para visualizar el Grafico BurnDownChart"""
+    #Creamos la nube de puntos
+    sprints = Sprint.objects.filter(proyecto = proyecto_id)
+    for i in sprints:
+        capSem = necesidad = consumidas = 0
+        sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
+        laborales = [dia for dia in range(7) if dia not in sabdom]
+        totalDias= rrule.rrule(rrule.DAILY, dtstart=i.fecha_inicio, until=i.fecha_fin,byweekday=laborales)
+        duracionSprintDias = totalDias.count()
+    print duracionSprintDias
+    x = np.array([0, 1, 2, 3])
+    y = np.array([1, 1.5, 1.8, 2.6])
+
+    #Titulo del Grafico
+    plt.title('BURNDOWN CHART DEL PROYECTO ' + proyecto_id)
+    plt.xlabel('DIAS DEL SPRINT')
+    plt.ylabel('HORAS POR DIA')
+    #Construimos una matriz
+    A = np.vstack([x, np.ones(len(x))])
+    A = A.T #Hacemos su traspuesta
+
+    #Obtenemos parametros de la recta
+    m, c = np.linalg.lstsq(A, y)[0]
+    plt.plot(x, y, 'o',  markersize=15)
+    plt.plot(x, m*x + c, 'r')
+    plt.show()
+    return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))

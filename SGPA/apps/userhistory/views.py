@@ -313,7 +313,7 @@ def agregar_comentario(request, userhistory_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
+
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = AddCommentForm(us, request.POST, request.FILES)
@@ -334,7 +334,7 @@ def agregar_comentario(request, userhistory_id):
                 correo.content_subtype = "html"
                 correo.send()
             #-------------------#
-            return HttpResponseRedirect("/verkanban/ver&id=%s&&proyecto&id=%s/" %(us.flujo.id, us.proyecto.id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
     else:
         form = AddCommentForm(us)
 
@@ -506,7 +506,7 @@ def archivos_adjuntos(request, userhistory_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
-    print permisos
+
     #-------------------------------------------------------------------
     if request.method == 'POST':
         form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
@@ -514,7 +514,7 @@ def archivos_adjuntos(request, userhistory_id):
             newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
             newdoc.save(form)
             registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
-        return HttpResponseRedirect("/verkanban/ver&id=%s&&proyecto&id=%s/" %(us.flujo.id, us.proyecto.id))
+        return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
     else:
         form = ArchivosAdjuntosForm(us)
     return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
@@ -546,7 +546,7 @@ def cambiar_estados(request, userhistory_id):
             actual.estadokanban =form.cleaned_data['estadokanban']
             actual.save()
             registrar_log(actual,"Cambio de Estado: "+actual.estadokanban,user )
-            return HttpResponseRedirect("/verkanban/ver&id=%s&&proyecto&id=%s/" %(actual.flujo.id, actual.proyecto.id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = CambiarEstadosUSForm()
         form.fields['estadokanban'].initial = actual.estadokanban
@@ -596,7 +596,8 @@ def cambiar_actividad(request, userhistory_id):
                 correo.content_subtype = "html"
                 correo.send()
             #-------------------#
-            return HttpResponseRedirect("/verkanban/ver&id=%s&&proyecto&id=%s/" %(userhistory.flujo.id, userhistory.proyecto.id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(userhistory.proyecto.id))
+
     else:
         form = CambiarActividadUSForm(userhistory.id)
         form.fields['actividad'].initial = actual.actividad
@@ -605,3 +606,11 @@ def cambiar_actividad(request, userhistory_id):
                                                                      'userhistory': actual,
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
+
+def finalizar_userhistory(request, userhistory_id):
+
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    actual.estado = 'finalizado'
+    actual.save()
+    return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))

@@ -19,62 +19,104 @@
                     {%for key2,value2 in value1.items%}
                         <tr>
                             {%for rec in value2%}
-                                <td><a href="/verUserHistory/ver&id={{key2}}/"><font color="gray"><strong><em><u>{{rec}}</u></em></strong></font></a></td>
+                            {%if rec%}
+                                <td><div class="btn-group">
+                        <a href="/verUserHistory/ver&id={{key2}}/"><span style="color:#2702E1"><button type="button" class="btn btn-primary" >{{rec}}</button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
+                                    <span class="caret"></span>
+                        <span class="sr-only"></span>
+                        </button>
+                            <ul class="dropdown-menu" role="menu">
+                            <li><a href="/sprintUserHistory/us&id={{key2}}/"><span style="color:#2702E1">* ASIGNAR A SPRINT</span></a></li>
+                                <li class="divider"></li>
+                            <li><a href="/flujoUserHistory/us&id={{key2}}/"><span style="color:#2702E1">* ASIGNAR A FLUJO</span></a></li>
+                                <li class="divider"></li>
+                            <li><a href="/"><span style="color:#2702E1">* REASIGNAR A SPRINT</span></a></li>
+                                <li class="divider"></li>
+                            <li><a href="/"><span style="color:#2702E1">* </span></a></li>
+                            </ul>
+                        </div></td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
                             {% endfor %}
                         </tr>
                     {% endfor %}
                 {% endfor %}
             {% endfor %}
-
 		</tbody>
-    </table>
-    <center><strong><font face="Comic Sans MS"><h3> TABLA KANBAN </h3></font></strong></center>
-    <center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
 
-    <table class="table table-bordered" cellpadding="1" cellspacing="1">
-                <td colspan="1" rowspan="2" bgcolor="blue"><center><strong><span style="color:#FFFFFF">BACKLOG</span></strong></center></td>
-                {%for f in actividades%}
-                 <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{f.actividad.nombre}}</span></strong></center></td>
-                {% endfor %}
+    </table>
+
+    <center><strong><font face="Comic Sans MS"><h3> TABLA KANBAN </h3></font></strong></center>
+
+    {%for flujo in listflu%}
+
+       <center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
+        <table class="table table-bordered" cellpadding="1" cellspacing="1">
+           <tr><td colspan="1" rowspan="2" bgcolor="blue"><center><strong><span style="color:#FFFFFF">BACKLOG</span></strong></center></td>
+           {%for key,listAct in dictAct.items%}
+            {% if key == flujo.nombre %}
+                {% for act in listAct %}
+                    <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{act.actividad.nombre}}</span></strong></center></td>
+               {% endfor %}
+            {%endif%}
+           {%endfor%}
            </tr>
            <tr>
-              {%for f in actividades%}
-                 <td bgcolor="red"><strong><center>TO DO</center></strong></td>
-                 <td bgcolor="yellow"><strong><center>DOING</center></strong></td>
-                 <td bgcolor="chartreuse"><strong><center>DONE</center></strong></td>
-              {% endfor %}
-           </tr>
-
-
-            {%for key,uss in dictKanban.items%}
-                {%for key2,listanombre in uss.items%}
-                    <tr>
-                        {%for rec in listanombre%}
-                            {%if rec%}
-                                <td><div class="btn-group">
-                                <a href="/verUserHistory/ver&id={{key2}}/"><span style="color:#2702E1"><button type="button" class="btn btn-primary" >{{rec}}</button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
-                                <span class="caret"></span>
-                                <span class="sr-only"></span>
-                                </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
-                                        <li class="divider"></li>
-                                    <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
-                                        <li class="divider"></li>
-                                    <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
-                                        <li class="divider"></li>
-                                    <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
-                                    </ul>
-                                </div></td>
-                            {% else %}
-                                <td></td>
-                            {% endif %}
+               {%for key,listAct in dictAct.items%}
+                    {% if key == flujo.nombre %}
+                        {% for act in listAct %}
+                             <td bgcolor="red"><strong><center>TO DO</center></strong></td>
+                             <td bgcolor="yellow"><strong><center>DOING</center></strong></td>
+                             <td bgcolor="chartreuse"><strong><center>DONE</center></strong></td>
                         {% endfor %}
-                    </tr>
-                {% endfor %}
-            {% endfor %}
+                    {%endif%}
+               {%endfor%}
 
-    </table>
+           </tr>
+            {%for flu,dictKanban in kanbanxflujo.items%}
+                {% if flu == flujo.nombre %}
+                    {%for key,uss in dictKanban.items%}
+                        {%for key2,listanombre in uss.items%}
+                         <tr>
+                            {%for rec in listanombre%}
+                                {%if rec.0%}
+                                    <td><div class="btn-group">
+                                    <a href="/verUserHistory/ver&id={{key2}}/"><span style="color:#2702E1"><button type="button" class="btn btn-primary" >{{rec.0}}</button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
+                                    <span class="caret"></span>
+                                    <span class="sr-only"></span>
+                                    </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
+                                            <li class="divider"></li>
+                                        <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
+                                            <li class="divider"></li>
+                                        <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
+                                            <li class="divider"></li>
+                                        <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
+                                        {% for ultFlu, ultAct in dictUltAct.items %}
+                                            {% if ultFlu == flujo.nombre and ultAct.0.nombre == key and rec.1 == 'done' %}
+                                             <li class="divider"></li>
+                                             <li><a href="/finalizarUS/us&id={{key2}}/"><span style="color:#2702E1">* FINALIZAR USER HISTORY</span></a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+                                    </div></td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                             {% endfor %}
+
+                         </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            </table>
+           {% endfor %}
+
+
+
 
 </form>
 
