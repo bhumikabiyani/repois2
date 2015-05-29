@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'SGPA.apps.home',
     'SGPA.apps.usuario',
     'datetimewidget',
-    'db_file_storage'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,8 +72,6 @@ DATABASES = {
     }
 }
 
-
-DEFAULT_FILE_STORAGE = 'db_file_storage.storage.DatabaseFileStorage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

@@ -209,13 +209,14 @@ class Historia(models.Model):
     def __unicode__(self):
         return self.descripcion
 
-class ArchivosAdjuntos(models.Model):
+class Adjuntos(models.Model):
+    nombre=models.CharField(max_length=100)
+    contenido=models.TextField(null=True)
+    tamano=models.IntegerField()
+    mimetype = models.CharField(max_length=255)
     userhistory = models.ForeignKey(UserHistory)
-    nombre=models.CharField(max_length=50,)
-    docfile = models.FileField(upload_to='documents')
+    habilitado = models.BooleanField(default=True)
 
-    def __unicode__(self):
-        return self.nombre
 
 class Comentarios(models.Model):
     asunto = models.CharField(max_length=30,null=False)
@@ -225,20 +226,3 @@ class Comentarios(models.Model):
 
     def __unicode__(self):
         return self.asunto
-
-class ConsolePicture(models.Model):
-    bytes = models.TextField()
-    filename = models.CharField(max_length=255)
-    mimetype = models.CharField(max_length=50)
-
-class Console(models.Model):
-    name = models.CharField(max_length=100)
-    picture = models.ImageField(upload_to='console.ConsolePicture/bytes/filename/mimetype', blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        delete_file_if_needed(self, 'picture')
-        super(Console, self).save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        super(Console, self).delete(*args, **kwargs)
-        delete_file(self, 'picture')

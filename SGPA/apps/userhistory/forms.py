@@ -141,22 +141,9 @@ class AsignarFlujoUSForm(forms.Form):
                 listFlujo.append(i.flujo.id)
         self.fields['flujo'].queryset = Flujo.objects.filter(Q(id__in = listFlujo))
 
-class ArchivosAdjuntosForm(forms.Form):
-    nombre = forms.CharField(max_length=500, label='NOMBRE')
-    docfile = forms.FileField(label='SELECCIONA UN ARCHIVO')
-
-    def __init__(self, userhistory, *args, **kwargs):
-        super(ArchivosAdjuntosForm, self).__init__(*args, **kwargs)
-        self.us = userhistory
-
-    def clean_nombre(self):
-		if 'nombre' in self.cleaned_data:
-			adjuntos = ArchivosAdjuntos.objects.filter(userhistory = self.us)
-			nombre = self.cleaned_data['nombre']
-			for r in adjuntos:
-				if nombre == r.nombre:
-					raise forms.ValidationError('Ya existe ese nombre. Elija otro')
-			return nombre
+class AdjuntoForm(forms.Form):
+    print "form"
+    archivo = forms.FileField(required=False)
 
 class CambiarEstadosUSForm(forms.Form):
     estadokanban = forms.CharField(widget=forms.Select(choices=ESTADO_KANBAN))
@@ -175,11 +162,3 @@ class CambiarActividadUSForm(forms.Form):
                 listAct.append(i.actividad.id)
         self.fields['actividad'].queryset = Actividad.objects.filter(Q(id__in = listAct))
 
-class ConsoleForm(forms.ModelForm):
-
-    class Meta:
-        model = Console
-        exclude = []
-        widgets = {
-            'picture': DBClearableFileInput
-        }
