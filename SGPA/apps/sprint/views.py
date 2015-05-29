@@ -191,6 +191,9 @@ def visualizar_sprint(request, sprint_id):
     if sprint.estado == 'planificacion': sprintPlan = True
     sprintIni = False
     if sprint.estado == 'iniciado': sprintIni = True
+    proyInit = False
+    print sprint.proyecto.estado
+    if sprint.proyecto.estado == 2: proyInit = True
     ctx = {'lista':lista,
            'sprint':sprint,
            'sprintus': sprintus,
@@ -200,6 +203,7 @@ def visualizar_sprint(request, sprint_id):
            'consumidas' : consumidas,
            'sprintPlan' : sprintPlan,
            'sprintIni' : sprintIni,
+           'proyInit' : proyInit,
            'duracionSprint': duracionSprintSem,
            'ver_sprint': 'ver sprint' in permisos,
            'crear_sprint': 'crear sprint' in permisos,

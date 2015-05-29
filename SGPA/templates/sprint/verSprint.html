@@ -70,7 +70,7 @@
             {% if asignar_us_sprint and sprintPlan%}
             <a class="btn btn-primary" href="/asignarUSSprint/sprint&id={{sprint.id}}/"><strong>ASIGNAR USER HISTORIES</strong></a>
             {% endif %}
-            {% if iniciar_sprint and sprintPlan%}
+            {% if iniciar_sprint and sprintPlan and proyInit%}
             <a class="btn btn-primary" href="/iniciarSprint/sprint&id={{sprint.id}}/"><strong>INICIAR</strong></a>
             {% endif %}
             {% if finalizar_sprint and sprintIni%}
