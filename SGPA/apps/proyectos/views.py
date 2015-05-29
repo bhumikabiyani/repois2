@@ -507,6 +507,10 @@ def visualizar_kanban(request, proyecto_id):
     user = User.objects.get(username=request.user.username)
     proy = Proyecto.objects.get(id = proyecto_id)
     #Validacion de permisos---------------------------------------------
+    notSprintInit = True
+    sprintInitList = Sprint.objects.filter(proyecto = proy, estado = 'iniciado')
+    if sprintInitList:
+        notSprintInit = False
     roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proy).only('rol')
     permisos_obj = []
     for i in roles:
@@ -655,6 +659,7 @@ def visualizar_kanban(request, proyecto_id):
                                                                   'user':user,
                                                                   'US' : US,
                                                                   'sprint' : sprints,
+                                                                  'notSprintInit' : notSprintInit,
                                                                   'dictAct': dictAct,
                                                                   'dictUltAct' : dictUltAct,
                                                                   })

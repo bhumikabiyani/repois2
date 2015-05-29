@@ -122,7 +122,7 @@ class AsignarSprintUSForm(forms.Form):
     def __init__(self, proyecto, *args, **kwargs):
         super(AsignarSprintUSForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
-        sp = Sprint.objects.filter(proyecto = proyecto)
+        sp = Sprint.objects.filter(proyecto = proyecto, estado = 'planificacion')
         self.fields['sprint'].queryset = sp
 
 class AsignarFlujoUSForm(forms.Form):

@@ -194,6 +194,11 @@ def visualizar_sprint(request, sprint_id):
     proyInit = False
     print sprint.proyecto.estado
     if sprint.proyecto.estado == 2: proyInit = True
+    sprintInitList = Sprint.objects.filter(proyecto = sprint.proyecto, estado = 'iniciado')
+    if sprintInitList:
+        sprintPlan = False
+    else:
+        pass
     ctx = {'lista':lista,
            'sprint':sprint,
            'sprintus': sprintus,
