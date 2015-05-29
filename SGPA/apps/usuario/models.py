@@ -1,7 +1,6 @@
 # -*- coding: iso-8859-15 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from db_file_storage.model_utils import delete_file, delete_file_if_needed
 
 CATEGORY_CHOICES = (
     ('1', 'Rol de Sistema'),
@@ -228,13 +227,13 @@ class Historia(models.Model):
     def __unicode__(self):
         return self.descripcion
 
-class Adjuntos(models.Model):
-    nombre=models.CharField(max_length=100)
-    contenido=models.TextField(null=True)
-    tamano=models.IntegerField()
-    mimetype = models.CharField(max_length=255)
-    userhistory = models.ForeignKey(UserHistory)
-    habilitado = models.BooleanField(default=True)
+# class ArchivosAdjuntos(models.Model):
+#     userhistory = models.ForeignKey(UserHistory)
+#     nombre=models.CharField(max_length=50,)
+#     docfile = models.FileField(upload_to='documents')
+#
+#     def __unicode__(self):
+#         return self.nombre
 
 
 class Comentarios(models.Model):
@@ -245,3 +244,11 @@ class Comentarios(models.Model):
 
     def __unicode__(self):
         return self.asunto
+
+class Adjunto(models.Model):
+    #archivo = models.FileField(upload_to='items')
+    nombre = models.CharField(max_length = 100)
+    contenido = models.TextField(null=True)
+    mimetype = models.CharField(max_length = 255)
+    #claves foraneas
+    us = models.ForeignKey(UserHistory)
