@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'SGPA.apps.home',
     'SGPA.apps.usuario',
-    'datetimewidget'
+    'datetimewidget',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -71,6 +71,7 @@ DATABASES = {
 	    'PORT': '5432',
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

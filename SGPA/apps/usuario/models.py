@@ -216,6 +216,7 @@ class Historia(models.Model):
 #     def __unicode__(self):
 #         return self.nombre
 
+
 class Comentarios(models.Model):
     asunto = models.CharField(max_length=30,null=False)
     descripcion = models.CharField(max_length=200,null=False)

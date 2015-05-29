@@ -520,6 +520,18 @@ def asignar_flujo_userhistory(request, userhistory_id):
 #         form = ArchivosAdjuntosForm(us)
 #     return render(request, 'userhistory/archivos_adjuntosOriginal.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
 
+    #-------------------------------------------------------------------
+    if request.method == 'POST':
+        form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
+        if form.is_valid():
+            newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
+            newdoc.save(form)
+            registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
+        return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
+    else:
+        form = ArchivosAdjuntosForm(us)
+    return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
+
 def cambiar_estados(request, userhistory_id):
     """
     Metodo en el cual se cambia de estado kanban al us
