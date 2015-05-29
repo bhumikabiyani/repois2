@@ -2,7 +2,7 @@
 {% block title %} Detalles SPRINT{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL SPRINT "{{ sprint.nombre }}" DEL PROYECTO "{{ sprint.proyecto.nombrelargo }}" </h3></font></strong></center><br>
-{% if ver_sprint or mod_sprint or eliminar_sprint %}
+{% if ver_sprint or mod_sprint or eliminar_sprint or iniciar_sprint or finalizar_sprint%}
 <form action="." method="POST">
     {% csrf_token %}
     <table class="table table-bordered">
@@ -67,8 +67,14 @@
             {% if mod_sprint %}
             <a class="btn btn-primary" href="/modificarSprint/mod&id={{sprint.id}}/"><strong>MODIFICAR</strong></a>
             {% endif %}
-            {% if iniciar_sprint %}
+            {% if asignar_us_sprint and sprintPlan%}
+            <a class="btn btn-primary" href="/asignarUSSprint/sprint&id={{sprint.id}}/"><strong>ASIGNAR USER HISTORIES</strong></a>
+            {% endif %}
+            {% if iniciar_sprint and sprintPlan%}
             <a class="btn btn-primary" href="/iniciarSprint/sprint&id={{sprint.id}}/"><strong>INICIAR</strong></a>
+            {% endif %}
+            {% if finalizar_sprint and sprintIni%}
+            <a class="btn btn-primary" href="/finalizarSprint/sprint&id={{sprint.id}}/"><strong>FINALIZAR</strong></a>
             {% endif %}
         </td><br><br>
         <a class="btn btn-primary" href="/sprint/sprint&id={{sprint.proyecto_id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

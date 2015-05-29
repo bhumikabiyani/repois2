@@ -187,6 +187,10 @@ def visualizar_sprint(request, sprint_id):
     for i in permisos_obj:
         permisos.append(i.nombre)
     lista = User.objects.all().order_by("id")
+    sprintPlan = False
+    if sprint.estado == 'planificacion': sprintPlan = True
+    sprintIni = False
+    if sprint.estado == 'iniciado': sprintIni = True
     ctx = {'lista':lista,
            'sprint':sprint,
            'sprintus': sprintus,
@@ -194,13 +198,17 @@ def visualizar_sprint(request, sprint_id):
            'necesidad' : necesidad,
            'disponibles' : disponibles,
            'consumidas' : consumidas,
+           'sprintPlan' : sprintPlan,
+           'sprintIni' : sprintIni,
            'duracionSprint': duracionSprintSem,
            'ver_sprint': 'ver sprint' in permisos,
            'crear_sprint': 'crear sprint' in permisos,
            'mod_sprint': 'modificar sprint' in permisos,
            'eliminar_sprint': 'eliminar sprint' in permisos,
            'ver_user_history': 'ver user history' in permisos,
-           'iniciar_sprint': 'iniciar sprint' in permisos
+           'iniciar_sprint': 'iniciar sprint' in permisos,
+           'asignar_us_sprint': 'asignar us a sprint' in permisos,
+           'finalizar_sprint': 'finalizar sprint' in permisos
           }
     return render_to_response('sprint/verSprint.html',ctx,context_instance=RequestContext(request))
 
@@ -246,8 +254,9 @@ def borrar_sprint(request, sprint_id):
     :return: se elimina el sprint si el proyecto no inicio
     """
     user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(Sprint, id=sprint_id)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = actual.proyecto).only('rol')
     permisos_obj = []
     for i in roles:
        permisos_obj.extend(i.rol.permisos.all())
@@ -256,8 +265,6 @@ def borrar_sprint(request, sprint_id):
        permisos.append(i.nombre)
 
     #-------------------------------------------------------------------
-    actual = get_object_or_404(Sprint, id=sprint_id)
-    #relacionados = ProyectoFlujo.objects.filter(flujo = actual).count()
 
     if request.method == 'POST':
         actual.delete()
@@ -281,3 +288,42 @@ def iniciar_sprint(request, sprint_id):
     sprint.estado = "iniciado"
     sprint.save()
     return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)
+
+def finalizar_sprint(request, sprint_id):
+
+    sprint = get_object_or_404(Sprint, id=sprint_id)
+    sprint.estado = "finalizado"
+    sprint.save()
+    return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)
+
+def asignar_us_sprint(request, sprint_id):
+
+    user = User.objects.get(username=request.user.username)
+    sprint = get_object_or_404(Sprint, id=sprint_id)
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = sprint.proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
+    uss = UserHistory.objects.filter(proyecto = sprint.proyecto, sprint = None)
+    if request.method == 'POST':
+        form = AsignarUSSprintForm(sprint, request.POST)
+        if form.is_valid():
+            lista_us = form.cleaned_data['userstories']
+            for us in lista_us:
+                nuevo = UserHistorySprint()
+                nuevo.userhistory = us
+                nuevo.sprint = sprint
+                nuevo.horas_ejec = 0
+                nuevo.horas_plan = us.tiempo_estimado
+                nuevo.save()
+                us.sprint = sprint
+                us.estado = 'iniciado'
+                us.save()
+            return HttpResponseRedirect("/verSprint/ver&id=" + str(sprint_id))
+    else:
+        form = AsignarUSSprintForm(sprint)
+    return render_to_response("sprint/asignar_us_sprint.html", {'form':form, 'sprint':sprint, 'user':user, 'asignar_us_sprint': 'asignar us a sprint' in permisos
+                                                                 })
