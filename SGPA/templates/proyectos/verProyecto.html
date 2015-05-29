@@ -4,70 +4,67 @@
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL PROYECTO "{{ proyecto.nombrelargo }}" </h3></font></strong></center><br>
 {% if ver_proyectos or crear_proyectos or mod_proyectos or eliminar_proyectos or asignar_miembros or asignar_flujo or eliminar_miembro%}
 <form action="." method="POST">
-         {% csrf_token %}
+    {% csrf_token %}
     <table class="table table-bordered">
-	      <thead>
-	        <tr>
-	             <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">FECHA INICIO</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">FECHA FIN</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">RESPONSABLE</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">HORAS</strong></b></th>
-		     <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
-	        </tr>
-	      </thead>
+        <thead>
+        <tr>
+            <th class="titulo"><b><strong><span style="color:#330099">NOMBRE</strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">FECHA INICIO</strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">FECHA FIN</strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">RESPONSABLE</strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">HORAS</strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">ESTADO</strong></b></th>
+        </tr>
+        </thead>
 
-              <tbody>
-		 <tr>
-		      
-                          <td><strong>{{proyecto.nombrelargo}}</strong></td>
-                          <td><strong>{{proyecto.descripcion}}</strong></td>
-		          <td><strong>{{proyecto.fecha_inicio}}</strong></td>
-			  <td><strong>{{proyecto.fecha_fin}}</strong></td>
-			  <td><strong>{{proyecto.usuario_lider}}</strong></td>
-			  <td><strong>{{proyecto.cantidad}}</strong></td>
-			  <td><strong>{{status}}</strong></td>
-	           </tr>
-		</tbody>
-	  </table>
+        <tbody>
+        <tr>
+            <td><strong>{{proyecto.nombrelargo}}</strong></td>
+            <td><strong>{{proyecto.descripcion}}</strong></td>
+            <td><strong>{{proyecto.fecha_inicio}}</strong></td>
+            <td><strong>{{proyecto.fecha_fin}}</strong></td>
+            <td><strong>{{proyecto.usuario_lider}}</strong></td>
+            <td><strong>{{proyecto.cantidad}}</strong></td>
+            <td><strong>{{status}}</strong></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
 
-   </form>
-    <table class="table table-bordered">
-	      <thead>
-	        <tr>
-	             <th class="titulo"><b><strong><span style="color:#330099">USUARIO</span></strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">ROL</span></strong></b></th>
-	             <th class="titulo"><b><strong><span style="color:#330099">HORAS(por semana)</span></strong></b></th>
-                 <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</span></strong></b></th>
-	        </tr>
-	      </thead>
-              <tbody>
-         {%for miembro in miembros%}
-             <tr>
-
-                 <td><strong>{{miembro.usuario}}</strong></td>
-                 <td><strong>{{miembro.rol}}</strong></td>
-                 {%if miembro.horas == 0%}
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th class="titulo"><b><strong><span style="color:#330099">USUARIO</span></strong></b></th>
+        <th class="titulo"><b><strong><span style="color:#330099">ROL</span></strong></b></th>
+        <th class="titulo"><b><strong><span style="color:#330099">HORAS(por semana)</span></strong></b></th>
+        <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</span></strong></b></th>
+    </tr>
+    </thead>
+    <tbody>
+        {%for miembro in miembros%}
+            <tr>
+                <td><strong>{{miembro.usuario}}</strong></td>
+                <td><strong>{{miembro.rol}}</strong></td>
+                {%if miembro.horas == 0%}
                     <td><strong>{{" "}}</strong></td>
-                 {%else%}
+                {%else%}
                     <td><strong>{{miembro.horas}}</strong></td>
-                 {%endif%}
-                 {%if miembro.rol.nombre == 'team leader'%}
-                 <td><a><strong> </strong></a></td>
-                 {%endif%}
-                 {%if eliminar_miembro and miembro.rol.nombre != 'team leader' and proyPend%}
-                 <td><a class="btn btn-primary" href="/eliminarMiembro/del&id={{miembro.id}}/"><strong>ELIMINAR</strong></a></td>
-                 {% endif %}
-             </tr>
+                {%endif%}
+                {%if miembro.rol.nombre == 'team leader'%}
+                    <td><a><strong> </strong></a></td>
+                {%endif%}
+                {%if eliminar_miembro and miembro.rol.nombre != 'team leader' and proyPend%}
+                    <td><a class="btn btn-primary" href="/eliminarMiembro/del&id={{miembro.id}}/"><strong>ELIMINAR</strong></a></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-         {% endfor %}
-		</tbody>
-	  </table>
-
-    <table class="table table-bordered">
-	      <thead>
-	        <tr>
+<table class="table table-bordered">
+    <thead>
+    <tr>
 	             <th class="titulo"><b><strong><span style="color:#330099">FLUJO</strong></b></th>
 	             <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</strong></b></th>
 	        </tr>
@@ -79,7 +76,6 @@
                  <td><strong>{{flujo.descripcion}}</strong></td>
                  {%if asignar_actividades_proyecto%}
                  <td><a class="btn btn-primary" href="/verActividadesProy/flujo&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong>ACTIVIDADES</strong></a></td>
-                 <td><a class="btn btn-primary" href="/verkanban/ver&id={{flujo.id}}&&proyecto&id={{proyecto.id}}/"><strong> VER TABLA KANBAN </strong> </a></td>&nbsp;&nbsp;
                  {% endif %}
              </tr>
          {% endfor %}
@@ -111,11 +107,14 @@
 				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
 			{% if asignar_miembros and proyPend%}
-			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>
+			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>&nbsp;&nbsp;
 			{% endif %}
             {% if asignar_flujo and proyPend%}
-			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>
+			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>&nbsp;&nbsp;
 			{% endif %}
+
+            <a class="btn btn-primary" href="/verkanban/ver&id={{proyecto.id}}/"><strong> VER TABLA KANBAN </strong> </a>&nbsp;&nbsp;
+            <a class="btn btn-primary" href="/verburn/ver&id={{proyecto.id}}/"><strong> VER BURNDOWN CHART </strong> </a><br><br>
 			   </td><br><br>
                <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
            </div>
