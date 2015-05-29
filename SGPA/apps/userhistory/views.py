@@ -8,6 +8,7 @@ from django.template import *
 from django.contrib import*
 from django.template.loader import get_template
 from django.forms.formsets import formset_factory
+import base64
 from SGPA.apps.userhistory.forms import *
 from SGPA.apps.flujo.models import *
 from SGPA.apps.userhistory.helper import *
@@ -150,7 +151,7 @@ def visualizar_user_history(request, userhistory_id):
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     comments = Comentarios.objects.filter(userhistory = userHist)
-    adjuntos = ArchivosAdjuntos.objects.filter(userhistory = userHist)
+    adjuntos = Adjunto.objects.filter(us = userHist)
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -488,36 +489,36 @@ def asignar_flujo_userhistory(request, userhistory_id):
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
 
-def archivos_adjuntos(request, userhistory_id):
-    """
-    Metodo en el cual se adjuntan archivos al User History
-    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
-    :param userhistory_id: id del user history al cual se le adjunta el archivo
-    :return: archivos_adjuntos.html, pagina en el cualse adjunta archivo
-    """
-    user = User.objects.get(username=request.user.username)
-    us = get_object_or_404( UserHistory, id = userhistory_id)
-    proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
-    #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
-    permisos_obj = []
-    for i in roles:
-        permisos_obj.extend(i.rol.permisos.all())
-    permisos = []
-    for i in permisos_obj:
-        permisos.append(i.nombre)
-
-    #-------------------------------------------------------------------
-    if request.method == 'POST':
-        form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
-        if form.is_valid():
-            newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
-            newdoc.save(form)
-            registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
-        return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
-    else:
-        form = ArchivosAdjuntosForm(us)
-    return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
+# def archivos_adjuntos(request, userhistory_id):
+#     """
+#     Metodo en el cual se adjuntan archivos al User History
+#     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+#     :param userhistory_id: id del user history al cual se le adjunta el archivo
+#     :return: archivos_adjuntosOriginal.html, pagina en el cualse adjunta archivo
+#     """
+#     user = User.objects.get(username=request.user.username)
+#     us = get_object_or_404( UserHistory, id = userhistory_id)
+#     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
+#     #Validacion de permisos---------------------------------------------
+#     roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
+#     permisos_obj = []
+#     for i in roles:
+#         permisos_obj.extend(i.rol.permisos.all())
+#     permisos = []
+#     for i in permisos_obj:
+#         permisos.append(i.nombre)
+#
+#     #-------------------------------------------------------------------
+#     if request.method == 'POST':
+#         form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
+#         if form.is_valid():
+#             newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
+#             newdoc.save(form)
+#             registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
+#         return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
+#     else:
+#         form = ArchivosAdjuntosForm(us)
+#     return render(request, 'userhistory/archivos_adjuntosOriginal.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
 
 def cambiar_estados(request, userhistory_id):
     """
@@ -614,3 +615,43 @@ def finalizar_userhistory(request, userhistory_id):
     actual.estado = 'finalizado'
     actual.save()
     return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
+
+@login_required
+def add_adjunto(request, userhistory_id):
+    user = User.objects.get(username=request.user.username)
+    us = get_object_or_404(UserHistory, id=userhistory_id)
+    AdjuntoFormSet = formset_factory(AdjuntoForm)
+    if request.method == 'POST':
+        formset = AdjuntoFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            archivos = Adjunto.objects.filter(us= us)
+            archivos_nuevos = request.FILES.values()
+            for f in archivos_nuevos:
+                nuevo = Adjunto()
+                nuevo.nombre =f
+                nuevo.tamano = f.size
+                nuevo.mimetype = f.content_type
+                nuevo.contenido = base64.b64encode(f.read())
+                nuevo.us = us
+                nuevo.save()
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
+        #return render_to_response('error.html', {'form': form})
+    else:
+        formset = AdjuntoFormSet()
+        return render_to_response('userhistory/crear_adjunto.html', {'formset':formset,'us':us,
+                                                                                      'user':user})
+
+
+@login_required
+def retornar_archivo(request, userhistory_id, arch_id):
+    user = User.objects.get(username=request.user.username)
+    us = get_object_or_404(UserHistory, id=userhistory_id)
+    adjunto = get_object_or_404(Adjunto, id=arch_id)
+    if request.method == 'GET':
+        respuesta = HttpResponse(base64.b64decode(adjunto.contenido), content_type= adjunto.mimetype)
+        respuesta['Content-Disposition'] = 'attachment; filename=' + adjunto.nombre
+        #respuesta['Content-Length'] = adjunto.tamano
+        return respuesta
+    return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
+
+

@@ -208,13 +208,13 @@ class Historia(models.Model):
     def __unicode__(self):
         return self.descripcion
 
-class ArchivosAdjuntos(models.Model):
-    userhistory = models.ForeignKey(UserHistory)
-    nombre=models.CharField(max_length=50,)
-    docfile = models.FileField(upload_to='documents')
-
-    def __unicode__(self):
-        return self.nombre
+# class ArchivosAdjuntos(models.Model):
+#     userhistory = models.ForeignKey(UserHistory)
+#     nombre=models.CharField(max_length=50,)
+#     docfile = models.FileField(upload_to='documents')
+#
+#     def __unicode__(self):
+#         return self.nombre
 
 class Comentarios(models.Model):
     asunto = models.CharField(max_length=30,null=False)
@@ -224,3 +224,11 @@ class Comentarios(models.Model):
 
     def __unicode__(self):
         return self.asunto
+
+class Adjunto(models.Model):
+    #archivo = models.FileField(upload_to='items')
+    nombre = models.CharField(max_length = 100)
+    contenido = models.TextField(null=True)
+    mimetype = models.CharField(max_length = 255)
+    #claves foraneas
+    us = models.ForeignKey(UserHistory)
