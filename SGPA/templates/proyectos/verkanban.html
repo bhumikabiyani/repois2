@@ -64,14 +64,15 @@
     {%for flujo in listflu%}
         <center><strong><font face="Comic Sans MS"><h3> "{{ flujo.nombre }}" DEL "{{proyecto.nombrelargo}}"</h3></font></strong></center><br>
         <table class="table table-bordered" cellpadding="1" cellspacing="1">
-            <!--<tr><td colspan="1" rowspan="2" bgcolor="blue"><center><strong><span style="color:#FFFFFF">BACKLOG</span></strong></center></td>-->
-                {%for key,listAct in dictAct.items%}
-                    {% if key == flujo.nombre %}
-                        {% for act in listAct %}
-                            <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{act.actividad.nombre}}</span></strong></center></td>
-                        {% endfor %}
-                    {%endif%}
-                {%endfor%}
+            <tr>
+            {%for key,listAct in dictAct.items%}
+                {% if key == flujo.nombre %}
+                    {% for act in listAct %}
+                        <td colspan="3" bgcolor="blue"><center><strong><span style="color:#FFFFFF">{{act.actividad.nombre}}</span></strong></center></td>
+                    {% endfor %}
+                {%endif%}
+            {%endfor%}
+            <td colspan="1" rowspan="2" bgcolor="blue"><center><strong><span style="color:#FFFFFF">DONE</span></strong></center></td>
            </tr>
            <tr>
                {%for key,listAct in dictAct.items%}
@@ -96,20 +97,22 @@
                                             <span class="caret"></span>
                                             <span class="sr-only"></span>
                                             </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                            <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
-                                            {% for ultFlu, ultAct in dictUltAct.items %}
-                                                {% if ultFlu == flujo.nombre and ultAct.0.nombre == key and rec.1 == 'done' %}
-                                                    <li class="divider"></li>
-                                                    <li><a href="/finalizarUS/us&id={{key2}}/"><span style="color:#2702E1">* FINALIZAR USER HISTORY</span></a></li>
-                                                {% endif %}
-                                            {% endfor %}
+                                            {% if not notSprintInit %}
+                                                <ul class="dropdown-menu" role="menu">
+                                                <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
+                                                {% for ultFlu, ultAct in dictUltAct.items %}
+                                                    {% if ultFlu == flujo.nombre and ultAct.0.nombre == key and rec.1 == 'done' %}
+                                                        <li class="divider"></li>
+                                                        <li><a href="/finalizarUS/us&id={{key2}}/"><span style="color:#2702E1">* FINALIZAR USER HISTORY</span></a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {%endif%}
                                             </ul>
                                         </div></td>
                                     {% else %}

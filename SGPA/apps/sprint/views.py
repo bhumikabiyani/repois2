@@ -294,6 +294,16 @@ def borrar_sprint(request, sprint_id):
 def iniciar_sprint(request, sprint_id):
 
     sprint = get_object_or_404(Sprint, id=sprint_id)
+    US = UserHistory.objects.filter(sprint = sprint)
+    for rec in US:
+        if not rec.flujo:
+            for i in US:
+                i.estado = 'pendiente'
+                i.save()
+            error = "No se puede iniciar el sprint, existen User Histories sin flujo asignado."
+            return render_to_response("sprint/can_t_init_sprint.html", {'mensaje': error,'sprint': sprint })
+        rec.estado = 'iniciado'
+        rec.save()
     sprint.estado = "iniciado"
     sprint.save()
     return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)
@@ -332,7 +342,7 @@ def asignar_us_sprint(request, sprint_id):
                 nuevo.horas_plan = us.tiempo_estimado
                 nuevo.save()
                 us.sprint = sprint
-                us.estado = 'iniciado'
+                us.estado = 'pendiente'
                 us.save()
             return HttpResponseRedirect("/verSprint/ver&id=" + str(sprint_id))
     else:

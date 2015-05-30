@@ -421,7 +421,7 @@ def asignar_sprint_userhistory(request, userhistory_id):
         if form.is_valid():
             sprint = form.cleaned_data['sprint']
             actual.sprint = Sprint.objects.get(nombre = sprint)
-            actual.estado = "iniciado"
+            actual.estado = "pendiente"
             res = actual.save()
             ussprint = UserHistorySprint()
             ussprint.userhistory = actual
@@ -527,6 +527,15 @@ def cambiar_estados(request, userhistory_id):
             actual.estadokanban =form.cleaned_data['estadokanban']
             actual.save()
             registrar_log(actual,"Cambio de Estado: "+actual.estadokanban,user )
+             #---Enviar Correo----#
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/cambiar_estado.html',{'ustorie':actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'estado':actual.estado})
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = CambiarEstadosUSForm()
@@ -586,7 +595,7 @@ def cambiar_actividad(request, userhistory_id):
                                                                      'form':form,
                                                                      'userhistory': actual,
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
-						     })
+                                                                     })
 
 def finalizar_userhistory(request, userhistory_id):
 
@@ -659,10 +668,16 @@ def reasignar_sprint_userhistory(request, userhistory_id):
         if form.is_valid():
             sprint = form.cleaned_data['sprint']
             actual.sprint = Sprint.objects.get(nombre = sprint)
-            actual.estado = "iniciado"
-            actual.horas = form.cleaned_data['horas']
+            actual.estado = "pendiente"
+            actual.tiempo_estimado = form.cleaned_data['horas']
             actual.save()
-            registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
+            usSprint = UserHistorySprint()
+            usSprint.sprint = actual.sprint
+            usSprint.userhistory = actual
+            usSprint.horas_ejec = 0
+            usSprint.horas_plan = actual.tiempo_estimado
+            usSprint.save()
+            registrar_log(actual,"Reasignacion de Sprint: "+actual.sprint.nombre,user)
              #---Enviar Correo----#
             if actual.encargado != None:
                 contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
@@ -675,7 +690,7 @@ def reasignar_sprint_userhistory(request, userhistory_id):
             return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = ReasignarSprintUSForm(proyecto.id)
-        form.fields['sprint'].initial = actual.sprint
+        form.fields['sprint'].initial = None
     return render_to_response("userhistory/asignar_sprint.html", {'user':user,
                                                                      'form':form,
                                                                      'userhistory': actual,

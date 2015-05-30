@@ -34,7 +34,7 @@ sudo apt-get install git
 sudo apt-get install xclip
 
 #Instalacion del entorno virtual
-sudo aptitude install libapache2-mod-wsgi
+sudo apt-get install libapache2-mod-wsgi
 sudo service apache2 restart
 sudo apt-get install python-virtualenv
 
@@ -58,26 +58,26 @@ cd $HOME/repois2/
 ######################################
 
 clear
-osch=0
-echo "1. iteracion 1"
-read osch
+#osch=0
+#echo "1. iteracion 1"
+#read osch
 
-if [ $osch -eq 1 ] ; then
-    echo "iteracion 1"
-    sleep 1s
-    git checkout 2b6a4a6c166d9a1881f035ac4fb41bfe32e2abe8
-    clear
-    echo 'creando el usuario udesarrollo, ingrese password: 12345'
-    sleep 1s
-    sudo -u postgres dropdb SGPA_db
-    sudo -u postgres dropuser udesarrollo
-    sudo -u postgres createuser --superuser udesarrollo -P
-    clear
-    echo 'creando la base de datos'
-    sudo -u postgres createdb SGPA_db --owner=uderarrollo
-
-elif [ $osch -eq 5 ]
-then
+#if [ $osch -eq 1 ] ; then
+#    echo "iteracion 1"
+#    sleep 1s
+#    git checkout 2b6a4a6c166d9a1881f035ac4fb41bfe32e2abe8
+#    clear
+#    echo 'creando el usuario udesarrollo, ingrese password: 12345'
+#    sleep 1s
+#    sudo -u postgres dropdb SGPA_db
+#    sudo -u postgres dropuser udesarrollo
+#    sudo -u postgres createuser --superuser udesarrollo -P
+#    clear
+#    echo 'creando la base de datos'
+#    sudo -u postgres createdb SGPA_db --owner=uderarrollo
+#
+#elif [ $osch -eq 5 ]
+#then
     echo "iteracion 5"
     sleep 1s
     git checkout 663ff4074190b4cea18d262285e144c1751c61dc
@@ -86,21 +86,26 @@ then
     sleep 1s
     #crear un usuario en la base de datos
     #eliminamos si existe una base de datos llamada produccion
-    sudo -u postgres dropdb SGPA_db_produccion
+    dropdb -h localhost -U udesarrollo SGPA_db_produccion
+    #sudo -u postgres dropdb SGPA_db_produccion
     sudo -u postgres dropuser udesarrollo
     sudo -u postgres createuser --superuser udesarrollo -P
-    sudo -u postgres createdb SGPA_db_produccion --owner=udesarrollo
+    createdb -h localhost -p 5432 -U udesarrollo -E UTF8 SGPA_db_produccion
+    #sudo -u postgres createdb SGPA_db_produccion --owner=udesarrollo
     #cargar la base de datos
     #pg_restore -i -h localhost -p 5432 -U udesarrollo -d SGPA_db_produccion -v "poblado_tablas_produccion.backup"
-fi
+#fi
 
 #sincronizar la base de datos
-python manage.py syncdb
+#python manage.py syncdb
 
 echo 'movemos el servidor a lugar que debe estar'
 sudo rm -rf /var/www/repois2/
-cd $HOME
+#cd $HOME
 sudo mv -f -v $HOME/repois2/ /var/www/repois2/
+sudo mv /var/www/repois2/SGPA/settings_produccion.py /var/www/repois2/SGPA/settings.py
+cd /var/www/repois2/SGPA/media/scripts/
+pg_restore -i -h localhost -p 5432 -U udesarrollo -d SGPA_db_produccion -v "poblado_tablas_produccion.backup"
 
 ####################################################
 ###### Configuracion de apache #####################
@@ -121,5 +126,5 @@ sudo service apache2 restart
 
 echo 'abriendo el navegador'
 sudo apt-get install libgnome2-bin
-gnome-open http://sgpa.com
+sudo gnome-open http://sgpa.com
 
