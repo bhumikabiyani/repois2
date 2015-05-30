@@ -624,7 +624,7 @@ def cambiar_actividad(request, userhistory_id):
                                                                      'form':form,
                                                                      'userhistory': actual,
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
-						     })
+                                                                     })
 
 def finalizar_userhistory(request, userhistory_id):
 
