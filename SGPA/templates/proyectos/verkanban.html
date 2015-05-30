@@ -27,7 +27,7 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
 
-                                        {% if rec.1 == 'pendiente' or rec.1 == 'reasignar' and notSprintInit%}
+                                      {% if rec.1 == 'pendiente' or rec.1 == 'reasignar' and notSprintInit%}
                                             {% ifequal key 'BACKLOG' %}
                                                 <li><a href="/sprintUserHistory/us&id={{key2}}/"><span style="color:#2702E1">* ASIGNAR A SPRINT</span></a></li>
                                             {% endifequal %}
@@ -38,7 +38,7 @@
                                             {% ifnotequal key 'BACKLOG' %}
                                                 {% if rec.1 == 'reasignar' %}
                                                     <li class="divider"></li>
-                                                    <li><a href="/"><span style="color:#2702E1">* REASIGNAR A SPRINT</span></a></li>
+                                                    <li><a href="/reasignar/us&id={{key2}}"><span style="color:#2702E1">* REASIGNAR A SPRINT</span></a></li>
                                                 {% endif %}
                                             {% endifnotequal %}
                                             <!--<li class="divider"></li>-->
