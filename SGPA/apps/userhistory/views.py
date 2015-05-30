@@ -114,7 +114,7 @@ def crear_user_history(request,proyecto_id):
             r = UserHistory()
             r.nombre = form.cleaned_data['nombre']
             r.descripcion = form.cleaned_data['descripcion']
-            r.estado = form.cleaned_data['estado']
+            r.estado = "pendiente"
             r.valor_negocio = form.cleaned_data['valor_negocio']
             r.valor_tecnico = form.cleaned_data['valor_tecnico']
             r.tiempo_estimado = form.cleaned_data['tiempo_estimado']
@@ -200,7 +200,6 @@ def mod_user_history(request, userhistory_id):
         form = ModUserHistoryForm(proyecto.id, request.POST)
         if form.is_valid():
             actual.descripcion = form.cleaned_data['descripcion']
-            actual.estado = form.cleaned_data['estado']
             actual.tiempo_estimado = form.cleaned_data['tiempo_estimado']
             actual.valor_tecnico = form.cleaned_data['valor_tecnico']
             actual.valor_negocio = form.cleaned_data['valor_negocio']
@@ -222,7 +221,6 @@ def mod_user_history(request, userhistory_id):
     else:
         form = ModUserHistoryForm(proyecto.id)
         form.fields['descripcion'].initial = actual.descripcion
-        form.fields['estado'].initial = actual.estado
         form.fields['tiempo_estimado'].initial = actual.tiempo_estimado
         form.fields['valor_tecnico'].initial = actual.valor_tecnico
         form.fields['valor_negocio'].initial = actual.valor_negocio
@@ -305,7 +303,7 @@ def agregar_comentario(request, userhistory_id):
     user = User.objects.get(username=request.user.username)
     us = get_object_or_404( UserHistory, id = userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
-
+    ussprint = UserHistorySprint.objects.get(userhistory = us, sprint = us.sprint)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
     permisos_obj = []
@@ -325,6 +323,8 @@ def agregar_comentario(request, userhistory_id):
             comment.userhistory = us
             comment.horas = form.cleaned_data['horas']
             comment.save()
+            ussprint.horas_ejec += comment.horas
+            ussprint.save()
             #registrar_log(us,"Trabajo ({Asunto: "+comment.asunto+"} {Descripcion: "+comment.descripcion+"} {Horas: "+comment.horas+"})",user)
             #---Enviar Correo----#
             if us.encargado != None:
@@ -418,7 +418,13 @@ def asignar_sprint_userhistory(request, userhistory_id):
             sprint = form.cleaned_data['sprint']
             actual.sprint = Sprint.objects.get(nombre = sprint)
             actual.estado = "iniciado"
-            actual.save()
+            res = actual.save()
+            ussprint = UserHistorySprint()
+            ussprint.userhistory = actual
+            ussprint.sprint = actual.sprint
+            ussprint.horas_plan = actual.tiempo_estimado
+            ussprint.horas_ejec = 0
+            ussprint.save()
             registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
              #---Enviar Correo----#
             if actual.encargado != None:

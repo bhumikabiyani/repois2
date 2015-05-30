@@ -70,3 +70,10 @@ class ModSprintForm(forms.Form):
 		    		if f.nombre == nuevo:
 		    			raise forms.ValidationError('Ya existe ese nombre. Elija otro')
     		return nuevo
+
+class AsignarUSSprintForm(forms.Form):
+    userstories = forms.ModelMultipleChoiceField(queryset = None, widget = forms.CheckboxSelectMultiple, label = 'USER HISTORIES', required=False)
+
+    def __init__(self, sprint, *args, **kwargs):
+        super(AsignarUSSprintForm, self).__init__(*args, **kwargs)
+        self.fields['userstories'].queryset = UserHistory.objects.filter(proyecto = sprint.proyecto, sprint = None)

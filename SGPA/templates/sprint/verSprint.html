@@ -2,7 +2,7 @@
 {% block title %} Detalles SPRINT{% endblock %}
 {%block content %}
 <center><strong><font face="Comic Sans MS"><h3> DETALLES DEL SPRINT "{{ sprint.nombre }}" DEL PROYECTO "{{ sprint.proyecto.nombrelargo }}" </h3></font></strong></center><br>
-{% if ver_sprint or mod_sprint or eliminar_sprint %}
+{% if ver_sprint or mod_sprint or eliminar_sprint or iniciar_sprint or finalizar_sprint%}
 <form action="." method="POST">
     {% csrf_token %}
     <table class="table table-bordered">
@@ -16,6 +16,7 @@
             <th class="titulo"><b><strong><span style="color:#330099">NECESIDAD</span></strong></b></th>
             <th class="titulo"><b><strong><span style="color:#330099">CONSUMIDAS</span></strong></b></th>
             <th class="titulo"><b><strong><span style="color:#330099">DISPONIBLES</span></strong></b></th>
+            <th class="titulo"><b><strong><span style="color:#330099">ESTADO</span></strong></b></th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
             <td><strong>{{necesidad}} horas(s)</strong></td>
             <td><strong>{{consumidas}} horas(s)</strong></td>
             <td><strong>{{disponibles}} horas(s)</strong></td>
+            <td><strong>{{sprint.estado}}</strong></td>
         </tr>
         </tbody>
     </table>
@@ -37,17 +39,19 @@
         <tr>
              <th class="titulo"><b><strong><span style="color:#330099">USER HISTORY</span></strong></b></th>
              <th class="titulo"><b><strong><span style="color:#330099">DESCRIPCION</span></strong></b></th>
-             <th class="titulo"><b><strong><span style="color:#330099">TIEMPO ESTIMADO</span></strong></b></th>
+             <th class="titulo"><b><strong><span style="color:#330099">PLANIFICADO</span></strong></b></th>
+             <th class="titulo"><b><strong><span style="color:#330099">EJECUTADO</span></strong></b></th>
         </tr>
       </thead>
           <tbody>
-     {%for us in userhistories%}
+     {%for ussp in sprintus%}
          <tr>
-             <td><strong>{{us.nombre}}</strong></td>
-             <td><strong>{{us.descripcion}}</strong></td>
-             <td><strong>{{us.tiempo_estimado}}</strong></td>
+             <td><strong>{{ussp.userhistory.nombre}}</strong></td>
+             <td><strong>{{ussp.userhistory.descripcion}}</strong></td>
+             <td><strong>{{ussp.horas_plan}}</strong></td>
+             <td><strong>{{ussp.horas_ejec}}</strong></td>
              {%if ver_user_history%}
-             <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{us.id}}/"><strong>VER</strong></a></td>
+             <td><a class="btn btn-primary" href="/verUserHistory/ver&id={{ussp.userhistory.id}}/"><strong>VER</strong></a></td>
              {% endif %}
          </tr>
      {% endfor %}
@@ -57,11 +61,20 @@
     <div class="volver">
         <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</span></strong></b></th><br>
         <td>
-            {% if eliminar_sprint %}
+            {% if eliminar_sprint and not proyInit%}
             <a class="btn btn-primary" href="/eliminarSprint/del&id={{sprint.id}}/"><strong>ELIMINAR</strong></a>
             {% endif %}
             {% if mod_sprint %}
             <a class="btn btn-primary" href="/modificarSprint/mod&id={{sprint.id}}/"><strong>MODIFICAR</strong></a>
+            {% endif %}
+            {% if asignar_us_sprint and sprintPlan%}
+            <a class="btn btn-primary" href="/asignarUSSprint/sprint&id={{sprint.id}}/"><strong>ASIGNAR USER HISTORIES</strong></a>
+            {% endif %}
+            {% if iniciar_sprint and sprintPlan and proyInit%}
+            <a class="btn btn-primary" href="/iniciarSprint/sprint&id={{sprint.id}}/"><strong>INICIAR</strong></a>
+            {% endif %}
+            {% if finalizar_sprint and sprintIni%}
+            <a class="btn btn-primary" href="/finalizarSprint/sprint&id={{sprint.id}}/"><strong>FINALIZAR</strong></a>
             {% endif %}
         </td><br><br>
         <a class="btn btn-primary" href="/sprint/sprint&id={{sprint.proyecto_id}}/"><strong> VOLVER </strong> </a>&nbsp;&nbsp;

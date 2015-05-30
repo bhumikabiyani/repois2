@@ -119,6 +119,9 @@ class UsuarioRolProyecto(models.Model):
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
 
+ESTADO_SPRINT=(('planificacion','Planificacion'),('iniciado','Iniciado'),('cancelado','Cancelado')
+                ,('finalizado','Finalizado'))
+
 class Sprint(models.Model):
     """Clase que representa un sprint"""
     proyecto = models.ForeignKey(Proyecto)
@@ -126,9 +129,13 @@ class Sprint(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    estado = models.CharField(max_length=15, choices=ESTADO_SPRINT)
+    # userhistories = models.ManyToManyField(UserHistory, through='UserHistorySprint')
+
 
     def __unicode__(self):
         return self.nombre
+
 
 class Actividad(models.Model):
     """Esta clase representa las actividades"""
@@ -164,7 +171,7 @@ class FlujoActividadProyecto(models.Model):
     class Meta:
         unique_together = [("flujo", "actividad", "proyecto", "orden")]
 
-ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('en-curso','En Curso'),('cancelado','Cancelado')
+ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('reasignar','A reasignar'),('cancelado','Cancelado')
                 ,('finalizado','Finalizado'))
 
 ESTADO_KANBAN=(('to-do','To do'),('doing','Doing'),('done','Done'))
@@ -190,6 +197,18 @@ class UserHistory(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
+class UserHistorySprint(models.Model):
+    """
+    Clase que relaciona UserHistory con Sprint
+    """
+    userhistory = models.ForeignKey(UserHistory)
+    sprint = models.ForeignKey(Sprint)
+    horas_plan = models.IntegerField()
+    horas_ejec = models.IntegerField()
+
+    class Meta:
+        unique_together = [("userhistory", "sprint")]
 
 class Historia(models.Model):
     """

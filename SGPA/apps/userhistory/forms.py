@@ -22,7 +22,6 @@ class UserHistoryForm(forms.Form):
     """
     nombre = forms.CharField(max_length=50, label='NOMBRE')
     descripcion = forms.CharField(max_length=500, label='DESCRIPCION')
-    estado = forms.CharField(max_length=12, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
@@ -56,7 +55,6 @@ class ModUserHistoryForm(forms.Form):
     Clase para el formulario de modificar User History
     """
     descripcion =forms.CharField(max_length=500, label='DESCRIPCION')
-    estado = forms.CharField(max_length=12, widget=forms.Select(choices=ESTADO_CHOICES), label = 'ESTADO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
@@ -124,7 +122,7 @@ class AsignarSprintUSForm(forms.Form):
     def __init__(self, proyecto, *args, **kwargs):
         super(AsignarSprintUSForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
-        sp = Sprint.objects.filter(proyecto = proyecto)
+        sp = Sprint.objects.filter(proyecto = proyecto, estado = 'planificacion')
         self.fields['sprint'].queryset = sp
 
 class AsignarFlujoUSForm(forms.Form):
