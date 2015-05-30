@@ -417,7 +417,7 @@ def asignar_sprint_userhistory(request, userhistory_id):
         if form.is_valid():
             sprint = form.cleaned_data['sprint']
             actual.sprint = Sprint.objects.get(nombre = sprint)
-            actual.estado = "iniciado"
+            actual.estado = "pendiente"
             res = actual.save()
             ussprint = UserHistorySprint()
             ussprint.userhistory = actual
@@ -655,10 +655,16 @@ def reasignar_sprint_userhistory(request, userhistory_id):
         if form.is_valid():
             sprint = form.cleaned_data['sprint']
             actual.sprint = Sprint.objects.get(nombre = sprint)
-            actual.estado = "iniciado"
-            actual.horas = form.cleaned_data['horas']
+            actual.estado = "pendiente"
+            actual.tiempo_estimado = form.cleaned_data['horas']
             actual.save()
-            registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
+            usSprint = UserHistorySprint()
+            usSprint.sprint = actual.sprint
+            usSprint.userhistory = actual
+            usSprint.horas_ejec = 0
+            usSprint.horas_plan = actual.tiempo_estimado
+            usSprint.save()
+            registrar_log(actual,"Reasignacion de Sprint: "+actual.sprint.nombre,user)
              #---Enviar Correo----#
             if actual.encargado != None:
                 contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
@@ -671,7 +677,7 @@ def reasignar_sprint_userhistory(request, userhistory_id):
             return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = ReasignarSprintUSForm(proyecto.id)
-        form.fields['sprint'].initial = actual.sprint
+        form.fields['sprint'].initial = None
     return render_to_response("userhistory/asignar_sprint.html", {'user':user,
                                                                      'form':form,
                                                                      'userhistory': actual,

@@ -207,9 +207,6 @@ class UserHistorySprint(models.Model):
     horas_plan = models.IntegerField()
     horas_ejec = models.IntegerField()
 
-    class Meta:
-        unique_together = [("userhistory", "sprint")]
-
 class Historia(models.Model):
     """
     Clase que representa el Historial de User Storie

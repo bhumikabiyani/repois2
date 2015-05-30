@@ -165,5 +165,5 @@ class ReasignarSprintUSForm(forms.Form):
     def __init__(self, proyecto, *args, **kwargs):
         super(ReasignarSprintUSForm, self).__init__(*args, **kwargs)
         self.proyecto = proyecto
-        sp = Sprint.objects.filter(proyecto = proyecto)
+        sp = Sprint.objects.filter(proyecto = proyecto, estado = 'planificacion')
         self.fields['sprint'].queryset = sp

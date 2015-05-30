@@ -342,7 +342,7 @@ def asignar_us_sprint(request, sprint_id):
                 nuevo.horas_plan = us.tiempo_estimado
                 nuevo.save()
                 us.sprint = sprint
-                us.estado = 'iniciado'
+                us.estado = 'pendiente'
                 us.save()
             return HttpResponseRedirect("/verSprint/ver&id=" + str(sprint_id))
     else:
