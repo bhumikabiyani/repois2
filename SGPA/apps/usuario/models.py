@@ -171,7 +171,7 @@ class FlujoActividadProyecto(models.Model):
     class Meta:
         unique_together = [("flujo", "actividad", "proyecto", "orden")]
 
-ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('en-curso','En Curso'),('cancelado','Cancelado')
+ESTADO_CHOICES=(('pendiente','Pendiente'),('iniciado','Iniciado'),('reasignar','A reasignar'),('cancelado','Cancelado')
                 ,('finalizado','Finalizado'))
 
 ESTADO_KANBAN=(('to-do','To do'),('doing','Doing'),('done','Done'))

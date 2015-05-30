@@ -27,4 +27,5 @@ urlpatterns = patterns('SGPA.apps.userhistory.views',
     url(r'^cambiarActividad/us&id=(?P<userhistory_id>\d+)/$', 'cambiar_actividad', name='vista_cambiarActividad'),
     url(r'^encargadoUserHistory/us&id=(?P<userhistory_id>\d+)/$','asignar_encargado_userhistory',name='vista_asignarEncargadoUS'),
     url(r'^finalizarUS/us&id=(?P<userhistory_id>\d+)/$', 'finalizar_userhistory', name='vista_finalizarUS'),
+    url(r'^reasignar/us&id=(?P<userhistory_id>\d+)/$','reasignar_sprint_userhistory',name='vista_reasignarSprintUS')
 )

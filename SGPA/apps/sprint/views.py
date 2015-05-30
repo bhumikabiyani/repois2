@@ -194,6 +194,11 @@ def visualizar_sprint(request, sprint_id):
     proyInit = False
     print sprint.proyecto.estado
     if sprint.proyecto.estado == 2: proyInit = True
+    sprintInitList = Sprint.objects.filter(proyecto = sprint.proyecto, estado = 'iniciado')
+    if sprintInitList:
+        sprintPlan = False
+    else:
+        pass
     ctx = {'lista':lista,
            'sprint':sprint,
            'sprintus': sprintus,
@@ -289,13 +294,26 @@ def borrar_sprint(request, sprint_id):
 def iniciar_sprint(request, sprint_id):
 
     sprint = get_object_or_404(Sprint, id=sprint_id)
+    US = UserHistory.objects.filter(sprint = sprint)
+    for rec in US:
+        if not rec.flujo:
+            for i in US:
+                i.estado = 'pendiente'
+                i.save()
+            error = "No se puede iniciar el sprint, existen User Histories sin flujo asignado."
+            return render_to_response("sprint/can_t_init_sprint.html", {'mensaje': error,'sprint': sprint })
+        rec.estado = 'iniciado'
+        rec.save()
     sprint.estado = "iniciado"
     sprint.save()
     return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)
 
 def finalizar_sprint(request, sprint_id):
-
     sprint = get_object_or_404(Sprint, id=sprint_id)
+    US = UserHistory.objects.filter(sprint = sprint,estado = 'iniciado')
+    for rec in US:
+        rec.estado = 'reasignar'
+        rec.save()
     sprint.estado = "finalizado"
     sprint.save()
     return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)

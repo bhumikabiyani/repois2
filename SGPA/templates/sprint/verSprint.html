@@ -61,7 +61,7 @@
     <div class="volver">
         <th class="titulo"><b><strong><span style="color:#330099">ACCIONES</span></strong></b></th><br>
         <td>
-            {% if eliminar_sprint %}
+            {% if eliminar_sprint and not proyInit%}
             <a class="btn btn-primary" href="/eliminarSprint/del&id={{sprint.id}}/"><strong>ELIMINAR</strong></a>
             {% endif %}
             {% if mod_sprint %}
