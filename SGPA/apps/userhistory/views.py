@@ -523,6 +523,15 @@ def cambiar_estados(request, userhistory_id):
             actual.estadokanban =form.cleaned_data['estadokanban']
             actual.save()
             registrar_log(actual,"Cambio de Estado: "+actual.estadokanban,user )
+             #---Enviar Correo----#
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/cambiar_estado.html',{'ustorie':actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'estado':actual.estado})
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
+            #-------------------#
             return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = CambiarEstadosUSForm()
