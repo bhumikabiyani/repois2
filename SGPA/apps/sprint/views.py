@@ -164,7 +164,6 @@ def visualizar_sprint(request, sprint_id):
         sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
         laborales = [dia for dia in range(7) if dia not in sabdom]
         totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
-        print totalDias.count()
         duracionSprintDias = totalDias.count()
         duracionSprintSem = duracionSprintDias / 5
         # duracionS = abs((sprint.fecha_fin - sprint.fecha_inicio)/5)

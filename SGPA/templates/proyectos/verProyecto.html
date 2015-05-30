@@ -114,8 +114,18 @@
 			{% endif %}
 
             <a class="btn btn-primary" href="/verkanban/ver&id={{proyecto.id}}/"><strong> VER TABLA KANBAN </strong> </a>&nbsp;&nbsp;
-            <a class="btn btn-primary" href="/verburn/ver&id={{proyecto.id}}/"><strong> VER BURNDOWN CHART </strong> </a><br><br>
-			   </td><br><br>
+            <div class="btn-group">
+                <a><span style="color:#2702E1"><button type="button" class="btn btn-primary" ><strong> BURNDOWN CHART</strong></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
+                <span class="caret"></span>
+                <span class="sr-only"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  {% for sprint in sprints%}
+                        <li><a href="/verburn/ver&id={{proyecto.id}}&&sprint&id={{sprint.id}}/"><span style="color:#2702E1">* VISUALIZAR BURNDOWN CHART DEL {{sprint}}</span></a></li>
+                    {% endfor%}
+                </ul>
+            </div>
+          <br><br>
                <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
            </div>
      </div>

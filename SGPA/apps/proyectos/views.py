@@ -21,8 +21,16 @@ from django.forms.formsets import formset_factory
 from SGPA.apps.proyectos.forms import *
 from SGPA.apps.proyectos.models import *
 from SGPA.apps.proyectos.helper import *
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import random
+from matplotlib.dates import DateFormatter
 import numpy as np
 import matplotlib.pyplot as plt
+import django
+import datetime
+
+
 from dateutil import rrule
 
 
@@ -150,6 +158,7 @@ def crear_proyecto(request):
 def visualizar_proyectos(request, proyecto_id):
     """Visualiza Datos de un Proyecto y muestra las operaciones que puede ejecutar"""
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+    sprints = Sprint.objects.filter(proyecto=proyecto_id)
     status = ""
     if proyecto.estado == 1:
         status = "Pendiente"
@@ -187,6 +196,7 @@ def visualizar_proyectos(request, proyecto_id):
            'miembros': userRolProy,
            'flujos': flujos,
            'proyPend': proyPend,
+           'sprints' : sprints,
            'ver_proyectos': 'ver proyectos' in permisosSys,
            'crear_proyecto': 'crear proyecto' in permisosSys,
            'mod_proyecto': 'modificar proyecto' in permisosProy,
@@ -660,50 +670,38 @@ def visualizar_kanban(request, proyecto_id):
                                                                   })
 
 @login_required
-def visualizar_burndownChart(request, proyecto_id):
+def visualizar_burndownChart(request, proyecto_id, sprint_id):
     """Metodo para visualizar el Grafico BurnDownChart"""
 
-    #Creamos la nube de puntos
-    #x = np.array([0, 1, 2, 3])
-    #y = np.array([1, 1.5, 1.8, 2.6])
+    sprint = get_object_or_404(Sprint, id=sprint_id)
+    US = UserHistory.objects.filter(sprint = sprint_id)
+    sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
+    laborales = [dia for dia in range(7) if dia not in sabdom]
+    totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
+    duracionSprintDias = totalDias.count()
 
-    #Titulo del Grafico
+    sumahora = 0
+    for u in US:
+        trabajo = Comentarios.objects.filter(userhistory = u)
+        for j in trabajo:
+            sumahora = sumahora + j.horas
 
-    plt.title('BURNDOWN CHART DEL PROYECTO ' + proyecto_id)
-    plt.xlabel('DIAS DEL SPRINT')
-    plt.ylabel('HORAS POR DIA')
+    fig=Figure()
+    ax=fig.add_subplot(111)
+    x=[]
+    y=[]
+    y1 = [4,3,2,1]
+    x1 = [1,2,3,4]
+    for i in range(duracionSprintDias):
+         x.append(i)
+    for j in range(sumahora):
+         y.append(j)
+    ax.plot(x)
+    ax.plot(y)
 
-    #para hacer varios graficos a la vez en distintas ventanas
-    #plt.figure('scatter') # Crea una ventana titulada 'scatter'
-    #plt.figure('plot')    # Crea una ventana titulada 'plot'
-    #a = np.random.rand(100) # Generamos un vector de valores aleatorios
-    #b = np.random.rand(100) # Generamos otro vector de valores aleatorios
-    #plt.figure('scatter') # Le decimos que la ventana activa en la que vamos a dibujar es la ventana 'scatter'
-    #plt.scatter(a,b)  # Dibujamos un scatterplot en la ventana 'scatter'
-    #plt.figure('plot') # Ahora cambiamos a la ventana 'plot'
-    #plt.plot(a,b)
-
-    #hacer dos graficos en la misma ventana
-    #plt.subplot(1,2,1)  # Dividimos la ventana en una fila y dos columnas y dibujamos el primer gráfico
-    #plt.plot((1,2,3,4,5))
-    #plt.subplot(1,2,2)  # Dividimos la ventana en una fila y dos columnas y dibujamos el segundo gráfico
-    #plt.plot((5,4,3,2,1))
-
-    #plt.axes()  # Coloca un área de gráfico con los valores por defecto
-    #plt.plot(np.exp(np.linspace(0,10,100)))  # Dibuja una exponencial de 0 a 10
-    #plt.axes([0.2,0.55,0.3,0.3], axisbg = 'gray')  # Dibuja una nueva área de gráfica colocada y con ancho y largo definido por [0.2,0.55,0.3,0.3] y con gris como color de fondo
-    #cd /h  plt.plot(np.sin(np.linspace(0,10,100)), 'b-o', linewidth = 2)
-
-    #plt.plot(np.random.rand(10))
-    #plt.plot(np.random.rand(10))
-    #plt.show()
-
-    #Construimos una matriz
-    #A = np.vstack([x, np.ones(len(x))])
-    #A = A.T #Hacemos su traspuest
-    #Obtenemos parametros de la recta
-    #m, c = np.linalg.lstsq(A, y)[0]
-    #plt.plot(x, y, 'o',  markersize=15)
-    #plt.plot(x, m*x + c, 'r')
-    plt.show()
-    return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))
+    ax.plot(x1, y1)
+    ax.grid()
+    canvas=FigureCanvas(fig)
+    response=django.http.HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    return response

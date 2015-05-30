@@ -429,7 +429,7 @@ def asignar_sprint_userhistory(request, userhistory_id):
                 correo.content_subtype = "html"
                 correo.send()
             #-------------------#
-            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
         form = AsignarSprintUSForm(proyecto.id)
         form.fields['sprint'].initial = actual.sprint
@@ -449,6 +449,7 @@ def asignar_flujo_userhistory(request, userhistory_id):
     user = User.objects.get(username=request.user.username)
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    us = get_object_or_404(UserHistory, id=userhistory_id)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     permisos_obj = []
@@ -479,7 +480,7 @@ def asignar_flujo_userhistory(request, userhistory_id):
                 correo.content_subtype = "html"
                 correo.send()
             #-------------------#
-            return HttpResponseRedirect("/verUserHistory/ver&id=" + str(userhistory_id))
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
     else:
         form = AsignarFlujoUSForm(proyecto.id)
         form.fields['flujo'].initial = actual.flujo
@@ -488,49 +489,6 @@ def asignar_flujo_userhistory(request, userhistory_id):
                                                                      'userhistory': actual,
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
-
-# def archivos_adjuntos(request, userhistory_id):
-#     """
-#     Metodo en el cual se adjuntan archivos al User History
-#     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
-#     :param userhistory_id: id del user history al cual se le adjunta el archivo
-#     :return: archivos_adjuntosOriginal.html, pagina en el cualse adjunta archivo
-#     """
-#     user = User.objects.get(username=request.user.username)
-#     us = get_object_or_404( UserHistory, id = userhistory_id)
-#     proyecto = Proyecto.objects.get(nombrelargo = us.proyecto)
-#     #Validacion de permisos---------------------------------------------
-#     roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proyecto).only('rol')
-#     permisos_obj = []
-#     for i in roles:
-#         permisos_obj.extend(i.rol.permisos.all())
-#     permisos = []
-#     for i in permisos_obj:
-#         permisos.append(i.nombre)
-#
-#     #-------------------------------------------------------------------
-#     if request.method == 'POST':
-#         form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
-#         if form.is_valid():
-#             newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
-#             newdoc.save(form)
-#             registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
-#         return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
-#     else:
-#         form = ArchivosAdjuntosForm(us)
-#     return render(request, 'userhistory/archivos_adjuntosOriginal.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
-
-    #-------------------------------------------------------------------
-    if request.method == 'POST':
-        form = ArchivosAdjuntosForm(us,request.POST, request.FILES)
-        if form.is_valid():
-            newdoc = ArchivosAdjuntos(nombre = request.POST['nombre'],docfile = request.FILES['docfile'], userhistory = us)
-            newdoc.save(form)
-            registrar_log(us,"Archivo Adjunto (Nombre: "+newdoc.nombre+")",user)
-        return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
-    else:
-        form = ArchivosAdjuntosForm(us)
-    return render(request, 'userhistory/archivos_adjuntos.html', {'form': form, 'user':user, 'userhistory':us, 'adjuntar_archivos':'adjuntar archivos' in permisos})
 
 def cambiar_estados(request, userhistory_id):
     """
@@ -664,6 +622,52 @@ def retornar_archivo(request, userhistory_id, arch_id):
         respuesta['Content-Disposition'] = 'attachment; filename=' + adjunto.nombre
         #respuesta['Content-Length'] = adjunto.tamano
         return respuesta
-    return HttpResponseRedirect("/verkanban/ver&id=" + str(us.proyecto.id))
 
+def reasignar_sprint_userhistory(request, userhistory_id):
+    """
+    Metodo en el cual se reasigna el User History a un Sprint
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History que sera reasignado al Sprint
+    :return: reasignar_sprint.html, pagina en la cual se reasigna el user history al sprint
+    """
+    user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(UserHistory, id=userhistory_id)
+    proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
+    #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
+    permisos_obj = []
+    for i in roles:
+       permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+       permisos.append(i.nombre)
 
+    #-------------------------------------------------------------------
+
+    if request.method == 'POST':
+        form = ReasignarSprintUSForm(proyecto.id, request.POST)
+        if form.is_valid():
+            sprint = form.cleaned_data['sprint']
+            actual.sprint = Sprint.objects.get(nombre = sprint)
+            actual.estado = "iniciado"
+            actual.horas = form.cleaned_data['horas']
+            actual.save()
+            registrar_log(actual,"Asignacion de Sprint: "+actual.sprint.nombre,user)
+             #---Enviar Correo----#
+            if actual.encargado != None:
+                contenido = render_to_string('mailing/asignar_sprint.html',{'ustorie': actual.nombre,
+                                         'owner':user.first_name,'proyecto':proyecto.nombrelargo,
+                                         'sprint':sprint})
+                correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
+                correo.content_subtype = "html"
+                correo.send()
+            #-------------------#
+            return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
+    else:
+        form = ReasignarSprintUSForm(proyecto.id)
+        form.fields['sprint'].initial = actual.sprint
+    return render_to_response("userhistory/asignar_sprint.html", {'user':user,
+                                                                     'form':form,
+                                                                     'userhistory': actual,
+                                                                     'asignar_sprint':'asignar sprint a us' in permisos
+                                                                     })
