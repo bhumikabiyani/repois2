@@ -194,6 +194,8 @@ class UserHistory(models.Model):
     estadokanban = models.CharField(max_length=6, choices=ESTADO_KANBAN)
     tiempo_estimado = models.IntegerField(null=True)
     tiempo_utilizado = models.IntegerField(null=True)
+    fecha_estimada = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, editable=False)
+
 
     def __unicode__(self):
         return self.nombre
@@ -241,6 +243,7 @@ class Comentarios(models.Model):
     descripcion = models.CharField(max_length=200,null=False)
     userhistory = models.ForeignKey(UserHistory)
     horas = models.IntegerField()
+    fecha = models.DateField(auto_now=False, auto_now_add=True, null=True, blank=True, editable=False)
 
     def __unicode__(self):
         return self.asunto

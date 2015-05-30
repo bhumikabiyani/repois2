@@ -8,6 +8,7 @@ import datetime
 import django
 django.setup()
 from django.forms.widgets import *
+from datetimewidget.widgets import DateTimeWidget, DateWidget, TimeWidget
 
 class FilterForm(forms.Form):
     """
@@ -25,6 +26,13 @@ class UserHistoryForm(forms.Form):
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
+    fecha_estimada = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2), label='FECHA ESTIMADA')
+
+    class Meta:
+        model = UserHistory
+        widgets = {
+            'date': DateWidget(attrs={'id':"fecha_estimada"}, usel10n = True, bootstrap_version=2)
+        }
     # flujo = forms.ModelChoiceField(queryset=Flujo.objects.filter())
     # sprint = forms.ModelChoiceField(queryset=Sprint.objects.filter())
     #usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())

@@ -14,6 +14,7 @@ from SGPA.apps.flujo.models import *
 from SGPA.apps.userhistory.helper import *
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+import datetime, time
 # Create your views here.
 
 @login_required
@@ -118,6 +119,8 @@ def crear_user_history(request,proyecto_id):
             r.valor_negocio = form.cleaned_data['valor_negocio']
             r.valor_tecnico = form.cleaned_data['valor_tecnico']
             r.tiempo_estimado = form.cleaned_data['tiempo_estimado']
+            r.fecha_estimada = form.cleaned_data['fecha_estimada']
+            print r.fecha_estimada
             # r.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
             # r.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
             # fap = FlujoActividadProyecto.objects.get(flujo = r.flujo, proyecto = proyecto, orden = 1)
@@ -322,6 +325,7 @@ def agregar_comentario(request, userhistory_id):
             comment.descripcion = form.cleaned_data['descripcion']
             comment.userhistory = us
             comment.horas = form.cleaned_data['horas']
+            comment.fecha = datetime.datetime.now()
             comment.save()
             ussprint.horas_ejec += comment.horas
             ussprint.save()
