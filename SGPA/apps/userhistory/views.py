@@ -531,7 +531,7 @@ def cambiar_estados(request, userhistory_id):
             if actual.encargado != None:
                 contenido = render_to_string('mailing/cambiar_estado.html',{'ustorie':actual.nombre,
                                          'owner':user.first_name,'proyecto':proyecto.nombrelargo,
-                                         'estado':actual.estado})
+                                         'estado':actual.estadokanban})
                 correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
                 correo.content_subtype = "html"
                 correo.send()
