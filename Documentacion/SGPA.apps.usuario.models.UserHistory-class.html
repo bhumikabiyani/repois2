@@ -388,18 +388,26 @@ django.db.models.base.Model --+
         <a name="tiempo_utilizado"></a><span class="summary-name">tiempo_utilizado</span> = <code title="models.IntegerField(null= True)">models.IntegerField(null= True)</code>
     </td>
   </tr>
-<tr class="private">
+<tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SGPA.apps.usuario.models.UserHistory-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x7f14b8e48050&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+        <a href="SGPA.apps.usuario.models.UserHistory-class.html#fecha_estimada" class="summary-name">fecha_estimada</a> = <code title="models.DateField(auto_now= False, auto_now_add= False, null= True, bla\
+nk= True, editable= False)">models.DateField(auto_now= False, auto_now_ad<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SGPA.apps.usuario.models.UserHistory-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x7f14b8e48050&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
+        <a href="SGPA.apps.usuario.models.UserHistory-class.html#_base_manager" class="summary-name" onclick="show_private();">_base_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x7f86f4d6b2d0&gt;">&lt;django.db.models.manager.Manager object at 0x<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SGPA.apps.usuario.models.UserHistory-class.html#_default_manager" class="summary-name" onclick="show_private();">_default_manager</a> = <code title="&lt;django.db.models.manager.Manager object at 0x7f86f4d6b2d0&gt;">&lt;django.db.models.manager.Manager object at<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr class="private">
@@ -413,8 +421,8 @@ django.db.models.base.Model --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SGPA.apps.usuario.models.UserHistory-class.html#archivosadjuntos_set" class="summary-name">archivosadjuntos_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x7f14b8e48fd0&gt;">&lt;django.db.models.fields.related.Foreig<code class="variable-ellipsis">...</code></code>
+        <a href="SGPA.apps.usuario.models.UserHistory-class.html#adjunto_set" class="summary-name">adjunto_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
+t at 0x7f86f4d79ed0&gt;">&lt;django.db.models.fields.related.ForeignRelatedO<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -422,7 +430,7 @@ t at 0x7f14b8e48fd0&gt;">&lt;django.db.models.fields.related.Foreig<code class="
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="SGPA.apps.usuario.models.UserHistory-class.html#comentarios_set" class="summary-name">comentarios_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x7f14b8e53590&gt;">&lt;django.db.models.fields.related.ForeignRela<code class="variable-ellipsis">...</code></code>
+t at 0x7f86f4d79950&gt;">&lt;django.db.models.fields.related.ForeignRela<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -430,7 +438,15 @@ t at 0x7f14b8e53590&gt;">&lt;django.db.models.fields.related.ForeignRela<code cl
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="SGPA.apps.usuario.models.UserHistory-class.html#historia_set" class="summary-name">historia_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
-t at 0x7f14b8e48710&gt;">&lt;django.db.models.fields.related.ForeignRelated<code class="variable-ellipsis">...</code></code>
+t at 0x7f86f4d6bfd0&gt;">&lt;django.db.models.fields.related.ForeignRelated<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SGPA.apps.usuario.models.UserHistory-class.html#userhistorysprint_set" class="summary-name">userhistorysprint_set</a> = <code title="&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec\
+t at 0x7f86f4d6b690&gt;">&lt;django.db.models.fields.related.Forei<code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
   <tr>
@@ -523,6 +539,25 @@ models.CharField(max_length= 6, choices= ESTADO_KANBAN)
   </dl>
 </td></tr></table>
 </div>
+<a name="fecha_estimada"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">fecha_estimada</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+models.DateField(auto_now= False, auto_now_add= False, null= True, bla<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+nk= True, editable= False)
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="_base_manager"></a>
 <div class="private">
 <table class="details" border="1" cellpadding="3"
@@ -535,7 +570,7 @@ models.CharField(max_length= 6, choices= ESTADO_KANBAN)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x7f14b8e48050&gt;
+&lt;django.db.models.manager.Manager object at 0x7f86f4d6b2d0&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -553,18 +588,18 @@ models.CharField(max_length= 6, choices= ESTADO_KANBAN)
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-&lt;django.db.models.manager.Manager object at 0x7f14b8e48050&gt;
+&lt;django.db.models.manager.Manager object at 0x7f86f4d6b2d0&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
 </td></tr></table>
 </div>
-<a name="archivosadjuntos_set"></a>
+<a name="adjunto_set"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">archivosadjuntos_set</h3>
+  <h3 class="epydoc">adjunto_set</h3>
   
   <dl class="fields">
   </dl>
@@ -572,7 +607,7 @@ models.CharField(max_length= 6, choices= ESTADO_KANBAN)
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x7f14b8e48fd0&gt;
+t at 0x7f86f4d79ed0&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -591,7 +626,7 @@ t at 0x7f14b8e48fd0&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x7f14b8e53590&gt;
+t at 0x7f86f4d79950&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -610,7 +645,26 @@ t at 0x7f14b8e53590&gt;
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
 &lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-t at 0x7f14b8e48710&gt;
+t at 0x7f86f4d6bfd0&gt;
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="userhistorysprint_set"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">userhistorysprint_set</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+&lt;django.db.models.fields.related.ForeignRelatedObjectsDescriptor objec<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+t at 0x7f86f4d6b690&gt;
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -643,7 +697,7 @@ t at 0x7f14b8e48710&gt;
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 16 05:43:08 2015
+    Generated by Epydoc 3.0.1 on Sat May 30 08:41:40 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

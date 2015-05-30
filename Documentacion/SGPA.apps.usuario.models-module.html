@@ -183,6 +183,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="SGPA.apps.usuario.models.UserHistorySprint-class.html" class="summary-name">UserHistorySprint</a><br />
+      Clase que relaciona UserHistory con Sprint
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="SGPA.apps.usuario.models.Historia-class.html" class="summary-name">Historia</a><br />
       Clase que representa el Historial de User Storie
     </td>
@@ -191,16 +199,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SGPA.apps.usuario.models.ArchivosAdjuntos-class.html" class="summary-name">ArchivosAdjuntos</a><br />
-      ArchivosAdjuntos(id, userhistory_id, nombre, docfile)
+        <a href="SGPA.apps.usuario.models.Comentarios-class.html" class="summary-name">Comentarios</a><br />
+      Comentarios(id, asunto, descripcion, userhistory_id, horas, fecha)
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="SGPA.apps.usuario.models.Comentarios-class.html" class="summary-name">Comentarios</a><br />
-      Comentarios(id, asunto, descripcion, userhistory_id)
+        <a href="SGPA.apps.usuario.models.Adjunto-class.html" class="summary-name">Adjunto</a><br />
+      Adjunto(id, nombre, contenido, mimetype, us_id)
     </td>
   </tr>
 </table>
@@ -264,9 +272,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="SGPA.apps.usuario.models-module.html#ESTADO_SPRINT" class="summary-name">ESTADO_SPRINT</a> = <code title="(('planificacion', 'Planificacion'),
+ ('iniciado', 'Iniciado'),
+ ('cancelado', 'Cancelado'),
+ ('finalizado', 'Finalizado'))"><code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">planificacion</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Planificacion</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">iniciad</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="SGPA.apps.usuario.models-module.html#ESTADO_CHOICES" class="summary-name">ESTADO_CHOICES</a> = <code title="(('pendiente', 'Pendiente'),
  ('iniciado', 'Iniciado'),
- ('en-curso', 'En Curso'),
+ ('reasignar', 'A reasignar'),
  ('cancelado', 'Cancelado'),
  ('finalizado', 'Finalizado'))"><code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">pendiente</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">iniciado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">In</code><code class="variable-ellipsis">...</code></code>
     </td>
@@ -387,6 +405,27 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="ESTADO_SPRINT"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ESTADO_SPRINT</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">planificacion</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Planificacion</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+ <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">iniciado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Iniciado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+ <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">cancelado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Cancelado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+ <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">finalizado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Finalizado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="ESTADO_CHOICES"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -401,7 +440,7 @@
       <dd><table><tr><td><pre class="variable">
 <code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">pendiente</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
  <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">iniciado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Iniciado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
- <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">en-curso</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">En Curso</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+ <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">reasignar</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">A reasignar</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
  <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">cancelado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Cancelado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
  <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">finalizado</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Finalizado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-group">)</code>
 </pre></td></tr></table>
@@ -454,7 +493,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 16 05:43:07 2015
+    Generated by Epydoc 3.0.1 on Sat May 30 08:41:39 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -77,8 +77,9 @@ SGPA.apps.proyectos.forms
 SGPA.apps.roles.forms
 SGPA.apps.sprint.forms
 SGPA.apps.userhistory.forms
-SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-1', 'forms', 'link-0');">forms</a></tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name" targets="Variable SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets=SGPA.apps.proyectos.forms.ProyectoForm.Meta-class.html#widgets,Variable SGPA.apps.sprint.forms.SprintForm.Meta.widgets=SGPA.apps.sprint.forms.SprintForm.Meta-class.html#widgets,Module SGPA.widgets=SGPA.widgets-module.html"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
+SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-1', 'forms', 'link-0');">forms</a></tt><tt class="py-op">,</tt> <tt id="link-2" class="py-name" targets="Variable SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets=SGPA.apps.proyectos.forms.ProyectoForm.Meta-class.html#widgets,Variable SGPA.apps.sprint.forms.SprintForm.Meta.widgets=SGPA.apps.sprint.forms.SprintForm.Meta-class.html#widgets,Variable SGPA.apps.userhistory.forms.UserHistoryForm.Meta.widgets=SGPA.apps.userhistory.forms.UserHistoryForm.Meta-class.html#widgets,Module SGPA.widgets=SGPA.widgets-module.html"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
 SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.apps.userhistory.forms.UserHistoryForm.Meta.widgets
 SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-2', 'widgets', 'link-2');">widgets</a></tt> </tt>
 <a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="SGPA.apps.actividades.forms
 SGPA.apps.flujo.forms
@@ -89,6 +90,7 @@ SGPA.apps.sprint.forms
 SGPA.apps.userhistory.forms
 SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-3', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
 SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.apps.userhistory.forms.UserHistoryForm.Meta.widgets
 SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-4', 'widgets', 'link-2');">widgets</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">MultiWidget</tt><tt class="py-op">,</tt> <tt class="py-name">DateTimeInput</tt><tt class="py-op">,</tt> <tt class="py-name">DateInput</tt><tt class="py-op">,</tt> <tt class="py-name">TimeInput</tt> </tt>
 <a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">utils</tt><tt class="py-op">.</tt><tt class="py-name">formats</tt> <tt class="py-keyword">import</tt> <tt class="py-name">get_format</tt><tt class="py-op">,</tt> <tt class="py-name">get_language</tt> </tt>
 <a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">utils</tt><tt class="py-op">.</tt><tt class="py-name">safestring</tt> <tt class="py-keyword">import</tt> <tt class="py-name">mark_safe</tt> </tt>
@@ -104,6 +106,7 @@ SGPA.apps.sprint.forms
 SGPA.apps.userhistory.forms
 SGPA.apps.usuario.forms" class="py-name" href="#" onclick="return doclink('link-5', 'forms', 'link-0');">forms</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
 SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.apps.userhistory.forms.UserHistoryForm.Meta.widgets
 SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-6', 'widgets', 'link-2');">widgets</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">to_current_timezone</tt> </tt>
 <a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">except</tt> <tt class="py-name">ImportError</tt><tt class="py-op">:</tt> </tt>
 <a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">    <tt class="py-name">to_current_timezone</tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt class="py-name">obj</tt><tt class="py-op">:</tt> <tt class="py-name">obj</tt> <tt class="py-comment"># passthrough, no tz support</tt> </tt>
@@ -318,21 +321,22 @@ SGPA.widgets.TimeWidget.format_name" class="py-name" href="#" onclick="return do
 <a name="L217"></a><tt class="py-lineno">217</tt>  <tt class="py-line">                <tt class="py-name">format</tt> </tt>
 <a name="L218"></a><tt class="py-lineno">218</tt>  <tt class="py-line">                <tt class="py-op">)</tt> </tt>
 <a name="L219"></a><tt class="py-lineno">219</tt>  <tt class="py-line"> </tt>
-<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-30" class="py-name" targets="Class SGPA.widgets.PickerWidgetMixin=SGPA.widgets.PickerWidgetMixin-class.html"><a title="SGPA.widgets.PickerWidgetMixin" class="py-name" href="#" onclick="return doclink('link-30', 'PickerWidgetMixin', 'link-30');">PickerWidgetMixin</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Method SGPA.apps.actividades.forms.AsignarActividadesForm.__init__()=SGPA.apps.actividades.forms.AsignarActividadesForm-class.html#__init__,Method SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__()=SGPA.apps.proyectos.forms.AsignarActividadesProyForm-class.html#__init__,Method SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__()=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#__init__,Method SGPA.apps.roles.forms.AsignarRolesForm.__init__()=SGPA.apps.roles.forms.AsignarRolesForm-class.html#__init__,Method SGPA.apps.roles.forms.AsignarRolesProyForm.__init__()=SGPA.apps.roles.forms.AsignarRolesProyForm-class.html#__init__,Method SGPA.apps.roles.forms.UsuarioProyectoForm.__init__()=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#__init__,Method SGPA.apps.sprint.forms.ModSprintForm.__init__()=SGPA.apps.sprint.forms.ModSprintForm-class.html#__init__,Method SGPA.apps.sprint.forms.SprintForm.__init__()=SGPA.apps.sprint.forms.SprintForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AddCommentForm.__init__()=SGPA.apps.userhistory.forms.AddCommentForm-class.html#__init__,Method SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__()=SGPA.apps.userhistory.forms.ArchivosAdjuntosForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarEncargadoUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarFlujoUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarSprintUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__()=SGPA.apps.userhistory.forms.CambiarActividadUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__()=SGPA.apps.userhistory.forms.ModUserHistoryForm-class.html#__init__,Method SGPA.apps.userhistory.forms.UserHistoryForm.__init__()=SGPA.apps.userhistory.forms.UserHistoryForm-class.html#__init__,Method SGPA.widgets.DateTimeWidget.__init__()=SGPA.widgets.DateTimeWidget-class.html#__init__,Method SGPA.widgets.DateWidget.__init__()=SGPA.widgets.DateWidget-class.html#__init__,Method SGPA.widgets.PickerWidgetMixin.__init__()=SGPA.widgets.PickerWidgetMixin-class.html#__init__,Method SGPA.widgets.TimeWidget.__init__()=SGPA.widgets.TimeWidget-class.html#__init__"><a title="SGPA.apps.actividades.forms.AsignarActividadesForm.__init__
+<a name="L220"></a><tt class="py-lineno">220</tt>  <tt class="py-line">        <tt class="py-name">super</tt><tt class="py-op">(</tt><tt id="link-30" class="py-name" targets="Class SGPA.widgets.PickerWidgetMixin=SGPA.widgets.PickerWidgetMixin-class.html"><a title="SGPA.widgets.PickerWidgetMixin" class="py-name" href="#" onclick="return doclink('link-30', 'PickerWidgetMixin', 'link-30');">PickerWidgetMixin</a></tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name" targets="Method SGPA.apps.actividades.forms.AsignarActividadesForm.__init__()=SGPA.apps.actividades.forms.AsignarActividadesForm-class.html#__init__,Method SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__()=SGPA.apps.proyectos.forms.AsignarActividadesProyForm-class.html#__init__,Method SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__()=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#__init__,Method SGPA.apps.roles.forms.AsignarRolesForm.__init__()=SGPA.apps.roles.forms.AsignarRolesForm-class.html#__init__,Method SGPA.apps.roles.forms.AsignarRolesProyForm.__init__()=SGPA.apps.roles.forms.AsignarRolesProyForm-class.html#__init__,Method SGPA.apps.roles.forms.UsuarioProyectoForm.__init__()=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#__init__,Method SGPA.apps.sprint.forms.AsignarUSSprintForm.__init__()=SGPA.apps.sprint.forms.AsignarUSSprintForm-class.html#__init__,Method SGPA.apps.sprint.forms.ModSprintForm.__init__()=SGPA.apps.sprint.forms.ModSprintForm-class.html#__init__,Method SGPA.apps.sprint.forms.SprintForm.__init__()=SGPA.apps.sprint.forms.SprintForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AddCommentForm.__init__()=SGPA.apps.userhistory.forms.AddCommentForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarEncargadoUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarFlujoUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__()=SGPA.apps.userhistory.forms.AsignarSprintUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__()=SGPA.apps.userhistory.forms.CambiarActividadUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__()=SGPA.apps.userhistory.forms.ModUserHistoryForm-class.html#__init__,Method SGPA.apps.userhistory.forms.ReasignarSprintUSForm.__init__()=SGPA.apps.userhistory.forms.ReasignarSprintUSForm-class.html#__init__,Method SGPA.apps.userhistory.forms.UserHistoryForm.__init__()=SGPA.apps.userhistory.forms.UserHistoryForm-class.html#__init__,Method SGPA.widgets.DateTimeWidget.__init__()=SGPA.widgets.DateTimeWidget-class.html#__init__,Method SGPA.widgets.DateWidget.__init__()=SGPA.widgets.DateWidget-class.html#__init__,Method SGPA.widgets.PickerWidgetMixin.__init__()=SGPA.widgets.PickerWidgetMixin-class.html#__init__,Method SGPA.widgets.TimeWidget.__init__()=SGPA.widgets.TimeWidget-class.html#__init__"><a title="SGPA.apps.actividades.forms.AsignarActividadesForm.__init__
 SGPA.apps.proyectos.forms.AsignarActividadesProyForm.__init__
 SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
 SGPA.apps.roles.forms.AsignarRolesForm.__init__
 SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
 SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.AsignarUSSprintForm.__init__
 SGPA.apps.sprint.forms.ModSprintForm.__init__
 SGPA.apps.sprint.forms.SprintForm.__init__
 SGPA.apps.userhistory.forms.AddCommentForm.__init__
-SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
 SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
 SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.ReasignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.UserHistoryForm.__init__
 SGPA.widgets.DateTimeWidget.__init__
 SGPA.widgets.DateWidget.__init__
@@ -385,6 +389,7 @@ SGPA.widgets.TimeWidget.glyphicon" class="py-name" href="#" onclick="return docl
 <a name="L259"></a><tt class="py-lineno">259</tt>  <tt class="py-line"> </tt>
 <a name="L260"></a><tt class="py-lineno">260</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-40" class="py-name"><a title="SGPA.apps.proyectos.forms.ProyectoForm.Meta.widgets
 SGPA.apps.sprint.forms.SprintForm.Meta.widgets
+SGPA.apps.userhistory.forms.UserHistoryForm.Meta.widgets
 SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-40', 'widgets', 'link-2');">widgets</a></tt><tt class="py-op">.</tt><tt class="py-name">Media</tt><tt class="py-op">(</tt> </tt>
 <a name="L261"></a><tt class="py-lineno">261</tt>  <tt class="py-line">            <tt class="py-name">css</tt><tt class="py-op">=</tt><tt class="py-op">{</tt> </tt>
 <a name="L262"></a><tt class="py-lineno">262</tt>  <tt class="py-line">                <tt class="py-string">'all'</tt><tt class="py-op">:</tt> <tt class="py-op">(</tt><tt class="py-string">'css/datetimepicker.css'</tt><tt class="py-op">,</tt><tt class="py-op">)</tt> </tt>
@@ -392,7 +397,7 @@ SGPA.widgets" class="py-name" href="#" onclick="return doclink('link-40', 'widge
 <a name="L264"></a><tt class="py-lineno">264</tt>  <tt class="py-line">            <tt class="py-name">js</tt><tt class="py-op">=</tt><tt class="py-name">js</tt> </tt>
 <a name="L265"></a><tt class="py-lineno">265</tt>  <tt class="py-line">            <tt class="py-op">)</tt> </tt>
 </div><a name="L266"></a><tt class="py-lineno">266</tt>  <tt class="py-line"> </tt>
-<a name="L267"></a><tt class="py-lineno">267</tt>  <tt class="py-line">    <tt id="link-41" class="py-name" targets="Variable SGPA.apps.actividades.forms.ActividadForm.media=SGPA.apps.actividades.forms.ActividadForm-class.html#media,Variable SGPA.apps.actividades.forms.AsignarActividadesForm.media=SGPA.apps.actividades.forms.AsignarActividadesForm-class.html#media,Variable SGPA.apps.actividades.forms.FilterForm.media=SGPA.apps.actividades.forms.FilterForm-class.html#media,Variable SGPA.apps.actividades.forms.FilterForm2.media=SGPA.apps.actividades.forms.FilterForm2-class.html#media,Variable SGPA.apps.actividades.forms.ModActividadForm.media=SGPA.apps.actividades.forms.ModActividadForm-class.html#media,Variable SGPA.apps.flujo.forms.FilterForm.media=SGPA.apps.flujo.forms.FilterForm-class.html#media,Variable SGPA.apps.flujo.forms.FilterForm2.media=SGPA.apps.flujo.forms.FilterForm2-class.html#media,Variable SGPA.apps.flujo.forms.FlujoForm.media=SGPA.apps.flujo.forms.FlujoForm-class.html#media,Variable SGPA.apps.flujo.forms.ModFlujoForm.media=SGPA.apps.flujo.forms.ModFlujoForm-class.html#media,Variable SGPA.apps.home.forms.LoginForm.media=SGPA.apps.home.forms.LoginForm-class.html#media,Variable SGPA.apps.home.forms.RecuperarContrasenaForm.media=SGPA.apps.home.forms.RecuperarContrasenaForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarActividadesProyForm.media=SGPA.apps.proyectos.forms.AsignarActividadesProyForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarEncargadoUSForm.media=SGPA.apps.proyectos.forms.AsignarEncargadoUSForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarFlujoForm.media=SGPA.apps.proyectos.forms.AsignarFlujoForm-class.html#media,Variable SGPA.apps.proyectos.forms.FilterForm.media=SGPA.apps.proyectos.forms.FilterForm-class.html#media,Variable SGPA.apps.proyectos.forms.FilterForm2.media=SGPA.apps.proyectos.forms.FilterForm2-class.html#media,Variable SGPA.apps.proyectos.forms.ModProyectoForm.media=SGPA.apps.proyectos.forms.ModProyectoForm-class.html#media,Variable SGPA.apps.proyectos.forms.NuevoMiembroForm.media=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#media,Variable SGPA.apps.proyectos.forms.ProyectoForm.media=SGPA.apps.proyectos.forms.ProyectoForm-class.html#media,Variable SGPA.apps.roles.forms.AsignarRolesForm.media=SGPA.apps.roles.forms.AsignarRolesForm-class.html#media,Variable SGPA.apps.roles.forms.AsignarRolesProyForm.media=SGPA.apps.roles.forms.AsignarRolesProyForm-class.html#media,Variable SGPA.apps.roles.forms.FilterForm.media=SGPA.apps.roles.forms.FilterForm-class.html#media,Variable SGPA.apps.roles.forms.FilterForm2.media=SGPA.apps.roles.forms.FilterForm2-class.html#media,Variable SGPA.apps.roles.forms.ModRolesForm.media=SGPA.apps.roles.forms.ModRolesForm-class.html#media,Variable SGPA.apps.roles.forms.PermisosForm.media=SGPA.apps.roles.forms.PermisosForm-class.html#media,Variable SGPA.apps.roles.forms.PermisosProyectoForm.media=SGPA.apps.roles.forms.PermisosProyectoForm-class.html#media,Variable SGPA.apps.roles.forms.RolesPForm.media=SGPA.apps.roles.forms.RolesPForm-class.html#media,Variable SGPA.apps.roles.forms.RolesSForm.media=SGPA.apps.roles.forms.RolesSForm-class.html#media,Variable SGPA.apps.roles.forms.UsuarioProyectoForm.media=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#media,Variable SGPA.apps.sprint.forms.FilterForm.media=SGPA.apps.sprint.forms.FilterForm-class.html#media,Variable SGPA.apps.sprint.forms.ModSprintForm.media=SGPA.apps.sprint.forms.ModSprintForm-class.html#media,Variable SGPA.apps.sprint.forms.SprintForm.media=SGPA.apps.sprint.forms.SprintForm-class.html#media,Variable SGPA.apps.userhistory.forms.AddCommentForm.media=SGPA.apps.userhistory.forms.AddCommentForm-class.html#media,Variable SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.media=SGPA.apps.userhistory.forms.ArchivosAdjuntosForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.media=SGPA.apps.userhistory.forms.AsignarEncargadoUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarFlujoUSForm.media=SGPA.apps.userhistory.forms.AsignarFlujoUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarSprintUSForm.media=SGPA.apps.userhistory.forms.AsignarSprintUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.CambiarActividadUSForm.media=SGPA.apps.userhistory.forms.CambiarActividadUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.CambiarEstadosUSForm.media=SGPA.apps.userhistory.forms.CambiarEstadosUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.FilterForm.media=SGPA.apps.userhistory.forms.FilterForm-class.html#media,Variable SGPA.apps.userhistory.forms.ModUserHistoryForm.media=SGPA.apps.userhistory.forms.ModUserHistoryForm-class.html#media,Variable SGPA.apps.userhistory.forms.UserHistoryForm.media=SGPA.apps.userhistory.forms.UserHistoryForm-class.html#media,Variable SGPA.apps.usuario.forms.CambiarPasswordForm.media=SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#media,Variable SGPA.apps.usuario.forms.FilterForm.media=SGPA.apps.usuario.forms.FilterForm-class.html#media,Variable SGPA.apps.usuario.forms.ModUsuariosForm.media=SGPA.apps.usuario.forms.ModUsuariosForm-class.html#media,Variable SGPA.apps.usuario.forms.UsuariosForm.media=SGPA.apps.usuario.forms.UsuariosForm-class.html#media,Variable SGPA.widgets.DateTimeWidget.media=SGPA.widgets.DateTimeWidget-class.html#media,Variable SGPA.widgets.DateWidget.media=SGPA.widgets.DateWidget-class.html#media,Variable SGPA.widgets.PickerWidgetMixin.media=SGPA.widgets.PickerWidgetMixin-class.html#media,Variable SGPA.widgets.TimeWidget.media=SGPA.widgets.TimeWidget-class.html#media"><a title="SGPA.apps.actividades.forms.ActividadForm.media
+<a name="L267"></a><tt class="py-lineno">267</tt>  <tt class="py-line">    <tt id="link-41" class="py-name" targets="Variable SGPA.apps.actividades.forms.ActividadForm.media=SGPA.apps.actividades.forms.ActividadForm-class.html#media,Variable SGPA.apps.actividades.forms.AsignarActividadesForm.media=SGPA.apps.actividades.forms.AsignarActividadesForm-class.html#media,Variable SGPA.apps.actividades.forms.FilterForm.media=SGPA.apps.actividades.forms.FilterForm-class.html#media,Variable SGPA.apps.actividades.forms.FilterForm2.media=SGPA.apps.actividades.forms.FilterForm2-class.html#media,Variable SGPA.apps.actividades.forms.ModActividadForm.media=SGPA.apps.actividades.forms.ModActividadForm-class.html#media,Variable SGPA.apps.flujo.forms.FilterForm.media=SGPA.apps.flujo.forms.FilterForm-class.html#media,Variable SGPA.apps.flujo.forms.FilterForm2.media=SGPA.apps.flujo.forms.FilterForm2-class.html#media,Variable SGPA.apps.flujo.forms.FlujoForm.media=SGPA.apps.flujo.forms.FlujoForm-class.html#media,Variable SGPA.apps.flujo.forms.ModFlujoForm.media=SGPA.apps.flujo.forms.ModFlujoForm-class.html#media,Variable SGPA.apps.home.forms.LoginForm.media=SGPA.apps.home.forms.LoginForm-class.html#media,Variable SGPA.apps.home.forms.RecuperarContrasenaForm.media=SGPA.apps.home.forms.RecuperarContrasenaForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarActividadesProyForm.media=SGPA.apps.proyectos.forms.AsignarActividadesProyForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarEncargadoUSForm.media=SGPA.apps.proyectos.forms.AsignarEncargadoUSForm-class.html#media,Variable SGPA.apps.proyectos.forms.AsignarFlujoForm.media=SGPA.apps.proyectos.forms.AsignarFlujoForm-class.html#media,Variable SGPA.apps.proyectos.forms.FilterForm.media=SGPA.apps.proyectos.forms.FilterForm-class.html#media,Variable SGPA.apps.proyectos.forms.FilterForm2.media=SGPA.apps.proyectos.forms.FilterForm2-class.html#media,Variable SGPA.apps.proyectos.forms.ModProyectoForm.media=SGPA.apps.proyectos.forms.ModProyectoForm-class.html#media,Variable SGPA.apps.proyectos.forms.NuevoMiembroForm.media=SGPA.apps.proyectos.forms.NuevoMiembroForm-class.html#media,Variable SGPA.apps.proyectos.forms.ProyectoForm.media=SGPA.apps.proyectos.forms.ProyectoForm-class.html#media,Variable SGPA.apps.roles.forms.AsignarRolesForm.media=SGPA.apps.roles.forms.AsignarRolesForm-class.html#media,Variable SGPA.apps.roles.forms.AsignarRolesProyForm.media=SGPA.apps.roles.forms.AsignarRolesProyForm-class.html#media,Variable SGPA.apps.roles.forms.FilterForm.media=SGPA.apps.roles.forms.FilterForm-class.html#media,Variable SGPA.apps.roles.forms.FilterForm2.media=SGPA.apps.roles.forms.FilterForm2-class.html#media,Variable SGPA.apps.roles.forms.ModRolesForm.media=SGPA.apps.roles.forms.ModRolesForm-class.html#media,Variable SGPA.apps.roles.forms.PermisosForm.media=SGPA.apps.roles.forms.PermisosForm-class.html#media,Variable SGPA.apps.roles.forms.PermisosProyectoForm.media=SGPA.apps.roles.forms.PermisosProyectoForm-class.html#media,Variable SGPA.apps.roles.forms.RolesPForm.media=SGPA.apps.roles.forms.RolesPForm-class.html#media,Variable SGPA.apps.roles.forms.RolesSForm.media=SGPA.apps.roles.forms.RolesSForm-class.html#media,Variable SGPA.apps.roles.forms.UsuarioProyectoForm.media=SGPA.apps.roles.forms.UsuarioProyectoForm-class.html#media,Variable SGPA.apps.sprint.forms.AsignarUSSprintForm.media=SGPA.apps.sprint.forms.AsignarUSSprintForm-class.html#media,Variable SGPA.apps.sprint.forms.FilterForm.media=SGPA.apps.sprint.forms.FilterForm-class.html#media,Variable SGPA.apps.sprint.forms.ModSprintForm.media=SGPA.apps.sprint.forms.ModSprintForm-class.html#media,Variable SGPA.apps.sprint.forms.SprintForm.media=SGPA.apps.sprint.forms.SprintForm-class.html#media,Variable SGPA.apps.userhistory.forms.AddCommentForm.media=SGPA.apps.userhistory.forms.AddCommentForm-class.html#media,Variable SGPA.apps.userhistory.forms.AdjuntoForm.media=SGPA.apps.userhistory.forms.AdjuntoForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.media=SGPA.apps.userhistory.forms.AsignarEncargadoUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarFlujoUSForm.media=SGPA.apps.userhistory.forms.AsignarFlujoUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.AsignarSprintUSForm.media=SGPA.apps.userhistory.forms.AsignarSprintUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.CambiarActividadUSForm.media=SGPA.apps.userhistory.forms.CambiarActividadUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.CambiarEstadosUSForm.media=SGPA.apps.userhistory.forms.CambiarEstadosUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.FilterForm.media=SGPA.apps.userhistory.forms.FilterForm-class.html#media,Variable SGPA.apps.userhistory.forms.ModUserHistoryForm.media=SGPA.apps.userhistory.forms.ModUserHistoryForm-class.html#media,Variable SGPA.apps.userhistory.forms.ReasignarSprintUSForm.media=SGPA.apps.userhistory.forms.ReasignarSprintUSForm-class.html#media,Variable SGPA.apps.userhistory.forms.UserHistoryForm.media=SGPA.apps.userhistory.forms.UserHistoryForm-class.html#media,Variable SGPA.apps.usuario.forms.CambiarPasswordForm.media=SGPA.apps.usuario.forms.CambiarPasswordForm-class.html#media,Variable SGPA.apps.usuario.forms.FilterForm.media=SGPA.apps.usuario.forms.FilterForm-class.html#media,Variable SGPA.apps.usuario.forms.ModUsuariosForm.media=SGPA.apps.usuario.forms.ModUsuariosForm-class.html#media,Variable SGPA.apps.usuario.forms.UsuariosForm.media=SGPA.apps.usuario.forms.UsuariosForm-class.html#media,Variable SGPA.widgets.DateTimeWidget.media=SGPA.widgets.DateTimeWidget-class.html#media,Variable SGPA.widgets.DateWidget.media=SGPA.widgets.DateWidget-class.html#media,Variable SGPA.widgets.PickerWidgetMixin.media=SGPA.widgets.PickerWidgetMixin-class.html#media,Variable SGPA.widgets.TimeWidget.media=SGPA.widgets.TimeWidget-class.html#media"><a title="SGPA.apps.actividades.forms.ActividadForm.media
 SGPA.apps.actividades.forms.AsignarActividadesForm.media
 SGPA.apps.actividades.forms.FilterForm.media
 SGPA.apps.actividades.forms.FilterForm2.media
@@ -421,11 +426,12 @@ SGPA.apps.roles.forms.PermisosProyectoForm.media
 SGPA.apps.roles.forms.RolesPForm.media
 SGPA.apps.roles.forms.RolesSForm.media
 SGPA.apps.roles.forms.UsuarioProyectoForm.media
+SGPA.apps.sprint.forms.AsignarUSSprintForm.media
 SGPA.apps.sprint.forms.FilterForm.media
 SGPA.apps.sprint.forms.ModSprintForm.media
 SGPA.apps.sprint.forms.SprintForm.media
 SGPA.apps.userhistory.forms.AddCommentForm.media
-SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.media
+SGPA.apps.userhistory.forms.AdjuntoForm.media
 SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.media
 SGPA.apps.userhistory.forms.AsignarFlujoUSForm.media
 SGPA.apps.userhistory.forms.AsignarSprintUSForm.media
@@ -433,6 +439,7 @@ SGPA.apps.userhistory.forms.CambiarActividadUSForm.media
 SGPA.apps.userhistory.forms.CambiarEstadosUSForm.media
 SGPA.apps.userhistory.forms.FilterForm.media
 SGPA.apps.userhistory.forms.ModUserHistoryForm.media
+SGPA.apps.userhistory.forms.ReasignarSprintUSForm.media
 SGPA.apps.userhistory.forms.UserHistoryForm.media
 SGPA.apps.usuario.forms.CambiarPasswordForm.media
 SGPA.apps.usuario.forms.FilterForm.media
@@ -473,15 +480,16 @@ SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
 SGPA.apps.roles.forms.AsignarRolesForm.__init__
 SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
 SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.AsignarUSSprintForm.__init__
 SGPA.apps.sprint.forms.ModSprintForm.__init__
 SGPA.apps.sprint.forms.SprintForm.__init__
 SGPA.apps.userhistory.forms.AddCommentForm.__init__
-SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
 SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
 SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.ReasignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.UserHistoryForm.__init__
 SGPA.widgets.DateTimeWidget.__init__
 SGPA.widgets.DateWidget.__init__
@@ -520,15 +528,16 @@ SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
 SGPA.apps.roles.forms.AsignarRolesForm.__init__
 SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
 SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.AsignarUSSprintForm.__init__
 SGPA.apps.sprint.forms.ModSprintForm.__init__
 SGPA.apps.sprint.forms.SprintForm.__init__
 SGPA.apps.userhistory.forms.AddCommentForm.__init__
-SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
 SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
 SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.ReasignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.UserHistoryForm.__init__
 SGPA.widgets.DateTimeWidget.__init__
 SGPA.widgets.DateWidget.__init__
@@ -568,15 +577,16 @@ SGPA.apps.proyectos.forms.NuevoMiembroForm.__init__
 SGPA.apps.roles.forms.AsignarRolesForm.__init__
 SGPA.apps.roles.forms.AsignarRolesProyForm.__init__
 SGPA.apps.roles.forms.UsuarioProyectoForm.__init__
+SGPA.apps.sprint.forms.AsignarUSSprintForm.__init__
 SGPA.apps.sprint.forms.ModSprintForm.__init__
 SGPA.apps.sprint.forms.SprintForm.__init__
 SGPA.apps.userhistory.forms.AddCommentForm.__init__
-SGPA.apps.userhistory.forms.ArchivosAdjuntosForm.__init__
 SGPA.apps.userhistory.forms.AsignarEncargadoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarFlujoUSForm.__init__
 SGPA.apps.userhistory.forms.AsignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.CambiarActividadUSForm.__init__
 SGPA.apps.userhistory.forms.ModUserHistoryForm.__init__
+SGPA.apps.userhistory.forms.ReasignarSprintUSForm.__init__
 SGPA.apps.userhistory.forms.UserHistoryForm.__init__
 SGPA.widgets.DateTimeWidget.__init__
 SGPA.widgets.DateWidget.__init__
@@ -615,7 +625,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 16 05:43:09 2015
+    Generated by Epydoc 3.0.1 on Sat May 30 08:41:41 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

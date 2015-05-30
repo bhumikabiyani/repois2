@@ -28,8 +28,9 @@ class UserTestCase(TestCase):
         self.fap2 = FlujoActividadProyecto.objects.create(flujo = self.f1, actividad = self.a2, proyecto = self.p1, orden = 2)
         self.r1 = Rol.objects.create(nombre="team leaders",categoria=1)
         self.s1 = Sprint.objects.create(nombre="Sprint8",descripcion="prueba",proyecto=self.p1)
-        self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1,encargado=self.u1,valor_tecnico=10)
+        self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1,encargado=self.u1,valor_tecnico=10,sprint = self.s1)
         self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1, horas=0)
+        self.ussprint = UserHistorySprint.objects.create(userhistory=self.us1, sprint=self.s1, horas_plan = 0, horas_ejec = 0)
 
     def testLogin_View(self):
         request = RequestFactory().get('/usuario')
@@ -369,7 +370,7 @@ class UserTestCase(TestCase):
         flujo = Flujo.objects.get(nombre="flujo1")
         proyecto = Proyecto.objects.get(nombrelargo="prueba")
         request.user = user
-        response = visualizar_kanban(request,flujo.id,proyecto.id)
+        response = visualizar_kanban(request,proyecto.id)
         # Check.
         self.assertEqual(response.status_code, 200)
 
@@ -423,7 +424,7 @@ class UserTestCase(TestCase):
         user = User.objects.get(username="cgonza")
         us = UserHistory.objects.get(nombre="US1")
         request.user = user
-        response = archivos_adjuntos(request,us.id)
+        response = add_adjunto(request,us.id)
         # Check.
         self.assertEqual(response.status_code, 200)
 
