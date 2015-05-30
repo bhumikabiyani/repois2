@@ -97,7 +97,7 @@
                                             <span class="caret"></span>
                                             <span class="sr-only"></span>
                                             </button>
-                                            {% if not notSprintInit %}
+                                            {% if not notSprintInit and not rec.2 == 'finalizado'%}
                                                 <ul class="dropdown-menu" role="menu">
                                                 <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
                                                 <li class="divider"></li>
