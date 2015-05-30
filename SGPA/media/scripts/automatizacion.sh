@@ -34,6 +34,7 @@ sudo apt-get install git
 sudo apt-get install xclip
 
 #Instalacion del entorno virtual
+sudo apt-get install apache2
 sudo apt-get install libapache2-mod-wsgi
 sudo service apache2 restart
 sudo apt-get install python-virtualenv
@@ -127,4 +128,3 @@ sudo service apache2 restart
 echo 'abriendo el navegador'
 sudo apt-get install libgnome2-bin
 sudo gnome-open http://sgpa.com
-
