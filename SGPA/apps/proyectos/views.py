@@ -585,7 +585,7 @@ def visualizar_kanban(request, proyecto_id):
                     dict[nombre][valor_tecnico][rec.id][cont] = [str(rec.nombre),str(rec.estado)]
                 cont += 1
         actList = []
-        actList.append("BACKLOG")
+        # actList.append("BACKLOG")
         for rec in actividades:
             acti = Actividad.objects.get(nombre = rec.actividad)
             if not acti.nombre in actList:
@@ -609,8 +609,8 @@ def visualizar_kanban(request, proyecto_id):
             if rec.flujo:
                 acti = Actividad.objects.get(nombre = rec.actividad)
                 nombreAct = acti.nombre
-            else:
-                nombreAct = "BACKLOG"
+            # else:
+            #     nombreAct = "BACKLOG"
             # valor_tecnico = rec.valor_tecnico * -1
             if not dictKanban.has_key(nombreAct):
                 dictKanban[nombreAct] = {}
@@ -628,9 +628,9 @@ def visualizar_kanban(request, proyecto_id):
             cont = 0
             for act in actList:
                 if act == nombreAct:
-                    if nombreAct == 'BACKLOG':
-                        dictKanban[nombreAct][rec.id][0][0] = str(rec.nombre)
-                        break
+                    # if nombreAct == 'BACKLOG':
+                    #     dictKanban[nombreAct][rec.id][0][0] = str(rec.nombre)
+                    #     break
                     if rec.estadokanban == 'to-do':
                         dictKanban[nombreAct][rec.id][cont][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont][1] = str("to-do")

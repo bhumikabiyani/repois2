@@ -299,8 +299,11 @@ def iniciar_sprint(request, sprint_id):
     return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)
 
 def finalizar_sprint(request, sprint_id):
-
     sprint = get_object_or_404(Sprint, id=sprint_id)
+    US = UserHistory.objects.filter(sprint = sprint,estado = 'iniciado')
+    for rec in US:
+        rec.estado = 'reasignar'
+        rec.save()
     sprint.estado = "finalizado"
     sprint.save()
     return HttpResponseRedirect("/verSprint/ver&id=%s/" %sprint_id)
