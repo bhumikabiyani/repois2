@@ -270,6 +270,7 @@ def asignar_actividades(request, flujo_id):
         form = AsignarActividadesForm(initial = {'actividades': dict})
     return render_to_response("flujo/asignar_actividades.html", {'form':form, 'flujo':flujo, 'user':user, 'asignar_actividades': 'asignar actividades' in permisos
                                                                  })
+
 def subir_actividad(request, flujo_id, actividad_id):
 
     flujos = get_object_or_404(Flujo, id=flujo_id)

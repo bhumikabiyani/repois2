@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %} Archivos Adjuntos {% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> ARCHIVOS ADJUNTOS - "{{us.nombre}}"</h3></font></strong></center><br>
+
+<form enctype="multipart/form-data" id="form_id" action="" method="post">
+	{{ formset.management_form }}
+    {% for form in formset.forms %}
+    <center><table>
+    {{ form.as_table }}
+        </table><br><br>
+    {% endfor %}
+<button class="btn btn-primary" type="submit"> GUARDAR </button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class= "btn btn-primary" value="CANCELAR" onClick = "location.href='/verkanban/ver&id={{us.proyecto.id}}' "/></center>
+</form>
+{% endblock %}

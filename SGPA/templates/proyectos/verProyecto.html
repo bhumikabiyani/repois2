@@ -83,7 +83,7 @@
 	  </table>
     <div class="alert alert-info">
                 <ul><h3>
-            <center><a class="btn btn-primary" href="/sprint/sprint&id={{proyecto.id}}/"><strong>ADMINISTRACION DE SPRINT</strong></a>
+            <center><a class="btn btn-primary" href="/sprint/sprint&id={{proyecto.id}}/"><strong>SPRINT BACKLOG</strong></a>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -103,8 +103,8 @@
 			<!--{% if eliminar_proyecto %}-->
                       <!--<a class="btn btn-primary" href="/eliminarProyecto/del&id={{proyecto.id}}/"><strong>ELIMINAR</strong></a>-->
 			<!--{% endif %}			-->
-			{% if mod_proyecto and proyPend%}
-				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>&nbsp;&nbsp;
+			{% if mod_proyecto %}
+				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
 			{% if asignar_miembros and proyPend%}
 			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>&nbsp;&nbsp;

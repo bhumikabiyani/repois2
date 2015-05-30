@@ -555,7 +555,7 @@ def visualizar_kanban(request, proyecto_id):
         for rec in sprints:
             if not dict.has_key(rec.nombre):
                 dict[rec.nombre] = {}
-        print dict
+
         for rec in US:
             if rec.sprint:
                 sprint = Sprint.objects.get(nombre = rec.sprint)
@@ -570,7 +570,7 @@ def visualizar_kanban(request, proyecto_id):
             if not dict[nombre][valor_tecnico].has_key(rec.id):
                 dict[nombre][valor_tecnico][rec.id] = []
                 for sp in sprintList:
-                    dict[nombre][valor_tecnico][rec.id].append("")
+                    dict[nombre][valor_tecnico][rec.id].append(['',''])
             # if not dict[rec.sprint.nombre].has_key(rec.nombre):
             #     dict[rec.sprint.nombre][rec.id] = []
 
@@ -578,9 +578,8 @@ def visualizar_kanban(request, proyecto_id):
             for sp in sprintList:
                 # print sp
                 if sp == nombre:
-                    dict[nombre][valor_tecnico][rec.id][cont] = str(rec.nombre)
+                    dict[nombre][valor_tecnico][rec.id][cont] = [str(rec.nombre),str(rec.estado)]
                 cont += 1
-
         actList = []
         actList.append("BACKLOG")
         for rec in actividades:
@@ -606,7 +605,6 @@ def visualizar_kanban(request, proyecto_id):
             if rec.flujo:
                 acti = Actividad.objects.get(nombre = rec.actividad)
                 nombreAct = acti.nombre
-                estadok  = rec.estadokanban
             else:
                 nombreAct = "BACKLOG"
             # valor_tecnico = rec.valor_tecnico * -1
@@ -649,10 +647,6 @@ def visualizar_kanban(request, proyecto_id):
             # dict[rec.sprint.id][rec.id].append(rec.sprint.nombre)
             # actList[rec.flujo.id][int(rec.orden)][rec.actividad.id].append(act.descripcion)
             #ultActividad = int(rec.orden)
-
-
-    print "fim"
-    print kanbanxflujo
     return render_to_response("proyectos/verkanban.html", {
                                                                   'proyecto': proyactual,
                                                                   'listflu': listflu,
@@ -662,37 +656,54 @@ def visualizar_kanban(request, proyecto_id):
                                                                   'US' : US,
                                                                   'sprint' : sprints,
                                                                   'dictAct': dictAct,
-                                                                  'estadok':estadok,
-                                                                  'dictUltAct' : dictUltAct
-
+                                                                  'dictUltAct' : dictUltAct,
                                                                   })
 
 @login_required
 def visualizar_burndownChart(request, proyecto_id):
     """Metodo para visualizar el Grafico BurnDownChart"""
+
     #Creamos la nube de puntos
-    sprints = Sprint.objects.filter(proyecto = proyecto_id)
-    for i in sprints:
-        capSem = necesidad = consumidas = 0
-        sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
-        laborales = [dia for dia in range(7) if dia not in sabdom]
-        totalDias= rrule.rrule(rrule.DAILY, dtstart=i.fecha_inicio, until=i.fecha_fin,byweekday=laborales)
-        duracionSprintDias = totalDias.count()
-    print duracionSprintDias
-    x = np.array([0, 1, 2, 3])
-    y = np.array([1, 1.5, 1.8, 2.6])
+    #x = np.array([0, 1, 2, 3])
+    #y = np.array([1, 1.5, 1.8, 2.6])
 
     #Titulo del Grafico
+
     plt.title('BURNDOWN CHART DEL PROYECTO ' + proyecto_id)
     plt.xlabel('DIAS DEL SPRINT')
     plt.ylabel('HORAS POR DIA')
-    #Construimos una matriz
-    A = np.vstack([x, np.ones(len(x))])
-    A = A.T #Hacemos su traspuesta
 
+    #para hacer varios graficos a la vez en distintas ventanas
+    #plt.figure('scatter') # Crea una ventana titulada 'scatter'
+    #plt.figure('plot')    # Crea una ventana titulada 'plot'
+    #a = np.random.rand(100) # Generamos un vector de valores aleatorios
+    #b = np.random.rand(100) # Generamos otro vector de valores aleatorios
+    #plt.figure('scatter') # Le decimos que la ventana activa en la que vamos a dibujar es la ventana 'scatter'
+    #plt.scatter(a,b)  # Dibujamos un scatterplot en la ventana 'scatter'
+    #plt.figure('plot') # Ahora cambiamos a la ventana 'plot'
+    #plt.plot(a,b)
+
+    #hacer dos graficos en la misma ventana
+    #plt.subplot(1,2,1)  # Dividimos la ventana en una fila y dos columnas y dibujamos el primer gráfico
+    #plt.plot((1,2,3,4,5))
+    #plt.subplot(1,2,2)  # Dividimos la ventana en una fila y dos columnas y dibujamos el segundo gráfico
+    #plt.plot((5,4,3,2,1))
+
+    #plt.axes()  # Coloca un área de gráfico con los valores por defecto
+    #plt.plot(np.exp(np.linspace(0,10,100)))  # Dibuja una exponencial de 0 a 10
+    #plt.axes([0.2,0.55,0.3,0.3], axisbg = 'gray')  # Dibuja una nueva área de gráfica colocada y con ancho y largo definido por [0.2,0.55,0.3,0.3] y con gris como color de fondo
+    #cd /h  plt.plot(np.sin(np.linspace(0,10,100)), 'b-o', linewidth = 2)
+
+    #plt.plot(np.random.rand(10))
+    #plt.plot(np.random.rand(10))
+    #plt.show()
+
+    #Construimos una matriz
+    #A = np.vstack([x, np.ones(len(x))])
+    #A = A.T #Hacemos su traspuest
     #Obtenemos parametros de la recta
-    m, c = np.linalg.lstsq(A, y)[0]
-    plt.plot(x, y, 'o',  markersize=15)
-    plt.plot(x, m*x + c, 'r')
+    #m, c = np.linalg.lstsq(A, y)[0]
+    #plt.plot(x, y, 'o',  markersize=15)
+    #plt.plot(x, m*x + c, 'r')
     plt.show()
     return HttpResponseRedirect("/verProyecto/ver&id=" + str(proyecto_id))

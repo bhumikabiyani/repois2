@@ -1,7 +1,6 @@
 # -*- coding: iso-8859-15 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from db_file_storage.model_utils import delete_file, delete_file_if_needed
 
 CATEGORY_CHOICES = (
     ('1', 'Rol de Sistema'),
@@ -120,6 +119,9 @@ class UsuarioRolProyecto(models.Model):
     class Meta:
         unique_together = [("usuario", "rol", "proyecto")]
 
+ESTADO_SPRINT=(('planificacion','Planificacion'),('iniciado','Iniciado'),('cancelado','Cancelado')
+                ,('finalizado','Finalizado'))
+
 class Sprint(models.Model):
     """Clase que representa un sprint"""
     proyecto = models.ForeignKey(Proyecto)
@@ -127,9 +129,13 @@ class Sprint(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     fecha_inicio = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
     fecha_fin = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    estado = models.CharField(max_length=15, choices=ESTADO_SPRINT)
+    # userhistories = models.ManyToManyField(UserHistory, through='UserHistorySprint')
+
 
     def __unicode__(self):
         return self.nombre
+
 
 class Actividad(models.Model):
     """Esta clase representa las actividades"""
@@ -192,6 +198,18 @@ class UserHistory(models.Model):
     def __unicode__(self):
         return self.nombre
 
+class UserHistorySprint(models.Model):
+    """
+    Clase que relaciona UserHistory con Sprint
+    """
+    userhistory = models.ForeignKey(UserHistory)
+    sprint = models.ForeignKey(Sprint)
+    horas_plan = models.IntegerField()
+    horas_ejec = models.IntegerField()
+
+    class Meta:
+        unique_together = [("userhistory", "sprint")]
+
 class Historia(models.Model):
     """
     Clase que representa el Historial de User Storie
@@ -209,13 +227,13 @@ class Historia(models.Model):
     def __unicode__(self):
         return self.descripcion
 
-class Adjuntos(models.Model):
-    nombre=models.CharField(max_length=100)
-    contenido=models.TextField(null=True)
-    tamano=models.IntegerField()
-    mimetype = models.CharField(max_length=255)
-    userhistory = models.ForeignKey(UserHistory)
-    habilitado = models.BooleanField(default=True)
+# class ArchivosAdjuntos(models.Model):
+#     userhistory = models.ForeignKey(UserHistory)
+#     nombre=models.CharField(max_length=50,)
+#     docfile = models.FileField(upload_to='documents')
+#
+#     def __unicode__(self):
+#         return self.nombre
 
 
 class Comentarios(models.Model):
@@ -226,3 +244,11 @@ class Comentarios(models.Model):
 
     def __unicode__(self):
         return self.asunto
+
+class Adjunto(models.Model):
+    #archivo = models.FileField(upload_to='items')
+    nombre = models.CharField(max_length = 100)
+    contenido = models.TextField(null=True)
+    mimetype = models.CharField(max_length = 255)
+    #claves foraneas
+    us = models.ForeignKey(UserHistory)
