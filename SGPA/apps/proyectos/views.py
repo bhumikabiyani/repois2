@@ -30,6 +30,17 @@ import matplotlib.pyplot as plt
 import django
 import datetime
 from datetime import timedelta
+from io import BytesIO
+
+from django.http import HttpResponse
+from django.views.generic import ListView
+from reportlab.platypus import SimpleDocTemplate, Paragraph, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import Table
+from reportlab.platypus import Spacer
+from reportlab.lib.pagesizes import A4
 
 from dateutil import rrule
 
@@ -684,54 +695,163 @@ def visualizar_kanban(request, proyecto_id):
 @login_required
 def visualizar_burndownChart(request, proyecto_id, sprint_id):
     """Metodo para visualizar el Grafico BurnDownChart"""
-
+    user = User.objects.get(username=request.user.username)
+    proy = Proyecto.objects.get(id = proyecto_id)
     sprint = get_object_or_404(Sprint, id=sprint_id)
-
-    sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
-    laborales = [dia for dia in range(7) if dia not in sabdom]
-    totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
-    duracionSprintDias = totalDias.count()
+    return render_to_response("proyectos/grafica.html", {'user':user, 'proyecto': proy, 'sprint' : sprint})
 
 
-    fig=Figure()
-    x = []
-    y = []
-    y1 = []
-    fechaactual = sprint.fecha_inicio
-    fecha = fechaactual-timedelta(days=1)
-    y.append(0)
-    y1.append(0)
-    x.append(fecha)
-    total = 0
-    totalplan =0
-    while fechaactual <= sprint.fecha_fin:
-        x.append(fechaactual)
 
-        US = UserHistory.objects.filter(sprint = sprint)
-        sumahora = 0
-        sumaplan = 0
-        for u in US:
-            ust = UserHistory.objects.get(id = u.id)
-            trabajo = Comentarios.objects.filter(userhistory = ust, fecha = fechaactual)
+    # sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
+    # laborales = [dia for dia in range(7) if dia not in sabdom]
+    # totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
+    # duracionSprintDias = totalDias.count()
+    #
+    #
+    # fig=Figure()
+    # x = []
+    # y = []
+    # y1 = []
+    # fechaactual = sprint.fecha_inicio
+    # fecha = fechaactual-timedelta(days=1)
+    # y.append(0)
+    # y1.append(0)
+    # x.append(fecha)
+    # total = 0
+    # totalplan =0
+    # while fechaactual <= sprint.fecha_fin:
+    #     x.append(fechaactual)
+    #
+    #     US = UserHistory.objects.filter(sprint = sprint)
+    #     sumahora = 0
+    #     sumaplan = 0
+    #     for u in US:
+    #         ust = UserHistory.objects.get(id = u.id)
+    #         trabajo = Comentarios.objects.filter(userhistory = ust, fecha = fechaactual)
+    #
+    #         for j in trabajo:
+    #             sumahora = sumahora + j.horas
+    #
+    #     uh = UserHistory.objects.filter(sprint = sprint, fecha_estimada=fechaactual)
+    #     for k in uh:
+    #         sumaplan+=k.tiempo_estimado
+    #
+    #     fechaactual = fechaactual + timedelta(days=1)
+    #     total+= sumahora
+    #     totalplan+=sumaplan
+    #     y.append(total)
+    #     y1.append(totalplan)
+    #
+    # ax=fig.add_subplot(111)
+    # ax.plot_date(x, y, '-')
+    # ax.plot_date(x,y1,'-')
+    # fig.autofmt_xdate()
+    # canvas=FigureCanvas(fig)
+    # response=django.http.HttpResponse(content_type='image/png')
+    # canvas.print_png(response)
+    # return response
 
-            for j in trabajo:
-                sumahora = sumahora + j.horas
+def reporte_pdf(request, proyecto_id):
+    proy = get_object_or_404(Proyecto, id=proyecto_id)
+    sprint = Sprint.objects.filter(proyecto = proyecto_id)
 
-        uh = UserHistory.objects.filter(sprint = sprint, fecha_estimada=fechaactual)
-        for k in uh:
-            sumaplan+=k.tiempo_estimado
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
+    # la linea 26 es por si deseas descargar el pdf a tu computadora
+    # response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff,
+                            pagesize=letter,
+                            rightMargin=40,
+                            leftMargin=40,
+                            topMargin=60,
+                            bottomMargin=18,
+                            )
 
-        fechaactual = fechaactual + timedelta(days=1)
-        total+= sumahora
-        totalplan+=sumaplan
-        y.append(total)
-        y1.append(totalplan)
+    backlog = []
+    styles = getSampleStyleSheet()
+    cabecera = styles['Heading2']
+    parrafo = Paragraph('REPORTE DEL PROYECTO: '+ '"' + proy.nombrelargo + '"',cabecera)
+    backlog.append(parrafo)
+    backlog.append(Spacer(0,20))
+    lista = []
+    lista2 = []
+    lista2.append(['SPRINT BACKLOG'])
+    lista2.append([' ',' ',' '])
+    lista2.append(['NOMBRE','DESCRIPCION','ESTADO'])
+    lista.append(['LISTA ORDENADA DE US','',''])
+    lista.append([' ',' ',' '])
+    lista.append(['NOMBRE','DESCRIPCION','ESTADO'])
+    us = UserHistory.objects.filter(proyecto = proyecto_id).order_by('valor_tecnico')
+    for u in us:
+        lista.append([u.nombre,u.descripcion,u.estado])
+    sprintUS = u.id
+    sp = UserHistorySprint.objects.filter(userhistory = sprintUS)
+    for s in sp:
+        lista2.append([s.userhistory.nombre,s.userhistory.descripcion,s.userhistory.estado])
+    t=Table( lista, style = [
 
-    ax=fig.add_subplot(111)
-    ax.plot_date(x, y, '-')
-    ax.plot_date(x,y1,'-')
-    fig.autofmt_xdate()
-    canvas=FigureCanvas(fig)
-    response=django.http.HttpResponse(content_type='image/png')
-    canvas.print_png(response)
+                       ('GRID',(0,0),(-1,-1),0.5,colors.white),
+
+                       ('BOX',(0,0),(-1,-1),2,colors.blue),
+
+                       ('SPAN',(0,0),(-1,0)),
+
+                       ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+
+                       ('BACKGROUND', (0, 2), (-1, 2), colors.rgb2cmyk(r=6,g=62,b=193)),
+
+                       ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+
+                       ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+
+                       ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+
+                       ('SIZE',(0,0),(-1,0),12),
+
+                       ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+
+                       ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+
+                       ('TEXTCOLOR', (0, 2), (-1, 2), colors.white),
+
+                       ]
+
+              )
+    t1=Table( lista2, style = [
+
+                       ('GRID',(0,0),(-1,-1),0.5,colors.white),
+
+                       ('BOX',(0,0),(-1,-1),2,colors.blue),
+
+                       ('SPAN',(0,0),(-1,0)),
+
+                       ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+
+                       ('BACKGROUND', (0, 2), (-1, 2), colors.rgb2cmyk(r=6,g=62,b=193)),
+
+                       ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+
+                       ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+
+                       ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+
+                       ('SIZE',(0,0),(-1,0),12),
+
+                       ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+
+                       ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+
+                       ('TEXTCOLOR', (0, 2), (-1, 2), colors.white),
+
+                       ]
+
+              )
+    backlog.append(t)
+    backlog.append(Spacer(0,20))
+    backlog.append(t1)
+
+    doc.build(backlog)
+    response.write(buff.getvalue())
+    buff.close()
     return response

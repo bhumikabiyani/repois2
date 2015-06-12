@@ -119,8 +119,6 @@ def crear_user_history(request,proyecto_id):
             r.valor_negocio = form.cleaned_data['valor_negocio']
             r.valor_tecnico = form.cleaned_data['valor_tecnico']
             r.tiempo_estimado = form.cleaned_data['tiempo_estimado']
-            r.fecha_estimada = form.cleaned_data['fecha_estimada']
-            print r.fecha_estimada
             # r.encargado =  User.objects.get(username=form.cleaned_data['encargado'])
             # r.flujo = Flujo.objects.get(nombre=form.cleaned_data['flujo'])
             # fap = FlujoActividadProyecto.objects.get(flujo = r.flujo, proyecto = proyecto, orden = 1)

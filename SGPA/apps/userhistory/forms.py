@@ -26,7 +26,6 @@ class UserHistoryForm(forms.Form):
     valor_tecnico = forms.IntegerField(label='VALOR TECNICO')
     valor_negocio = forms.IntegerField(label='VALOR NEGOCIO')
     tiempo_estimado = forms.IntegerField(label='TIEMPO ESTIMADO')
-    fecha_estimada = forms.DateField(widget=DateWidget(usel10n=True, bootstrap_version=2), label='FECHA ESTIMADA')
 
     class Meta:
         model = UserHistory

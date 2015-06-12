@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %} Grafica{% endblock %}
+{%block content %}
+<center><strong><font face="Comic Sans MS"><h3> GRAFICA DEL {{proyecto.nombrelargo}} / {{sprint.nombre}} </h3></font></strong></center>
+		<!-- Importa las librerias de jQuery y las de Highcharts -->
+		<script type="text/javascript" src="/media/js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="/media/js/highcharts.js"></script>
+		<script type="text/javascript" src="/media/js/exporting.js"></script>
+
+		<!-- Creo la gráfica -->
+		<script type="text/javascript">
+			var chart;
+			$(document).ready(function() {
+
+				chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'graficaLineal', 	// Le doy el nombre a la gráfica
+						defaultSeriesType: 'line'	// Pongo que tipo de gráfica es
+					},
+					title: {
+						text: 'BURNDOWN CHART'	// Titulo (Opcional)
+					},
+					// Pongo los datos en el eje de las 'X'
+					xAxis: {
+						categories: ['DIA 1','DIA 2','DIA 3','DIA 4','DIA 5','DIA 6','DIA 7','DIA 8','DIA 9','DIA 10'],
+						// Pongo el título para el eje de las 'X'
+						title: {
+							text: 'DIAS DEL SPRINT'
+						}
+					},
+					yAxis: {
+						// Pongo el título para el eje de las 'Y'
+						title: {
+							text: 'HORAS'
+						}
+					},
+					// Doy formato al la "cajita" que sale al pasar el ratón por encima de la gráfica
+					tooltip: {
+						enabled: true,
+						formatter: function() {
+							return '<b>'+ this.series.name +'</b><br/>'+
+								this.x +': '+ this.y +' '+this.series.name;
+						}
+					},
+					// Doy opciones a la gráfica
+					plotOptions: {
+						line: {
+							dataLabels: {
+								enabled: true
+							},
+							enableMouseTracking: true
+						}
+					},
+					// Doy los datos de la gráfica para dibujarlas
+					series: [{
+				                name: 'Ideal',
+				                data: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+				            },
+				            {
+				                name: 'Actual',
+				                data: [12.5,10, 9.5, 7]
+				            },
+				            ],
+				});
+
+
+			});
+
+		</script>
+	<body>
+		<!-- "Llamo" a la gráfica y la pinto en el cuerpo de la página -->
+		<div id="graficaLineal" style="width: 100%; height: 500px; margin: 0 auto"></div>
+	</body><br><br>
+
+ <div class="footer">
+           <div class="volver">
+               <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+           </div>
+   </div>
+{% endblock %}
