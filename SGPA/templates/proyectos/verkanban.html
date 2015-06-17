@@ -99,14 +99,22 @@
                                             <span class="sr-only"></span>
                                             </button>
                                             {% if not notSprintInit and not rec.2 == 'finalizado' and proyIni%}
-                                                <ul class="dropdown-menu" role="menu">
-                                                <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
+                                                {%if rec.3 == user or agregar_trabajo%}
+                                                    <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
+                                                {%endif%}
+                                                {%if rec.3 == user or adjuntar_archivo%}
+                                                    <li class="divider"></li>
+                                                    <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
+                                                {%endif%}
+                                                {%if rec.3 == user or cambiar_estado%}
+                                                    <li class="divider"></li>
+                                                    <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
+                                                {%endif%}
+                                                {%if rec.3 == user or cambiar_actividad%}
+                                                    <li class="divider"></li>
+                                                    <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
+                                                {%endif%}
                                                 {% for ultFlu, ultAct in dictUltAct.items %}
                                                     {% if ultFlu == flujo.nombre and ultAct.0.nombre == key and rec.1 == 'done' %}
                                                         {%if finalizar_us %}

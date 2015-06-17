@@ -660,7 +660,7 @@ def visualizar_kanban(request, proyecto_id):
             if not dictKanban[nombreAct].has_key(rec.id):
                 dictKanban[nombreAct][rec.id] = []
                 for act in actList:
-                    dictKanban[nombreAct][rec.id].append(["","",""])
+                    dictKanban[nombreAct][rec.id].append(["","","",""])
             # if not dict[rec.sprint.nombre].has_key(rec.nombre):
             #     dict[rec.sprint.nombre][rec.id] = []
 
@@ -671,21 +671,25 @@ def visualizar_kanban(request, proyecto_id):
                         dictKanban[nombreAct][rec.id][-1][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][-1][1] = str("DONE")
                         dictKanban[nombreAct][rec.id][-1][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][-1][3] = str(rec.encargado)
                         break
                     if rec.estadokanban == 'to-do':
                         dictKanban[nombreAct][rec.id][cont][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont][1] = str("to-do")
-                        dictKanban[nombreAct][rec.id][-1][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont][3] = str(rec.encargado)
                         break
                     elif rec.estadokanban == 'doing':
                         dictKanban[nombreAct][rec.id][cont+1][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont+1][1] = str("doing")
-                        dictKanban[nombreAct][rec.id][-1][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont][3] = str(rec.encargado)
                         break
                     elif rec.estadokanban == 'done':
                         dictKanban[nombreAct][rec.id][cont+2][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont+2][1] = str("done")
-                        dictKanban[nombreAct][rec.id][-1][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont+2][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont+2][3] = str(rec.encargado)
                         break
                 cont += 1
         if not kanbanxflujo.has_key(flujoactual.nombre):
@@ -697,6 +701,7 @@ def visualizar_kanban(request, proyecto_id):
             #ultActividad = int(rec.orden)
     return render_to_response("proyectos/verkanban.html", {
                                                                   'proyecto': proyactual,
+                                                                  'user' : user,
                                                                   'listflu': listflu,
                                                                   'dict': dict,
                                                                   'kanbanxflujo': kanbanxflujo,
@@ -707,7 +712,11 @@ def visualizar_kanban(request, proyecto_id):
                                                                   'proyIni' : proyIni,
                                                                   'dictAct': dictAct,
                                                                   'dictUltAct' : dictUltAct,
-                                                                  'finalizar_us' : 'finalizar user history' in permisos
+                                                                  'finalizar_us' : 'finalizar user history' in permisos,
+                                                                  'agregar_trabajo' : 'agregar comentario' in permisos,
+                                                                  'adjuntar_archivo' : 'adjuntar archivos' in permisos,
+                                                                  'cambiar_estado' : 'cambiar estado kanban' in permisos,
+                                                                  'cambiar_actividad' : 'cambiar actividad kanban' in permisos
                                                                   })
 
 @login_required
