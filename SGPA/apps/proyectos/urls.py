@@ -27,6 +27,8 @@ urlpatterns = patterns('SGPA.apps.proyectos.views',
     url(r'^subirActividadProy/flujo&id=(?P<flujo_id>\d+)&&actividad&id=(?P<actividad_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','subir_actividad_proyecto',name='vista_subirActividadProyecto'),
     url(r'^verkanban/ver&id=(?P<proyecto_id>\d+)/$', 'visualizar_kanban', name='vista_kanban'),
     url(r'^verburn/ver&id=(?P<proyecto_id>\d+)&&sprint&id=(?P<sprint_id>\d+)/$', 'visualizar_burndownChart', name='vista_burn'),
-    url(r'^reporte/ver&id=(?P<proyecto_id>\d+)/$', 'reporte_pdf', name='vista_reportePdf')
+    url(r'^reporte/ver&id=(?P<proyecto_id>\d+)/$', 'reporte_pdf', name='vista_reportePdf'),
+    url(r'^finalizarProyecto/proy&id=(?P<proyecto_id>\d+)/$', 'finalizar_proyecto', name='vista_finalizarProyecto')
+
 )
 

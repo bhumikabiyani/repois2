@@ -199,14 +199,19 @@ def visualizar_proyectos(request, proyecto_id):
     lista = User.objects.all().order_by("id")
     print proyecto.flujos
     proyPend = False
+    proyIni = False
     if proyecto.estado == 1:
         proyPend = True
+    if proyecto.estado == 2:
+        proyIni = True
+
     ctx = {'lista': lista,
            'proyecto': proyecto,
            'status': status,
            'miembros': userRolProy,
            'flujos': flujos,
            'proyPend': proyPend,
+           'proyIni': proyIni,
            'sprints' : sprints,
            'ver_proyectos': 'ver proyectos' in permisosSys,
            'crear_proyecto': 'crear proyecto' in permisosSys,
@@ -215,7 +220,8 @@ def visualizar_proyectos(request, proyecto_id):
            'asignar_miembros': 'asignar miembros' in permisosProy,
            'asignar_flujo' : 'asignar flujo' in permisosProy,
            'eliminar_miembro' : 'eliminar miembro' in permisosProy,
-           'asignar_actividades_proyecto' : 'asignar actividades proyecto' in permisosProy
+           'asignar_actividades_proyecto' : 'asignar actividades proyecto' in permisosProy,
+           'finalizar_proyecto' : 'finalizar proyecto' in permisosProy
            }
     return render_to_response('proyectos/verProyecto.html', ctx, context_instance=RequestContext(request))
 
@@ -528,7 +534,17 @@ def visualizar_kanban(request, proyecto_id):
     user = User.objects.get(username=request.user.username)
     proy = Proyecto.objects.get(id = proyecto_id)
     #Validacion de permisos---------------------------------------------
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = proy).only('rol')
+    permisos_obj = []
+    for i in roles:
+        permisos_obj.extend(i.rol.permisos.all())
+    permisos = []
+    for i in permisos_obj:
+        permisos.append(i.nombre)
     notSprintInit = True
+    proyIni = False
+    if proy.estado == 2:
+        proyIni = True
     sprintInitList = Sprint.objects.filter(proyecto = proy, estado = 'iniciado')
     if sprintInitList:
         notSprintInit = False
@@ -688,8 +704,10 @@ def visualizar_kanban(request, proyecto_id):
                                                                   'US' : US,
                                                                   'sprint' : sprints,
                                                                   'notSprintInit' : notSprintInit,
+                                                                  'proyIni' : proyIni,
                                                                   'dictAct': dictAct,
                                                                   'dictUltAct' : dictUltAct,
+                                                                  'finalizar_us' : 'finalizar user history' in permisos
                                                                   })
 
 @login_required
@@ -855,3 +873,10 @@ def reporte_pdf(request, proyecto_id):
     response.write(buff.getvalue())
     buff.close()
     return response
+
+def finalizar_proyecto(request, proyecto_id):
+
+    actual = get_object_or_404(Proyecto, id=proyecto_id)
+    actual.estado = '3'
+    actual.save()
+    return HttpResponseRedirect("/verProyecto/ver&id=" + str(actual.id))

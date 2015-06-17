@@ -25,9 +25,10 @@
                                 <span class="caret"></span>
                                 <span class="sr-only"></span>
                                 </button>
-                                <ul class="dropdown-menu" role="menu">
 
-                                      {% if rec.1 == 'pendiente' or rec.1 == 'reasignar' and notSprintInit%}
+
+                                      {% if rec.1 == 'pendiente' or rec.1 == 'reasignar' and notSprintInit and proyIni%}
+                                             <ul class="dropdown-menu" role="menu">
                                             {% ifequal key 'BACKLOG' %}
                                                 <li><a href="/sprintUserHistory/us&id={{key2}}/"><span style="color:#2702E1">* ASIGNAR A SPRINT</span></a></li>
                                             {% endifequal %}
@@ -97,7 +98,7 @@
                                             <span class="caret"></span>
                                             <span class="sr-only"></span>
                                             </button>
-                                            {% if not notSprintInit and not rec.2 == 'finalizado'%}
+                                            {% if not notSprintInit and not rec.2 == 'finalizado' and proyIni%}
                                                 <ul class="dropdown-menu" role="menu">
                                                 <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
                                                 <li class="divider"></li>
@@ -108,8 +109,10 @@
                                                 <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
                                                 {% for ultFlu, ultAct in dictUltAct.items %}
                                                     {% if ultFlu == flujo.nombre and ultAct.0.nombre == key and rec.1 == 'done' %}
-                                                        <li class="divider"></li>
-                                                        <li><a href="/finalizarUS/us&id={{key2}}/"><span style="color:#2702E1">* FINALIZAR USER HISTORY</span></a></li>
+                                                        {%if finalizar_us %}
+                                                            <li class="divider"></li>
+                                                            <li><a href="/finalizarUS/us&id={{key2}}/"><span style="color:#2702E1">* FINALIZAR USER HISTORY</span></a></li>
+                                                        {% endif %}
                                                     {% endif %}
                                                 {% endfor %}
                                             {%endif%}

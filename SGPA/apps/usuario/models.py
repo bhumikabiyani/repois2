@@ -194,7 +194,6 @@ class UserHistory(models.Model):
     estadokanban = models.CharField(max_length=6, choices=ESTADO_KANBAN)
     tiempo_estimado = models.IntegerField(null=True)
     tiempo_utilizado = models.IntegerField(null=True)
-    fecha_estimada = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True, editable=False)
 
 
     def __unicode__(self):

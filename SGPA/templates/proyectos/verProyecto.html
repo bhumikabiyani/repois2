@@ -106,17 +106,23 @@
 			{% if mod_proyecto %}
 				<a class="btn btn-primary" href="/modificarProyecto/mod&id={{proyecto.id}}/"><strong>MODIFICAR</strong></a>
 			{% endif %}
+            {% if asignar_flujo and proyPend%}
+			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>&nbsp;&nbsp;
+			{% endif %}
 			{% if asignar_miembros and proyPend%}
 			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>&nbsp;&nbsp;
 			{% endif %}
-            {% if asignar_flujo and proyPend%}
-			<a class="btn btn-primary" href="/asignarFlujo/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR FLUJO</strong></a>&nbsp;&nbsp;
+            {% if finalizar_proyecto and proyIni%}
+			<a class="btn btn-primary" href="/finalizarProyecto/proy&id={{proyecto.id}}/"><strong>FINALIZAR PROYECTO</strong></a>&nbsp;&nbsp;
 			{% endif %}
 
             <a class="btn btn-primary" href="/verkanban/ver&id={{proyecto.id}}/"><strong> VER TABLA KANBAN </strong> </a>&nbsp;&nbsp;
             <div class="btn-group">
                 <a><span style="color:#2702E1"><button type="button" class="btn btn-primary" ><strong> BURNDOWN CHART</strong></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
-                <span class="caret"></span>
+                <span class="caret">
+
+
+                </span>
                 <span class="sr-only"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
