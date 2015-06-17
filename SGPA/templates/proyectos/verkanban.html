@@ -99,19 +99,19 @@
                                             <span class="sr-only"></span>
                                             </button>
                                             {% if not notSprintInit and not rec.2 == 'finalizado' and proyIni%}
-                                                {%if rec.3 == user or agregar_trabajo%}
+                                                {%if rec.3 == user.username or agregar_trabajo%}
                                                     <ul class="dropdown-menu" role="menu">
                                                     <li><a href="/addComment/comment&id={{key2}}/"><span style="color:#2702E1">* AGREGAR TRABAJO</span></a></li>
                                                 {%endif%}
-                                                {%if rec.3 == user or adjuntar_archivo%}
+                                                {%if rec.3 == user.username or adjuntar_archivo%}
                                                     <li class="divider"></li>
                                                     <li><a href="/archivosAdjuntos/adjuntos&id={{key2}}/"><span style="color:#2702E1">* ADJUNTAR ARCHIVOS</span></a></li>
                                                 {%endif%}
-                                                {%if rec.3 == user or cambiar_estado%}
+                                                {%if rec.3 == user.username or cambiar_estado%}
                                                     <li class="divider"></li>
                                                     <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
                                                 {%endif%}
-                                                {%if rec.3 == user or cambiar_actividad%}
+                                                {%if rec.3 == user.username or cambiar_actividad%}
                                                     <li class="divider"></li>
                                                     <li><a href="/cambiarActividad/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ACTIVIDAD EN KANBAN</span></a></li>
                                                 {%endif%}
