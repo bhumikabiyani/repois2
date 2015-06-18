@@ -220,6 +220,8 @@ def visualizar_proyectos(request, proyecto_id):
            'asignar_miembros': 'asignar miembros' in permisosProy,
            'asignar_flujo' : 'asignar flujo' in permisosProy,
            'eliminar_miembro' : 'eliminar miembro' in permisosProy,
+           'admin_sprint' : 'admin sprint' in permisosProy,
+           'admin_user_history' : 'admin user history' in permisosProy,
            'asignar_actividades_proyecto' : 'asignar actividades proyecto' in permisosProy,
            'finalizar_proyecto' : 'finalizar proyecto' in permisosProy
            }
@@ -509,8 +511,9 @@ def ver_actividades_proyecto(request, flujo_id, proyecto_id):
 def subir_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
 
     flujos = get_object_or_404(Flujo, id=flujo_id)
-    actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id)
-    actSig = FlujoActividadProyecto.objects.get(flujo = flujo_id, orden = (int(actActual.orden)-1))
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+    actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id,proyecto = proyecto)
+    actSig = FlujoActividadProyecto.objects.get(flujo = flujo_id, orden = (int(actActual.orden)-1), proyecto = proyecto)
     actActual.orden = int(actActual.orden) - 1
     actSig.orden = int(actSig.orden) + 1
     actActual.save()
@@ -520,8 +523,9 @@ def subir_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
 def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
 
     flujos = get_object_or_404(Flujo, id=flujo_id)
-    actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id)
-    actSig = FlujoActividadProyecto.objects.get(flujo = flujo_id, orden = (int(actActual.orden)+1))
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
+    actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id, proyecto = proyecto)
+    actSig = FlujoActividadProyecto.objects.get(flujo = flujo_id, orden = (int(actActual.orden)+1), proyecto = proyecto)
     actActual.orden = int(actActual.orden) + 1
     actSig.orden = int(actSig.orden) - 1
     actActual.save()
@@ -725,7 +729,60 @@ def visualizar_burndownChart(request, proyecto_id, sprint_id):
     user = User.objects.get(username=request.user.username)
     proy = Proyecto.objects.get(id = proyecto_id)
     sprint = get_object_or_404(Sprint, id=sprint_id)
-    return render_to_response("proyectos/grafica.html", {'user':user, 'proyecto': proy, 'sprint' : sprint})
+    x = []
+    y = []
+    y1 = []
+    fechaactual = sprint.fecha_inicio
+    fecha = fechaactual-timedelta(days=1)
+    y.append(0)
+    x.append(fecha)
+    total = 0
+    totalplan =0
+    uh = UserHistory.objects.filter(sprint=sprint)
+    for rec in uh:
+        totalplan += rec.tiempo_estimado
+    y1.append(totalplan)
+    while fechaactual <= sprint.fecha_fin:
+        x.append(fechaactual)
+
+        US = UserHistory.objects.filter(sprint = sprint)
+        sumahora = 0
+        for u in US:
+            ust = UserHistory.objects.get(id = u.id)
+            trabajo = Comentarios.objects.filter(userhistory = ust, fecha = fechaactual)
+
+            for j in trabajo:
+                sumahora = sumahora + j.horas
+        fechaactual = fechaactual + timedelta(days=1)
+        total+= sumahora
+        y.append(total)
+    div = totalplan / float(len(x)-1)
+    i = 0
+    listX = []
+    for rec in x:
+        listX.append(i)
+        # if i == 0:
+        #     listX.append("0")
+        # else:
+        #     listX.append("DIA "+str(i))
+        i += 1
+    listY = []
+    i = 0
+    listEjec = []
+    for rec in x:
+        aux = totalplan - i *div
+        ejec = totalplan - y[i]
+        listY.append(round(aux,2))
+        listEjec.append(ejec)
+        i += 1
+
+    return render_to_response("proyectos/grafica.html", {
+                                                            'user':user, 'proyecto': proy,
+                                                            'X' : listX,
+                                                            'Y' : listEjec,
+                                                            'Y2' : listY,
+                                                            'sprint' : sprint
+                                                        })
 
 
 
@@ -736,39 +793,9 @@ def visualizar_burndownChart(request, proyecto_id, sprint_id):
     #
     #
     # fig=Figure()
-    # x = []
-    # y = []
-    # y1 = []
-    # fechaactual = sprint.fecha_inicio
-    # fecha = fechaactual-timedelta(days=1)
-    # y.append(0)
-    # y1.append(0)
-    # x.append(fecha)
-    # total = 0
+
     # totalplan =0
-    # while fechaactual <= sprint.fecha_fin:
-    #     x.append(fechaactual)
-    #
-    #     US = UserHistory.objects.filter(sprint = sprint)
-    #     sumahora = 0
-    #     sumaplan = 0
-    #     for u in US:
-    #         ust = UserHistory.objects.get(id = u.id)
-    #         trabajo = Comentarios.objects.filter(userhistory = ust, fecha = fechaactual)
-    #
-    #         for j in trabajo:
-    #             sumahora = sumahora + j.horas
-    #
-    #     uh = UserHistory.objects.filter(sprint = sprint, fecha_estimada=fechaactual)
-    #     for k in uh:
-    #         sumaplan+=k.tiempo_estimado
-    #
-    #     fechaactual = fechaactual + timedelta(days=1)
-    #     total+= sumahora
-    #     totalplan+=sumaplan
-    #     y.append(total)
-    #     y1.append(totalplan)
-    #
+
     # ax=fig.add_subplot(111)
     # ax.plot_date(x, y, '-')
     # ax.plot_date(x,y1,'-')

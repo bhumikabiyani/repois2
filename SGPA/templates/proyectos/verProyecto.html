@@ -83,7 +83,9 @@
 	  </table>
     <div class="alert alert-info">
                 <ul><h3>
+            {%if admin_sprint%}
             <center><a class="btn btn-primary" href="/sprint/sprint&id={{proyecto.id}}/"><strong>SPRINT BACKLOG</strong></a>
+            {%endif%}
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -91,7 +93,9 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {%if admin_user_history%}
                 <a class="btn btn-primary" href="/userHistory/proyecto&id={{proyecto.id}}/"><strong>ADMINISTRAR USER HISTORY</strong></a>
+            {%endif%}
             </center> </ul></h3>
    </div>
 
@@ -115,8 +119,9 @@
             {% if finalizar_proyecto and proyIni%}
 			<a class="btn btn-primary" href="/finalizarProyecto/proy&id={{proyecto.id}}/"><strong>FINALIZAR PROYECTO</strong></a>&nbsp;&nbsp;
 			{% endif %}
-
+            {%if proyIni%}
             <a class="btn btn-primary" href="/verkanban/ver&id={{proyecto.id}}/"><strong> VER TABLA KANBAN </strong> </a>&nbsp;&nbsp;
+            {%endif%}
             <div class="btn-group">
                 <a><span style="color:#2702E1"><button type="button" class="btn btn-primary" ><strong> BURNDOWN CHART</strong></button><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"></a>
                 <span class="caret">

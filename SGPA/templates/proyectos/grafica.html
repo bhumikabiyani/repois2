@@ -6,7 +6,6 @@
 		<script type="text/javascript" src="/media/js/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="/media/js/highcharts.js"></script>
 		<script type="text/javascript" src="/media/js/exporting.js"></script>
-
 		<!-- Creo la gráfica -->
 		<script type="text/javascript">
 			var chart;
@@ -22,7 +21,7 @@
 					},
 					// Pongo los datos en el eje de las 'X'
 					xAxis: {
-						categories: ['DIA 1','DIA 2','DIA 3','DIA 4','DIA 5','DIA 6','DIA 7','DIA 8','DIA 9','DIA 10'],
+						categories: {{X}},
 						// Pongo el título para el eje de las 'X'
 						title: {
 							text: 'DIAS DEL SPRINT'
@@ -54,11 +53,11 @@
 					// Doy los datos de la gráfica para dibujarlas
 					series: [{
 				                name: 'Ideal',
-				                data: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+				                data: {{Y2}}
 				            },
 				            {
 				                name: 'Actual',
-				                data: [12.5,10, 9.5, 7]
+				                data: {{Y}}
 				            },
 				            ],
 				});

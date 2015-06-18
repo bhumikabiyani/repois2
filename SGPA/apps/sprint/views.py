@@ -43,8 +43,9 @@ def admin_sprint(request,proyecto_id):
     :return:sprint.html, pagina en la cual se trabaja con los sprint
     """
     user = User.objects.get(username=request.user.username)
+    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user,proyecto = proyecto).only('rol')
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
@@ -55,7 +56,6 @@ def admin_sprint(request,proyecto_id):
     #-------------------------------------------------------------------
 
     lista = Sprint.objects.filter(proyecto=proyecto_id)
-    proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():
@@ -232,7 +232,7 @@ def mod_sprint(request, sprint_id):
     user = User.objects.get(username=request.user.username)
     f = get_object_or_404( Sprint, id = sprint_id)
     #Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
+    roles = UsuarioRolProyecto.objects.filter(usuario = user, proyecto = f.proyecto).only('rol')
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())

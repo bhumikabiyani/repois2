@@ -3,7 +3,7 @@
 {% block content %}
 <center><strong><font face="Comic Sans MS"><h3> SPRINT  BACKLOG</h3></font></strong></center>
 <center><strong><font face="Comic Sans MS"><span style="color:#6666FF"><h3> LISTA DE SPRINT</h3></font></strong></center><br>
-{% if crear_sprint or ver_sprint %}
+{% if crear_sprint or ver_sprint or admin_sprint%}
 <form action="." method="POST">
          {% csrf_token %}
 
