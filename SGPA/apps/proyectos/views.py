@@ -200,10 +200,13 @@ def visualizar_proyectos(request, proyecto_id):
     print proyecto.flujos
     proyPend = False
     proyIni = False
+    proyEnd = False
     if proyecto.estado == 1:
         proyPend = True
     if proyecto.estado == 2:
         proyIni = True
+    if proyecto.estado == 3:
+        proyEnd = True
 
     ctx = {'lista': lista,
            'proyecto': proyecto,
@@ -212,6 +215,7 @@ def visualizar_proyectos(request, proyecto_id):
            'flujos': flujos,
            'proyPend': proyPend,
            'proyIni': proyIni,
+           'proyEnd' : proyEnd,
            'sprints' : sprints,
            'ver_proyectos': 'ver proyectos' in permisosSys,
            'crear_proyecto': 'crear proyecto' in permisosSys,
@@ -231,17 +235,17 @@ def visualizar_proyectos(request, proyecto_id):
 def mod_proyecto(request, proyecto_id):
     """Modifica un Proyecto"""
     user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(Proyecto, id=proyecto_id)
     # Validacion de permisos---------------------------------------------
-    roles = UsuarioRolSistema.objects.filter(usuario=user).only('rol')
+    permisos = get_permisos_sistema(user)
+    roles = UsuarioRolProyecto.objects.filter(usuario=user,proyecto = actual).only('rol')
     permisos_obj = []
     for i in roles:
         permisos_obj.extend(i.rol.permisos.all())
-    permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
 
     #-------------------------------------------------------------------
-    actual = get_object_or_404(Proyecto, id=proyecto_id)
     if request.method == 'POST':
         form = ModProyectoForm(request.POST)
         if form.is_valid():
@@ -738,17 +742,17 @@ def visualizar_burndownChart(request, proyecto_id, sprint_id):
     x.append(fecha)
     total = 0
     totalplan =0
-    uh = UserHistory.objects.filter(sprint=sprint)
+    uh = UserHistorySprint.objects.filter(sprint=sprint)
     for rec in uh:
-        totalplan += rec.tiempo_estimado
+        totalplan += rec.horas_plan
     y1.append(totalplan)
     while fechaactual <= sprint.fecha_fin:
         x.append(fechaactual)
 
-        US = UserHistory.objects.filter(sprint = sprint)
+        US = UserHistorySprint.objects.filter(sprint = sprint)
         sumahora = 0
         for u in US:
-            ust = UserHistory.objects.get(id = u.id)
+            ust = UserHistory.objects.get(id = u.userhistory.id)
             trabajo = Comentarios.objects.filter(userhistory = ust, fecha = fechaactual)
 
             for j in trabajo:

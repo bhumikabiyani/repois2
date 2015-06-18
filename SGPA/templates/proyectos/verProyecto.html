@@ -119,7 +119,7 @@
             {% if finalizar_proyecto and proyIni%}
 			<a class="btn btn-primary" href="/finalizarProyecto/proy&id={{proyecto.id}}/"><strong>FINALIZAR PROYECTO</strong></a>&nbsp;&nbsp;
 			{% endif %}
-            {%if proyIni%}
+            {%if proyIni or proyEnd%}
             <a class="btn btn-primary" href="/verkanban/ver&id={{proyecto.id}}/"><strong> VER TABLA KANBAN </strong> </a>&nbsp;&nbsp;
             {%endif%}
             <div class="btn-group">

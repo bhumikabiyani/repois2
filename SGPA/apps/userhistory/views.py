@@ -38,6 +38,9 @@ def admin_user_history(request,proyecto_id):
     #-------------------------------------------------------------------
     userRolProy = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id)
     lista = UserHistory.objects.filter(proyecto=proyecto_id)
+    proyEnd = False
+    if proyecto.estado == 3:
+        proyEnd = True
 
     if request.method == 'POST':
         form = FilterForm(request.POST)
@@ -60,6 +63,7 @@ def admin_user_history(request,proyecto_id):
                                                         'user':user,
                                                         'proyecto':proyecto,
                                                         'pag': pag,
+                                                        'proyEnd' : proyEnd,
                                                         'ver_user_history':'ver user history' in permisos,
                                                         'ver_log_userhistory':'ver log user history' in permisos,
 							                            'crear_user_history':'crear user history' in permisos
@@ -82,6 +86,7 @@ def admin_user_history(request,proyecto_id):
                                                             'user':user,
                                                             'proyecto':proyecto,
                                                             'pag': pag,
+                                                            'proyEnd' : proyEnd,
                                                             'ver_user_history':'ver user history' in permisos,
                                                             'ver_log_userhistory':'ver log user history' in permisos,
                                                             'crear_user_history':'crear user history' in permisos
@@ -159,12 +164,16 @@ def visualizar_user_history(request, userhistory_id):
     permisos = []
     for i in permisos_obj:
         permisos.append(i.nombre)
+    proyEnd = False
+    if proyecto.estado == 3:
+        proyEnd = True
 
     lista = User.objects.all().order_by("id")
     ctx = {'lista':lista,
             'userhistory':userHist,
             'comments':comments,
             'adjuntos': adjuntos,
+            'proyEnd' : proyEnd,
             'ver_user_history': 'ver user history' in permisos,
             'crear_user_history': 'crear user history' in permisos,
             'mod_user_history': 'modificar user history' in permisos,

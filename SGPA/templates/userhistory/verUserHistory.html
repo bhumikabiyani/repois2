@@ -87,13 +87,13 @@
            <div class="volver">
 		<th class="titulo"><b><strong><span style="color:#330099">ACCIONES</strong></b></th><br>
 		<td>
-			{% if eliminar_user_history %}
+			{% if eliminar_user_history and not proyEnd%}
                       <a class="btn btn-primary" href="/eliminarUserHistory/del&id={{userhistory.id}}/"><strong>ELIMINAR</strong></a>
 			{% endif %}
-			{% if mod_user_history %}
+			{% if mod_user_history and not proyEnd%}
 				<a class="btn btn-primary" href="/modificarUserHistory/mod&id={{userhistory.id}}/"><strong>MODIFICAR</strong></a>
             {% endif %}
-            {% if asignar_encargado %}
+            {% if asignar_encargado and not proyEnd%}
 				<a class="btn btn-primary" href="/encargadoUserHistory/us&id={{userhistory.id}}/"><strong>ASIGNAR ENCARGADO</strong></a>
             {% endif %}
             <!--{% if asignar_sprint %}-->

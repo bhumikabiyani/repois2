@@ -61,7 +61,7 @@
       <div class="footer">
            <div class="volver">
                 <a class="btn btn-primary" href="/verProyecto/ver&id={{proyecto.id}}/"><strong> VOLVER AL PROYECTO</strong> </a>&nbsp;&nbsp;
-		    {% if crear_user_history %}
+		    {% if crear_user_history and not proyEnd%}
                    <a class="btn btn-primary" href="/crearUserHistory/proyecto&id={{proyecto.id}}/"><strong>CREAR USER HISTORY</strong></a>
                     {% endif %}
 	</div>
