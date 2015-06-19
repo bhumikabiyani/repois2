@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> REPORTES DEL SISTEMA</h3></font></strong></center>
+<br>
+<div class="alert alert-info">
+{%for i in proy%}
+<div class="btn-group">
+    <a><span style="color:#2702E1"><button type="button" class="btn btn-primary" ><strong>INFORMES A GENERAR DEL {{i.nombrelargo}}</strong></button></span></a><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    <span class="caret">
+    </span>
+    <span class="sr-only"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li><a href="/reporte1/ver&id={{i.id}}/"><span style="color:#2702E1">1. CANTIDAD DE TRABAJOS EN CURSO POR EQUIPO</span></a></li>
+        <li><a href="/reporte2/ver&id={{i.id}}/"><span style="color:#2702E1">2. CANTIDAD DE TRABAJOS POR USUARIO (PENDIENTE, EN CURSO, FINALIZADOS)</span></a></li>
+        <li><a href="/reporte3/ver&id={{i.id}}/"><span style="color:#2702E1">3. LISTA DE LAS ACTIVIDADES PARA COMPLETAR EL PROYECTO</span></a></li>
+        <li><a href="/reporte4/ver&id={{i.id}}/"><span style="color:#2702E1">4. LISTA DE TIEMPO ESTIMADO DEL PROYECTO Y LA EJECUCION DEL MISMO (GRAFICADO, SPRINT POR PROYECTO)</span></a></li>
+        <li><a href="/reporte5/ver&id={{i.id}}/"><span style="color:#2702E1">5. BACKLOG DEL PRODUCTO</span></a></li>
+        <li><a href="/reporte6/ver&id={{i.id}}/"><span style="color:#2702E1">6. SPRINT BACKLOG</span></a></li>
+    </ul>
+</div>
+{% endfor %}
+</div>
+<br><br>
+<div class="footer">
+           <div class="volver">
+                <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
+           </div>
+</div>
+{% endblock%}
