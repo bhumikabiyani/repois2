@@ -2,7 +2,7 @@
 import base64
 from django.core.context_processors import csrf
 from django.db.models import Max
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import RequestContext, Context
 from SGPA.apps.usuario.forms import UsuariosForm
 from django.core.mail import EmailMultiAlternatives  # Enviamos HTML
@@ -31,7 +31,6 @@ import django
 import datetime
 from datetime import timedelta
 from io import BytesIO
-
 from django.http import HttpResponse
 from django.views.generic import ListView
 from reportlab.platypus import SimpleDocTemplate, Paragraph, TableStyle
@@ -41,7 +40,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import Table
 from reportlab.platypus import Spacer
 from reportlab.lib.pagesizes import A4
-
 from dateutil import rrule
 
 
@@ -73,7 +71,6 @@ def admin_proyectos(request):
     for rec in usuarioPorProyecto:
         if not rec.proyecto in proys:
             proys.append(rec.proyecto.id)
-    print proys
     lista = Proyecto.objects.filter(id__in = proys).order_by('id')
     if request.method == 'POST':
         form = FilterForm(request.POST)
@@ -788,35 +785,297 @@ def visualizar_burndownChart(request, proyecto_id, sprint_id):
                                                             'sprint' : sprint
                                                         })
 
+# #---------------------------------REPORTE DE PROYECTO------------------------------------------
+# def reporte_pdf(request,proyecto_id):
+#
+#         proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+#         sprint_del_proyecto = Sprint.objects.filter(proyecto = proyecto_id)
+#         uh = UserHistory.objects.filter(proyecto = proyecto_id)
+#         for u in uh:
+#             trabajos = Comentarios.objects.filter(userhistory = u.id)
+#
+#         # Creamos un PageTemplate de ejemplo.
+#
+#         estiloHoja = getSampleStyleSheet()
+#
+#         style = [
+#
+#                        ('GRID',(0,0),(-1,-1),0.5,colors.white),
+#
+#                        ('BOX',(0,0),(-1,-1),2,colors.black),
+#
+#                        ('SPAN',(0,0),(-1,0)),
+#
+#                        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+#
+#                        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
+#
+#                        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+#
+#                        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+#
+#                        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+#
+#                        ('SIZE',(0,0),(-1,0),12),
+#
+#                        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+#
+#                        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+#
+#                        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
+#
+#                        ]
+#         #Inicializamos la lista Platypus Story.
+#         story = []
+#         #Definimos como queremos que sea el estilo de la PageTemplate.
+#         cabecera = estiloHoja['Heading2']
+#         cabecera.pageBreakBefore=0
+#         cabecera.keepWithNext=0
+#         cabecera.backColor=colors.white
+#         cabecera.spaceAfter = 0
+#         cabecera.spaceBefore = 0
+#
+#         parrafo = Paragraph('',cabecera)
+#
+#         story.append(parrafo)
+#
+#         parrafo = Paragraph('REPORTE DEL PROYECTO  '+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
+#
+#         story.append(parrafo)
+#
+#         parrafo = Paragraph('_'*66,cabecera)
+#
+#         story.append(parrafo)
+#
+#         # Incluimos un Flowable, que en este caso es un parrafo.
+#
+#         cabecera2 = estiloHoja['Heading1']
+#         cabecera2.pageBreakBefore=0
+#         cabecera2.keepWithNext=0
+#         cabecera2.backColor=colors.white
+#
+#         parrafo = Paragraph('   ',cabecera2)
+#
+#         # Lo incluimos en el Platypus story.
+#         story.append(parrafo)
+#
+#         # Definimos un parrafo. Vamos a crear un texto largo para demostrar como se genera mas de una hoja.
+#        #--------------------------------------------------------------------------------------------------
+#         #GENERAR LISTA DE TRABAJO POR EQUIPO
+#         ltrabajoequipo = []
+#
+#         ltrabajoequipo.append(['1. CANTIDAD DE TRABAJOS EN CURSO POR EQUIPO','','',''])
+#
+#         ltrabajoequipo.append([' ',' ',' ',' '])
+#
+#         ltrabajoequipo.append(['TRABAJO','DESCRIPCION','EQUIPO','RESPONSABLE'])
+#
+#         canttrabajo = trabajos.count()
+#
+#         for trabajo in trabajos:
+#             s = Sprint.objects.get(userhistory = trabajo.userhistory.id)
+#             print s
+#             if s.estado != "Terminado":
+#                 ltrabajoequipo.append([trabajo.userhistory.nombre,trabajo.userhistory.descripcion,trabajo.userhistory.sprint,trabajo.userhistory.encargado])
+#
+#         #-------------------------------------------------------------------------------------------------
+#         t=Table( ltrabajoequipo, style=style)
+#
+#         # Y lo incluimos en el story.
+#         story.append(t)
+#         #
+#         # Dejamos espacio.
+#
+#         story.append(Spacer(0,20))
+#         # Lo incluimos en el Platypus story.
+#         story.append(parrafo)
+#
+#         #--------------------------------------------------------------------------------------------------
+#         #GENERAR LISTA DE TRABAJO POR USUARIO
+#         ltrabajousuario = []
+#
+#         ltrabajousuario.append(['2. CANTIDAD DE TRABAJOS POR USUARIO','',''])
+#
+#         ltrabajousuario.append([' ',' ',' '])
+#
+#         ltrabajousuario.append(['TRABAJO','USUARIO','ESTADO'])
+#
+#         for trabajo in trabajos:
+#
+#                 ltrabajousuario.append([trabajo.userhistory.nombre,trabajo.userhistory.encargado,trabajo.userhistory.estado])
+#
+#
+#         #-------------------------------------------------------------------------------------------------
+#         t2=Table( ltrabajousuario,style=style)
+#          # Y lo incluimos en el story.
+#         story.append(t2)
+#         # Dejamos espacio.
+#         story.append(Spacer(0,20))
+#         # Lo incluimos en el Platypus story.
+#         story.append(parrafo)
+#         #--------------------------------------------------------------------------------------------------
+#         #GENERAR LISTA DE ACTIVIDADES PARA COMPLETAR UN PROYECTO
+#         lactproyecto = []
+#
+#         lactproyecto.append(['3. ACTIVIDADES PARA COMPLETAR EL PROYECTO',''])
+#
+#         lactproyecto.append([' ',' '])
+#
+#         lactproyecto.append(['ORDEN','ACTIVIDAD'])
+#         actividades=FlujoActividadProyecto.objects.filter(proyecto_id=proyecto_id)
+#         for act in actividades:
+#
+#                 lactproyecto.append([act.actividad.id,act.actividad.nombre])
+#         #-------------------------------------------------------------------------------------------------
+#         t3=Table( lactproyecto, style=style)
+#          # Y lo incluimos en el story.
+#         story.append(t3)
+#         #
+#         # Dejamos espacio.
+#
+#         story.append(Spacer(0,20))
+#          # Lo incluimos en el Platypus story.
+#         story.append(parrafo)
+#         #--------------------------------------------------------------------------------------------------
+#         #PRODUCT BACKLOG
+#         lUSproyecto = []
+#
+#         lUSproyecto.append(['4. PRODUCT BACKLOG DEL PROYECTO',''])
+#
+#         lUSproyecto.append([' ',' '])
+#
+#         lUSproyecto.append(['ORDEN','USER STORY'])
+#         usp=UserHistory.objects.filter(proyecto_id=proyecto_id).order_by('valor_tecnico')
+#         i=0
+#         for u in usp:
+#                 i=i+1
+#                 lUSproyecto.append([i,u.nombre])
+#         #-------------------------------------------------------------------------------------------------
+#         t4=Table( lUSproyecto, style=style)
+#          # Y lo incluimos en el story.
+#         story.append(t4)
+#         #
+#         # Dejamos espacio.
+#         story.append(Spacer(0,40))
+#         story.append(Spacer(0,40))
+#         # Lo incluimos en el Platypus story.
+#         story.append(parrafo)
+#         #--------------------------------------------------------------------------------------------------
+#         #SPRINT BACKLOG
+#         lUSsprintactual = []
+#
+#         lUSsprintactual.append(['5. SPRINT BACKLOG DEL PROYECTO','','','',''])
+#
+#         lUSsprintactual.append([ ' ',' ',' ',' ',' '])
+#
+#         lUSsprintactual.append(['USER STORY','ASIGANDO A', 'FLUJO ', 'ACTIVIDAD ', 'ESTADO '])
+#         for u in trabajos:
+#             s = Sprint.objects.get(userhistory=u.userhistory)
+#             if s.estado == "Iniciado":
+#                 lUSsprintactual.append([u.us.nombre,u.us.responsable,u.us.flujo,u.us.actividad,u.us.estado_actividad])
+#
+#         #-------------------------------------------------------------------------------------------------
+#         t5=Table( lUSsprintactual, style=style)
+#          # Y lo incluimos en el story.
+#         story.append(t5)
+#         #
+#         # Dejamos espacio.
+#
+#         story.append(Spacer(0,20))
+#         parrafo = Paragraph('_'*66,cabecera)
+#         story.append(parrafo)
+#         parrafo = Paragraph('Fin del Informe' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+#
+#         story.append(parrafo)
+#
+#         # Construimos el Platypus story.
+#         buff = BytesIO()
+#         doc = SimpleDocTemplate(buff,
+#                           pagesize=letter,
+#                           rightMargin=40,
+#                           leftMargin=40,
+#                           topMargin=60,
+#                           bottomMargin=18,
+#                           )
+#         doc.build(story)
+#         response = HttpResponse(content_type='application/pdf')
+#         pdf_name = "Reporte.pdf"
+#         response.write(buff.getvalue())
+#         buff.close()
+#         return response
 
 
-    # sabdom= 5, 6         # si no tienes vacaciones no trabajas sab y dom
-    # laborales = [dia for dia in range(7) if dia not in sabdom]
-    # totalDias= rrule.rrule(rrule.DAILY, dtstart=sprint.fecha_inicio, until=sprint.fecha_fin,byweekday=laborales)
-    # duracionSprintDias = totalDias.count()
-    #
-    #
-    # fig=Figure()
+def reporte_pdf(request):
+         user = User.objects.get(username=request.user.username)
+         usuarioPorProyecto = UsuarioRolProyecto.objects.filter(usuario = user.id)
+         proys = []
+         for rec in usuarioPorProyecto:
+             if not rec.proyecto in proys:
+                 proys.append(rec.proyecto.id)
+         lista = Proyecto.objects.filter(id__in = proys).order_by('id')
+         return render_to_response("proyectos/reportes.html", { 'proy' : lista,
+                                                                  'user' : user
+                                                                  })
 
-    # totalplan =0
+def reporte1_pdf(request,proyecto_id):
+    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+    uh = UserHistory.objects.filter(proyecto = proyecto_actual)
 
-    # ax=fig.add_subplot(111)
-    # ax.plot_date(x, y, '-')
-    # ax.plot_date(x,y1,'-')
-    # fig.autofmt_xdate()
-    # canvas=FigureCanvas(fig)
-    # response=django.http.HttpResponse(content_type='image/png')
-    # canvas.print_png(response)
-    # return response
+    estiloHoja = getSampleStyleSheet()
+    style = [
+        ('GRID',(0,0),(-1,-1),0.5,colors.white),
+        ('BOX',(0,0),(-1,-1),2,colors.black),
+        ('SPAN',(0,0),(-1,0)),
+        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+        ('SIZE',(0,0),(-1,0),12),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
+        ]
 
-def reporte_pdf(request, proyecto_id):
-    proy = get_object_or_404(Proyecto, id=proyecto_id)
-    sprint = Sprint.objects.filter(proyecto = proyecto_id)
+    story = []
+    cabecera = estiloHoja['Heading2']
+    cabecera.pageBreakBefore=0
+    cabecera.keepWithNext=0
+    cabecera.backColor=colors.white
+    cabecera.spaceAfter = 0
+    cabecera.spaceBefore = 0
+    parrafo = Paragraph('',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('PRIMER INFORME DEL'+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading1']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('   ',cabecera2)
+    story.append(parrafo)
 
-    response = HttpResponse(content_type='application/pdf')
-    pdf_name = "Reporte.pdf"
-    # la linea 26 es por si deseas descargar el pdf a tu computadora
-    # response['Content-Disposition'] = 'attachment; filename=%s' % pdf_name
+    ltrabajoequipo = []
+    ltrabajoequipo.append(['1. CANTIDAD DE TRABAJOS EN CURSO POR EQUIPO','',''])
+    ltrabajoequipo.append([' ',' ',' '])
+    ltrabajoequipo.append(['EQUIPO DE DESARROLLADORES','CANTIDAD DE TRABAJOS', 'ESTADO'])
+    canttrabajo = 0
+    for u in uh:
+        if u.estado == 'iniciado':
+            canttrabajo = canttrabajo + 1
+
+    ltrabajoequipo.append(['Equipo 1',canttrabajo, 'iniciado'])
+
+    t=Table( ltrabajoequipo, style=style)
+    story.append(t)
+    story.append(Spacer(0,20))
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('FIN DE PRIMER INFORME' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+    story.append(parrafo)
     buff = BytesIO()
     doc = SimpleDocTemplate(buff,
                             pagesize=letter,
@@ -825,94 +1084,304 @@ def reporte_pdf(request, proyecto_id):
                             topMargin=60,
                             bottomMargin=18,
                             )
-
-    backlog = []
-    styles = getSampleStyleSheet()
-    cabecera = styles['Heading2']
-    parrafo = Paragraph('REPORTE DEL PROYECTO: '+ '"' + proy.nombrelargo + '"',cabecera)
-    backlog.append(parrafo)
-    backlog.append(Spacer(0,20))
-    lista = []
-    lista2 = []
-    lista2.append(['SPRINT BACKLOG'])
-    lista2.append([' ',' ',' '])
-    lista2.append(['NOMBRE','DESCRIPCION','ESTADO'])
-    lista.append(['LISTA ORDENADA DE US','',''])
-    lista.append([' ',' ',' '])
-    lista.append(['NOMBRE','DESCRIPCION','ESTADO'])
-    us = UserHistory.objects.filter(proyecto = proyecto_id).order_by('valor_tecnico')
-    for u in us:
-        lista.append([u.nombre,u.descripcion,u.estado])
-    sprintUS = u.id
-    sp = UserHistorySprint.objects.filter(userhistory = sprintUS)
-    for s in sp:
-        lista2.append([s.userhistory.nombre,s.userhistory.descripcion,s.userhistory.estado])
-    t=Table( lista, style = [
-
-                       ('GRID',(0,0),(-1,-1),0.5,colors.white),
-
-                       ('BOX',(0,0),(-1,-1),2,colors.blue),
-
-                       ('SPAN',(0,0),(-1,0)),
-
-                       ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
-
-                       ('BACKGROUND', (0, 2), (-1, 2), colors.rgb2cmyk(r=6,g=62,b=193)),
-
-                       ('BACKGROUND', (0, 1), (-1, 1), colors.white),
-
-                       ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
-
-                       ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
-
-                       ('SIZE',(0,0),(-1,0),12),
-
-                       ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-
-                       ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
-
-                       ('TEXTCOLOR', (0, 2), (-1, 2), colors.white),
-
-                       ]
-
-              )
-    t1=Table( lista2, style = [
-
-                       ('GRID',(0,0),(-1,-1),0.5,colors.white),
-
-                       ('BOX',(0,0),(-1,-1),2,colors.blue),
-
-                       ('SPAN',(0,0),(-1,0)),
-
-                       ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
-
-                       ('BACKGROUND', (0, 2), (-1, 2), colors.rgb2cmyk(r=6,g=62,b=193)),
-
-                       ('BACKGROUND', (0, 1), (-1, 1), colors.white),
-
-                       ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
-
-                       ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
-
-                       ('SIZE',(0,0),(-1,0),12),
-
-                       ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-
-                       ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
-
-                       ('TEXTCOLOR', (0, 2), (-1, 2), colors.white),
-
-                       ]
-
-              )
-    backlog.append(t)
-    backlog.append(Spacer(0,20))
-    backlog.append(t1)
-
-    doc.build(backlog)
+    doc.build(story)
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
     response.write(buff.getvalue())
     buff.close()
     return response
+
+
+def reporte2_pdf(request,proyecto_id):
+    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+    uh = UserHistory.objects.filter(proyecto = proyecto_actual)
+
+    estiloHoja = getSampleStyleSheet()
+    style = [
+        ('GRID',(0,0),(-1,-1),0.5,colors.white),
+        ('BOX',(0,0),(-1,-1),2,colors.black),
+        ('SPAN',(0,0),(-1,0)),
+        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+        ('SIZE',(0,0),(-1,0),12),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
+        ]
+
+    story = []
+    cabecera = estiloHoja['Heading2']
+    cabecera.pageBreakBefore=0
+    cabecera.keepWithNext=0
+    cabecera.backColor=colors.white
+    cabecera.spaceAfter = 0
+    cabecera.spaceBefore = 0
+    parrafo = Paragraph('',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('SEGUNDO INFORME DEL'+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading1']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('   ',cabecera2)
+    story.append(parrafo)
+    ltrabajoequipo = []
+    ltrabajoequipo.append(['2. CANTIDAD DE TRABAJOS POR USUARIO','',''])
+    ltrabajoequipo.append([' ',' ',' '])
+    ltrabajoequipo.append(['EQUIPO 1','CANTIDAD DE TRABAJOS', 'ESTADO'])
+    urp = UsuarioRolProyecto.objects.filter(proyecto = proyecto_actual)
+    for i in urp:
+        if i.rol.nombre == 'Desarrollador':
+            ltrabajoequipo.append([i.usuario.username, '',''])
+
+
+    t=Table( ltrabajoequipo, style=style)
+    story.append(t)
+    story.append(Spacer(0,20))
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('FIN DE SEGUNDO INFORME' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+    story.append(parrafo)
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff,
+                            pagesize=letter,
+                            rightMargin=40,
+                            leftMargin=40,
+                            topMargin=60,
+                            bottomMargin=18,
+                            )
+    doc.build(story)
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+
+def reporte3_pdf(request,proyecto_id):
+    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+    uh = UserHistory.objects.filter(proyecto = proyecto_actual).order_by('-prioridad')
+
+    estiloHoja = getSampleStyleSheet()
+    style = [
+        ('GRID',(0,0),(-1,-1),0.5,colors.white),
+        ('BOX',(0,0),(-1,-1),2,colors.black),
+        ('SPAN',(0,0),(-1,0)),
+        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+        ('SIZE',(0,0),(-1,0),12),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
+        ]
+
+    story = []
+    cabecera = estiloHoja['Heading2']
+    cabecera.pageBreakBefore=0
+    cabecera.keepWithNext=0
+    cabecera.backColor=colors.white
+    cabecera.spaceAfter = 0
+    cabecera.spaceBefore = 0
+    parrafo = Paragraph('',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('TERCER INFORME DEL'+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading1']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('   ',cabecera2)
+    story.append(parrafo)
+
+    ltrabajoequipo = []
+    ltrabajoequipo.append(['3. LISTA DE ACTIVIDADES PARA COMPLETAR EL PROYECTO','', ''])
+    ltrabajoequipo.append([' ',' ',''])
+    ltrabajoequipo.append(['PRIORIDAD','ACTIVIDADES', 'ESTADO'])
+    for u in uh:
+        if u.estado != 'finalizado' and u.estado != 'cancelado':
+            ltrabajoequipo.append([u.prioridad,u.nombre, u.estado])
+
+    t=Table( ltrabajoequipo, style=style)
+    story.append(t)
+    story.append(Spacer(0,20))
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('FIN DE TERCER INFORME' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+    story.append(parrafo)
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff,
+                            pagesize=letter,
+                            rightMargin=40,
+                            leftMargin=40,
+                            topMargin=60,
+                            bottomMargin=18,
+                            )
+    doc.build(story)
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+
+def reporte4_pdf(request,proyecto_id):
+    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+
+def reporte5_pdf(request,proyecto_id):
+    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+    uh = UserHistory.objects.filter(proyecto = proyecto_actual).order_by('-valor_tecnico')
+
+    estiloHoja = getSampleStyleSheet()
+    style = [
+        ('GRID',(0,0),(-1,-1),0.5,colors.white),
+        ('BOX',(0,0),(-1,-1),2,colors.black),
+        ('SPAN',(0,0),(-1,0)),
+        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+        ('SIZE',(0,0),(-1,0),12),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
+        ]
+
+    story = []
+    cabecera = estiloHoja['Heading2']
+    cabecera.pageBreakBefore=0
+    cabecera.keepWithNext=0
+    cabecera.backColor=colors.white
+    cabecera.spaceAfter = 0
+    cabecera.spaceBefore = 0
+    parrafo = Paragraph('',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('QUINTO INFORME DEL'+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading1']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('   ',cabecera2)
+    story.append(parrafo)
+
+    ltrabajoequipo = []
+    ltrabajoequipo.append(['5. BACKLOG DEL PRODUCTO','', '', ''])
+    ltrabajoequipo.append([' ',' ',' ', ' '])
+    ltrabajoequipo.append(['NOMBRE','DESCRIPCION','ORDEN', 'ESTADO'])
+    for u in uh:
+        if u.estado != 'cancelado':
+            ltrabajoequipo.append([u.nombre, u.descripcion, u.valor_tecnico, u.estado])
+
+    t=Table( ltrabajoequipo, style=style)
+    story.append(t)
+    story.append(Spacer(0,20))
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('FIN DE QUINTO INFORME' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+    story.append(parrafo)
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff,
+                            pagesize=letter,
+                            rightMargin=40,
+                            leftMargin=40,
+                            topMargin=60,
+                            bottomMargin=18,
+                            )
+    doc.build(story)
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
+
+def reporte6_pdf(request,proyecto_id):
+    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+    uh = UserHistory.objects.filter(proyecto = proyecto_actual)
+
+    estiloHoja = getSampleStyleSheet()
+    style = [
+        ('GRID',(0,0),(-1,-1),0.5,colors.white),
+        ('BOX',(0,0),(-1,-1),2,colors.black),
+        ('SPAN',(0,0),(-1,0)),
+        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
+        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
+        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
+        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
+        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
+        ('SIZE',(0,0),(-1,0),12),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
+        ]
+
+    story = []
+    cabecera = estiloHoja['Heading2']
+    cabecera.pageBreakBefore=0
+    cabecera.keepWithNext=0
+    cabecera.backColor=colors.white
+    cabecera.spaceAfter = 0
+    cabecera.spaceBefore = 0
+    parrafo = Paragraph('',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('SEXTO INFORME DEL'+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading1']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('   ',cabecera2)
+    story.append(parrafo)
+    ltrabajoequipo = []
+    ltrabajoequipo.append(['6. SPRINT BACKLOG','', ''])
+    ltrabajoequipo.append([' ',' ',''])
+    ltrabajoequipo.append(['NOMBRE','ACTIVIDADES', 'ESTADO'])
+    for u in uh:
+        if u.sprint.estado == 'iniciado':
+            ltrabajoequipo.append([u.sprint.nombre,u.nombre, u.sprint.estado])
+
+    t=Table( ltrabajoequipo, style=style)
+    story.append(t)
+    story.append(Spacer(0,20))
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('FIN DE SEXTO INFORME' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+    story.append(parrafo)
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff,
+                            pagesize=letter,
+                            rightMargin=40,
+                            leftMargin=40,
+                            topMargin=60,
+                            bottomMargin=18,
+                            )
+    doc.build(story)
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
+    response.write(buff.getvalue())
+    buff.close()
+    return response
+
 
 def finalizar_proyecto(request, proyecto_id):
 

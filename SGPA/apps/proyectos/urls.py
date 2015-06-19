@@ -27,7 +27,13 @@ urlpatterns = patterns('SGPA.apps.proyectos.views',
     url(r'^subirActividadProy/flujo&id=(?P<flujo_id>\d+)&&actividad&id=(?P<actividad_id>\d+)&&proyecto&id=(?P<proyecto_id>\d+)/$','subir_actividad_proyecto',name='vista_subirActividadProyecto'),
     url(r'^verkanban/ver&id=(?P<proyecto_id>\d+)/$', 'visualizar_kanban', name='vista_kanban'),
     url(r'^verburn/ver&id=(?P<proyecto_id>\d+)&&sprint&id=(?P<sprint_id>\d+)/$', 'visualizar_burndownChart', name='vista_burn'),
-    url(r'^reporte/ver&id=(?P<proyecto_id>\d+)/$', 'reporte_pdf', name='vista_reportePdf'),
+    url(r'^reporte/$', 'reporte_pdf', name='vista_reportePdf'),
+    url(r'^reporte1/ver&id=(?P<proyecto_id>\d+)/$', 'reporte1_pdf', name='vista_reporte1Pdf'),
+    url(r'^reporte2/ver&id=(?P<proyecto_id>\d+)/$', 'reporte2_pdf', name='vista_reporte2Pdf'),
+    url(r'^reporte3/ver&id=(?P<proyecto_id>\d+)/$', 'reporte3_pdf', name='vista_reporte3Pdf'),
+    url(r'^reporte4/ver&id=(?P<proyecto_id>\d+)/$', 'reporte4_pdf', name='vista_reporte4Pdf'),
+    url(r'^reporte5/ver&id=(?P<proyecto_id>\d+)/$', 'reporte5_pdf', name='vista_reporte5Pdf'),
+    url(r'^reporte6/ver&id=(?P<proyecto_id>\d+)/$', 'reporte6_pdf', name='vista_reporte6Pdf'),
     url(r'^finalizarProyecto/proy&id=(?P<proyecto_id>\d+)/$', 'finalizar_proyecto', name='vista_finalizarProyecto')
 
 )
