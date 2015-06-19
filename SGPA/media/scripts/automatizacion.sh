@@ -2,6 +2,7 @@
 # -*- ENCODING: UTF-8 -*-
 echo "Bienvenido a SGPA"
 #Instalar Python
+sudo apt-get update
 sudo apt-get install python2.7
 
 #Instalar Pycharm
