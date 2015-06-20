@@ -27,7 +27,7 @@ class UserTestCase(TestCase):
         self.fap1 = FlujoActividadProyecto.objects.create(flujo = self.f1, actividad = self.a1, proyecto = self.p1, orden = 1)
         self.fap2 = FlujoActividadProyecto.objects.create(flujo = self.f1, actividad = self.a2, proyecto = self.p1, orden = 2)
         self.r1 = Rol.objects.create(nombre="team leaders",categoria=1)
-        self.s1 = Sprint.objects.create(nombre="Sprint8",descripcion="prueba",proyecto=self.p1)
+        self.s1 = Sprint.objects.create(nombre="Sprint8",descripcion="prueba",proyecto=self.p1,fecha_inicio = '2015-06-18', fecha_fin = '2015-06-29')
         self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1,encargado=self.u1,valor_tecnico=10,sprint = self.s1)
         self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1, horas=0)
         self.ussprint = UserHistorySprint.objects.create(userhistory=self.us1, sprint=self.s1, horas_plan = 0, horas_ejec = 0)
@@ -432,8 +432,9 @@ class UserTestCase(TestCase):
         request = RequestFactory().get('/userhistory')
         user = User.objects.get(username="cgonza")
         us = UserHistory.objects.get(nombre="US1")
+        act = Actividad.objects.get(nombre="act1")
         request.user = user
-        response = cambiar_estados(request,us.id)
+        response = cambiar_estados(request,us.id,act.id)
         # Check.
         self.assertEqual(response.status_code, 200)
 
@@ -445,6 +446,135 @@ class UserTestCase(TestCase):
         response = cambiar_actividad(request,us.id)
         # Check.
         self.assertEqual(response.status_code, 200)
+
+    def testIniciar_Proyecto_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = iniciar_proyecto(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testFinalizar_Proyecto_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = finalizar_proyecto(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 302)
+
+    def testIniciar_Sprint_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        sprint = Sprint.objects.get(nombre="Sprint8")
+        request.user = user
+        response = iniciar_sprint(request,sprint.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testFinalizar_Sprint_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        sprint = Sprint.objects.get(nombre="Sprint8")
+        request.user = user
+        response = finalizar_sprint(request,sprint.id)
+        # Check.
+        self.assertEqual(response.status_code, 302)
+
+
+    def testReporte1_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = reporte1_pdf(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testReporte2_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = reporte2_pdf(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testReporte3_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = reporte3_pdf(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testReporte4_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = reporte4_pdf(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testReporte5_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = reporte5_pdf(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testReporte6_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        request.user = user
+        response = reporte6_pdf(request,proy.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testBurndown_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        proy = Proyecto.objects.get(nombrelargo="prueba")
+        sprint = Sprint.objects.get(nombre = "Sprint8")
+        request.user = user
+        response = visualizar_burndownChart(request,proy.id,sprint.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testAsinar_USSprint_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        sprint = Sprint.objects.get(nombre = "Sprint8")
+        request.user = user
+        response = asignar_us_sprint(request,sprint.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testReAsinar_SprintUS_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre = "US1")
+        request.user = user
+        response = reasignar_sprint_userhistory(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 200)
+
+    def testFinalizarUS_View(self):
+        request = RequestFactory().get('/proyecto')
+        user = User.objects.get(username="cgonza")
+        us = UserHistory.objects.get(nombre = "US1")
+        request.user = user
+        response = finalizar_userhistory(request,us.id)
+        # Check.
+        self.assertEqual(response.status_code, 302)
+
 
 if __name__ == "__main__":
     unittest.main()
