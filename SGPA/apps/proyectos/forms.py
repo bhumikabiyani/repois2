@@ -60,7 +60,7 @@ class ModProyectoForm(forms.Form):
     # usuario_lider = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
     usuario_lider = forms.ModelChoiceField(queryset=User.objects.all())
     cantidad = forms.IntegerField(label='HORAS')
-    estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES), label = 'ESTADO')
+    estado = forms.CharField(max_length=1, widget=forms.Select(choices=PROJECT_STATUS_CHOICES_MOD), label = 'ESTADO')
     # def __init__(self,  *args, **kwargs):
     #     super(ModProyectoForm, self).__init__(*args, **kwargs)
     #     # self.fields['usuario_lider'].queryset = User.objects.all().values_list('id','username')

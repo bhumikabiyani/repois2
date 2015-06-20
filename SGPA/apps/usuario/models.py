@@ -33,6 +33,10 @@ PROJECT_STATUS_CHOICES = (
     ('4', 'Anulado'),
     )
 
+PROJECT_STATUS_CHOICES_MOD = (
+    ('1', 'Pendiente'),
+    ('4', 'Anulado'),
+    )
 class Permiso(models.Model):
     """Clase que representa a los Permisos"""
     nombre = models.CharField(unique=True, max_length=50)

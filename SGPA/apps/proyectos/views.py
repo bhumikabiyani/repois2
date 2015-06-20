@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import base64
 from django.core.context_processors import csrf
-from django.db.models import Max
+from django.db.models import Max, Count
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import RequestContext, Context
 from SGPA.apps.usuario.forms import UsuariosForm
@@ -224,7 +224,15 @@ def visualizar_proyectos(request, proyecto_id):
            'admin_sprint' : 'admin sprint' in permisosProy,
            'admin_user_history' : 'admin user history' in permisosProy,
            'asignar_actividades_proyecto' : 'asignar actividades proyecto' in permisosProy,
-           'finalizar_proyecto' : 'finalizar proyecto' in permisosProy
+           'finalizar_proyecto' : 'finalizar proyecto' in permisosProy,
+           'iniciar_proyecto' : 'iniciar proyecto' in permisosProy,
+           'ver_reportes': 'ver reportes' in permisosProy,
+           'ver_reporte1': 'ver reporte1' in permisosProy,
+           'ver_reporte2': 'ver reporte2' in permisosProy,
+           'ver_reporte3': 'ver reporte3' in permisosProy,
+           'ver_reporte4': 'ver reporte4' in permisosProy,
+           'ver_reporte5': 'ver reporte5' in permisosProy,
+           'ver_reporte6': 'ver reporte6' in permisosProy
            }
     return render_to_response('proyectos/verProyecto.html', ctx, context_instance=RequestContext(request))
 
@@ -785,226 +793,6 @@ def visualizar_burndownChart(request, proyecto_id, sprint_id):
                                                             'sprint' : sprint
                                                         })
 
-# #---------------------------------REPORTE DE PROYECTO------------------------------------------
-# def reporte_pdf(request,proyecto_id):
-#
-#         proyecto_actual= Proyecto.objects.get(id=proyecto_id)
-#         sprint_del_proyecto = Sprint.objects.filter(proyecto = proyecto_id)
-#         uh = UserHistory.objects.filter(proyecto = proyecto_id)
-#         for u in uh:
-#             trabajos = Comentarios.objects.filter(userhistory = u.id)
-#
-#         # Creamos un PageTemplate de ejemplo.
-#
-#         estiloHoja = getSampleStyleSheet()
-#
-#         style = [
-#
-#                        ('GRID',(0,0),(-1,-1),0.5,colors.white),
-#
-#                        ('BOX',(0,0),(-1,-1),2,colors.black),
-#
-#                        ('SPAN',(0,0),(-1,0)),
-#
-#                        ('ROWBACKGROUNDS', (0, 3), (-1, -1), (colors.Color(0.9, 0.9, 0.9),colors.white)),
-#
-#                        ('BACKGROUND', (0, 2), (-1, 2), colors.fidlightblue),
-#
-#                        ('BACKGROUND', (0, 1), (-1, 1), colors.white),
-#
-#                        ('LINEABOVE',(0,0),(-1,0),1.5,colors.black),
-#
-#                        ('LINEBELOW',(0,0),(-1,0),1.5,colors.black),
-#
-#                        ('SIZE',(0,0),(-1,0),12),
-#
-#                        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-#
-#                        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
-#
-#                        ('TEXTCOLOR', (0, 2), (-1, 2), colors.black),
-#
-#                        ]
-#         #Inicializamos la lista Platypus Story.
-#         story = []
-#         #Definimos como queremos que sea el estilo de la PageTemplate.
-#         cabecera = estiloHoja['Heading2']
-#         cabecera.pageBreakBefore=0
-#         cabecera.keepWithNext=0
-#         cabecera.backColor=colors.white
-#         cabecera.spaceAfter = 0
-#         cabecera.spaceBefore = 0
-#
-#         parrafo = Paragraph('',cabecera)
-#
-#         story.append(parrafo)
-#
-#         parrafo = Paragraph('REPORTE DEL PROYECTO  '+ '"' +proyecto_actual.nombrelargo+'" : ',cabecera)
-#
-#         story.append(parrafo)
-#
-#         parrafo = Paragraph('_'*66,cabecera)
-#
-#         story.append(parrafo)
-#
-#         # Incluimos un Flowable, que en este caso es un parrafo.
-#
-#         cabecera2 = estiloHoja['Heading1']
-#         cabecera2.pageBreakBefore=0
-#         cabecera2.keepWithNext=0
-#         cabecera2.backColor=colors.white
-#
-#         parrafo = Paragraph('   ',cabecera2)
-#
-#         # Lo incluimos en el Platypus story.
-#         story.append(parrafo)
-#
-#         # Definimos un parrafo. Vamos a crear un texto largo para demostrar como se genera mas de una hoja.
-#        #--------------------------------------------------------------------------------------------------
-#         #GENERAR LISTA DE TRABAJO POR EQUIPO
-#         ltrabajoequipo = []
-#
-#         ltrabajoequipo.append(['1. CANTIDAD DE TRABAJOS EN CURSO POR EQUIPO','','',''])
-#
-#         ltrabajoequipo.append([' ',' ',' ',' '])
-#
-#         ltrabajoequipo.append(['TRABAJO','DESCRIPCION','EQUIPO','RESPONSABLE'])
-#
-#         canttrabajo = trabajos.count()
-#
-#         for trabajo in trabajos:
-#             s = Sprint.objects.get(userhistory = trabajo.userhistory.id)
-#             print s
-#             if s.estado != "Terminado":
-#                 ltrabajoequipo.append([trabajo.userhistory.nombre,trabajo.userhistory.descripcion,trabajo.userhistory.sprint,trabajo.userhistory.encargado])
-#
-#         #-------------------------------------------------------------------------------------------------
-#         t=Table( ltrabajoequipo, style=style)
-#
-#         # Y lo incluimos en el story.
-#         story.append(t)
-#         #
-#         # Dejamos espacio.
-#
-#         story.append(Spacer(0,20))
-#         # Lo incluimos en el Platypus story.
-#         story.append(parrafo)
-#
-#         #--------------------------------------------------------------------------------------------------
-#         #GENERAR LISTA DE TRABAJO POR USUARIO
-#         ltrabajousuario = []
-#
-#         ltrabajousuario.append(['2. CANTIDAD DE TRABAJOS POR USUARIO','',''])
-#
-#         ltrabajousuario.append([' ',' ',' '])
-#
-#         ltrabajousuario.append(['TRABAJO','USUARIO','ESTADO'])
-#
-#         for trabajo in trabajos:
-#
-#                 ltrabajousuario.append([trabajo.userhistory.nombre,trabajo.userhistory.encargado,trabajo.userhistory.estado])
-#
-#
-#         #-------------------------------------------------------------------------------------------------
-#         t2=Table( ltrabajousuario,style=style)
-#          # Y lo incluimos en el story.
-#         story.append(t2)
-#         # Dejamos espacio.
-#         story.append(Spacer(0,20))
-#         # Lo incluimos en el Platypus story.
-#         story.append(parrafo)
-#         #--------------------------------------------------------------------------------------------------
-#         #GENERAR LISTA DE ACTIVIDADES PARA COMPLETAR UN PROYECTO
-#         lactproyecto = []
-#
-#         lactproyecto.append(['3. ACTIVIDADES PARA COMPLETAR EL PROYECTO',''])
-#
-#         lactproyecto.append([' ',' '])
-#
-#         lactproyecto.append(['ORDEN','ACTIVIDAD'])
-#         actividades=FlujoActividadProyecto.objects.filter(proyecto_id=proyecto_id)
-#         for act in actividades:
-#
-#                 lactproyecto.append([act.actividad.id,act.actividad.nombre])
-#         #-------------------------------------------------------------------------------------------------
-#         t3=Table( lactproyecto, style=style)
-#          # Y lo incluimos en el story.
-#         story.append(t3)
-#         #
-#         # Dejamos espacio.
-#
-#         story.append(Spacer(0,20))
-#          # Lo incluimos en el Platypus story.
-#         story.append(parrafo)
-#         #--------------------------------------------------------------------------------------------------
-#         #PRODUCT BACKLOG
-#         lUSproyecto = []
-#
-#         lUSproyecto.append(['4. PRODUCT BACKLOG DEL PROYECTO',''])
-#
-#         lUSproyecto.append([' ',' '])
-#
-#         lUSproyecto.append(['ORDEN','USER STORY'])
-#         usp=UserHistory.objects.filter(proyecto_id=proyecto_id).order_by('valor_tecnico')
-#         i=0
-#         for u in usp:
-#                 i=i+1
-#                 lUSproyecto.append([i,u.nombre])
-#         #-------------------------------------------------------------------------------------------------
-#         t4=Table( lUSproyecto, style=style)
-#          # Y lo incluimos en el story.
-#         story.append(t4)
-#         #
-#         # Dejamos espacio.
-#         story.append(Spacer(0,40))
-#         story.append(Spacer(0,40))
-#         # Lo incluimos en el Platypus story.
-#         story.append(parrafo)
-#         #--------------------------------------------------------------------------------------------------
-#         #SPRINT BACKLOG
-#         lUSsprintactual = []
-#
-#         lUSsprintactual.append(['5. SPRINT BACKLOG DEL PROYECTO','','','',''])
-#
-#         lUSsprintactual.append([ ' ',' ',' ',' ',' '])
-#
-#         lUSsprintactual.append(['USER STORY','ASIGANDO A', 'FLUJO ', 'ACTIVIDAD ', 'ESTADO '])
-#         for u in trabajos:
-#             s = Sprint.objects.get(userhistory=u.userhistory)
-#             if s.estado == "Iniciado":
-#                 lUSsprintactual.append([u.us.nombre,u.us.responsable,u.us.flujo,u.us.actividad,u.us.estado_actividad])
-#
-#         #-------------------------------------------------------------------------------------------------
-#         t5=Table( lUSsprintactual, style=style)
-#          # Y lo incluimos en el story.
-#         story.append(t5)
-#         #
-#         # Dejamos espacio.
-#
-#         story.append(Spacer(0,20))
-#         parrafo = Paragraph('_'*66,cabecera)
-#         story.append(parrafo)
-#         parrafo = Paragraph('Fin del Informe' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
-#
-#         story.append(parrafo)
-#
-#         # Construimos el Platypus story.
-#         buff = BytesIO()
-#         doc = SimpleDocTemplate(buff,
-#                           pagesize=letter,
-#                           rightMargin=40,
-#                           leftMargin=40,
-#                           topMargin=60,
-#                           bottomMargin=18,
-#                           )
-#         doc.build(story)
-#         response = HttpResponse(content_type='application/pdf')
-#         pdf_name = "Reporte.pdf"
-#         response.write(buff.getvalue())
-#         buff.close()
-#         return response
-
-
 def reporte_pdf(request):
          user = User.objects.get(username=request.user.username)
          usuarioPorProyecto = UsuarioRolProyecto.objects.filter(usuario = user.id)
@@ -1132,13 +920,16 @@ def reporte2_pdf(request,proyecto_id):
     parrafo = Paragraph('   ',cabecera2)
     story.append(parrafo)
     ltrabajoequipo = []
-    ltrabajoequipo.append(['2. CANTIDAD DE TRABAJOS POR USUARIO','',''])
-    ltrabajoequipo.append([' ',' ',' '])
-    ltrabajoequipo.append(['EQUIPO 1','CANTIDAD DE TRABAJOS', 'ESTADO'])
+    ltrabajoequipo.append(['2. CANTIDAD DE TRABAJOS POR USUARIO','','',''])
+    ltrabajoequipo.append([' ',' ',' ',' '])
+    ltrabajoequipo.append(['USUARIO','TRABAJOS PENDIENTES', 'TRABAJOS INICIADOS','TRABAJOS FINALIZADOS'])
     urp = UsuarioRolProyecto.objects.filter(proyecto = proyecto_actual)
     for i in urp:
         if i.rol.nombre == 'Desarrollador':
-            ltrabajoequipo.append([i.usuario.username, '',''])
+            usp = UserHistory.objects.filter(encargado = i.usuario,proyecto = proyecto_actual, estado = 'pendiente')
+            usi = UserHistory.objects.filter(encargado = i.usuario,proyecto = proyecto_actual, estado = 'iniciado')
+            usf = UserHistory.objects.filter(encargado = i.usuario,proyecto = proyecto_actual, estado = 'finalizado')
+            ltrabajoequipo.append([i.usuario.username, len(usp), len(usi), len(usf)])
 
 
     t=Table( ltrabajoequipo, style=style)
@@ -1238,7 +1029,115 @@ def reporte3_pdf(request,proyecto_id):
 
 
 def reporte4_pdf(request,proyecto_id):
-    proyecto_actual= Proyecto.objects.get(id=proyecto_id)
+
+    from reportlab.graphics.shapes import Drawing, Rect, String, Group, Line
+    from reportlab.graphics.charts.barcharts import VerticalBarChart
+
+    proy = Proyecto.objects.get(id = proyecto_id)
+    story = []
+    estilo = getSampleStyleSheet()
+    import pprint
+    estiloHoja = getSampleStyleSheet()
+    cabecera = estiloHoja['Heading2']
+    cabecera.pageBreakBefore=0
+    cabecera.keepWithNext=0
+    cabecera.backColor=colors.white
+    cabecera.spaceAfter = 0
+    cabecera.spaceBefore = 0
+    parrafo = Paragraph('',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('CUARTO INFORME DEL'+ '"' +proy.nombrelargo+'" : ',cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading2']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('GRAFICO DE TIEMPO ESTIMADO Y EJECUTADO POR SPRINT DEL PROYECTO'+'"'+proy.nombrelargo+'"',cabecera2)
+    story.append(parrafo)
+    d = Drawing(400, 200)
+
+    sprints = Sprint.objects.filter(proyecto = proy)
+    listasprint = []
+    listaplan = []
+    listaejec = []
+    for sp in sprints:
+        listasprint.append(sp.nombre)
+        US = UserHistorySprint.objects.filter(sprint = sp)
+        sumahora = 0
+        totalplan =0
+        for u in US:
+            totalplan += u.horas_plan
+            ust = UserHistory.objects.get(id = u.userhistory.id)
+            sumahora+=u.horas_ejec
+            # trabajo = Comentarios.objects.filter(userhistory = ust)
+            #
+            # for j in trabajo:
+            #     sumahora = sumahora + j.horas
+        listaejec.append(sumahora)
+        listaplan.append(totalplan)
+    mayor  = 0
+    for j in listaejec:
+        if j > mayor:
+            mayor = j
+    for j in listaplan:
+        if j > mayor:
+            mayor = j
+
+    data = [listaplan,listaejec]
+    bc = VerticalBarChart()
+    bc.x = 50
+    bc.y = 50
+    bc.height = 125
+    bc.width = 300
+    bc.data = data
+    bc.strokeColor = colors.black
+    bc.valueAxis.valueMin = 0
+    bc.valueAxis.valueMax = mayor + 10
+    bc.valueAxis.valueStep = 10  #paso de distancia entre punto y punto
+    bc.categoryAxis.labels.boxAnchor = 'ne'
+    bc.categoryAxis.labels.dx = 8
+    bc.categoryAxis.labels.dy = -2
+    bc.categoryAxis.labels.angle = 30
+    bc.categoryAxis.categoryNames = listasprint
+    bc.groupSpacing = 10
+    bc.barSpacing = 2
+    #bc.categoryAxis.style = 'stacked'  # Una variación del gráfico
+    d.add(bc)
+    pprint.pprint(bc.getProperties())
+    story.append(d)
+    cabecera2 = estiloHoja['Heading2']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('ROJO = TIEMPO ESTIMADO',cabecera2)
+    story.append(parrafo)
+    cabecera2 = estiloHoja['Heading2']
+    cabecera2.pageBreakBefore=0
+    cabecera2.keepWithNext=0
+    cabecera2.backColor=colors.white
+    parrafo = Paragraph('VERDE = TIEMPO EJECUTADO',cabecera2)
+    story.append(parrafo)
+    story.append(Spacer(0,20))
+    parrafo = Paragraph('_'*66,cabecera)
+    story.append(parrafo)
+    parrafo = Paragraph('FIN DE CUARTO INFORME' + ' '*100 + '('+str(datetime.date.today()) + ')' ,cabecera)
+    story.append(parrafo)
+    buff = BytesIO()
+    doc = SimpleDocTemplate(buff,
+                            pagesize=letter,
+                            rightMargin=40,
+                            leftMargin=40,
+                            topMargin=60,
+                            bottomMargin=18,
+                            )
+    doc.build(story)
+    response = HttpResponse(content_type='application/pdf')
+    pdf_name = "Reporte.pdf"
+    response.write(buff.getvalue())
+    buff.close()
+    return response
 
 def reporte5_pdf(request,proyecto_id):
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
@@ -1387,5 +1286,20 @@ def finalizar_proyecto(request, proyecto_id):
 
     actual = get_object_or_404(Proyecto, id=proyecto_id)
     actual.estado = '3'
+    actual.save()
+    return HttpResponseRedirect("/verProyecto/ver&id=" + str(actual.id))
+
+def iniciar_proyecto(request, proyecto_id):
+
+    actual = get_object_or_404(Proyecto, id=proyecto_id)
+    rol = Rol.objects.get(nombre = 'Cliente')
+    urp = UsuarioRolProyecto.objects.filter(proyecto = actual, rol = rol)
+    if not urp:
+        error = "No se puede iniciar el proyecto, no se ha asignado ningun Cliente."
+        return render_to_response("proyectos/can_t_init_proyecto.html", {'mensaje': error,'proyecto': actual })
+
+
+
+    actual.estado = '2'
     actual.save()
     return HttpResponseRedirect("/verProyecto/ver&id=" + str(actual.id))
