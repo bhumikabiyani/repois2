@@ -26,7 +26,7 @@ class UserTestCase(TestCase):
         self.fa2 = FlujoActividad.objects.create(flujo = self.f1, actividad = self.a2, orden = 2)
         self.fap1 = FlujoActividadProyecto.objects.create(flujo = self.f1, actividad = self.a1, proyecto = self.p1, orden = 1)
         self.fap2 = FlujoActividadProyecto.objects.create(flujo = self.f1, actividad = self.a2, proyecto = self.p1, orden = 2)
-        self.r1 = Rol.objects.create(nombre="team leaders",categoria=1)
+        self.r1 = Rol.objects.create(nombre="team leaders",categoria=2)
         self.s1 = Sprint.objects.create(nombre="Sprint8",descripcion="prueba",proyecto=self.p1,fecha_inicio = '2015-06-18', fecha_fin = '2015-06-29')
         self.us1 = UserHistory.objects.create(nombre="US1",proyecto=self.p1,encargado=self.u1,valor_tecnico=10,sprint = self.s1)
         self.urp = UsuarioRolProyecto.objects.create(proyecto = self.p1,usuario = self.u1,rol = self.r1, horas=0)

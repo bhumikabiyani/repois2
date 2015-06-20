@@ -295,6 +295,8 @@ def admin_permisos(request, rol_id):
 def borrar_rol(request, rol_id):
     """Borra un rol con las comprobaciones de consistencia"""
     user = User.objects.get(username=request.user.username)
+    actual = get_object_or_404(Rol, id=rol_id)
+    urp = UsuarioRolProyecto.objects.filter(rol = actual)
     #Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario = user).only('rol')
     permisos_obj = []
@@ -305,7 +307,7 @@ def borrar_rol(request, rol_id):
         permisos.append(i.nombre)
     print permisos
     #-------------------------------------------------------
-    actual = get_object_or_404(Rol, id=rol_id)
+
     #Obtener todas las posibles dependencias
     if actual.categoria == 1:
         relacionados = UsuarioRolSistema.objects.filter(rol = actual).count()
@@ -318,6 +320,12 @@ def borrar_rol(request, rol_id):
            return HttpResponseRedirect("/rolesSist")
         return HttpResponseRedirect("/rolesProy")
     else:
+        if urp:
+            error = "No se puede borrar el rol. Ya esta en uso"
+            return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,
+                                                                              'rol':actual,
+                                                                              'user':user,
+                                                                              'eliminar_rol':'eliminar rol' in permisos})
         if actual.id == 1:
             error = "No se puede borrar el rol de superusuario"
             return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error, 

@@ -72,7 +72,7 @@ class NuevoMiembroForm(forms.Form):
     usuario = forms.ModelChoiceField(queryset=User.objects.filter().exclude(id=lider))
     print  lider
     # usuario = forms.CharField(widget=forms.Select(choices=User.objects.all().values_list('id','username')))
-    rol = forms.ModelChoiceField(queryset=Rol.objects.filter(categoria=2).exclude(id=2))
+    rol = forms.ModelChoiceField(queryset=Rol.objects.filter(categoria=2).exclude(nombre='team leader'))
     horas = forms.IntegerField(label='Horas semanales')
     # rol = forms.CharField(widget=forms.Select(choices=Rol.objects.filter(categoria = 2).values_list('id','descripcion')))
     proyecto = Proyecto()

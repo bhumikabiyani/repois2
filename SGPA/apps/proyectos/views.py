@@ -149,7 +149,7 @@ def crear_proyecto(request):
             proy.save()
             urp = UsuarioRolProyecto()
             urp.usuario = userLider
-            rol = Rol.objects.get(id=2)
+            rol = Rol.objects.get(nombre='team leader')
             urp.horas = 0
             urp.rol = rol
             urp.proyecto = proy
@@ -261,7 +261,8 @@ def mod_proyecto(request, proyecto_id):
             actual.estado = form.cleaned_data['estado']
             actual.cantidad = form.cleaned_data['cantidad']
             actual.save()
-            userRolProyActual = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id, rol=2)
+            rol = Rol.objects.get(nombre = 'team leader')
+            userRolProyActual = UsuarioRolProyecto.objects.filter(proyecto=proyecto_id, rol=rol)
             liderActual = UsuarioRolProyecto.objects.get(id=userRolProyActual)
             liderActual.usuario = actual.usuario_lider
             liderActual.save()
@@ -962,7 +963,7 @@ def reporte2_pdf(request,proyecto_id):
 
 def reporte3_pdf(request,proyecto_id):
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
-    uh = UserHistory.objects.filter(proyecto = proyecto_actual).order_by('-prioridad')
+    uh = UserHistory.objects.filter(proyecto = proyecto_actual).order_by('-valor_tecnico')
 
     estiloHoja = getSampleStyleSheet()
     style = [
@@ -1006,7 +1007,7 @@ def reporte3_pdf(request,proyecto_id):
     ltrabajoequipo.append(['PRIORIDAD','ACTIVIDADES', 'ESTADO'])
     for u in uh:
         if u.estado != 'finalizado' and u.estado != 'cancelado':
-            ltrabajoequipo.append([u.prioridad,u.nombre, u.estado])
+            ltrabajoequipo.append([u.valor_tecnico,u.nombre, u.estado])
 
     t=Table( ltrabajoequipo, style=style)
     story.append(t)
@@ -1298,9 +1299,23 @@ def iniciar_proyecto(request, proyecto_id):
     actual = get_object_or_404(Proyecto, id=proyecto_id)
     rol = Rol.objects.get(nombre = 'Cliente')
     urp = UsuarioRolProyecto.objects.filter(proyecto = actual, rol = rol)
+    rol2 = Rol.objects.get(nombre = 'Desarrollador')
+    urp2 = UsuarioRolProyecto.objects.filter(proyecto = actual, rol = rol)
+    fap = FlujoActividadProyecto.objects.filter(proyecto = actual)
+    sprint = Sprint.objects.filter(proyecto = actual)
+    if not sprint:
+        error = "No se ha creado ningun sprint para este proyecto."
+        return render_to_response("proyectos/can_t_init_proyecto.html", {'mensaje': error,'proyecto': actual })
     if not urp:
         error = "No se puede iniciar el proyecto, no se ha asignado ningun Cliente."
         return render_to_response("proyectos/can_t_init_proyecto.html", {'mensaje': error,'proyecto': actual })
+    if not fap:
+        error = "No se puede iniciar el proyecto, no se ha asignado ningun flujo al Proyecto."
+        return render_to_response("proyectos/can_t_init_proyecto.html", {'mensaje': error,'proyecto': actual })
+    if not urp2:
+        error = "No se puede iniciar el proyecto, no se ha asignado ningun Desarrollador."
+        return render_to_response("proyectos/can_t_init_proyecto.html", {'mensaje': error,'proyecto': actual })
+
 
 
 
