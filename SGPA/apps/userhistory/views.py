@@ -507,7 +507,7 @@ def asignar_flujo_userhistory(request, userhistory_id):
                                                                      'asignar_flujo':'asignar flujo a us' in permisos
 						     })
 
-def cambiar_estados(request, userhistory_id):
+def cambiar_estados(request, userhistory_id, ultimo_estado):
     """
     Metodo en el cual se cambia de estado kanban al us
     :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
@@ -542,6 +542,13 @@ def cambiar_estados(request, userhistory_id):
                 correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email])
                 correo.content_subtype = "html"
                 correo.send()
+                if actual.estadokanban == 'done' and str(actual.actividad.id) == str(ultimo_estado):
+                    cont = render_to_string('mailing/ultimo_estado.html',{'ustorie':actual.nombre,
+                                         'owner':actual.encargado.username,'proyecto':proyecto.nombrelargo,
+                                         'estado':actual.estadokanban})
+                    notificacion = EmailMessage('Notificacion de SGPA', cont, to=[proyecto.usuario_lider.email])
+                    notificacion.content_subtype = "html"
+                    notificacion.send()
             #-------------------#
             return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
     else:
@@ -605,15 +612,34 @@ def cambiar_actividad(request, userhistory_id):
                                                                      })
 
 def finalizar_userhistory(request, userhistory_id):
-
+    """
+    Metodo para Finalizar un user story, es ejecutado solo por el Team Lider
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: Id del User Story a ser finalizado
+    :return: null
+    """
     actual = get_object_or_404(UserHistory, id=userhistory_id)
     proyecto = Proyecto.objects.get(nombrelargo = actual.proyecto)
     actual.estado = 'finalizado'
     actual.save()
+    #---Enviar Correo----#
+    if actual.encargado != None:
+        contenido = render_to_string('mailing/finalizar_us.html',{'ustorie': actual.nombre,
+                             'owner':proyecto.usuario_lider.username,'proyecto':proyecto.nombrelargo,})
+        correo = EmailMessage('Notificacion de SGPA', contenido, to=[actual.encargado.email],cc=[proyecto.usuario_lider.email])
+        correo.content_subtype = "html"
+        correo.send()
+    #-------------------#
     return HttpResponseRedirect("/verkanban/ver&id=" + str(actual.proyecto.id))
 
 @login_required
 def add_adjunto(request, userhistory_id):
+    """
+    Metodo para agregar un archivo adjunto al user story
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :param userhistory_id: id del User History al cual se le adjuntara el archivo
+    :return: crear_adjunto.html, pagina en la cual se realizara la accion de adjuntar archivo
+    """
     user = User.objects.get(username=request.user.username)
     us = get_object_or_404(UserHistory, id=userhistory_id)
     AdjuntoFormSet = formset_factory(AdjuntoForm)
