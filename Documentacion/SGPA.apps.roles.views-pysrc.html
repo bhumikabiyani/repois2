@@ -1179,11 +1179,8 @@ SGPA.apps.usuario.models.UserHistory.objects
 SGPA.apps.usuario.models.UserHistorySprint.objects
 SGPA.apps.usuario.models.UsuarioRolProyecto.objects
 SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-201', 'objects', 'link-23');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt id="link-202" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-202', 'username', 'link-24');">username</a></tt><tt class="py-op">=</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">user</tt><tt class="py-op">.</tt><tt id="link-203" class="py-name"><a title="SGPA.apps.usuario.forms.UsuariosForm.username" class="py-name" href="#" onclick="return doclink('link-203', 'username', 'link-24');">username</a></tt><tt class="py-op">)</tt> </tt>
-<a name="L298"></a><tt class="py-lineno">298</tt>  <tt class="py-line">    <tt class="py-comment">#Validacion de permisos---------------------------------------------</tt> </tt>
-<a name="L299"></a><tt class="py-lineno">299</tt>  <tt class="py-line">    <tt id="link-204" class="py-name"><a title="SGPA.apps.roles
-SGPA.apps.roles.forms.AsignarRolesForm.roles
-SGPA.apps.roles.forms.AsignarRolesProyForm.roles
-SGPA.apps.roles.forms.UsuarioProyectoForm.roles" class="py-name" href="#" onclick="return doclink('link-204', 'roles', 'link-13');">roles</a></tt> <tt class="py-op">=</tt> <tt id="link-205" class="py-name"><a title="SGPA.apps.usuario.models.UsuarioRolSistema" class="py-name" href="#" onclick="return doclink('link-205', 'UsuarioRolSistema', 'link-90');">UsuarioRolSistema</a></tt><tt class="py-op">.</tt><tt id="link-206" class="py-name"><a title="SGPA.apps.home.models.userProfile.objects
+<a name="L298"></a><tt class="py-lineno">298</tt>  <tt class="py-line">    <tt class="py-name">actual</tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt id="link-204" class="py-name"><a title="SGPA.apps.usuario.models.Rol" class="py-name" href="#" onclick="return doclink('link-204', 'Rol', 'link-34');">Rol</a></tt><tt class="py-op">,</tt> <tt class="py-name">id</tt><tt class="py-op">=</tt><tt class="py-name">rol_id</tt><tt class="py-op">)</tt> </tt>
+<a name="L299"></a><tt class="py-lineno">299</tt>  <tt class="py-line">    <tt class="py-name">urp</tt> <tt class="py-op">=</tt> <tt id="link-205" class="py-name" targets="Class SGPA.apps.usuario.models.UsuarioRolProyecto=SGPA.apps.usuario.models.UsuarioRolProyecto-class.html"><a title="SGPA.apps.usuario.models.UsuarioRolProyecto" class="py-name" href="#" onclick="return doclink('link-205', 'UsuarioRolProyecto', 'link-205');">UsuarioRolProyecto</a></tt><tt class="py-op">.</tt><tt id="link-206" class="py-name"><a title="SGPA.apps.home.models.userProfile.objects
 SGPA.apps.usuario.models.Actividad.objects
 SGPA.apps.usuario.models.Adjunto.objects
 SGPA.apps.usuario.models.Comentarios.objects
@@ -1200,30 +1197,55 @@ SGPA.apps.usuario.models.Sprint.objects
 SGPA.apps.usuario.models.UserHistory.objects
 SGPA.apps.usuario.models.UserHistorySprint.objects
 SGPA.apps.usuario.models.UsuarioRolProyecto.objects
-SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-206', 'objects', 'link-23');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt id="link-207" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.usuario
+SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-206', 'objects', 'link-23');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt id="link-207" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.rol
+SGPA.apps.usuario.models.RolPermiso.rol
+SGPA.apps.usuario.models.UsuarioRolProyecto.rol
+SGPA.apps.usuario.models.UsuarioRolSistema.rol" class="py-name" href="#" onclick="return doclink('link-207', 'rol', 'link-94');">rol</a></tt> <tt class="py-op">=</tt> <tt class="py-name">actual</tt><tt class="py-op">)</tt> </tt>
+<a name="L300"></a><tt class="py-lineno">300</tt>  <tt class="py-line">    <tt class="py-comment">#Validacion de permisos---------------------------------------------</tt> </tt>
+<a name="L301"></a><tt class="py-lineno">301</tt>  <tt class="py-line">    <tt id="link-208" class="py-name"><a title="SGPA.apps.roles
+SGPA.apps.roles.forms.AsignarRolesForm.roles
+SGPA.apps.roles.forms.AsignarRolesProyForm.roles
+SGPA.apps.roles.forms.UsuarioProyectoForm.roles" class="py-name" href="#" onclick="return doclink('link-208', 'roles', 'link-13');">roles</a></tt> <tt class="py-op">=</tt> <tt id="link-209" class="py-name"><a title="SGPA.apps.usuario.models.UsuarioRolSistema" class="py-name" href="#" onclick="return doclink('link-209', 'UsuarioRolSistema', 'link-90');">UsuarioRolSistema</a></tt><tt class="py-op">.</tt><tt id="link-210" class="py-name"><a title="SGPA.apps.home.models.userProfile.objects
+SGPA.apps.usuario.models.Actividad.objects
+SGPA.apps.usuario.models.Adjunto.objects
+SGPA.apps.usuario.models.Comentarios.objects
+SGPA.apps.usuario.models.Flujo.objects
+SGPA.apps.usuario.models.FlujoActividad.objects
+SGPA.apps.usuario.models.FlujoActividadProyecto.objects
+SGPA.apps.usuario.models.Historia.objects
+SGPA.apps.usuario.models.Permiso.objects
+SGPA.apps.usuario.models.Proyecto.objects
+SGPA.apps.usuario.models.ProyectoFlujo.objects
+SGPA.apps.usuario.models.Rol.objects
+SGPA.apps.usuario.models.RolPermiso.objects
+SGPA.apps.usuario.models.Sprint.objects
+SGPA.apps.usuario.models.UserHistory.objects
+SGPA.apps.usuario.models.UserHistorySprint.objects
+SGPA.apps.usuario.models.UsuarioRolProyecto.objects
+SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-210', 'objects', 'link-23');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt id="link-211" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.usuario
 SGPA.apps.roles.forms.UsuarioProyectoForm.usuario
 SGPA.apps.usuario
 SGPA.apps.usuario.models.Historia.usuario
 SGPA.apps.usuario.models.UsuarioRolProyecto.usuario
-SGPA.apps.usuario.models.UsuarioRolSistema.usuario" class="py-name" href="#" onclick="return doclink('link-207', 'usuario', 'link-3');">usuario</a></tt> <tt class="py-op">=</tt> <tt class="py-name">user</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">only</tt><tt class="py-op">(</tt><tt class="py-string">'rol'</tt><tt class="py-op">)</tt> </tt>
-<a name="L300"></a><tt class="py-lineno">300</tt>  <tt class="py-line">    <tt class="py-name">permisos_obj</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
-<a name="L301"></a><tt class="py-lineno">301</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt id="link-208" class="py-name"><a title="SGPA.apps.roles
+SGPA.apps.usuario.models.UsuarioRolSistema.usuario" class="py-name" href="#" onclick="return doclink('link-211', 'usuario', 'link-3');">usuario</a></tt> <tt class="py-op">=</tt> <tt class="py-name">user</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">only</tt><tt class="py-op">(</tt><tt class="py-string">'rol'</tt><tt class="py-op">)</tt> </tt>
+<a name="L302"></a><tt class="py-lineno">302</tt>  <tt class="py-line">    <tt class="py-name">permisos_obj</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L303"></a><tt class="py-lineno">303</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt id="link-212" class="py-name"><a title="SGPA.apps.roles
 SGPA.apps.roles.forms.AsignarRolesForm.roles
 SGPA.apps.roles.forms.AsignarRolesProyForm.roles
-SGPA.apps.roles.forms.UsuarioProyectoForm.roles" class="py-name" href="#" onclick="return doclink('link-208', 'roles', 'link-13');">roles</a></tt><tt class="py-op">:</tt> </tt>
-<a name="L302"></a><tt class="py-lineno">302</tt>  <tt class="py-line">        <tt class="py-name">permisos_obj</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">.</tt><tt id="link-209" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.rol
+SGPA.apps.roles.forms.UsuarioProyectoForm.roles" class="py-name" href="#" onclick="return doclink('link-212', 'roles', 'link-13');">roles</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L304"></a><tt class="py-lineno">304</tt>  <tt class="py-line">        <tt class="py-name">permisos_obj</tt><tt class="py-op">.</tt><tt class="py-name">extend</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">.</tt><tt id="link-213" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.rol
 SGPA.apps.usuario.models.RolPermiso.rol
 SGPA.apps.usuario.models.UsuarioRolProyecto.rol
-SGPA.apps.usuario.models.UsuarioRolSistema.rol" class="py-name" href="#" onclick="return doclink('link-209', 'rol', 'link-94');">rol</a></tt><tt class="py-op">.</tt><tt id="link-210" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.usuario.models.UsuarioRolSistema.rol" class="py-name" href="#" onclick="return doclink('link-213', 'rol', 'link-94');">rol</a></tt><tt class="py-op">.</tt><tt id="link-214" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
 SGPA.apps.roles.forms.PermisosProyectoForm.permisos
-SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-210', 'permisos', 'link-26');">permisos</a></tt><tt class="py-op">.</tt><tt class="py-name">all</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
-<a name="L303"></a><tt class="py-lineno">303</tt>  <tt class="py-line">    <tt id="link-211" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-214', 'permisos', 'link-26');">permisos</a></tt><tt class="py-op">.</tt><tt class="py-name">all</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L305"></a><tt class="py-lineno">305</tt>  <tt class="py-line">    <tt id="link-215" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
 SGPA.apps.roles.forms.PermisosProyectoForm.permisos
-SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-211', 'permisos', 'link-26');">permisos</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
-<a name="L304"></a><tt class="py-lineno">304</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">permisos_obj</tt><tt class="py-op">:</tt> </tt>
-<a name="L305"></a><tt class="py-lineno">305</tt>  <tt class="py-line">        <tt id="link-212" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-215', 'permisos', 'link-26');">permisos</a></tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">]</tt> </tt>
+<a name="L306"></a><tt class="py-lineno">306</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">i</tt> <tt class="py-keyword">in</tt> <tt class="py-name">permisos_obj</tt><tt class="py-op">:</tt> </tt>
+<a name="L307"></a><tt class="py-lineno">307</tt>  <tt class="py-line">        <tt id="link-216" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
 SGPA.apps.roles.forms.PermisosProyectoForm.permisos
-SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-212', 'permisos', 'link-26');">permisos</a></tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">.</tt><tt id="link-213" class="py-name"><a title="SGPA.apps.actividades.forms.ActividadForm.nombre
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-216', 'permisos', 'link-26');">permisos</a></tt><tt class="py-op">.</tt><tt class="py-name">append</tt><tt class="py-op">(</tt><tt class="py-name">i</tt><tt class="py-op">.</tt><tt id="link-217" class="py-name"><a title="SGPA.apps.actividades.forms.ActividadForm.nombre
 SGPA.apps.flujo.forms.FlujoForm.nombre
 SGPA.apps.roles.forms.RolesPForm.nombre
 SGPA.apps.roles.forms.RolesSForm.nombre
@@ -1235,18 +1257,18 @@ SGPA.apps.usuario.models.Flujo.nombre
 SGPA.apps.usuario.models.Permiso.nombre
 SGPA.apps.usuario.models.Rol.nombre
 SGPA.apps.usuario.models.Sprint.nombre
-SGPA.apps.usuario.models.UserHistory.nombre" class="py-name" href="#" onclick="return doclink('link-213', 'nombre', 'link-98');">nombre</a></tt><tt class="py-op">)</tt> </tt>
-<a name="L306"></a><tt class="py-lineno">306</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt id="link-214" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.usuario.models.UserHistory.nombre" class="py-name" href="#" onclick="return doclink('link-217', 'nombre', 'link-98');">nombre</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L308"></a><tt class="py-lineno">308</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt id="link-218" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
 SGPA.apps.roles.forms.PermisosProyectoForm.permisos
-SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-214', 'permisos', 'link-26');">permisos</a></tt> </tt>
-<a name="L307"></a><tt class="py-lineno">307</tt>  <tt class="py-line">    <tt class="py-comment">#-------------------------------------------------------</tt> </tt>
-<a name="L308"></a><tt class="py-lineno">308</tt>  <tt class="py-line">    <tt class="py-name">actual</tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt id="link-215" class="py-name"><a title="SGPA.apps.usuario.models.Rol" class="py-name" href="#" onclick="return doclink('link-215', 'Rol', 'link-34');">Rol</a></tt><tt class="py-op">,</tt> <tt class="py-name">id</tt><tt class="py-op">=</tt><tt class="py-name">rol_id</tt><tt class="py-op">)</tt> </tt>
-<a name="L309"></a><tt class="py-lineno">309</tt>  <tt class="py-line">    <tt class="py-comment">#Obtener todas las posibles dependencias</tt> </tt>
-<a name="L310"></a><tt class="py-lineno">310</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt id="link-216" class="py-name"><a title="SGPA.apps.roles.forms.RolesPForm.categoria
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-218', 'permisos', 'link-26');">permisos</a></tt> </tt>
+<a name="L309"></a><tt class="py-lineno">309</tt>  <tt class="py-line">    <tt class="py-comment">#-------------------------------------------------------</tt> </tt>
+<a name="L310"></a><tt class="py-lineno">310</tt>  <tt class="py-line"> </tt>
+<a name="L311"></a><tt class="py-lineno">311</tt>  <tt class="py-line">    <tt class="py-comment">#Obtener todas las posibles dependencias</tt> </tt>
+<a name="L312"></a><tt class="py-lineno">312</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt id="link-219" class="py-name"><a title="SGPA.apps.roles.forms.RolesPForm.categoria
 SGPA.apps.roles.forms.RolesSForm.categoria
 SGPA.apps.usuario.models.Permiso.categoria
-SGPA.apps.usuario.models.Rol.categoria" class="py-name" href="#" onclick="return doclink('link-216', 'categoria', 'link-36');">categoria</a></tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
-<a name="L311"></a><tt class="py-lineno">311</tt>  <tt class="py-line">        <tt class="py-name">relacionados</tt> <tt class="py-op">=</tt> <tt id="link-217" class="py-name"><a title="SGPA.apps.usuario.models.UsuarioRolSistema" class="py-name" href="#" onclick="return doclink('link-217', 'UsuarioRolSistema', 'link-90');">UsuarioRolSistema</a></tt><tt class="py-op">.</tt><tt id="link-218" class="py-name"><a title="SGPA.apps.home.models.userProfile.objects
+SGPA.apps.usuario.models.Rol.categoria" class="py-name" href="#" onclick="return doclink('link-219', 'categoria', 'link-36');">categoria</a></tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L313"></a><tt class="py-lineno">313</tt>  <tt class="py-line">        <tt class="py-name">relacionados</tt> <tt class="py-op">=</tt> <tt id="link-220" class="py-name"><a title="SGPA.apps.usuario.models.UsuarioRolSistema" class="py-name" href="#" onclick="return doclink('link-220', 'UsuarioRolSistema', 'link-90');">UsuarioRolSistema</a></tt><tt class="py-op">.</tt><tt id="link-221" class="py-name"><a title="SGPA.apps.home.models.userProfile.objects
 SGPA.apps.usuario.models.Actividad.objects
 SGPA.apps.usuario.models.Adjunto.objects
 SGPA.apps.usuario.models.Comentarios.objects
@@ -1263,48 +1285,56 @@ SGPA.apps.usuario.models.Sprint.objects
 SGPA.apps.usuario.models.UserHistory.objects
 SGPA.apps.usuario.models.UserHistorySprint.objects
 SGPA.apps.usuario.models.UsuarioRolProyecto.objects
-SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-218', 'objects', 'link-23');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt id="link-219" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.rol
+SGPA.apps.usuario.models.UsuarioRolSistema.objects" class="py-name" href="#" onclick="return doclink('link-221', 'objects', 'link-23');">objects</a></tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt id="link-222" class="py-name"><a title="SGPA.apps.proyectos.forms.NuevoMiembroForm.rol
 SGPA.apps.usuario.models.RolPermiso.rol
 SGPA.apps.usuario.models.UsuarioRolProyecto.rol
-SGPA.apps.usuario.models.UsuarioRolSistema.rol" class="py-name" href="#" onclick="return doclink('link-219', 'rol', 'link-94');">rol</a></tt> <tt class="py-op">=</tt> <tt class="py-name">actual</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L312"></a><tt class="py-lineno">312</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt id="link-220" class="py-name"><a title="SGPA.apps.roles.forms.RolesPForm.categoria
+SGPA.apps.usuario.models.UsuarioRolSistema.rol" class="py-name" href="#" onclick="return doclink('link-222', 'rol', 'link-94');">rol</a></tt> <tt class="py-op">=</tt> <tt class="py-name">actual</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">count</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L314"></a><tt class="py-lineno">314</tt>  <tt class="py-line">    <tt class="py-keyword">elif</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt id="link-223" class="py-name"><a title="SGPA.apps.roles.forms.RolesPForm.categoria
 SGPA.apps.roles.forms.RolesSForm.categoria
 SGPA.apps.usuario.models.Permiso.categoria
-SGPA.apps.usuario.models.Rol.categoria" class="py-name" href="#" onclick="return doclink('link-220', 'categoria', 'link-36');">categoria</a></tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
-<a name="L313"></a><tt class="py-lineno">313</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
-<a name="L314"></a><tt class="py-lineno">314</tt>  <tt class="py-line">        <tt class="py-comment">#relacionados = UsuarioRolProyecto.objects.filter(rol = actual).count()</tt> </tt>
-<a name="L315"></a><tt class="py-lineno">315</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">method</tt> <tt class="py-op">==</tt> <tt class="py-string">'POST'</tt><tt class="py-op">:</tt> </tt>
-<a name="L316"></a><tt class="py-lineno">316</tt>  <tt class="py-line">        <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt class="py-name">delete</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-<a name="L317"></a><tt class="py-lineno">317</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt id="link-221" class="py-name"><a title="SGPA.apps.roles.forms.RolesPForm.categoria
+SGPA.apps.usuario.models.Rol.categoria" class="py-name" href="#" onclick="return doclink('link-223', 'categoria', 'link-36');">categoria</a></tt> <tt class="py-op">==</tt> <tt class="py-number">2</tt><tt class="py-op">:</tt> </tt>
+<a name="L315"></a><tt class="py-lineno">315</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
+<a name="L316"></a><tt class="py-lineno">316</tt>  <tt class="py-line">        <tt class="py-comment">#relacionados = UsuarioRolProyecto.objects.filter(rol = actual).count()</tt> </tt>
+<a name="L317"></a><tt class="py-lineno">317</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">method</tt> <tt class="py-op">==</tt> <tt class="py-string">'POST'</tt><tt class="py-op">:</tt> </tt>
+<a name="L318"></a><tt class="py-lineno">318</tt>  <tt class="py-line">        <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt class="py-name">delete</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L319"></a><tt class="py-lineno">319</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt id="link-224" class="py-name"><a title="SGPA.apps.roles.forms.RolesPForm.categoria
 SGPA.apps.roles.forms.RolesSForm.categoria
 SGPA.apps.usuario.models.Permiso.categoria
-SGPA.apps.usuario.models.Rol.categoria" class="py-name" href="#" onclick="return doclink('link-221', 'categoria', 'link-36');">categoria</a></tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
-<a name="L318"></a><tt class="py-lineno">318</tt>  <tt class="py-line">           <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseRedirect</tt><tt class="py-op">(</tt><tt class="py-string">"/rolesSist"</tt><tt class="py-op">)</tt> </tt>
-<a name="L319"></a><tt class="py-lineno">319</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseRedirect</tt><tt class="py-op">(</tt><tt class="py-string">"/rolesProy"</tt><tt class="py-op">)</tt> </tt>
-<a name="L320"></a><tt class="py-lineno">320</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
-<a name="L321"></a><tt class="py-lineno">321</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt class="py-name">id</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
-<a name="L322"></a><tt class="py-lineno">322</tt>  <tt class="py-line">            <tt class="py-name">error</tt> <tt class="py-op">=</tt> <tt class="py-string">"No se puede borrar el rol de superusuario"</tt> </tt>
-<a name="L323"></a><tt class="py-lineno">323</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt><tt class="py-string">"roles/rol_confirm_delete.html"</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'mensaje'</tt><tt class="py-op">:</tt> <tt class="py-name">error</tt><tt class="py-op">,</tt>  </tt>
-<a name="L324"></a><tt class="py-lineno">324</tt>  <tt class="py-line">                                                                              <tt class="py-string">'rol'</tt><tt class="py-op">:</tt><tt class="py-name">actual</tt><tt class="py-op">,</tt>  </tt>
-<a name="L325"></a><tt class="py-lineno">325</tt>  <tt class="py-line">                                                                              <tt class="py-string">'user'</tt><tt class="py-op">:</tt><tt class="py-name">user</tt><tt class="py-op">,</tt> </tt>
-<a name="L326"></a><tt class="py-lineno">326</tt>  <tt class="py-line">                                                                              <tt class="py-string">'eliminar_rol'</tt><tt class="py-op">:</tt><tt class="py-string">'eliminar rol'</tt> <tt class="py-keyword">in</tt> <tt id="link-222" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.usuario.models.Rol.categoria" class="py-name" href="#" onclick="return doclink('link-224', 'categoria', 'link-36');">categoria</a></tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L320"></a><tt class="py-lineno">320</tt>  <tt class="py-line">           <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseRedirect</tt><tt class="py-op">(</tt><tt class="py-string">"/rolesSist"</tt><tt class="py-op">)</tt> </tt>
+<a name="L321"></a><tt class="py-lineno">321</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseRedirect</tt><tt class="py-op">(</tt><tt class="py-string">"/rolesProy"</tt><tt class="py-op">)</tt> </tt>
+<a name="L322"></a><tt class="py-lineno">322</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L323"></a><tt class="py-lineno">323</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">urp</tt><tt class="py-op">:</tt> </tt>
+<a name="L324"></a><tt class="py-lineno">324</tt>  <tt class="py-line">            <tt class="py-name">error</tt> <tt class="py-op">=</tt> <tt class="py-string">"No se puede borrar el rol. Ya esta en uso"</tt> </tt>
+<a name="L325"></a><tt class="py-lineno">325</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt><tt class="py-string">"roles/rol_confirm_delete.html"</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'mensaje'</tt><tt class="py-op">:</tt> <tt class="py-name">error</tt><tt class="py-op">,</tt> </tt>
+<a name="L326"></a><tt class="py-lineno">326</tt>  <tt class="py-line">                                                                              <tt class="py-string">'rol'</tt><tt class="py-op">:</tt><tt class="py-name">actual</tt><tt class="py-op">,</tt> </tt>
+<a name="L327"></a><tt class="py-lineno">327</tt>  <tt class="py-line">                                                                              <tt class="py-string">'user'</tt><tt class="py-op">:</tt><tt class="py-name">user</tt><tt class="py-op">,</tt> </tt>
+<a name="L328"></a><tt class="py-lineno">328</tt>  <tt class="py-line">                                                                              <tt class="py-string">'eliminar_rol'</tt><tt class="py-op">:</tt><tt class="py-string">'eliminar rol'</tt> <tt class="py-keyword">in</tt> <tt id="link-225" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
 SGPA.apps.roles.forms.PermisosProyectoForm.permisos
-SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-222', 'permisos', 'link-26');">permisos</a></tt> </tt>
-<a name="L327"></a><tt class="py-lineno">327</tt>  <tt class="py-line">                                                                        <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
-<a name="L328"></a><tt class="py-lineno">328</tt>  <tt class="py-line">        <tt class="py-comment">#if relacionados &gt; 0:</tt> </tt>
-<a name="L329"></a><tt class="py-lineno">329</tt>  <tt class="py-line">             <tt class="py-comment">#error = "El rol se esta utilizando."</tt> </tt>
-<a name="L330"></a><tt class="py-lineno">330</tt>  <tt class="py-line">             <tt class="py-comment">#return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,</tt> </tt>
-<a name="L331"></a><tt class="py-lineno">331</tt>  <tt class="py-line">                                                                            <tt class="py-comment">#   'rol':actual,</tt> </tt>
-<a name="L332"></a><tt class="py-lineno">332</tt>  <tt class="py-line">                                                                           <tt class="py-comment">#    'user':user,</tt> </tt>
-<a name="L333"></a><tt class="py-lineno">333</tt>  <tt class="py-line">                                                                          <tt class="py-comment">#     'eliminar_rol':'eliminar rol' in permisos})</tt> </tt>
-<a name="L334"></a><tt class="py-lineno">334</tt>  <tt class="py-line">                        <tt class="py-comment">#                                               })</tt> </tt>
-<a name="L335"></a><tt class="py-lineno">335</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt><tt class="py-string">"roles/rol_confirm_delete.html"</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'rol'</tt><tt class="py-op">:</tt><tt class="py-name">actual</tt><tt class="py-op">,</tt>  </tt>
-<a name="L336"></a><tt class="py-lineno">336</tt>  <tt class="py-line">                                                                      <tt class="py-string">'user'</tt><tt class="py-op">:</tt><tt class="py-name">user</tt><tt class="py-op">,</tt>  </tt>
-<a name="L337"></a><tt class="py-lineno">337</tt>  <tt class="py-line">                                                                      <tt class="py-string">'eliminar_rol'</tt><tt class="py-op">:</tt><tt class="py-string">'eliminar rol'</tt> <tt class="py-keyword">in</tt> <tt id="link-223" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-225', 'permisos', 'link-26');">permisos</a></tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L329"></a><tt class="py-lineno">329</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">actual</tt><tt class="py-op">.</tt><tt class="py-name">id</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt><tt class="py-op">:</tt> </tt>
+<a name="L330"></a><tt class="py-lineno">330</tt>  <tt class="py-line">            <tt class="py-name">error</tt> <tt class="py-op">=</tt> <tt class="py-string">"No se puede borrar el rol de superusuario"</tt> </tt>
+<a name="L331"></a><tt class="py-lineno">331</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt><tt class="py-string">"roles/rol_confirm_delete.html"</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'mensaje'</tt><tt class="py-op">:</tt> <tt class="py-name">error</tt><tt class="py-op">,</tt>  </tt>
+<a name="L332"></a><tt class="py-lineno">332</tt>  <tt class="py-line">                                                                              <tt class="py-string">'rol'</tt><tt class="py-op">:</tt><tt class="py-name">actual</tt><tt class="py-op">,</tt>  </tt>
+<a name="L333"></a><tt class="py-lineno">333</tt>  <tt class="py-line">                                                                              <tt class="py-string">'user'</tt><tt class="py-op">:</tt><tt class="py-name">user</tt><tt class="py-op">,</tt> </tt>
+<a name="L334"></a><tt class="py-lineno">334</tt>  <tt class="py-line">                                                                              <tt class="py-string">'eliminar_rol'</tt><tt class="py-op">:</tt><tt class="py-string">'eliminar rol'</tt> <tt class="py-keyword">in</tt> <tt id="link-226" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
 SGPA.apps.roles.forms.PermisosProyectoForm.permisos
-SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-223', 'permisos', 'link-26');">permisos</a></tt> </tt>
-<a name="L338"></a><tt class="py-lineno">338</tt>  <tt class="py-line">                                                                <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L339"></a><tt class="py-lineno">339</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-226', 'permisos', 'link-26');">permisos</a></tt> </tt>
+<a name="L335"></a><tt class="py-lineno">335</tt>  <tt class="py-line">                                                                        <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L336"></a><tt class="py-lineno">336</tt>  <tt class="py-line">        <tt class="py-comment">#if relacionados &gt; 0:</tt> </tt>
+<a name="L337"></a><tt class="py-lineno">337</tt>  <tt class="py-line">             <tt class="py-comment">#error = "El rol se esta utilizando."</tt> </tt>
+<a name="L338"></a><tt class="py-lineno">338</tt>  <tt class="py-line">             <tt class="py-comment">#return render_to_response("roles/rol_confirm_delete.html", {'mensaje': error,</tt> </tt>
+<a name="L339"></a><tt class="py-lineno">339</tt>  <tt class="py-line">                                                                            <tt class="py-comment">#   'rol':actual,</tt> </tt>
+<a name="L340"></a><tt class="py-lineno">340</tt>  <tt class="py-line">                                                                           <tt class="py-comment">#    'user':user,</tt> </tt>
+<a name="L341"></a><tt class="py-lineno">341</tt>  <tt class="py-line">                                                                          <tt class="py-comment">#     'eliminar_rol':'eliminar rol' in permisos})</tt> </tt>
+<a name="L342"></a><tt class="py-lineno">342</tt>  <tt class="py-line">                        <tt class="py-comment">#                                               })</tt> </tt>
+<a name="L343"></a><tt class="py-lineno">343</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render_to_response</tt><tt class="py-op">(</tt><tt class="py-string">"roles/rol_confirm_delete.html"</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'rol'</tt><tt class="py-op">:</tt><tt class="py-name">actual</tt><tt class="py-op">,</tt>  </tt>
+<a name="L344"></a><tt class="py-lineno">344</tt>  <tt class="py-line">                                                                      <tt class="py-string">'user'</tt><tt class="py-op">:</tt><tt class="py-name">user</tt><tt class="py-op">,</tt>  </tt>
+<a name="L345"></a><tt class="py-lineno">345</tt>  <tt class="py-line">                                                                      <tt class="py-string">'eliminar_rol'</tt><tt class="py-op">:</tt><tt class="py-string">'eliminar rol'</tt> <tt class="py-keyword">in</tt> <tt id="link-227" class="py-name"><a title="SGPA.apps.roles.forms.PermisosForm.permisos
+SGPA.apps.roles.forms.PermisosProyectoForm.permisos
+SGPA.apps.usuario.models.Rol.permisos" class="py-name" href="#" onclick="return doclink('link-227', 'permisos', 'link-26');">permisos</a></tt> </tt>
+<a name="L346"></a><tt class="py-lineno">346</tt>  <tt class="py-line">                                                                <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L347"></a><tt class="py-lineno">347</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -1337,7 +1367,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 30 08:41:41 2015
+    Generated by Epydoc 3.0.1 on Sat Jun 20 06:33:53 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

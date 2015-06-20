@@ -303,7 +303,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="cambiar_estados"></a><span class="summary-sig-name">cambiar_estados</span>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">userhistory_id</span>)</span><br />
+        <span class="summary-sig-arg">userhistory_id</span>,
+        <span class="summary-sig-arg">ultimo_estado</span>)</span><br />
       Metodo en el cual se cambia de estado kanban al us :param request: 
       contiene la informacion sobre la solicitud de la pagina que lo llamo 
       :param userhistory_id: id del User History que sera cambiado de 
@@ -347,7 +348,11 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="finalizar_userhistory"></a><span class="summary-sig-name">finalizar_userhistory</span>(<span class="summary-sig-arg">request</span>,
-        <span class="summary-sig-arg">userhistory_id</span>)</span></td>
+        <span class="summary-sig-arg">userhistory_id</span>)</span><br />
+      Metodo para Finalizar un user story, es ejecutado solo por el Team 
+      Lider :param request: contiene la informacion sobre la solicitud de 
+      la pagina que lo llamo :param userhistory_id: Id del User Story a ser
+      finalizado :return: null</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.userhistory.views-pysrc.html#finalizar_userhistory">source&nbsp;code</a></span>
             
@@ -365,7 +370,12 @@
         <tr>
           <td><span class="summary-sig"><a href="SGPA.apps.userhistory.views-module.html#add_adjunto" class="summary-sig-name">add_adjunto</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span></td>
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Metodo para agregar un archivo adjunto al user story :param request: 
+      contiene la informacion sobre la solicitud de la pagina que lo llamo 
+      :param userhistory_id: id del User History al cual se le adjuntara el
+      archivo :return: crear_adjunto.html, pagina en la cual se realizara 
+      la accion de adjuntar archivo</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.userhistory.views-pysrc.html#add_adjunto">source&nbsp;code</a></span>
             
@@ -491,6 +501,13 @@
  ('2', 'Iniciado'),
  ('3', 'Terminado'),
  ('4', 'Anulado'))"><code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Iniciado</code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="SGPA.apps.userhistory.views-module.html#PROJECT_STATUS_CHOICES_MOD" class="summary-name">PROJECT_STATUS_CHOICES_MOD</a> = <code title="(('1', 'Pendiente'), ('4', 'Anulado'))"><code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">4</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Anula</code><code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
 <tr>
@@ -628,7 +645,11 @@
     </td>
   </tr></table>
   
-  
+  <p>Metodo para agregar un archivo adjunto al user story :param request: 
+  contiene la informacion sobre la solicitud de la pagina que lo llamo 
+  :param userhistory_id: id del User History al cual se le adjuntara el 
+  archivo :return: crear_adjunto.html, pagina en la cual se realizara la 
+  accion de adjuntar archivo</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -807,6 +828,24 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="PROJECT_STATUS_CHOICES_MOD"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PROJECT_STATUS_CHOICES_MOD</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">4</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Anulado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="STATUS_CHOICES"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -852,7 +891,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 30 08:41:39 2015
+    Generated by Epydoc 3.0.1 on Sat Jun 20 06:33:51 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

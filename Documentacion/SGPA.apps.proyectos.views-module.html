@@ -81,7 +81,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="dateTimeViewBootstrap2"></a><span class="summary-sig-name">dateTimeViewBootstrap2</span>(<span class="summary-sig-arg">request</span>)</span></td>
+          <td><span class="summary-sig"><a name="dateTimeViewBootstrap2"></a><span class="summary-sig-name">dateTimeViewBootstrap2</span>(<span class="summary-sig-arg">request</span>)</span><br />
+      Metodo para visualizar fecha en formato calendario :param request: 
+      contiene la informacion sobre la solicitud de la pagina que lo llamo 
+      :return:crear_proyecto.html,pagina en el cual se carga la fecha</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#dateTimeViewBootstrap2">source&nbsp;code</a></span>
             
@@ -100,7 +103,10 @@
           <td><span class="summary-sig"><a href="SGPA.apps.proyectos.views-module.html#admin_proyectos" class="summary-sig-name">admin_proyectos</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Administracion de Proyectos</td>
+      Metodo para la administracion de Proyectos :param request: contiene 
+      la informacion sobre la solicitud de la pagina que lo llamo 
+      :return:proyectos.html,pagina utilizada para la administracion de los
+      proyectos creados</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#admin_proyectos">source&nbsp;code</a></span>
             
@@ -119,7 +125,10 @@
           <td><span class="summary-sig"><a href="SGPA.apps.proyectos.views-module.html#crear_proyecto" class="summary-sig-name">crear_proyecto</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Agrega un nuevo proyecto</td>
+      Metodo para agregar un nuevo proyecto :param request: contiene la 
+      informacion sobre la solicitud de la pagina que lo llamo 
+      :return:crear_proyecto.html, pagina en el cual se crea un nuevo 
+      proyecto.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#crear_proyecto">source&nbsp;code</a></span>
             
@@ -267,7 +276,13 @@
         <tr>
           <td><span class="summary-sig"><a name="ver_actividades_proyecto"></a><span class="summary-sig-name">ver_actividades_proyecto</span>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">flujo_id</span>,
-        <span class="summary-sig-arg">proyecto_id</span>)</span></td>
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo para ver las actividades de un proyecto :param 
+      request:contiene la informacion de la pagina que lo llamo :param 
+      flujo_id: codigo del flujo que se quieren conocer sus actividades 
+      :param proyecto_id: codigo del proyecto que se quieren conocer sus 
+      actividades :return: admin_actividades_proyectos.html, pagina en la 
+      cual se ven las actividades</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#ver_actividades_proyecto">source&nbsp;code</a></span>
             
@@ -286,7 +301,12 @@
           <td><span class="summary-sig"><a name="subir_actividad_proyecto"></a><span class="summary-sig-name">subir_actividad_proyecto</span>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">flujo_id</span>,
         <span class="summary-sig-arg">actividad_id</span>,
-        <span class="summary-sig-arg">proyecto_id</span>)</span></td>
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Medodo con el cual se cambia el orden de una actividad :param 
+      request: contiene la informacion sobre la pagina que lo llamo :param 
+      flujo_id: codigo del flujo al cual esta asociado la actividad :param 
+      actividad_id: codigo de la actividad :param proyecto_id: codigo del 
+      proyecto :return: se sube el orden de la actividad</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#subir_actividad_proyecto">source&nbsp;code</a></span>
             
@@ -305,7 +325,12 @@
           <td><span class="summary-sig"><a name="bajar_actividad_proyecto"></a><span class="summary-sig-name">bajar_actividad_proyecto</span>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">flujo_id</span>,
         <span class="summary-sig-arg">actividad_id</span>,
-        <span class="summary-sig-arg">proyecto_id</span>)</span></td>
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Medodo con el cual se cambia el orden de una actividad :param 
+      request: contiene la informacion sobre la pagina que lo llamo :param 
+      flujo_id: codigo del flujo al cual esta asociado la actividad :param 
+      actividad_id: codigo de la actividad :param proyecto_id: codigo del 
+      proyecto :return: se baja el orden de la actividad</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#bajar_actividad_proyecto">source&nbsp;code</a></span>
             
@@ -324,7 +349,10 @@
           <td><span class="summary-sig"><a href="SGPA.apps.proyectos.views-module.html#visualizar_kanban" class="summary-sig-name">visualizar_kanban</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Metodo para visualizar la tabla kanban</td>
+      Metodo para visualizar la tabla kanban de un proyecto :param request:
+      contiene la informacion de la pagina que lo llamo :param proyecto_id:
+      codigo del proyecto que se desea graficar su tabla kanban :return: 
+      tabla kanban</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#visualizar_kanban">source&nbsp;code</a></span>
             
@@ -343,9 +371,184 @@
           <td><span class="summary-sig"><a href="SGPA.apps.proyectos.views-module.html#visualizar_burndownChart" class="summary-sig-name">visualizar_burndownChart</a>(<span class="summary-sig-arg">request</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwargs</span>)</span><br />
-      Metodo para visualizar el Grafico BurnDownChart</td>
+      Metodo para visualizar el Grafico BurnDownChart :param request: 
+      contiene informacion de la pagina que lo llamo :param proyecto_id: 
+      codigo del proyecto que se quiere graficar :param sprint_id: codigo 
+      de sprint que se quiere graficar :return: Grafico del BurndownChart</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#visualizar_burndownChart">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte_pdf"></a><span class="summary-sig-name">reporte_pdf</span>(<span class="summary-sig-arg">request</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte1_pdf"></a><span class="summary-sig-name">reporte1_pdf</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo para generar el reporte 1 del proyecto :param request: 
+      contiene la informacion de la pagina que lo llamo :param proyecto_id:
+      id del proyecto del cual se generara el reporte :return: reporte en 
+      pdf</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte1_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte2_pdf"></a><span class="summary-sig-name">reporte2_pdf</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo que genera el reporte 2 :param request: contiene la 
+      informacion sobre la pagina que lo llamo :param proyecto_id: id del 
+      proyecto del cual se generara el reporte :return: reporte en pdf</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte2_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte3_pdf"></a><span class="summary-sig-name">reporte3_pdf</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo que genera el reporte 3 :param request: contiene informacion 
+      sobre la pagina que lo llamo :param proyecto_id: id del proyecto del 
+      cual se generara el reporte :return: reporte en formato pdf</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte3_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte4_pdf"></a><span class="summary-sig-name">reporte4_pdf</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte4_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte5_pdf"></a><span class="summary-sig-name">reporte5_pdf</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo para generar reporte 5 :param request: contiene la informacion
+      de la pagina que lo llamo :param proyecto_id: id del proyecto del 
+      cual se genera el reporte :return: reporte en formato pdf</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte5_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="reporte6_pdf"></a><span class="summary-sig-name">reporte6_pdf</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo con el cual se crea el reporte 6 en formato pdf :param 
+      request: contiene la informacion de la pagino que lo llamo :param 
+      proyecto_id: id del proyecto del cual se genera el reporte :return: 
+      reporte en formato pdf</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#reporte6_pdf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="finalizar_proyecto"></a><span class="summary-sig-name">finalizar_proyecto</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span><br />
+      Metodo para finalizar Proyecto :param request: contiene la 
+      informacion de la pagina que lo llamo :param proyecto_id: id del 
+      proyecto a ser finalizado :return: Se finaliza el proyecto</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#finalizar_proyecto">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="iniciar_proyecto"></a><span class="summary-sig-name">iniciar_proyecto</span>(<span class="summary-sig-arg">request</span>,
+        <span class="summary-sig-arg">proyecto_id</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="SGPA.apps.proyectos.views-pysrc.html#iniciar_proyecto">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -435,6 +638,13 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="SGPA.apps.proyectos.views-module.html#PROJECT_STATUS_CHOICES_MOD" class="summary-name">PROJECT_STATUS_CHOICES_MOD</a> = <code title="(('1', 'Pendiente'), ('4', 'Anulado'))"><code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">4</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Anula</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="SGPA.apps.proyectos.views-module.html#STATUS_CHOICES" class="summary-name">STATUS_CHOICES</a> = <code title="(('1', 'Pendiente'), ('2', 'Modificado'), ('3', 'Revisado'))"><code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">2</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Modificado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">3</code><code class="variable-ellipsis">...</code></code>
     </td>
   </tr>
@@ -480,7 +690,10 @@
     </td>
   </tr></table>
   
-  <p>Administracion de Proyectos</p>
+  <p>Metodo para la administracion de Proyectos :param request: contiene la
+  informacion sobre la solicitud de la pagina que lo llamo 
+  :return:proyectos.html,pagina utilizada para la administracion de los 
+  proyectos creados</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -505,7 +718,10 @@
     </td>
   </tr></table>
   
-  <p>Agrega un nuevo proyecto</p>
+  <p>Metodo para agregar un nuevo proyecto :param request: contiene la 
+  informacion sobre la solicitud de la pagina que lo llamo 
+  :return:crear_proyecto.html, pagina en el cual se crea un nuevo 
+  proyecto.</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -605,7 +821,10 @@
     </td>
   </tr></table>
   
-  <p>Metodo para visualizar la tabla kanban</p>
+  <p>Metodo para visualizar la tabla kanban de un proyecto :param request: 
+  contiene la informacion de la pagina que lo llamo :param proyecto_id: 
+  codigo del proyecto que se desea graficar su tabla kanban :return: tabla 
+  kanban</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -630,7 +849,10 @@
     </td>
   </tr></table>
   
-  <p>Metodo para visualizar el Grafico BurnDownChart</p>
+  <p>Metodo para visualizar el Grafico BurnDownChart :param request: 
+  contiene informacion de la pagina que lo llamo :param proyecto_id: codigo
+  del proyecto que se quiere graficar :param sprint_id: codigo de sprint 
+  que se quiere graficar :return: Grafico del BurndownChart</p>
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -784,6 +1006,24 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="PROJECT_STATUS_CHOICES_MOD"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PROJECT_STATUS_CHOICES_MOD</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">(</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">1</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Pendiente</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">, </code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">4</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">Anulado</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-group">)</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="STATUS_CHOICES"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -829,7 +1069,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 30 08:41:39 2015
+    Generated by Epydoc 3.0.1 on Sat Jun 20 06:33:51 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
