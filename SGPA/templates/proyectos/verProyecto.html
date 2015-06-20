@@ -116,6 +116,9 @@
 			{% if asignar_miembros and proyPend%}
 			<a class="btn btn-primary" href="/asignarMiembro/proyecto&id={{proyecto.id}}/"><strong>ASIGNAR MIEMBROS</strong></a>&nbsp;&nbsp;
 			{% endif %}
+            {% if iniciar_proyecto and proyPend%}
+			<a class="btn btn-primary" href="/iniciarProyecto/proy&id={{proyecto.id}}/"><strong>INICIAR PROYECTO</strong></a>&nbsp;&nbsp;
+			{% endif %}
             {% if finalizar_proyecto and proyIni%}
 			<a class="btn btn-primary" href="/finalizarProyecto/proy&id={{proyecto.id}}/"><strong>FINALIZAR PROYECTO</strong></a>&nbsp;&nbsp;
 			{% endif %}
@@ -136,6 +139,37 @@
                     {% endfor%}
                 </ul>
             </div>
+
+            <div class="btn-group">
+                {%if ver_reportes%}
+                <a><span style="color:#2702E1"><button type="button" class="btn btn-primary" ><strong>REPORTES PDF</strong></button></span></a><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                {%endif%}
+                <span class="caret">
+                </span>
+                <span class="sr-only"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    {%if ver_reporte1%}
+                    <li><a href="/reporte1/ver&id={{proyecto.id}}/"><span style="color:#2702E1">1. CANTIDAD DE TRABAJOS EN CURSO POR EQUIPO</span></a></li>
+                    {%endif%}
+                    {%if ver_reporte2%}
+                    <li><a href="/reporte2/ver&id={{proyecto.id}}/"><span style="color:#2702E1">2. CANTIDAD DE TRABAJOS POR USUARIO (PENDIENTE, EN CURSO, FINALIZADOS)</span></a></li>
+                    {%endif%}
+                    {%if ver_reporte3%}
+                    <li><a href="/reporte3/ver&id={{proyecto.id}}/"><span style="color:#2702E1">3. LISTA DE LAS ACTIVIDADES PARA COMPLETAR EL PROYECTO</span></a></li>
+                    {%endif%}
+                    {%if ver_reporte4%}
+                    <li><a href="/reporte4/ver&id={{proyecto.id}}/"><span style="color:#2702E1">4. LISTA DE TIEMPO ESTIMADO DEL PROYECTO Y LA EJECUCION DEL MISMO (GRAFICADO, SPRINT POR PROYECTO)</span></a></li>
+                    {%endif%}
+                    {%if ver_reporte5%}
+                    <li><a href="/reporte5/ver&id={{proyecto.id}}/"><span style="color:#2702E1">5. BACKLOG DEL PRODUCTO</span></a></li>
+                    {%endif%}
+                    {%if ver_reporte6%}
+                    <li><a href="/reporte6/ver&id={{proyecto.id}}/"><span style="color:#2702E1">6. SPRINT BACKLOG</span></a></li>
+                    {%endif%}
+                </ul>
+            </div>
+
           <br><br>
                <a class="btn btn-primary" href="/proyectos"><strong> VOLVER </strong> </a>&nbsp;&nbsp;
            </div>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Mensaje Error Iniciar Proyecto{% endblock %}
+{% block content %}
+<center><strong><font face="Comic Sans MS"><h3> PROYECTO "{{ proyecto.nombrelargo }}"</h3></font></strong></center><br>
+
+{% if mensaje %}
+  {% autoescape off %}
+     <center><p> <u>SE HA PRODUCIDO EL SIGUIENTE INCONVENIENTE</u>:&nbsp;&nbsp; {{ mensaje }} </p>
+     </center><br><br>
+  {% endautoescape %}
+    <center><input type="button" class= "btn btn-primary" value="VOLVER" onClick = "location.href='/verProyecto/ver&id={{proyecto.id}}/' "/></center>
+{% endif %}
+{% endblock%}

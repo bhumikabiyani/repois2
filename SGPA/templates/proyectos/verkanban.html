@@ -32,10 +32,10 @@
                                             {% ifequal key 'BACKLOG' %}
                                                 <li><a href="/sprintUserHistory/us&id={{key2}}/"><span style="color:#2702E1">* ASIGNAR A SPRINT</span></a></li>
                                             {% endifequal %}
-                                            {% ifequal rec.1 'pendiente' %}
+                                            {% if rec.1 == 'pendiente' and notSprintInit %}
                                                 <li class="divider"></li>
                                                 <li><a href="/flujoUserHistory/us&id={{key2}}/"><span style="color:#2702E1">* ASIGNAR A FLUJO</span></a></li>
-                                            {% endifequal %}
+                                            {% endif %}
                                             {% ifnotequal key 'BACKLOG' %}
                                                 {% if rec.1 == 'reasignar' %}
                                                     <li class="divider"></li>

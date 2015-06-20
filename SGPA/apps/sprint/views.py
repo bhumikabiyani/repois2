@@ -55,7 +55,7 @@ def admin_sprint(request,proyecto_id):
 
     #-------------------------------------------------------------------
 
-    lista = Sprint.objects.filter(proyecto=proyecto_id)
+    lista = Sprint.objects.filter(proyecto=proyecto_id).order_by('fecha_inicio')
     if request.method == 'POST':
         form = FilterForm(request.POST)
         if form.is_valid():

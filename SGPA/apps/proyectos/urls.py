@@ -34,7 +34,8 @@ urlpatterns = patterns('SGPA.apps.proyectos.views',
     url(r'^reporte4/ver&id=(?P<proyecto_id>\d+)/$', 'reporte4_pdf', name='vista_reporte4Pdf'),
     url(r'^reporte5/ver&id=(?P<proyecto_id>\d+)/$', 'reporte5_pdf', name='vista_reporte5Pdf'),
     url(r'^reporte6/ver&id=(?P<proyecto_id>\d+)/$', 'reporte6_pdf', name='vista_reporte6Pdf'),
-    url(r'^finalizarProyecto/proy&id=(?P<proyecto_id>\d+)/$', 'finalizar_proyecto', name='vista_finalizarProyecto')
+    url(r'^finalizarProyecto/proy&id=(?P<proyecto_id>\d+)/$', 'finalizar_proyecto', name='vista_finalizarProyecto'),
+    url(r'^iniciarProyecto/proy&id=(?P<proyecto_id>\d+)/$', 'iniciar_proyecto', name='vista_iniciarProyecto')
 
 )
 
