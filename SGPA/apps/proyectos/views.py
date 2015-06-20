@@ -44,7 +44,11 @@ from dateutil import rrule
 
 
 def dateTimeViewBootstrap2(request):
-
+    """
+    Metodo para visualizar fecha en formato calendario
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:crear_proyecto.html,pagina en el cual se carga la fecha
+    """
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
         if form.is_valid():
@@ -63,7 +67,11 @@ def dateTimeViewBootstrap2(request):
 
 @login_required
 def admin_proyectos(request):
-    """Administracion de Proyectos"""
+    """
+    Metodo para la administracion de Proyectos
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:proyectos.html,pagina utilizada para la administracion de los proyectos creados
+    """
     user = User.objects.get(username=request.user.username)
     permisos = get_permisos_sistema(user)
     usuarioPorProyecto = UsuarioRolProyecto.objects.filter(usuario = user.id)
@@ -120,7 +128,11 @@ def admin_proyectos(request):
 
 @login_required
 def crear_proyecto(request):
-    """Agrega un nuevo proyecto"""
+    """
+    Metodo para agregar un nuevo proyecto
+    :param request: contiene la informacion sobre la solicitud de la pagina que lo llamo
+    :return:crear_proyecto.html, pagina en el cual se crea un nuevo proyecto.
+    """
     user = User.objects.get(username=request.user.username)
     # Validacion de permisos---------------------------------------------
     roles = UsuarioRolSistema.objects.filter(usuario=user).only('rol')
@@ -475,6 +487,13 @@ def asignar_actividad_proy(request, flujo_id, proyecto_id):
                                                                   })
 
 def ver_actividades_proyecto(request, flujo_id, proyecto_id):
+    """
+    Metodo para ver las actividades de un proyecto
+    :param request:contiene la informacion de la pagina que lo llamo
+    :param flujo_id: codigo del flujo que se quieren conocer sus actividades
+    :param proyecto_id: codigo del proyecto que se quieren conocer sus actividades
+    :return: admin_actividades_proyectos.html, pagina en la cual se ven las actividades
+    """
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     flujo = get_object_or_404(Flujo, id=flujo_id)
     user = User.objects.get(username=request.user.username)
@@ -519,7 +538,14 @@ def ver_actividades_proyecto(request, flujo_id, proyecto_id):
     return render_to_response('proyectos/admin_actividades_proyecto.html', ctx, context_instance=RequestContext(request))
 
 def subir_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
-
+    """
+    Medodo con el cual se cambia el orden de una actividad
+    :param request: contiene la informacion sobre la pagina que lo llamo
+    :param flujo_id: codigo del flujo al cual esta asociado la actividad
+    :param actividad_id: codigo de la actividad
+    :param proyecto_id: codigo del proyecto
+    :return: se sube el orden de la actividad
+    """
     flujos = get_object_or_404(Flujo, id=flujo_id)
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id,proyecto = proyecto)
@@ -531,7 +557,14 @@ def subir_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
     return HttpResponseRedirect("/verActividadesProy/flujo&id=%s&&proyecto&id=%s/" %(flujo_id,proyecto_id))
 
 def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
-
+    """
+    Medodo con el cual se cambia el orden de una actividad
+    :param request: contiene la informacion sobre la pagina que lo llamo
+    :param flujo_id: codigo del flujo al cual esta asociado la actividad
+    :param actividad_id: codigo de la actividad
+    :param proyecto_id: codigo del proyecto
+    :return: se baja el orden de la actividad
+    """
     flujos = get_object_or_404(Flujo, id=flujo_id)
     proyecto = get_object_or_404(Proyecto, id=proyecto_id)
     actActual = FlujoActividadProyecto.objects.get(flujo = flujo_id, actividad = actividad_id, proyecto = proyecto)
@@ -544,7 +577,12 @@ def bajar_actividad_proyecto(request, flujo_id, actividad_id, proyecto_id):
 
 @login_required
 def visualizar_kanban(request, proyecto_id):
-    """Metodo para visualizar la tabla kanban"""
+    """
+    Metodo para visualizar la tabla kanban de un proyecto
+    :param request: contiene la informacion de la pagina que lo llamo
+    :param proyecto_id: codigo del proyecto que se desea graficar su tabla kanban
+    :return: tabla kanban
+    """
     user = User.objects.get(username=request.user.username)
     proy = Proyecto.objects.get(id = proyecto_id)
     #Validacion de permisos---------------------------------------------
@@ -739,7 +777,13 @@ def visualizar_kanban(request, proyecto_id):
 
 @login_required
 def visualizar_burndownChart(request, proyecto_id, sprint_id):
-    """Metodo para visualizar el Grafico BurnDownChart"""
+    """
+    Metodo para visualizar el Grafico BurnDownChart
+    :param request: contiene informacion de la pagina que lo llamo
+    :param proyecto_id: codigo del proyecto que se quiere graficar
+    :param sprint_id: codigo de sprint que se quiere graficar
+    :return: Grafico del BurndownChart
+    """
     user = User.objects.get(username=request.user.username)
     proy = Proyecto.objects.get(id = proyecto_id)
     sprint = get_object_or_404(Sprint, id=sprint_id)
@@ -811,6 +855,12 @@ def reporte_pdf(request):
                                                                   })
 
 def reporte1_pdf(request,proyecto_id):
+    """
+    Metodo para generar el reporte 1 del proyecto
+    :param request: contiene la informacion de la pagina que lo llamo
+    :param proyecto_id: id del proyecto del cual se generara el reporte
+    :return: reporte en pdf
+    """
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
     uh = UserHistory.objects.filter(proyecto = proyecto_actual)
 
@@ -886,6 +936,12 @@ def reporte1_pdf(request,proyecto_id):
 
 
 def reporte2_pdf(request,proyecto_id):
+    """
+    Metodo que genera el reporte 2
+    :param request: contiene la informacion sobre la pagina que lo llamo
+    :param proyecto_id: id del proyecto del cual se generara el reporte
+    :return: reporte en pdf
+    """
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
     uh = UserHistory.objects.filter(proyecto = proyecto_actual)
 
@@ -962,6 +1018,12 @@ def reporte2_pdf(request,proyecto_id):
 
 
 def reporte3_pdf(request,proyecto_id):
+    """
+    Metodo que genera el reporte 3
+    :param request: contiene informacion sobre la pagina que lo llamo
+    :param proyecto_id: id del proyecto del cual se generara el reporte
+    :return: reporte en formato pdf
+    """
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
     uh = UserHistory.objects.filter(proyecto = proyecto_actual).order_by('-valor_tecnico')
 
@@ -1145,6 +1207,12 @@ def reporte4_pdf(request,proyecto_id):
     return response
 
 def reporte5_pdf(request,proyecto_id):
+    """
+    Metodo para generar reporte 5
+    :param request: contiene la informacion de la pagina que lo llamo
+    :param proyecto_id: id del proyecto del cual se genera el reporte
+    :return: reporte en formato pdf
+    """
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
     uh = UserHistory.objects.filter(proyecto = proyecto_actual).order_by('-valor_tecnico')
 
@@ -1217,6 +1285,12 @@ def reporte5_pdf(request,proyecto_id):
 
 
 def reporte6_pdf(request,proyecto_id):
+    """
+    Metodo con el cual se crea el reporte 6 en formato pdf
+    :param request: contiene la informacion de la pagino que lo llamo
+    :param proyecto_id: id del proyecto del cual se genera el reporte
+    :return: reporte en formato pdf
+    """
     proyecto_actual= Proyecto.objects.get(id=proyecto_id)
     uh = UserHistory.objects.filter(proyecto = proyecto_actual)
 
@@ -1288,7 +1362,12 @@ def reporte6_pdf(request,proyecto_id):
 
 
 def finalizar_proyecto(request, proyecto_id):
-
+    """
+    Metodo para finalizar Proyecto
+    :param request: contiene la informacion de la pagina que lo llamo
+    :param proyecto_id: id del proyecto a ser finalizado
+    :return: Se finaliza el proyecto
+    """
     actual = get_object_or_404(Proyecto, id=proyecto_id)
     actual.estado = '3'
     actual.save()
