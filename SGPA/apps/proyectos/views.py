@@ -665,7 +665,7 @@ def visualizar_kanban(request, proyecto_id):
             if not dictKanban[nombreAct].has_key(rec.id):
                 dictKanban[nombreAct][rec.id] = []
                 for act in actList:
-                    dictKanban[nombreAct][rec.id].append(["","","",""])
+                    dictKanban[nombreAct][rec.id].append(["","","","",""])
             # if not dict[rec.sprint.nombre].has_key(rec.nombre):
             #     dict[rec.sprint.nombre][rec.id] = []
 
@@ -677,24 +677,28 @@ def visualizar_kanban(request, proyecto_id):
                         dictKanban[nombreAct][rec.id][-1][1] = str("DONE")
                         dictKanban[nombreAct][rec.id][-1][2] = str(rec.estado)
                         dictKanban[nombreAct][rec.id][-1][3] = str(rec.encargado)
+                        dictKanban[nombreAct][rec.id][-1][4] = str(ultimaActividad.id)
                         break
                     if rec.estadokanban == 'to-do':
                         dictKanban[nombreAct][rec.id][cont][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont][1] = str("to-do")
                         dictKanban[nombreAct][rec.id][cont][2] = str(rec.estado)
                         dictKanban[nombreAct][rec.id][cont][3] = str(rec.encargado)
+                        dictKanban[nombreAct][rec.id][cont][4] = str(ultimaActividad.id)
                         break
                     elif rec.estadokanban == 'doing':
                         dictKanban[nombreAct][rec.id][cont+1][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont+1][1] = str("doing")
-                        dictKanban[nombreAct][rec.id][cont][2] = str(rec.estado)
-                        dictKanban[nombreAct][rec.id][cont][3] = str(rec.encargado)
+                        dictKanban[nombreAct][rec.id][cont+1][2] = str(rec.estado)
+                        dictKanban[nombreAct][rec.id][cont+1][3] = str(rec.encargado)
+                        dictKanban[nombreAct][rec.id][cont+1][4] = str(ultimaActividad.id)
                         break
                     elif rec.estadokanban == 'done':
                         dictKanban[nombreAct][rec.id][cont+2][0] = str(rec.nombre)
                         dictKanban[nombreAct][rec.id][cont+2][1] = str("done")
                         dictKanban[nombreAct][rec.id][cont+2][2] = str(rec.estado)
                         dictKanban[nombreAct][rec.id][cont+2][3] = str(rec.encargado)
+                        dictKanban[nombreAct][rec.id][cont+2][4] = str(ultimaActividad.id)
                         break
                 cont += 1
         if not kanbanxflujo.has_key(flujoactual.nombre):

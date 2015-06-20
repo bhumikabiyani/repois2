@@ -109,7 +109,7 @@
                                                 {%endif%}
                                                 {%if rec.3 == user.username or cambiar_estado%}
                                                     <li class="divider"></li>
-                                                    <li><a href="/cambiarEstados/us&id={{key2}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
+                                                    <li><a href="/cambiarEstados/us&id={{key2}}&&ultimo&estado={{rec.4}}/"><span style="color:#2702E1">* CAMBIAR ESTADO KANBAN</span></a></li>
                                                 {%endif%}
                                                 {%if rec.3 == user.username or cambiar_actividad%}
                                                     <li class="divider"></li>
